@@ -1,0 +1,73 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Montserrat", sans-serif;
+    }
+    #card-scrim {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 700px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.22) 60%, rgba(0, 0, 0, 0) 100%);
+    }
+    #card-title {
+      position: absolute;
+      left: 64px;
+      top: 266px;
+      color: #fff;
+    }
+    .card-line {
+      position: absolute;
+      left: 0;
+      top: 0;
+      white-space: nowrap;
+      font-size: 84px;
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      line-height: 1.04;
+      text-shadow: 0 6px 26px rgba(0, 0, 0, 0.55);
+    }
+    .card-line em {
+      font-style: normal;
+      color: #ffd7df;
+    }
+    .card-sub {
+      display: block;
+      margin-top: 8px;
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: rgba(255, 255, 255, 0.86);
+    }
+    .card-spark {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+    }
+  </style>
+  <div id="root" data-composition-id="card" data-width="1080" data-height="1920">
+    <div id="card-scrim" class="clip" data-start="0" data-duration="1.9"></div>
+    <div id="card-title" class="clip" data-start="0" data-duration="1.9">
+      <div id="card-a" class="card-line">Kad baru <em>dapat!</em><span class="card-sub">rapidKL · Prasarana</span></div>
+    </div>
+    <svg id="card-spark1" class="card-spark clip" data-start="0" data-duration="1.9" style="left: 760px; top: 860px" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M32 2 C34 22 42 30 62 32 C42 34 34 42 32 62 C30 42 22 34 2 32 C22 30 30 22 32 2Z" fill="#fff" />
+    </svg>
+    <svg id="card-spark2" class="card-spark clip" data-start="0" data-duration="1.9" style="left: 250px; top: 1080px; width: 40px; height: 40px" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M32 2 C34 22 42 30 62 32 C42 34 34 42 32 62 C30 42 22 34 2 32 C22 30 30 22 32 2Z" fill="#ffd7df" />
+    </svg>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#card-a", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.34, ease: "power4.out" }, 0.12);
+    tl.fromTo("#card-spark1", { scale: 0, rotation: -60, opacity: 1 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(2.4)" }, 0.2);
+    tl.fromTo("#card-spark2", { scale: 0, rotation: 40, opacity: 1 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(2.4)" }, 0.32);
+    tl.to("#card-spark1", { scale: 0, rotation: 60, duration: 0.25, ease: "power2.in" }, 0.85);
+    tl.to("#card-spark2", { scale: 0, rotation: -40, duration: 0.25, ease: "power2.in" }, 0.85);
+    tl.to("#card-a", { y: -30, opacity: 0, duration: 0.16, ease: "power2.in" }, 1.72);
+    window.__timelines["card"] = tl;
+  </script>
+</template>

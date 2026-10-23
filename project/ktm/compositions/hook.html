@@ -1,0 +1,94 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Montserrat", sans-serif;
+    }
+    #hook-scrim {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 820px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.28) 55%, rgba(0, 0, 0, 0) 100%);
+    }
+    #hook-block {
+      position: absolute;
+      left: 64px;
+      top: 236px;
+      width: 860px;
+    }
+    #hook-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: rgba(15, 16, 22, 0.72);
+      color: #fff;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+    }
+    #hook-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #e5173f;
+    }
+    .hook-line {
+      display: block;
+      color: #fff;
+      font-weight: 900;
+      font-size: 92px;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      text-shadow: 0 6px 28px rgba(0, 0, 0, 0.45);
+    }
+    #hook-l1 {
+      margin-top: 26px;
+    }
+    #hook-l2 {
+      margin-top: 10px;
+    }
+    #hook-hl {
+      position: relative;
+      display: inline-block;
+      padding: 0 18px 6px;
+      isolation: isolate;
+    }
+    #hook-hl-bg {
+      position: absolute;
+      inset: 4px 0 0 0;
+      background: #e5173f;
+      border-radius: 14px;
+      transform-origin: left center;
+      z-index: 0;
+    }
+    #hook-hl-text {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hook-scrim" class="clip" data-start="0" data-duration="1.5"></div>
+    <div id="hook-block" class="clip" data-start="0" data-duration="1.5">
+      <div id="hook-kicker"><span id="hook-dot"></span><span id="hook-kicker-text" data-var-text="kicker">PERJALANAN BALIK</span></div>
+      <span id="hook-l1" class="hook-line">Balik naik train…</span>
+      <span id="hook-l2" class="hook-line">bawak <span id="hook-hl"><span id="hook-hl-bg"></span><span id="hook-hl-text">TROLI?!</span></span></span>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Frame 0 already reads: text is on screen, only the emphasis lands
+    tl.fromTo("#hook-hl-bg", { scaleX: 0.0 }, { scaleX: 1, duration: 0.34, ease: "expo.out" }, 0.04);
+    tl.fromTo("#hook-hl-text", { scale: 1.25, rotation: -4 }, { scale: 1, rotation: -2, duration: 0.42, ease: "back.out(2.6)" }, 0.04);
+    tl.fromTo("#hook-kicker", { x: -12, opacity: 0.85 }, { x: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 0);
+    tl.fromTo("#hook-block", { scale: 1.035 }, { scale: 1, duration: 1.2, ease: "power2.out", transformOrigin: "0% 0%" }, 0);
+    // Exit just before the cut
+    tl.to("#hook-block", { y: -40, opacity: 0, duration: 0.18, ease: "power2.in" }, 1.28);
+    tl.to("#hook-scrim", { opacity: 0, duration: 0.18, ease: "power2.in" }, 1.28);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

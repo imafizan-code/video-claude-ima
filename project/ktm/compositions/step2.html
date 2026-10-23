@@ -1,0 +1,63 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Montserrat", sans-serif;
+    }
+    #s2-chip {
+      position: absolute;
+      left: 64px;
+      top: 266px;
+      display: flex;
+      align-items: stretch;
+      border-radius: 22px;
+      overflow: hidden;
+      background: rgba(15, 16, 22, 0.8);
+      color: #fff;
+    }
+    #s2-num {
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      background: #e5173f;
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    #s2-label-wrap {
+      padding: 20px 34px 22px 26px;
+    }
+    #s2-kicker {
+      display: block;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    #s2-label {
+      display: block;
+      font-size: 64px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.02;
+      white-space: nowrap;
+    }
+  </style>
+  <div id="root" data-composition-id="step2" data-width="1080" data-height="1920">
+    <div id="s2-chip" class="clip" data-start="0" data-duration="1.2">
+      <div id="s2-num">02</div>
+      <div id="s2-label-wrap">
+        <span id="s2-kicker">STEP</span>
+        <span id="s2-label">Tarik troli</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s2-chip", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.32, ease: "expo.out" }, 0.08);
+    tl.fromTo("#s2-num", { scale: 0.4 }, { scale: 1, duration: 0.36, ease: "back.out(3)" }, 0.12);
+    tl.fromTo("#s2-label", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.16);
+    window.__timelines["step2"] = tl;
+  </script>
+</template>

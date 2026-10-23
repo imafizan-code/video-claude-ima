@@ -1,0 +1,63 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Montserrat", sans-serif;
+    }
+    #s1-chip {
+      position: absolute;
+      left: 64px;
+      top: 266px;
+      display: flex;
+      align-items: stretch;
+      border-radius: 22px;
+      overflow: hidden;
+      background: rgba(15, 16, 22, 0.8);
+      color: #fff;
+    }
+    #s1-num {
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      background: #e5173f;
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    #s1-label-wrap {
+      padding: 20px 34px 22px 26px;
+    }
+    #s1-kicker {
+      display: block;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    #s1-label {
+      display: block;
+      font-size: 64px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.02;
+      white-space: nowrap;
+    }
+  </style>
+  <div id="root" data-composition-id="step1" data-width="1080" data-height="1920">
+    <div id="s1-chip" class="clip" data-start="0" data-duration="1.8">
+      <div id="s1-num">01</div>
+      <div id="s1-label-wrap">
+        <span id="s1-kicker">STEP</span>
+        <span id="s1-label">Beli kad dulu</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s1-chip", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.32, ease: "expo.out" }, 0.08);
+    tl.fromTo("#s1-num", { scale: 0.4 }, { scale: 1, duration: 0.36, ease: "back.out(3)" }, 0.12);
+    tl.fromTo("#s1-label", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.16);
+    window.__timelines["step1"] = tl;
+  </script>
+</template>

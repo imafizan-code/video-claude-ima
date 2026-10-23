@@ -1,0 +1,61 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Montserrat", sans-serif;
+    }
+    #copilot-tag {
+      position: absolute;
+      left: 96px;
+      top: 1120px;
+      padding: 18px 30px 20px;
+      border-radius: 20px;
+      background: #fff;
+      color: #111216;
+      transform-origin: 0% 100%;
+    }
+    #copilot-kicker {
+      display: block;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      color: #e5173f;
+    }
+    #copilot-text {
+      display: block;
+      font-size: 58px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.04;
+      white-space: nowrap;
+    }
+    #copilot-arrow {
+      position: absolute;
+      left: 300px;
+      top: 880px;
+      width: 260px;
+      height: 240px;
+      overflow: visible;
+    }
+  </style>
+  <div id="root" data-composition-id="copilot" data-width="1080" data-height="1920">
+    <svg id="copilot-arrow" class="clip" data-start="0" data-duration="2" viewBox="0 0 260 240" aria-hidden="true">
+      <path id="copilot-arrow-path" d="M30 232 C 40 150, 110 90, 205 46" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" />
+      <path id="copilot-arrow-head" d="M168 30 L210 44 L186 82" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <div id="copilot-tag" class="clip" data-start="0" data-duration="2" data-layout-allow-overlap>
+      <span id="copilot-kicker">CO-PILOT HARI NI</span>
+      <span id="copilot-text" data-var-text="copilot">Troli kesayangan</span>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#copilot-tag", { scale: 0.5, rotation: -8, opacity: 0 }, { scale: 1, rotation: -3, opacity: 1, duration: 0.36, ease: "back.out(2.4)" }, 0.22);
+    tl.fromTo("#copilot-arrow-path", { strokeDasharray: 280, strokeDashoffset: 280 }, { strokeDashoffset: 0, duration: 0.38, ease: "power2.inOut" }, 0.42);
+    tl.fromTo("#copilot-arrow-head", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.18, ease: "back.out(3)", transformOrigin: "80% 30%" }, 0.76);
+    tl.to("#copilot-tag", { rotation: -1, duration: 0.9, ease: "sine.inOut" }, 0.6);
+    tl.to(["#copilot-tag", "#copilot-arrow"], { opacity: 0, y: 20, duration: 0.16, ease: "power2.in" }, 1.8);
+    window.__timelines["copilot"] = tl;
+  </script>
+</template>

@@ -1,0 +1,94 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    /* A metro-map strip under the status bar: the trip so far */
+    #route-bar {
+      position: absolute;
+      left: 64px;
+      top: 188px;
+      width: 840px;
+      height: 44px;
+      padding: 0 26px;
+      border-radius: 999px;
+      background: rgba(15, 16, 22, 0.6);
+    }
+    #route-track,
+    #route-fill {
+      position: absolute;
+      left: 26px;
+      top: 20px;
+      width: 788px;
+      height: 4px;
+      border-radius: 2px;
+    }
+    #route-track {
+      background: rgba(255, 255, 255, 0.28);
+    }
+    #route-fill {
+      background: #e5173f;
+      transform-origin: left center;
+    }
+    .route-stop {
+      position: absolute;
+      top: 12px;
+      width: 20px;
+      height: 20px;
+      margin-left: -10px;
+      border-radius: 50%;
+      background: #2a2b33;
+      border: 4px solid rgba(255, 255, 255, 0.55);
+    }
+    #route-train {
+      position: absolute;
+      top: 4px;
+      left: 26px;
+      width: 36px;
+      height: 36px;
+      margin-left: -18px;
+    }
+  </style>
+  <div id="root" data-composition-id="route" data-width="1080" data-height="1920">
+    <div id="route-bar" class="clip" data-start="0" data-duration="8.9">
+      <div id="route-track"></div>
+      <div id="route-fill"></div>
+      <div id="route-s0" class="route-stop" style="left: 26px"></div>
+      <div id="route-s1" class="route-stop" style="left: 223px"></div>
+      <div id="route-s2" class="route-stop" style="left: 420px"></div>
+      <div id="route-s3" class="route-stop" style="left: 617px"></div>
+      <div id="route-s4" class="route-stop" style="left: 814px"></div>
+      <svg id="route-train" viewBox="0 0 36 36" aria-hidden="true">
+        <rect x="6" y="3" width="24" height="24" rx="7" fill="#e5173f" stroke="#fff" stroke-width="2.5" />
+        <rect x="10" y="8" width="16" height="7" rx="2" fill="#fff" />
+        <circle cx="13" cy="21" r="2" fill="#fff" />
+        <circle cx="23" cy="21" r="2" fill="#fff" />
+        <path d="M11 33 L14 28 M25 33 L22 28" stroke="#fff" stroke-width="2.5" stroke-linecap="round" />
+      </svg>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#route-bar", { y: -24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 0.05);
+    // Beat times (scene-local): KL Sentral 0, kad 0.9, troli 3.7, tap 6.9, platform 8.1
+    const beats = [0, 0.9, 3.7, 6.9, 8.1];
+    const stopX = [0, 197, 394, 591, 788];
+    tl.set("#route-fill", { scaleX: 0 }, 0);
+    tl.set("#route-train", { x: 0 }, 0);
+    beats.forEach((t, i) => {
+      if (i > 0) {
+        tl.to("#route-fill", { scaleX: stopX[i] / 788, duration: 0.45, ease: "power3.inOut" }, t);
+        tl.to("#route-train", { x: stopX[i], duration: 0.45, ease: "power3.inOut" }, t);
+      }
+      tl.fromTo(
+        "#route-s" + i,
+        { backgroundColor: "#2a2b33", borderColor: "rgba(255,255,255,0.55)", scale: 1 },
+        { backgroundColor: "#ffffff", borderColor: "#e5173f", scale: 1.25, duration: 0.25, ease: "back.out(3)" },
+        t + 0.35,
+      );
+    });
+    tl.to("#route-bar", { y: -24, opacity: 0, duration: 0.25, ease: "power2.in" }, 8.62);
+    window.__timelines["route"] = tl;
+  </script>
+</template>

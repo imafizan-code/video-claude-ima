@@ -1,0 +1,152 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: "Montserrat", sans-serif;
+    }
+    #board-panel {
+      position: absolute;
+      left: 64px;
+      top: 290px;
+      width: 952px;
+      padding: 28px 36px 36px;
+      border-radius: 28px;
+      background: rgba(12, 12, 15, 0.86);
+      border: 2px solid rgba(255, 255, 255, 0.08);
+    }
+    #board-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: "Space Mono", monospace;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #ffb547;
+    }
+    #board-led {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      border-radius: 50%;
+      background: #ffb547;
+    }
+    #board-status {
+      display: flex;
+      align-items: center;
+      padding: 4px 16px;
+      border-radius: 8px;
+      background: rgba(255, 181, 71, 0.16);
+    }
+    #board-cells {
+      display: flex;
+      gap: 14px;
+      margin-top: 24px;
+      justify-content: center;
+    }
+    .board-cell {
+      position: relative;
+      width: 150px;
+      height: 196px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #24252b 0%, #1b1c21 50%, #15161a 50%, #1d1e23 100%);
+      overflow: hidden;
+    }
+    .board-char {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Space Mono", monospace;
+      font-size: 132px;
+      font-weight: 700;
+      color: #f4f1e8;
+      transform-origin: 50% 50%;
+    }
+    .board-seam {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 97px;
+      height: 3px;
+      background: #0a0a0c;
+    }
+    #board-bye {
+      position: absolute;
+      left: 64px;
+      top: 836px;
+      color: #fff;
+      font-size: 60px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      padding: 14px 30px 18px;
+      border-radius: 999px;
+      background: rgba(12, 12, 15, 0.82);
+    }
+    #board-bye span {
+      color: #ffb547;
+    }
+  </style>
+  <div id="root" data-composition-id="board" data-width="1080" data-height="1920">
+    <div id="board-panel" class="clip" data-start="0" data-duration="3.3">
+      <div id="board-head"><span>NEXT STOP</span><span id="board-status"><i id="board-led"></i>TIBA</span></div>
+      <div id="board-cells" data-layout-allow-occlusion>
+        <div class="board-cell"><div id="board-c0" class="board-char" data-layout-allow-occlusion>R</div><div class="board-seam"></div></div>
+        <div class="board-cell"><div id="board-c1" class="board-char" data-layout-allow-occlusion>U</div><div class="board-seam"></div></div>
+        <div class="board-cell"><div id="board-c2" class="board-char" data-layout-allow-occlusion>M</div><div class="board-seam"></div></div>
+        <div class="board-cell"><div id="board-c3" class="board-char" data-layout-allow-occlusion>A</div><div class="board-seam"></div></div>
+        <div class="board-cell"><div id="board-c4" class="board-char" data-layout-allow-occlusion>H</div><div class="board-seam"></div></div>
+      </div>
+    </div>
+    <div id="board-bye" class="clip" data-start="0" data-duration="3.3">Jumpa next trip<span>!</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const WORD = "RUMAH";
+    const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const FLIP = 0.06; // seconds per flap
+    const START = 0.3; // flaps start turning
+    const LOCK = [0.35, 0.55, 0.75, 0.95, 1.15]; // each cell lands (scene-local); SFX sit on these
+    const cells = [0, 1, 2, 3, 4].map((i) => document.getElementById("board-c" + i));
+
+    // Seek-safe: every frame is computed from the playhead, never from state
+    const clock = { t: 0 };
+    tl.fromTo(
+      clock,
+      { t: 0 },
+      {
+        t: 3.3,
+        duration: 3.3,
+        ease: "none",
+        onUpdate: () => {
+          const t = clock.t;
+          cells.forEach((el, i) => {
+            const lockAt = START + LOCK[i];
+            if (t < START) {
+              el.textContent = " ";
+              el.style.transform = "scaleY(1)";
+            } else if (t < lockAt) {
+              const n = Math.floor((t - START) / FLIP);
+              el.textContent = GLYPHS[(n * 7 + i * 11) % GLYPHS.length];
+              const phase = ((t - START) % FLIP) / FLIP;
+              el.style.transform = "scaleY(" + (0.35 + 0.65 * Math.abs(Math.cos(phase * Math.PI))).toFixed(3) + ")";
+            } else {
+              el.textContent = WORD[i];
+              const settle = Math.min(1, (t - lockAt) / 0.08);
+              el.style.transform = "scaleY(" + (0.6 + 0.4 * settle).toFixed(3) + ")";
+            }
+          });
+        },
+      },
+      0,
+    );
+
+    tl.fromTo("#board-panel", { y: -50, opacity: 0, scale: 0.96 }, { y: 0, opacity: 1, scale: 1, duration: 0.36, ease: "expo.out" }, 0.05);
+    tl.fromTo("#board-led", { opacity: 1 }, { opacity: 0.2, duration: 0.3, ease: "steps(1)", yoyo: true, repeat: 9 }, 0.4);
+    tl.fromTo("#board-bye", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 1.15);
+    window.__timelines["board"] = tl;
+  </script>
+</template>

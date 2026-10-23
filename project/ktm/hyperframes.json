@@ -1,0 +1,39 @@
+{
+  "$schema": "https://hyperframes.heygen.com/schema/hyperframes.json",
+  "registry": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry",
+  "paths": {
+    "blocks": "compositions",
+    "components": "compositions/components",
+    "assets": "assets"
+  },
+  "media": {
+    "autoProxy": true
+  },
+  "registryItems": [
+    {
+      "name": "nyc-paris-flight",
+      "type": "hyperframes:block",
+      "target": "compositions/nyc-paris-flight.html"
+    },
+    {
+      "name": "apple-money-count",
+      "type": "hyperframes:block",
+      "target": "compositions/apple-money-count.html"
+    },
+    {
+      "name": "vpn-youtube-spot",
+      "type": "hyperframes:block",
+      "target": "compositions/vpn-youtube-spot.html"
+    },
+    {
+      "name": "grain-overlay",
+      "type": "hyperframes:component",
+      "target": "compositions/components/grain-overlay.html"
+    },
+    {
+      "name": "vignette",
+      "type": "hyperframes:component",
+      "target": "compositions/components/vignette.html"
+    }
+  ]
+}
