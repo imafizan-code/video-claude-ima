@@ -1,0 +1,50 @@
+[
+  {
+    "scene": "hook",
+    "sub": "Kawan aku dapat manis-manis dari bank... sebab aku share satu code je!",
+    "text": "Kawan aku dapat manis-manis dari bank... sebab aku share satu code je!",
+    "rate": "+15%"
+  },
+  {
+    "scene": "app",
+    "sub": "Serius! Semua dalam MY alrajhi app je, tak payah pergi kaunter.",
+    "text": "Serius! Semua dalam Mai Al-Rajhi app je, tak payah pergi kaunter.",
+    "rate": "+15%"
+  },
+  {
+    "scene": "daftar",
+    "sub": "Download app, daftar akaun, lepas tu aktifkan DuitPlus Savings Account-i. Semua digital, terus dari phone.",
+    "text": "Download app, daftar akaun, lepas tu aktifkan Duit Plus Savings Account i. Semua digital, terus dari phone.",
+    "rate": "+15%"
+  },
+  {
+    "scene": "referral",
+    "sub": "Dah aktif, korang dapat referral code unik dalam app. Share je dekat family dan kawan-kawan.",
+    "text": "Dah aktif, korang dapat referral code unik dalam app. Share je dekat family dan kawan-kawan.",
+    "rate": "+15%"
+  },
+  {
+    "scene": "reward",
+    "sub": "Bila dia orang buka DAN aktifkan akaun guna code korang, dua-dua dapat manis-manis! Terma dan syarat dikenakan ya.",
+    "text": "Bila dia orang buka, dan aktifkan akaun guna code korang, dua-dua dapat manis-manis! Terma dan syarat dikenakan ya.",
+    "rate": "+15%"
+  },
+  {
+    "scene": "pidm",
+    "sub": "Duit korang pun selamat, sebab dilindungi PIDM.",
+    "text": "Duit korang pun selamat, sebab dilindungi P I D M.",
+    "rate": "+15%"
+  },
+  {
+    "scene": "tdi",
+    "sub": "Nak simpan untuk kahwin ke, umrah ke? Ada TD-i Advantage Campaign, profit rate sehingga 4.0% untuk tempoh 12 bulan.",
+    "text": "Nak simpan untuk kahwin ke, umrah ke? Ada T D i Advantage Campaign, profit rate sehingga empat peratus, untuk tempoh dua belas bulan.",
+    "rate": "+15%"
+  },
+  {
+    "scene": "cta",
+    "sub": "Jom download MY alrajhi app, aktifkan DuitPlus Savings Account-i, guna referral code aku dalam caption. Info lanjut, rujuk website alrajhi bank Malaysia!",
+    "text": "Jom download Mai Al-Rajhi app, aktifkan Duit Plus Savings Account i, guna referral code aku dalam caption. Info lanjut, rujuk website Al-Rajhi Bank Malaysia!",
+    "rate": "+15%"
+  }
+]
