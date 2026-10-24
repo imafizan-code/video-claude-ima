@@ -70,26 +70,72 @@
       stroke-linejoin: round;
       filter: drop-shadow(0 3px 0 rgba(194, 24, 126, 0.9));
     }
-    #b1-band { top: 1170px; }
+    #b1-band { top: 1160px; }
     #b1-text { font-size: 168px; }
-    #b1-sigh { left: 790px; top: 1120px; width: 120px; height: 120px; }
-    #b1-drop { left: 175px; top: 1110px; width: 90px; height: 90px; }
+    /* Thought cloud sits in the empty sky above her head (face y 670-975 in IMG_0290) */
+    #b1-cloud { left: 370px; top: 270px; width: 470px; height: 270px; }
+    #b1-tangle { left: 470px; top: 320px; width: 270px; height: 170px; }
+    #b1-dots { left: 560px; top: 540px; width: 90px; height: 90px; }
+    .b1-ico { position: absolute; overflow: visible; }
+    #b1-mail { left: 150px; top: 300px; width: 170px; height: 130px; }
+    #b1-cal { left: 800px; top: 250px; width: 140px; height: 150px; }
+    #b1-clock { left: 820px; top: 450px; width: 120px; height: 120px; }
+    #b1-note { left: 160px; top: 470px; width: 200px; height: 120px; }
+    #b1-heart { left: 545px; top: 345px; width: 120px; height: 120px; }
+    .b1-ico .ln { fill: none; stroke: #fff; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 3px 0 rgba(194, 24, 126, 0.9)); }
   </style>
   <div id="root" data-composition-id="b1" data-width="1080" data-height="1920">
     <div id="b1-all" class="clip" data-start="0" data-duration="2.95" data-layout-allow-overlap>
       <div id="b1-band" class="band"><div id="b1-text" class="hand">Long week?</div></div>
-      <svg id="b1-sigh" class="doodle" viewBox="0 0 100 100"><path pathLength="1" d="M20 28 L46 40 M14 55 L46 55 M20 82 L46 70" /></svg>
-      <svg id="b1-drop" class="doodle" viewBox="0 0 100 100"><path pathLength="1" d="M50 12 C62 36 74 52 74 65 C74 79 63 88 50 88 C37 88 26 79 26 65 C26 52 38 36 50 12 Z" /></svg>
+      <svg id="b1-cloud" class="doodle" viewBox="0 0 470 270"><path pathLength="1" d="M90 210 C30 210 20 140 70 125 C55 70 120 40 165 70 C185 20 265 15 290 60 C330 25 410 45 405 105 C455 115 460 195 400 205 C390 245 320 250 295 222 C260 255 190 255 165 222 C140 245 95 240 90 210 Z" /></svg>
+      <svg id="b1-tangle" class="doodle" viewBox="0 0 270 170"><path pathLength="1" d="M20 90 C40 20 110 30 100 80 C90 130 30 120 60 70 C90 20 170 30 160 90 C150 150 80 140 110 85 C140 30 230 40 225 95 C220 150 150 140 175 95 C195 60 245 70 250 100" /></svg>
+      <svg id="b1-dots" class="doodle" viewBox="0 0 90 90"><path pathLength="1" d="M20 70 C14 70 14 60 20 60 C26 60 26 70 20 70 Z M55 40 C47 40 47 27 55 27 C63 27 63 40 55 40 Z" /></svg>
+      <svg id="b1-mail" class="b1-ico" viewBox="0 0 170 130">
+        <rect class="ln" x="10" y="25" width="130" height="90" rx="10" />
+        <path class="ln" d="M14 32 L75 78 L136 32" />
+        <circle cx="138" cy="30" r="30" fill="#c2187e" stroke="#fff" stroke-width="5" />
+        <text x="138" y="40" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="29" fill="#fff">99+</text>
+      </svg>
+      <svg id="b1-cal" class="b1-ico" viewBox="0 0 140 150">
+        <rect class="ln" x="10" y="20" width="120" height="120" rx="12" />
+        <rect x="13" y="23" width="114" height="34" rx="9" fill="#c2187e" />
+        <path class="ln" d="M40 8 L40 34 M100 8 L100 34" />
+        <text x="70" y="120" text-anchor="middle" font-family="Caveat Brush" font-size="58" fill="#fff" stroke="#5a1470" stroke-width="3" paint-order="stroke">MON</text>
+      </svg>
+      <svg id="b1-clock" class="b1-ico" viewBox="0 0 120 120">
+        <circle class="ln" cx="60" cy="60" r="48" />
+        <path id="b1-hand" class="ln" d="M60 60 L60 26" />
+        <path class="ln" d="M60 60 L84 72" />
+      </svg>
+      <svg id="b1-note" class="b1-ico" viewBox="0 0 200 120">
+        <rect x="8" y="10" width="184" height="96" rx="8" fill="#ffe45c" stroke="#5a1470" stroke-width="5" />
+        <text x="100" y="74" text-anchor="middle" font-family="Caveat Brush" font-size="50" fill="#c2187e">deadline!</text>
+      </svg>
+      <svg id="b1-heart" class="doodle" viewBox="0 0 100 100"><path pathLength="1" d="M50 84 C20 62 8 44 18 29 C28 15 46 21 50 35 C54 21 72 15 82 29 C92 44 80 62 50 84 Z" style="fill: #ff7cc3" /></svg>
     </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    // Frame 0 is the thumbnail: the line is already written, then breathes in
+    // Frame 0 is the thumbnail: the question and half the cloud are already there
     tl.fromTo("#b1-text", { scale: 1.08 }, { scale: 1, duration: 0.5, ease: "expo.out" }, 0);
-    tl.fromTo("#b1-sigh path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, 0.25);
-    tl.fromTo("#b1-drop path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, 0.5);
-    tl.fromTo("#b1-drop", { y: -10 }, { y: 18, duration: 1.6, ease: "power1.in" }, 0.9);
-    tl.to("#b1-all", { opacity: 0, duration: 0.14, ease: "power2.in" }, 2.8);
+    tl.fromTo("#b1-cloud path", { strokeDasharray: 1, strokeDashoffset: 0.55 }, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, 0);
+    tl.fromTo("#b1-dots path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, 0.15);
+    tl.fromTo("#b1-tangle path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.75, ease: "power1.inOut" }, 0.25);
+    // Work worries pop in around the cloud, one after another
+    [["#b1-mail", -10], ["#b1-cal", 8], ["#b1-note", -7], ["#b1-clock", 6]].forEach(([id, r], i) => {
+      const t = 0.35 + i * 0.2;
+      tl.fromTo(id, { opacity: 0, scale: 0.3, rotation: r * 2 }, { opacity: 1, scale: 1, rotation: r, duration: 0.45, ease: "back.out(2.6)" }, t);
+      // nervous jitter while the thought spins
+      [3, -3, 2, -2, 0].forEach((v, j) => tl.to(id, { rotation: r + v * 2, duration: 0.08, ease: "none" }, 1.35 + i * 0.03 + j * 0.08));
+    });
+    tl.fromTo("#b1-hand", { rotation: 0, transformOrigin: "50% 100%" }, { rotation: 540, duration: 1.8, ease: "power1.in" }, 0.75);
+    tl.to("#b1-tangle", { rotation: 18, scale: 1.08, duration: 0.9, ease: "sine.inOut", transformOrigin: "50% 50%" }, 1.2);
+    // ...and it all pops into a little heart: time for a treat
+    tl.to(["#b1-cloud", "#b1-tangle", "#b1-dots", "#b1-mail", "#b1-cal", "#b1-note", "#b1-clock"], { scale: 1.3, opacity: 0, duration: 0.22, ease: "power3.in", transformOrigin: "50% 50%" }, 2.35);
+    tl.fromTo("#b1-heart path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.2 }, 2.5);
+    tl.fromTo("#b1-heart", { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(3)" }, 2.5);
+    tl.to("#b1-text", { opacity: 0, y: 20, duration: 0.15, ease: "power2.in" }, 2.78);
+    tl.to("#b1-heart", { scale: 1.4, opacity: 0, duration: 0.1, ease: "power2.in" }, 2.85);
     window.__timelines["b1"] = tl;
   </script>
 </template>

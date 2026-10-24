@@ -1,31 +1,29 @@
-# Walls — Jolly Jelly V2.1 "Long Week? Treat Secured!" (PREVIEW)
+# Walls — Jolly Jelly V2.2 "Long Week? Treat Secured!" (PREVIEW)
 
-23.3 s · 1080×1920 · 30 fps · 10 shot + 1 freeze-frame · **semua bunyi asal video dibuang** · tiada BGM.
+23.35 s · 1080×1920 · 30 fps · 9 shot · **semua bunyi asal video dibuang** · tiada BGM.
 Ikut storyline V2, storyboard 6 beat dan KOL brief (ITTIFY / Wall's Jolly Jelly Grape & Apple).
 V1 disimpan di `archive/v1.html`. Klip-klip V2 dah dikodkan semula tanpa audio, jadi V1 perlu klip asal di-transcode semula kalau nak render balik.
 
-## Beat → shot (V2.1)
+## Beat → shot (V2.2)
 
-| Beat | Masa | Shot | Teks on-screen |
+| Beat | Masa | Shot | Teks / efek |
 | --- | --- | --- | --- |
-| 1 | 0–2.95 | 0230 (penat) → 0231 (termenung) | Long week? + titis peluh |
+| 1 | 0–2.95 | 0290 (berdiri di taman, tangan di dada, hembus nafas / termenung) | Long week? + awan serabut atas kepala dengan ikon kerja (emel 99+, kalendar MON, jam berpusing, sticky "deadline!"). Semua pop jadi hati di 2.4 s. |
 | 2 | 2.95–5.6 | 0234 (tarik dari beg) | I deserve a little treat + hati |
-| 3 | 5.6–9.8 | 0268 reveal slow-mo 0.75× → 0275 close-up gigitan | Wait... jelly inside?! + sticker |
-| 4 | 9.8–13.3 | 0273 gigit → 0282 **WOW** | Okay, this hits different |
+| 3 | 5.6–9.8 | 0268 reveal slow-mo → 0275 close-up gigitan | Wait... jelly inside?! + sticker |
+| 4 | 9.8–13.3 | 0273 gigit → 0282 WOW (slow-mo, flash, punch-in, gegar, garis terkejut, kilauan) | Okay, this hits different |
 | 5 | 13.3–16.8 | 0286 termenung santai | Little treat, better mood |
-| 6 | 16.8–23.3 | 0228 hero pack (flash glow) → 0264 senyum tunjuk aiskrim (slow-mo + freeze) | Treat to Glow → You happy, you glow! + CTA storyboard |
+| 6 | 16.8–23.35 | 0228 hero pack → 0296 senyum hulur pack ke kamera | Treat to Glow → You happy, you glow! + CTA. Masa pack dihulur: punch-in, ring doodle di hujung pack, letupan kilauan. |
 
-Perubahan dari V2 (ikut permintaan):
-- Buang klip berulang: 0233 (close-up pack kedua) dan 0284 (senyum, sama dengan klip penutup).
-- Buang 0294 (gelak tutup mata).
-- Klip penutup: 0264, senyum tunjuk aiskrim. Dimainkan 0.5× lepas tu freeze-frame (`assets/stills/end_0264.jpg`) supaya CTA cukup masa dibaca.
-- Reaction WOW:
-  - Ramp slow-mo 0.5× masuk ke "wow"
-  - Flash putih + punch-in 1.2× berpusat pada muka + gegaran kamera
-  - Garis "terkejut" ala komik di atas dan sisi kepala, tanda "!!", letupan kilauan
-  - Teks slam bergegar
-  - SFX: punch + thud + glass ting + clack
-- Close-up gigitan dan CTA storyboard dikekalkan.
+Perubahan V2.2 (ikut permintaan):
+- **Pembuka 0–3 s:** 0230/0231 dibuang, diganti dengan 0290. Animasi "stres fikir kerja" diletak di ruang langit atas kepala (y 250–560). Muka di y 670–975, jadi tak tertutup.
+- **Penutup:** 0296 senyum tunjuk aiskrim, dengan efek ketika pack dihulur. 0264 dan freeze-frame dibuang.
+- **Beautify (light makeup):** dibuat pada 0290, 0273, 0282, 0286, 0296 dengan `tools/beautify.py`:
+  - MediaPipe Face Mesh, landmark dilicinkan antara frame supaya tak berkelip
+  - Kulit dilicinkan sikit dengan tekstur dikekalkan, lif +4 L
+  - Lipstick rose-red (#C0394E) yang padan dengan cardigan merah, kekuatan 0.45; bahagian dalam mulut dikecualikan, jadi gigi tak terwarna
+  - Blush halus pada pipi
+  - Muka dikesan dalam 100% frame
 
 ## Ikut brief
 
@@ -64,7 +62,7 @@ Perubahan dari V2 (ikut permintaan):
 
 1. **CTA:** Storyboard guna "Get your Wall's Jolly Jelly treat today!". Brief guna "Take a happy bite and Treat to Glow with Wall's Jolly Jelly!" dan minta elak hard selling. Pilih mana satu.
 2. **Shot gigitan 0275:** Brief ada larangan "half-eaten shots". Gigitannya kecil, tapi kau tentukan sama ada okay.
-3. **Beat 1:** Storyboard tunjuk main telefon. Footage yang ada cuma duduk termenung.
+3. **Beautify:** Kalau nak lipstick lebih pekat atau lebih natural, ubah `--lip` dalam `tools/beautify.py` (0.45 sekarang).
 
 ## Kredit
 
