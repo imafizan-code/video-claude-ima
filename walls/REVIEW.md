@@ -1,6 +1,6 @@
-# Walls — Jolly Jelly V2.5 "Long Week? Treat Secured!"
+# Walls — Jolly Jelly V2.6 "Long Week? Treat Secured!"
 
-23.35 s · 1080×1920 · 30 fps · 9 shot · **semua bunyi asal video dibuang** · voiceover kau + SFX · tiada BGM.
+24.05 s · 1080×1920 · 30 fps · 9 shot · **semua bunyi asal video dibuang** · voiceover kau + SFX · tiada BGM.
 Ikut storyline V2, storyboard 6 beat dan KOL brief (ITTIFY / Wall's Jolly Jelly Grape & Apple).
 V1 disimpan di `archive/v1.html`. Klip-klip V2 dah dikodkan semula tanpa audio, jadi V1 perlu klip asal di-transcode semula kalau nak render balik.
 
@@ -16,6 +16,9 @@ Teks on-screen kini dalam BM santai (ikut brief: bahasa natural, elak hard selli
 | 4 | 9.8–13.3 | 0282 gigit → 0282 WOW (take yang sama, jadi bentuk gigitan sama) | Okay, ni lain macam! |
 | 5 | 13.3–16.8 | 0284 senyum santai pegang aiskrim (src 5.4–8.9) | Small treat, better mood! |
 | 6 | 16.8–23.35 | 0228 hero pack → 0296 senyum tunjuk pack | Treat to Glow → You happy, you glow! · Jom Treat to Glow dengan Wall's Jolly Jelly |
+
+Perubahan V2.6:
+- **VO terakhir terpotong dibetulkan:** ayat "...dengan Wall's Jolly Jelly" sebenarnya habis pada 4.48 s dalam fail, tapi dulu dipotong pada 4.1 s. Klip penutup 0296 kini dimainkan pada 0.85× supaya video panjang 0.7 s lagi (24.05 s). Ayat penuh dimainkan, lepas tu ada ~0.3 s senyap sebelum tamat. Efek pack dihulur (punch-in, kilauan, SFX) dianjak +0.41 s supaya masih kena gerakan.
 
 Perubahan V2.5:
 - **"Treat to Glow" (~0:17):** dialih ke lajur kosong kanan pack (x 758–960). Pack dan logo tak tertutup langsung. Zoom kamera pada shot hero dibuang supaya pack tak melebar ke lajur teks.

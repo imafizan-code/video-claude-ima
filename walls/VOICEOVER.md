@@ -52,4 +52,4 @@ Fail dari Google Drive. Setiap fail dibersihkan (highpass, denoise ringan, compr
 | Eh kejap.m4a | "Eh kejap, ada jeli." | 7.63 s | Eh, kejap... ada jeli?! |
 | Ok ni lain mcm.m4a | "Okay ni lain macam." | 11.95 s (lepas hentakan WOW) | Okay, ni lain macam! |
 | Kdg2.m4a | "Kadang-kadang makan aiskrim je pun dah boleh buat kita happy." | 13.76 s | Small treat, better mood! |
-| You happy, you glow!.m4a | "You happy, you glow! Jom treat to glow dengan Wall's Jolly Jelly." | 19.46 s | You happy, you glow! · Jom Treat to Glow dengan Wall's Jolly Jelly |
+| You happy, you glow!.m4a | "You happy, you glow! Jom treat to glow dengan Wall's Jolly Jelly." | 19.58 s (dimainkan penuh sampai 23.4 s) | You happy, you glow! · Jom Treat to Glow dengan Wall's Jolly Jelly |

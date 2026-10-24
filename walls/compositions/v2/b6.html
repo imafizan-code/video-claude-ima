@@ -95,13 +95,13 @@
       <svg class="doodle b6-sp" style="left: 860px; top: 500px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
       <svg class="doodle b6-sp" style="left: 860px; top: 1110px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
     </div>
-    <div id="b6-b" class="clip" data-start="2.6" data-duration="3.95" data-layout-allow-overlap>
+    <div id="b6-b" class="clip" data-start="2.6" data-duration="4.65" data-layout-allow-overlap>
       <div id="b6-top" class="band">
         <div id="b6-g1" class="hand">You happy,</div>
         <div id="b6-g2" class="hand"><span class="lemon">you glow!</span></div>
       </div>
       <div id="b6-cta-wrap"><div id="b6-cta" class="sticker">Jom <b>Treat to Glow</b> dengan<br /><b>Wall's Jolly Jelly</b></div></div>
-      <!-- When the pack is pushed to camera (IMG_0296 src 2.2-3.0 s): a sparkle burst, clear of the face -->
+      <!-- When the pack is pushed to camera (IMG_0296 src 2.2-3.0 s, played at 0.85x): a sparkle burst, clear of the face -->
       <svg class="b6-bs" style="left:880px;top:610px;width:54px;height:54px" data-dx="40" data-dy="-70" viewBox="0 0 100 100"><path d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" fill="#ffe45c" /></svg>
       <svg class="b6-bs" style="left:760px;top:600px;width:40px;height:40px" data-dx="-20" data-dy="-90" viewBox="0 0 100 100"><path d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" fill="#ffffff" /></svg>
       <svg class="b6-bs" style="left:930px;top:900px;width:46px;height:46px" data-dx="10" data-dy="60" viewBox="0 0 100 100"><path d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" fill="#ff7cc3" /></svg>
@@ -131,7 +131,7 @@
       tl.fromTo(s, { scale: 0.3, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.4)" }, t);
     });
     // Pack push (film 21.6-22.4): ring scribbles round the logo end, sparkles burst
-    const P = 4.95;
+    const P = 5.36;
     gsap.utils.toArray(".b6-bs").forEach((s, i) => {
       const dx = parseFloat(s.dataset.dx), dy = parseFloat(s.dataset.dy);
       tl.fromTo(s, { x: 0, y: 0, scale: 0, rotation: 0, opacity: 1 }, { x: dx, y: dy, scale: 1, rotation: 90, duration: 0.5, ease: "expo.out" }, P + 0.05 + i * 0.03);
