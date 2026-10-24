@@ -1,0 +1,99 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Caveat Brush";
+      src: url("assets/fonts/CaveatBrush-latin.woff2") format("woff2");
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      --plum: #5a1470;
+      --berry: #c2187e;
+      --pink: #ff7cc3;
+      --lemon: #ffe45c;
+      --white: #ffffff;
+    }
+    .band {
+      position: absolute;
+      left: 120px;
+      width: 840px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      overflow: visible;
+    }
+    .hand {
+      font-family: "Caveat Brush", cursive;
+      color: var(--white);
+      -webkit-text-stroke: 16px var(--berry);
+      paint-order: stroke fill;
+      text-shadow: 0 8px 18px rgba(90, 20, 112, 0.55);
+      line-height: 0.92;
+      white-space: nowrap;
+    }
+    .hand .w {
+      display: inline-block;
+    }
+    .lemon {
+      color: var(--lemon);
+    }
+    .pink {
+      color: var(--pink);
+    }
+    .sticker {
+      display: inline-block;
+      padding: 12px 30px 14px;
+      border-radius: 22px;
+      background: var(--white);
+      color: var(--plum);
+      font-family: "Nunito", sans-serif;
+      font-weight: 900;
+      font-size: 42px;
+      line-height: 1.05;
+      white-space: nowrap;
+      box-shadow: 0 10px 24px rgba(90, 20, 112, 0.35);
+    }
+    .sticker b {
+      color: var(--berry);
+    }
+    .doodle {
+      position: absolute;
+      overflow: visible;
+    }
+    .doodle path {
+      fill: none;
+      stroke: var(--white);
+      stroke-width: 7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 3px 0 rgba(194, 24, 126, 0.9));
+    }
+    #b2-band { top: 1110px; }
+    #b2-l1 { font-size: 112px; }
+    #b2-l2 { font-size: 160px; margin-top: 6px; }
+    #b2-heart { left: 806px; top: 1060px; width: 130px; height: 130px; }
+    #b2-swirl { left: 300px; top: 1385px; width: 480px; height: 60px; }
+  </style>
+  <div id="root" data-composition-id="b2" data-width="1080" data-height="1920">
+    <div id="b2-all" class="clip" data-start="0" data-duration="3.05" data-layout-allow-overlap>
+      <div id="b2-band" class="band">
+        <div id="b2-l1" class="hand">I deserve</div>
+        <div id="b2-l2" class="hand">a little <span class="pink">treat</span></div>
+      </div>
+      <svg id="b2-heart" class="doodle" viewBox="0 0 100 100"><path pathLength="1" d="M50 84 C20 62 8 44 18 29 C28 15 46 21 50 35 C54 21 72 15 82 29 C92 44 80 62 50 84 Z" /></svg>
+      <svg id="b2-swirl" class="doodle" viewBox="0 0 400 50" preserveAspectRatio="none"><path pathLength="1" d="M5 30 C80 10 140 45 220 25 C290 8 350 30 395 20" /></svg>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#b2-l1", { clipPath: "inset(-20% 100% -20% -5%)" }, { clipPath: "inset(-20% -5% -20% -5%)", duration: 0.4, ease: "power1.inOut" }, 0.2);
+    tl.fromTo("#b2-l2", { clipPath: "inset(-20% 100% -20% -5%)" }, { clipPath: "inset(-20% -5% -20% -5%)", duration: 0.5, ease: "power1.inOut" }, 0.5);
+    tl.fromTo("#b2-heart path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.45, ease: "power2.inOut" }, 0.95);
+    tl.fromTo("#b2-heart", { scale: 0.8, rotation: -12 }, { scale: 1, rotation: 6, duration: 0.6, ease: "back.out(2.5)" }, 1.3);
+    tl.fromTo("#b2-swirl path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, 1.0);
+    tl.to("#b2-all", { opacity: 0, duration: 0.14, ease: "power2.in" }, 2.9);
+    window.__timelines["b2"] = tl;
+  </script>
+</template>

@@ -1,0 +1,103 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Caveat Brush";
+      src: url("assets/fonts/CaveatBrush-latin.woff2") format("woff2");
+    }
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      --plum: #5a1470;
+      --berry: #c2187e;
+      --pink: #ff7cc3;
+      --lemon: #ffe45c;
+      --white: #ffffff;
+    }
+    .band {
+      position: absolute;
+      left: 120px;
+      width: 840px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      overflow: visible;
+    }
+    .hand {
+      font-family: "Caveat Brush", cursive;
+      color: var(--white);
+      -webkit-text-stroke: 16px var(--berry);
+      paint-order: stroke fill;
+      text-shadow: 0 8px 18px rgba(90, 20, 112, 0.55);
+      line-height: 0.92;
+      white-space: nowrap;
+    }
+    .hand .w {
+      display: inline-block;
+    }
+    .lemon {
+      color: var(--lemon);
+    }
+    .pink {
+      color: var(--pink);
+    }
+    .sticker {
+      display: inline-block;
+      padding: 12px 30px 14px;
+      border-radius: 22px;
+      background: var(--white);
+      color: var(--plum);
+      font-family: "Nunito", sans-serif;
+      font-weight: 900;
+      font-size: 42px;
+      line-height: 1.05;
+      white-space: nowrap;
+      box-shadow: 0 10px 24px rgba(90, 20, 112, 0.35);
+    }
+    .sticker b {
+      color: var(--berry);
+    }
+    .doodle {
+      position: absolute;
+      overflow: visible;
+    }
+    .doodle path {
+      fill: none;
+      stroke: var(--white);
+      stroke-width: 7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 3px 0 rgba(194, 24, 126, 0.9));
+    }
+    #b5-band { top: 236px; }
+    #b5-l1 { font-size: 116px; }
+    #b5-l2 { font-size: 160px; margin-top: 2px; }
+    .b5-sp { width: 80px; height: 80px; margin: -40px 0 0 -40px; }
+  </style>
+  <div id="root" data-composition-id="b5" data-width="1080" data-height="1920">
+    <div id="b5-all" class="clip" data-start="0" data-duration="5" data-layout-allow-overlap>
+      <div id="b5-band" class="band">
+        <div id="b5-l1" class="hand">Little treat,</div>
+        <div id="b5-l2" class="hand">better <span class="lemon">mood</span></div>
+      </div>
+      <svg class="doodle b5-sp" style="left: 190px; top: 300px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
+      <svg class="doodle b5-sp" style="left: 900px; top: 280px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
+      <svg class="doodle b5-sp" style="left: 870px; top: 520px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
+      <svg class="doodle b5-sp" style="left: 165px; top: 540px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#b5-l1", { clipPath: "inset(-20% 100% -20% -5%)" }, { clipPath: "inset(-20% -5% -20% -5%)", duration: 0.45, ease: "power1.inOut" }, 0.3);
+    tl.fromTo("#b5-l2", { clipPath: "inset(-20% 100% -20% -5%)" }, { clipPath: "inset(-20% -5% -20% -5%)", duration: 0.5, ease: "power1.inOut" }, 0.65);
+    gsap.utils.toArray(".b5-sp").forEach((s, i) => {
+      const t = 1.1 + i * 0.22;
+      tl.fromTo(s.querySelector("path"), { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, t);
+      tl.fromTo(s, { scale: 0.3, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.4)" }, t);
+      tl.to(s, { scale: 0.75, duration: 0.6, ease: "sine.inOut" }, t + 1.2);
+    });
+    tl.to("#b5-all", { opacity: 0, duration: 0.14, ease: "power2.in" }, 4.84);
+    window.__timelines["b5"] = tl;
+  </script>
+</template>
