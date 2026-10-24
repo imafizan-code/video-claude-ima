@@ -1,19 +1,26 @@
-# Walls — Jolly Jelly V2.3 "Long Week? Treat Secured!" (PREVIEW)
+# Walls — Jolly Jelly V2.4 "Long Week? Treat Secured!" (PREVIEW)
 
-23.35 s · 1080×1920 · 30 fps · 10 shot · **semua bunyi asal video dibuang** · tiada BGM.
+23.35 s · 1080×1920 · 30 fps · 9 shot · **semua bunyi asal video dibuang** · tiada BGM.
 Ikut storyline V2, storyboard 6 beat dan KOL brief (ITTIFY / Wall's Jolly Jelly Grape & Apple).
 V1 disimpan di `archive/v1.html`. Klip-klip V2 dah dikodkan semula tanpa audio, jadi V1 perlu klip asal di-transcode semula kalau nak render balik.
 
-## Beat → shot (V2.3)
+## Beat → shot (V2.4)
 
-| Beat | Masa | Shot | Teks / efek |
+Teks on-screen kini dalam BM santai (ikut brief: bahasa natural, elak hard selling). Tagline kempen kekal English. Skrip voiceover yang selari ada dalam `VOICEOVER.md`.
+
+| Beat | Masa | Shot | Teks atas skrin |
 | --- | --- | --- | --- |
-| 1 Penat lepas seminggu kerja, ambil rehat | 0–2.95 | **0286 (versi baru yang diupload)**, src 3.4–6.35: tutup mata, dongak, hembus nafas | Long week? + awan stres atas kepala, lepas tu pop jadi hati |
-| 2 Rewards myself | 2.95–5.6 | 0234 tarik dari beg | I deserve a little treat |
-| 3 Jelly texture | 5.6–9.8 | 0268 reveal slow-mo → 0275 close-up gigitan | Wait... jelly inside?! |
-| 4 Genuine reaction | 9.8–13.3 | **0284 gigitan dari depan** (ganti 0273) → 0282 WOW | Okay, this hits different |
-| 5 Relaxing outdoors + showcase produk | 13.3–16.8 | **0290** ambil angin di taman → **0284** senyum santai pegang aiskrim | Little treat, better mood |
-| 6 Product + CTA | 16.8–23.35 | 0228 hero pack → 0296 senyum tunjuk pack | Treat to Glow → You happy, you glow! + CTA |
+| 1 | 0–2.95 | 0286b (tutup mata, hembus nafas) + awan stres | Penatnya... |
+| 2 | 2.95–5.6 | 0234 tarik dari beg | Time untuk reward diri! |
+| 3 | 5.6–9.8 | 0268 reveal → 0275 close-up | Eh, kejap... ada jeli?! · jeli grape kenyal · + nata de coco |
+| 4 | 9.8–13.3 | 0284 gigit → 0282 WOW | Okay, ni lain macam! |
+| 5 | 13.3–16.8 | 0284 senyum santai pegang aiskrim (src 5.4–8.9) | Treat kecil je, mood naik! |
+| 6 | 16.8–23.35 | 0228 hero pack → 0296 senyum tunjuk pack | Treat to Glow → You happy, you glow! · Jom Treat to Glow dengan Wall's Jolly Jelly |
+
+Perubahan V2.4:
+- **Klip 0290 dibuang:** "muka masam" di ~0:14. Beat santai kini guna 0284 sahaja.
+- **Bulatan doodle pada brand dibuang:** dalam klip terakhir. Klip 0296, punch-in dan kilauan dikekalkan.
+- **CTA dilembutkan:** daripada "Get your… today!" kepada "Jom Treat to Glow dengan Wall's Jolly Jelly" (elak hard selling).
 
 Nota: 0286 yang diupload tu klip berbeza (7.3 s) daripada 0286 dalam Drive (11.3 s). Versi baru disimpan sebagai `assets/clips/IMG_0286b.mp4`.
 
@@ -62,7 +69,7 @@ Perubahan V2.2 (ikut permintaan):
 
 ## Perlu kau semak
 
-1. **CTA:** Storyboard guna "Get your Wall's Jolly Jelly treat today!". Brief guna "Take a happy bite and Treat to Glow with Wall's Jolly Jelly!" dan minta elak hard selling. Pilih mana satu.
+1. **Teks BM:** Semak sama ada ayat on-screen ikut gaya cakap kau. Skrip VO boleh diubah, dan teks akan aku selaraskan.
 2. **Shot gigitan 0275:** Brief ada larangan "half-eaten shots". Gigitannya kecil, tapi kau tentukan sama ada okay.
 3. **Beautify:** Kalau nak lipstick lebih pekat atau lebih natural, ubah `--lip` dalam `tools/beautify.py` (0.45 sekarang).
 
