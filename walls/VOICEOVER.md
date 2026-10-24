@@ -40,6 +40,8 @@ Lebih kurang 50 patah perkataan, sesuai untuk 23 s pada kelajuan cakap biasa.
 
 > Seminggu penat, tapi treat kecil ni terus buat mood naik 🍇🍏 Salut jeli kenyal + nata de coco, memang lain macam! Treat to Glow, you happy, you glow ✨
 > #WallsMalaysia #WallsJollyJelly
+>
+> Music: "Positive Whistling" by Ruslan Latypov (CC BY 3.0, Jamendo)
 
 ## VO yang dah dimasukkan (V2.5)
 
