@@ -1,4 +1,4 @@
-# Skrip Voiceover — Wall's Jolly Jelly "Long Week? Treat Secured!" (V2.4)
+# Skrip Voiceover — Wall's Jolly Jelly "Long Week? Treat Secured!" (V2.5)
 
 Durasi video 23.4 s. Bahasa: BM santai (bahasa natural kau), tanpa hard selling.
 Tagline kempen kekal English: **Treat to Glow** dan **You happy, you glow!**
@@ -40,3 +40,16 @@ Lebih kurang 50 patah perkataan, sesuai untuk 23 s pada kelajuan cakap biasa.
 
 > Seminggu penat, tapi treat kecil ni terus buat mood naik 🍇🍏 Salut jeli kenyal + nata de coco, memang lain macam! Treat to Glow, you happy, you glow ✨
 > #WallsMalaysia #WallsJollyJelly
+
+## VO yang dah dimasukkan (V2.5)
+
+Fail dari Google Drive. Setiap fail dibersihkan (highpass, denoise ringan, compressor), diseragamkan ke −19 LUFS, dan diletak pada perkataan yang sama dengan teks atas skrin. SFX diperlahankan ke 60% bila kau bercakap.
+
+| Fail | Ayat (transcribe) | Mula dalam video | Teks atas skrin |
+| --- | --- | --- | --- |
+| Penatnye.m4a | "Penatnya..." | 0.35 s | Penatnya... |
+| Masa utk self reward.m4a | "Masa untuk self reward." | 3.07 s | Masa untuk self reward! |
+| Eh kejap.m4a | "Eh kejap, ada jeli." | 7.63 s | Eh, kejap... ada jeli?! |
+| Ok ni lain mcm.m4a | "Okay ni lain macam." | 11.95 s (lepas hentakan WOW) | Okay, ni lain macam! |
+| Kdg2.m4a | "Kadang-kadang makan aiskrim je pun dah boleh buat kita happy." | 13.76 s | Small treat, better mood! |
+| You happy, you glow!.m4a | "You happy, you glow! Jom treat to glow dengan Wall's Jolly Jelly." | 19.46 s | You happy, you glow! · Jom Treat to Glow dengan Wall's Jolly Jelly |

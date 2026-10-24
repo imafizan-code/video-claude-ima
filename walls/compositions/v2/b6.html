@@ -70,10 +70,11 @@
       stroke-linejoin: round;
       filter: drop-shadow(0 3px 0 rgba(194, 24, 126, 0.9));
     }
-    #b6-low { top: 1090px; }
-    #b6-t1 { font-size: 112px; }
-    #b6-t2 { font-size: 200px; margin-top: -8px; }
-    #b6-hh { left: 770px; top: 1150px; width: 150px; height: 120px; }
+    #b6-col { position: absolute; left: 758px; width: 202px; top: 600px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    #b6-t1 { font-size: 84px; -webkit-text-stroke: 12px var(--berry); }
+    #b6-t1b { font-size: 70px; -webkit-text-stroke: 12px var(--berry); margin-top: -4px; }
+    #b6-t2 { font-size: 104px; margin-top: 2px; -webkit-text-stroke: 13px var(--berry); }
+    #b6-hh { left: 800px; top: 915px; width: 120px; height: 96px; }
     #b6-top { top: 236px; }
     #b6-g1 { font-size: 100px; }
     #b6-g2 { font-size: 150px; }
@@ -84,14 +85,15 @@
   </style>
   <div id="root" data-composition-id="b6" data-width="1080" data-height="1920">
     <div id="b6-a" class="clip" data-start="0" data-duration="2.6" data-layout-allow-overlap>
-      <div id="b6-low" class="band">
-        <div id="b6-t1" class="hand">Treat to</div>
+      <div id="b6-col">
+        <div id="b6-t1" class="hand">Treat</div>
+        <div id="b6-t1b" class="hand">to</div>
         <div id="b6-t2" class="hand lemon">Glow</div>
       </div>
       <svg id="b6-hh" class="doodle" viewBox="0 0 125 100"><path pathLength="1" d="M50 84 C20 62 8 44 18 29 C28 15 46 21 50 35 C54 21 72 15 82 29 C92 44 80 62 50 84 Z" /><path pathLength="1" transform="translate(45 -14) scale(0.7)" d="M50 84 C20 62 8 44 18 29 C28 15 46 21 50 35 C54 21 72 15 82 29 C92 44 80 62 50 84 Z" /></svg>
-      <svg class="doodle b6-sp" style="left: 210px; top: 520px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
-      <svg class="doodle b6-sp" style="left: 870px; top: 430px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
-      <svg class="doodle b6-sp" style="left: 860px; top: 830px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
+      <svg class="doodle b6-sp" style="left: 205px; top: 430px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
+      <svg class="doodle b6-sp" style="left: 860px; top: 500px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
+      <svg class="doodle b6-sp" style="left: 860px; top: 1110px" viewBox="0 0 100 100"><path pathLength="1" d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" /></svg>
     </div>
     <div id="b6-b" class="clip" data-start="2.6" data-duration="3.95" data-layout-allow-overlap>
       <div id="b6-top" class="band">
@@ -111,7 +113,7 @@
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#b6-t1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 0.1);
+    tl.fromTo(["#b6-t1", "#b6-t1b"], { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.1, ease: "power3.out" }, 0.1);
     tl.fromTo("#b6-t2", { opacity: 0, scale: 0.3, rotation: -8 }, { opacity: 1, scale: 1, rotation: -3, duration: 0.6, ease: "back.out(2.2)" }, 0.25);
     tl.fromTo("#b6-hh path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.4, stagger: 0.12, ease: "power2.inOut" }, 0.6);
     gsap.utils.toArray("#b6-a .b6-sp").forEach((s, i) => {

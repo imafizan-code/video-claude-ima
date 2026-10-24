@@ -1,6 +1,6 @@
-# Walls — Jolly Jelly V2.4 "Long Week? Treat Secured!" (PREVIEW)
+# Walls — Jolly Jelly V2.5 "Long Week? Treat Secured!"
 
-23.35 s · 1080×1920 · 30 fps · 9 shot · **semua bunyi asal video dibuang** · tiada BGM.
+23.35 s · 1080×1920 · 30 fps · 9 shot · **semua bunyi asal video dibuang** · voiceover kau + SFX · tiada BGM.
 Ikut storyline V2, storyboard 6 beat dan KOL brief (ITTIFY / Wall's Jolly Jelly Grape & Apple).
 V1 disimpan di `archive/v1.html`. Klip-klip V2 dah dikodkan semula tanpa audio, jadi V1 perlu klip asal di-transcode semula kalau nak render balik.
 
@@ -11,11 +11,17 @@ Teks on-screen kini dalam BM santai (ikut brief: bahasa natural, elak hard selli
 | Beat | Masa | Shot | Teks atas skrin |
 | --- | --- | --- | --- |
 | 1 | 0–2.95 | 0286b (tutup mata, hembus nafas) + awan stres | Penatnya... |
-| 2 | 2.95–5.6 | 0234 tarik dari beg | Time untuk reward diri! |
+| 2 | 2.95–5.6 | 0234 tarik dari beg | Masa untuk self reward! |
 | 3 | 5.6–9.8 | 0268 reveal → 0275 close-up | Eh, kejap... ada jeli?! · jeli grape kenyal · + nata de coco |
-| 4 | 9.8–13.3 | 0284 gigit → 0282 WOW | Okay, ni lain macam! |
-| 5 | 13.3–16.8 | 0284 senyum santai pegang aiskrim (src 5.4–8.9) | Treat kecil je, mood naik! |
+| 4 | 9.8–13.3 | 0282 gigit → 0282 WOW (take yang sama, jadi bentuk gigitan sama) | Okay, ni lain macam! |
+| 5 | 13.3–16.8 | 0284 senyum santai pegang aiskrim (src 5.4–8.9) | Small treat, better mood! |
 | 6 | 16.8–23.35 | 0228 hero pack → 0296 senyum tunjuk pack | Treat to Glow → You happy, you glow! · Jom Treat to Glow dengan Wall's Jolly Jelly |
+
+Perubahan V2.5:
+- **"Treat to Glow" (~0:17):** dialih ke lajur kosong kanan pack (x 758–960). Pack dan logo tak tertutup langsung. Zoom kamera pada shot hero dibuang supaya pack tak melebar ke lajur teks.
+- **Gigit → reaksi:** kedua-duanya diambil dari take IMG_0282, jadi aiskrim dan bentuk gigitan sama.
+- **Teks:** "Treat kecil je, mood naik!" ditukar jadi "Small treat, better mood!". "Time untuk reward diri!" ditukar jadi "Masa untuk self reward!" supaya sama dengan VO.
+- **Voiceover:** 6 fail dari Drive dimasukkan, dibersihkan dan diseragamkan; SFX dikecilkan bila bercakap. Butiran dalam `VOICEOVER.md`.
 
 Perubahan V2.4:
 - **Klip 0290 dibuang:** "muka masam" di ~0:14. Beat santai kini guna 0284 sahaja.
