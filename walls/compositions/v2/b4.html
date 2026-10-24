@@ -72,29 +72,79 @@
     }
     #b4-band { top: 1140px; }
     #b4-l1 { font-size: 112px; }
-    #b4-l2 { font-size: 160px; margin-top: 4px; }
+    #b4-l2 { font-size: 168px; margin-top: 4px; }
     .b4-h { width: 110px; height: 110px; }
+    #b4-rays { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+    #b4-rays path { stroke: #ffffff; stroke-width: 9; stroke-linecap: round; filter: drop-shadow(0 0 6px rgba(255, 124, 195, 0.9)); }
+    #b4-bang { left: 770px; top: 470px; width: 150px; height: 170px; }
+    .b4-bs { position: absolute; margin: -20px 0 0 -20px; overflow: visible; }
   </style>
   <div id="root" data-composition-id="b4" data-width="1080" data-height="1920">
-    <div id="b4-all" class="clip" data-start="1.3" data-duration="2.7" data-layout-allow-overlap>
+    <div id="b4-fx" class="clip" data-start="1.85" data-duration="1.65" data-layout-ignore>
+      <svg id="b4-rays" viewBox="0 0 1080 1920">
+          <path d="M213 933 L133 962" />
+          <path d="M196 856 L146 861" />
+          <path d="M200 778 L128 763" />
+          <path d="M223 703 L178 682" />
+          <path d="M265 637 L200 583" />
+          <path d="M323 584 L294 543" />
+          <path d="M392 548 L363 468" />
+          <path d="M469 531 L464 481" />
+          <path d="M547 535 L562 451" />
+          <path d="M622 558 L643 513" />
+          <path d="M688 600 L742 535" />
+          <path d="M741 658 L782 629" />
+          <path d="M777 727 L857 698" />
+          <path d="M794 804 L844 799" />
+          <path d="M790 882 L874 897" />
+      </svg>
+      <svg id="b4-bang" class="doodle" viewBox="0 0 90 100"><path pathLength="1" d="M22 8 L28 62 M27 84 L27 86 M60 4 L66 58 M65 80 L65 82" /></svg>
+      <svg class="b4-bs" style="left:205px;top:752px;width:34px;height:34px" data-dx="-55" data-dy="-31" viewBox="0 0 100 100"><path d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" fill="#ffe45c" /></svg>
+      <svg class="b4-bs" style="left:265px;top:637px;width:44px;height:44px" data-dx="-92" data-dy="-77" viewBox="0 0 100 100"><path d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" fill="#ff7cc3" /></svg>
+      <svg class="b4-bs" style="left:383px;top:552px;width:54px;height:54px" data-dx="-45" data-dy="-111" viewBox="0 0 100 100"><path d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" fill="#ffffff" /></svg>
+      <svg class="b4-bs" style="left:521px;top:531px;width:34px;height:34px" data-dx="10" data-dy="-120" viewBox="0 0 100 100"><path d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" fill="#ffe45c" /></svg>
+      <svg class="b4-bs" style="left:645px;top:570px;width:44px;height:44px" data-dx="60" data-dy="-104" viewBox="0 0 100 100"><path d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" fill="#ff7cc3" /></svg>
+      <svg class="b4-bs" style="left:741px;top:658px;width:54px;height:54px" data-dx="98" data-dy="-69" viewBox="0 0 100 100"><path d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" fill="#ffffff" /></svg>
+      <svg class="b4-bs" style="left:788px;top:768px;width:34px;height:34px" data-dx="117" data-dy="-25" viewBox="0 0 100 100"><path d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" fill="#ffe45c" /></svg>
+      <svg class="b4-bs" style="left:200px;top:882px;width:44px;height:44px" data-dx="-50" data-dy="21" viewBox="0 0 100 100"><path d="M50 8 C53 40 60 47 92 50 C60 53 53 60 50 92 C47 60 40 53 8 50 C40 47 47 40 50 8 Z" fill="#ff7cc3" /></svg>
+    </div>
+    <div id="b4-all" class="clip" data-start="1.85" data-duration="1.65" data-layout-allow-overlap>
       <div id="b4-band" class="band">
         <div id="b4-l1" class="hand"><span class="w">Okay,</span> <span class="w">this</span></div>
         <div id="b4-l2" class="hand"><span class="w">hits</span> <span class="w lemon">different</span></div>
       </div>
-      <svg id="b4-h1" class="doodle b4-h" style="left: 130px; top: 1090px" viewBox="0 0 100 100"><path pathLength="1" d="M50 84 C20 62 8 44 18 29 C28 15 46 21 50 35 C54 21 72 15 82 29 C92 44 80 62 50 84 Z" /></svg>
-      <svg id="b4-h2" class="doodle b4-h" style="left: 836px; top: 1070px" viewBox="0 0 100 100"><path pathLength="1" d="M50 84 C20 62 8 44 18 29 C28 15 46 21 50 35 C54 21 72 15 82 29 C92 44 80 62 50 84 Z" /></svg>
+      <svg id="b4-h1" class="doodle b4-h" style="left: 130px; top: 1080px" viewBox="0 0 100 100"><path pathLength="1" d="M50 84 C20 62 8 44 18 29 C28 15 46 21 50 35 C54 21 72 15 82 29 C92 44 80 62 50 84 Z" /></svg>
+      <svg id="b4-h2" class="doodle b4-h" style="left: 836px; top: 1060px" viewBox="0 0 100 100"><path pathLength="1" d="M50 84 C20 62 8 44 18 29 C28 15 46 21 50 35 C54 21 72 15 82 29 C92 44 80 62 50 84 Z" /></svg>
     </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#b4-l1 .w", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.28, stagger: 0.08, ease: "power3.out" }, 1.33);
-    tl.fromTo("#b4-l2 .w", { opacity: 0, scale: 0.4, rotation: -6 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.5, stagger: 0.12, ease: "back.out(2.2)" }, 1.5);
-    ["#b4-h1", "#b4-h2"].forEach((h, i) => {
-      const t = 1.85 + i * 0.15;
-      tl.fromTo(h + " path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.inOut" }, t);
-      tl.fromTo(h, { scale: 0.6, rotation: i ? 14 : -14 }, { scale: 1, rotation: i ? 8 : -8, duration: 0.55, ease: "back.out(2.6)" }, t + 0.2);
+    const T = 1.95; // the "wow" lands (film 11.75 s)
+    // Surprise rays punch out, flicker once, settle
+    tl.fromTo("#b4-rays", { opacity: 0, scale: 0.75, transformOrigin: "495px 830px" }, { opacity: 1, scale: 1.04, duration: 0.18, ease: "expo.out" }, T - 0.04);
+    tl.to("#b4-rays", { opacity: 0.35, duration: 0.05 }, T + 0.2);
+    tl.to("#b4-rays", { opacity: 1, duration: 0.05 }, T + 0.25);
+    tl.to("#b4-rays", { scale: 1.12, opacity: 0, duration: 0.45, ease: "power2.in" }, T + 0.75);
+    // "!!" pops beside the head
+    tl.fromTo("#b4-bang path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.18, ease: "power2.out" }, T);
+    tl.fromTo("#b4-bang", { scale: 0.4, rotation: -20 }, { scale: 1, rotation: 8, duration: 0.45, ease: "back.out(3)" }, T);
+    tl.to("#b4-bang", { opacity: 0, duration: 0.2 }, T + 1.3);
+    // Sparkles burst outward from the head
+    gsap.utils.toArray(".b4-bs").forEach((s, i) => {
+      const dx = parseFloat(s.dataset.dx), dy = parseFloat(s.dataset.dy);
+      tl.fromTo(s, { x: 0, y: 0, scale: 0, rotation: 0, opacity: 1 }, { x: dx, y: dy, scale: 1, rotation: 90, duration: 0.55, ease: "expo.out" }, T + i * 0.02);
+      tl.to(s, { scale: 0, opacity: 0, duration: 0.3, ease: "power2.in" }, T + 0.6 + i * 0.03);
     });
-    tl.to("#b4-all", { opacity: 0, duration: 0.14, ease: "power2.in" }, 3.84);
+    // Text slams in on the hit, with a short shake
+    tl.fromTo("#b4-l1 .w", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.22, stagger: 0.06, ease: "power3.out" }, T - 0.05);
+    tl.fromTo("#b4-l2 .w", { opacity: 0, scale: 1.25, rotation: -6, transformOrigin: "50% 60%" }, { opacity: 1, scale: 1, rotation: 0, duration: 0.32, stagger: 0.1, ease: "back.out(1.6)" }, T + 0.08);
+    [10, -9, 7, -5, 3, 0].forEach((v, i) => tl.to("#b4-band", { x: v, y: -v * 0.4, duration: 0.04, ease: "none" }, T + 0.42 + i * 0.04));
+    ["#b4-h1", "#b4-h2"].forEach((h, i) => {
+      const t = T + 0.45 + i * 0.12;
+      tl.fromTo(h + " path", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.inOut" }, t);
+      tl.fromTo(h, { scale: 0.6, rotation: i ? 14 : -14 }, { scale: 1, rotation: i ? 8 : -8, duration: 0.5, ease: "back.out(2.6)" }, t + 0.15);
+    });
+    tl.to("#b4-all", { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.36);
     window.__timelines["b4"] = tl;
   </script>
 </template>

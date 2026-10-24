@@ -1,19 +1,31 @@
-# Walls — Jolly Jelly V2 "Long Week? Treat Secured!" (PREVIEW)
+# Walls — Jolly Jelly V2.1 "Long Week? Treat Secured!" (PREVIEW)
 
-24.4 s · 1080×1920 · 30 fps · 13 shot · **semua bunyi asal video dibuang** · tiada BGM.
+23.3 s · 1080×1920 · 30 fps · 10 shot + 1 freeze-frame · **semua bunyi asal video dibuang** · tiada BGM.
 Ikut storyline V2, storyboard 6 beat dan KOL brief (ITTIFY / Wall's Jolly Jelly Grape & Apple).
 V1 disimpan di `archive/v1.html`. Klip-klip V2 dah dikodkan semula tanpa audio, jadi V1 perlu klip asal di-transcode semula kalau nak render balik.
 
-## Beat → shot
+## Beat → shot (V2.1)
 
 | Beat | Masa | Shot | Teks on-screen |
 | --- | --- | --- | --- |
-| 1 | 0–2.95 | 0230 (mata ke bawah, penat) → 0231 (termenung) | Long week? + doodle titis peluh |
-| 2 | 2.95–6.0 | 0234 (tarik dari beg) → 0233 (close-up logo) | I deserve a little treat + hati |
-| 3 | 6.0–10.2 | 0268 reveal slow-mo 0.75× → 0275 close-up gigitan | Wait... jelly inside?! + sticker "chewy grape jelly" / "+ nata de coco" |
-| 4 | 10.2–14.2 | 0273 gigit → 0282 reaction "wow" → 0264 senyum | Okay, this hits different + hati |
-| 5 | 14.2–19.2 | 0286 termenung santai → 0284 senyum | Little treat, better mood + kilauan |
-| 6 | 19.2–24.4 | 0294 gelak dengan pack (flash "glow") → 0228 hero pack | Treat to Glow → You happy, you glow! + CTA |
+| 1 | 0–2.95 | 0230 (penat) → 0231 (termenung) | Long week? + titis peluh |
+| 2 | 2.95–5.6 | 0234 (tarik dari beg) | I deserve a little treat + hati |
+| 3 | 5.6–9.8 | 0268 reveal slow-mo 0.75× → 0275 close-up gigitan | Wait... jelly inside?! + sticker |
+| 4 | 9.8–13.3 | 0273 gigit → 0282 **WOW** | Okay, this hits different |
+| 5 | 13.3–16.8 | 0286 termenung santai | Little treat, better mood |
+| 6 | 16.8–23.3 | 0228 hero pack (flash glow) → 0264 senyum tunjuk aiskrim (slow-mo + freeze) | Treat to Glow → You happy, you glow! + CTA storyboard |
+
+Perubahan dari V2 (ikut permintaan):
+- Buang klip berulang: 0233 (close-up pack kedua) dan 0284 (senyum, sama dengan klip penutup).
+- Buang 0294 (gelak tutup mata).
+- Klip penutup: 0264, senyum tunjuk aiskrim. Dimainkan 0.5× lepas tu freeze-frame (`assets/stills/end_0264.jpg`) supaya CTA cukup masa dibaca.
+- Reaction WOW:
+  - Ramp slow-mo 0.5× masuk ke "wow"
+  - Flash putih + punch-in 1.2× berpusat pada muka + gegaran kamera
+  - Garis "terkejut" ala komik di atas dan sisi kepala, tanda "!!", letupan kilauan
+  - Teks slam bergegar
+  - SFX: punch + thud + glass ting + clack
+- Close-up gigitan dan CTA storyboard dikekalkan.
 
 ## Ikut brief
 

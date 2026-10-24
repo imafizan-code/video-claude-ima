@@ -76,7 +76,7 @@
     .b5-sp { width: 80px; height: 80px; margin: -40px 0 0 -40px; }
   </style>
   <div id="root" data-composition-id="b5" data-width="1080" data-height="1920">
-    <div id="b5-all" class="clip" data-start="0" data-duration="5" data-layout-allow-overlap>
+    <div id="b5-all" class="clip" data-start="0" data-duration="3.5" data-layout-allow-overlap>
       <div id="b5-band" class="band">
         <div id="b5-l1" class="hand">Little treat,</div>
         <div id="b5-l2" class="hand">better <span class="lemon">mood</span></div>
@@ -95,9 +95,9 @@
       const t = 1.1 + i * 0.22;
       tl.fromTo(s.querySelector("path"), { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, t);
       tl.fromTo(s, { scale: 0.3, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.4)" }, t);
-      tl.to(s, { scale: 0.75, duration: 0.6, ease: "sine.inOut" }, t + 1.2);
+      tl.to(s, { scale: 0.75, duration: 0.6, ease: "sine.inOut" }, t + 0.9);
     });
-    tl.to("#b5-all", { opacity: 0, duration: 0.14, ease: "power2.in" }, 4.84);
+    tl.to("#b5-all", { opacity: 0, duration: 0.14, ease: "power2.in" }, 3.34);
     window.__timelines["b5"] = tl;
   </script>
 </template>
