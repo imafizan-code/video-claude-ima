@@ -43,7 +43,7 @@ Lebih kurang 50 patah perkataan, sesuai untuk 23 s pada kelajuan cakap biasa.
 >
 > Music: "Positive Whistling" by Ruslan Latypov (CC BY 3.0, Jamendo)
 
-## VO yang dah dimasukkan (V2.5)
+## VO yang dah dimasukkan (masa ikut V2.8)
 
 Fail dari Google Drive. Setiap fail dibersihkan (highpass, denoise ringan, compressor), diseragamkan ke −19 LUFS, dan diletak pada perkataan yang sama dengan teks atas skrin. SFX diperlahankan ke 60% bila kau bercakap.
 
@@ -52,6 +52,6 @@ Fail dari Google Drive. Setiap fail dibersihkan (highpass, denoise ringan, compr
 | Penatnye.m4a | "Penatnya..." | 0.35 s | Penatnya... |
 | Masa utk self reward.m4a | "Masa untuk self reward." | 3.07 s | Masa untuk self reward! |
 | Eh kejap.m4a | "Eh kejap, ada jeli." | 7.63 s | Eh, kejap... ada jeli?! |
-| Ok ni lain mcm.m4a | "Okay ni lain macam." | 11.95 s (lepas hentakan WOW) | Okay, ni lain macam! |
-| Kdg2.m4a | "Kadang-kadang makan aiskrim je pun dah boleh buat kita happy." | 13.76 s | Small treat, better mood! |
-| You happy, you glow!.m4a | "You happy, you glow! Jom treat to glow dengan Wall's Jolly Jelly." | 19.58 s (dimainkan penuh sampai 23.4 s) | You happy, you glow! · Jom Treat to Glow dengan Wall's Jolly Jelly |
+| Ok ni lain mcm.m4a | "Okay ni lain macam." | 14.45 s (lepas hentakan WOW) | Okay, ni lain macam! |
+| Kdg2.m4a | "Kadang-kadang makan aiskrim je pun dah boleh buat kita happy." | 16.26 s | Small treat, better mood! |
+| You happy, you glow!.m4a | "You happy, you glow! Jom treat to glow dengan Wall's Jolly Jelly." | 22.08 s (dimainkan penuh sampai 25.9 s) | You happy, you glow! · Jom Treat to Glow dengan Wall's Jolly Jelly |

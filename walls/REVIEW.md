@@ -1,6 +1,6 @@
-# Walls — Jolly Jelly V2.7 "Long Week? Treat Secured!"
+# Walls — Jolly Jelly V2.8 "Long Week? Treat Secured!"
 
-24.05 s · 1080×1920 · 30 fps · 9 shot · **semua bunyi asal video dibuang** · voiceover kau + BGM + SFX.
+26.55 s · 1080×1920 · 30 fps · 9 shot · **semua bunyi asal video dibuang** · voiceover kau + BGM + SFX.
 Ikut storyline V2, storyboard 6 beat dan KOL brief (ITTIFY / Wall's Jolly Jelly Grape & Apple).
 V1 disimpan di `archive/v1.html`. Klip-klip V2 dah dikodkan semula tanpa audio, jadi V1 perlu klip asal di-transcode semula kalau nak render balik.
 
@@ -14,8 +14,13 @@ Teks on-screen kini dalam BM santai (ikut brief: bahasa natural, elak hard selli
 | 2 | 2.95–5.6 | 0234 tarik dari beg | Masa untuk self reward! |
 | 3 | 5.6–9.8 | 0268 reveal → 0275 close-up | Eh, kejap... ada jeli?! · jeli grape kenyal · + nata de coco |
 | 4 | 9.8–13.3 | 0282 gigit → 0282 WOW (take yang sama, jadi bentuk gigitan sama) | Okay, ni lain macam! |
-| 5 | 13.3–16.8 | 0284 senyum santai pegang aiskrim (src 5.4–8.9) | Small treat, better mood! |
+| 5 | 15.8–19.3 | 0283 senyum santai pegang aiskrim (src 4.3–7.8), gigitan sama dengan klip wow | Small treat, better mood! |
 | 6 | 16.8–23.35 | 0228 hero pack → 0296 senyum tunjuk pack | Treat to Glow → You happy, you glow! · Jom Treat to Glow dengan Wall's Jolly Jelly |
+
+Perubahan V2.8:
+- **Bunyi plastik pembalut (~0:06):** wrapper crinkle + kain di 5.62 / 6.15 / 6.72 s, masa aiskrim dikeluarkan dari pembalut (slow-mo).
+- **Pause tekstur pada close-up:** 0275 dimainkan 0.4–1.8 s, lepas tu freeze 2.5 s pada frame paling jelas (`assets/stills/0275_texture.jpg`) dengan zoom perlahan ke gigitan (1.0 → 1.28×). Video sambung pada zoom yang sama dan zoom keluar perlahan, jadi tiada lompatan. Teks "Eh, kejap... ada jeli?!" dan sticker kekal sepanjang pause. Semua selepas itu dianjak +2.5 s (video kini 26.55 s), termasuk VO, SFX dan automation muzik.
+- **Kesinambungan gigitan selepas wow:** beat santai ditukar dari 0284 kepada **0283** (src 4.3–7.8). 0283 dirakam terus selepas 0282, jadi bentuk dan tempat gigitan sama dengan klip wow. 0283 juga dapat light makeup yang sama.
 
 Perubahan V2.7:
 - **BGM ditambah:** "Positive Whistling" oleh Ruslan Latypov (CC BY 3.0, Jamendo). Siulan ceria dan instrumental (tiada vokal), ikut appeal brief: fun, youthful, trendy, lifestyle.
