@@ -1,24 +1,26 @@
-# Walls — Jolly Jelly V2.2 "Long Week? Treat Secured!" (PREVIEW)
+# Walls — Jolly Jelly V2.3 "Long Week? Treat Secured!" (PREVIEW)
 
-23.35 s · 1080×1920 · 30 fps · 9 shot · **semua bunyi asal video dibuang** · tiada BGM.
+23.35 s · 1080×1920 · 30 fps · 10 shot · **semua bunyi asal video dibuang** · tiada BGM.
 Ikut storyline V2, storyboard 6 beat dan KOL brief (ITTIFY / Wall's Jolly Jelly Grape & Apple).
 V1 disimpan di `archive/v1.html`. Klip-klip V2 dah dikodkan semula tanpa audio, jadi V1 perlu klip asal di-transcode semula kalau nak render balik.
 
-## Beat → shot (V2.2)
+## Beat → shot (V2.3)
 
 | Beat | Masa | Shot | Teks / efek |
 | --- | --- | --- | --- |
-| 1 | 0–2.95 | 0290 (berdiri di taman, tangan di dada, hembus nafas / termenung) | Long week? + awan serabut atas kepala dengan ikon kerja (emel 99+, kalendar MON, jam berpusing, sticky "deadline!"). Semua pop jadi hati di 2.4 s. |
-| 2 | 2.95–5.6 | 0234 (tarik dari beg) | I deserve a little treat + hati |
-| 3 | 5.6–9.8 | 0268 reveal slow-mo → 0275 close-up gigitan | Wait... jelly inside?! + sticker |
-| 4 | 9.8–13.3 | 0273 gigit → 0282 WOW (slow-mo, flash, punch-in, gegar, garis terkejut, kilauan) | Okay, this hits different |
-| 5 | 13.3–16.8 | 0286 termenung santai | Little treat, better mood |
-| 6 | 16.8–23.35 | 0228 hero pack → 0296 senyum hulur pack ke kamera | Treat to Glow → You happy, you glow! + CTA. Masa pack dihulur: punch-in, ring doodle di hujung pack, letupan kilauan. |
+| 1 Penat lepas seminggu kerja, ambil rehat | 0–2.95 | **0286 (versi baru yang diupload)**, src 3.4–6.35: tutup mata, dongak, hembus nafas | Long week? + awan stres atas kepala, lepas tu pop jadi hati |
+| 2 Rewards myself | 2.95–5.6 | 0234 tarik dari beg | I deserve a little treat |
+| 3 Jelly texture | 5.6–9.8 | 0268 reveal slow-mo → 0275 close-up gigitan | Wait... jelly inside?! |
+| 4 Genuine reaction | 9.8–13.3 | **0284 gigitan dari depan** (ganti 0273) → 0282 WOW | Okay, this hits different |
+| 5 Relaxing outdoors + showcase produk | 13.3–16.8 | **0290** ambil angin di taman → **0284** senyum santai pegang aiskrim | Little treat, better mood |
+| 6 Product + CTA | 16.8–23.35 | 0228 hero pack → 0296 senyum tunjuk pack | Treat to Glow → You happy, you glow! + CTA |
+
+Nota: 0286 yang diupload tu klip berbeza (7.3 s) daripada 0286 dalam Drive (11.3 s). Versi baru disimpan sebagai `assets/clips/IMG_0286b.mp4`.
 
 Perubahan V2.2 (ikut permintaan):
 - **Pembuka 0–3 s:** 0230/0231 dibuang, diganti dengan 0290. Animasi "stres fikir kerja" diletak di ruang langit atas kepala (y 250–560). Muka di y 670–975, jadi tak tertutup.
 - **Penutup:** 0296 senyum tunjuk aiskrim, dengan efek ketika pack dihulur. 0264 dan freeze-frame dibuang.
-- **Beautify (light makeup):** dibuat pada 0290, 0273, 0282, 0286, 0296 dengan `tools/beautify.py`:
+- **Beautify (light makeup):** dibuat pada 0286b, 0284, 0282, 0290, 0296 dengan `tools/beautify.py`:
   - MediaPipe Face Mesh, landmark dilicinkan antara frame supaya tak berkelip
   - Kulit dilicinkan sikit dengan tekstur dikekalkan, lif +4 L
   - Lipstick rose-red (#C0394E) yang padan dengan cardigan merah, kekuatan 0.45; bahagian dalam mulut dikecualikan, jadi gigi tak terwarna
