@@ -1,5 +1,5 @@
 # Wall's Jolly Jelly Grape & Apple: "Treat to Glow"
-### 3 contoh konsep video (TikTok + IG Reels, 9:16, 20–25 saat)
+### 4 contoh konsep video (TikTok + IG Reels, 9:16, 20–25 saat)
 
 > **Key message:** Wall's Jolly Jelly bawa kejutan jelly yang buat hari kau ceria, mood naik, dan kau *glow from the inside out*.
 > **Tagline:** Treat to Glow, You happy, you glow!
@@ -10,6 +10,7 @@ Video contoh (animatik, untuk rujukan timing & idea):
 - `videos/01_bateri_mood_5persen.mp4`
 - `videos/02_4lapis_1senyum.mp4`
 - `videos/03_rahsia_glowing.mp4`
+- `videos/04_long_week_treat_secured.mp4` (shoot tepi tasik)
 
 Video ni dalam bentuk kartun/animatik. Masa shooting betul, ganti setiap babak dengan shot real ikut senarai di bawah.
 
@@ -77,6 +78,24 @@ Video ni dalam bentuk kartun/animatik. Masa shooting betul, ganti setiap babak d
 | 18–23s | Hero shot pack + dua aiskrim | Treat to Glow, You happy, you glow! | DUA-DUA: "Ambil happy bite, Treat to Glow dengan Wall's Jolly Jelly!" |
 
 **Caption:** Orang tanya rahsia glowing… jawapan aku simple je: HAPPY 😌💜 Little treat, big mood. Tag kawan yang perlukan glow-up hari ni! #WallsMalaysia #WallsJollyJelly
+
+---
+
+## 🎬 KONSEP 4: "Long Week? Treat Secured!" (BM, tepi tasik, penat kerja seminggu)
+**Hook (0–3s):** Notification kerja masuk bertubi-tubi (bunyi *ding* berulang), kau tekan **Do Not Disturb**, semua notification hilang.
+**Twist:** Sticker "PENAT 100%" kat sudut skrin, turun ke 0% lepas gigit.
+
+| Masa | Shot (real) | Teks atas skrin | Voiceover |
+|---|---|---|---|
+| 0–3s | Close-up telefon penuh notification (screen record + overlay), jari tekan DND. Latar belakang bangku tepi tasik | Long week? | "Seminggu ni… penat gila." |
+| 3–6s | Kau sandar kat bangku, pejam mata, mengeluh, angin tiup rambut. Sticker PENAT 100% | Aku deserve little treat | "Okay, aku nak reward diri sendiri kejap." |
+| 6–9s | Close-up tangan tarik pack Jolly Jelly dari tote bag, logo hadap kamera | Treat secured | (bunyi plastik) |
+| 9–13s | **Macro slow-mo**: buka wrapper, gigit pertama, nampak jelly chewy | Wait… ada jelly dalam?! | "Eh, chewy dia!" |
+| 13–17s | Reaksi real: senyum lebar, angguk. PENAT turun 100% → 0% | Okay, ni hits different | "Serius, terus hilang penat." |
+| 17–21s | Golden hour, wide shot tepi tasik, air berkilau, sparkle | Little treat, better mood | "Kadang-kadang kita cuma perlukan benda kecil yang buat kita happy." |
+| 21–25s | Hero shot pack + batang baru atas kain picnic, kau blur di belakang | Treat to Glow, You happy, you glow! | "Take a happy bite & Treat to Glow dengan Wall's Jolly Jelly!" |
+
+**Caption:** Seminggu kerja, finally Jumaat 🥲 Reward diri dengan little treat tepi tasik. Bila happy, memang terus glow ✨ Korang reward diri dengan apa lepas long week? #WallsMalaysia #WallsJollyJelly
 
 ---
 

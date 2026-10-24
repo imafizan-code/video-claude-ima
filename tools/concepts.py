@@ -1,4 +1,4 @@
-"""Three sample concepts for Wall's Jolly Jelly Grape & Apple — "Treat to Glow".
+"""Four sample concepts for Wall's Jolly Jelly Grape & Apple — "Treat to Glow".
 
 Run:  python3 tools/concepts.py [1|2|3 ...]   (default: all)
 Output: videos/*.mp4  (720x1280, 30fps)
@@ -301,8 +301,153 @@ def concept3():
     render("videos/03_rahsia_glowing.mp4", D, draw, events, bpm=124, key=64, duck=[(0.0, 3.2)])
 
 
+# ============================================================
+# 4. LONG WEEK? TREAT SECURED!  (BM, tepi tasik — penat kerja seminggu)
+# ============================================================
+
+def concept4():
+    D = 25.0
+    bg = park_bg(11, lake=True)
+    gold = park_bg(11, sky=((255, 165, 120), (255, 228, 170)), lake=True)
+    ch = {m: character(m, shirt=(200, 170, 240), size=440) for m in ("tired", "neutral", "happy", "glow")}
+    bar = ice_cream(330)
+    bar_bite = ice_cream(330, bite=True)
+    notifs = [
+        ("Boss", "Urgent!! Boleh siapkan malam ni?"),
+        ("Email", "Re: Re: Re: Laporan minggu ni"),
+        ("Group Kerja", "@semua meeting 5:30pm"),
+        ("Kalendar", "Deadline: HARI NI"),
+        ("Boss", "Satu lagi..."),
+    ]
+    notif_sp = [text_sprite(f"{a}: {b}", size=28, fill=(40, 30, 50), box=(255, 255, 255, 245), black=False, pad=16, radius=20, maxw=440)
+                for a, b in notifs]
+    dnd_off = text_sprite("Do Not Disturb", size=30, fill=WHITE, box=(90, 90, 110, 255), black=False, pad=16, radius=30)
+    dnd_on = text_sprite("Do Not Disturb: ON", size=30, fill=WHITE, box=(130, 60, 200, 255), black=True, pad=16, radius=30)
+
+    caps = [
+        Caption("Long week?", 0.1, 3.0, y=150, size=72),
+        Caption("Aku deserve little treat", 3.1, 6.0, y=180, size=58),
+        Caption("Treat secured", 6.1, 9.0, y=180, size=70, fill=YELLOW, stroke=PURPLE),
+        Caption("Wait... ada jelly dalam?!", 9.1, 13.0, y=180, size=58, fill=PURPLE, stroke=WHITE),
+        Caption("Okay, ni hits different", 13.1, 17.0, y=180, size=58),
+        Caption("Little treat, better mood", 17.1, 21.0, y=180, size=58, fill=YELLOW, stroke=PURPLE),
+    ]
+    subs = [
+        (0.1, 3.0, "\"Seminggu ni... penat gila.\""),
+        (3.1, 6.0, "\"Okay, aku nak reward diri sendiri kejap.\""),
+        (9.1, 13.0, "\"Eh, chewy dia!\""),
+        (13.1, 17.0, "\"Serius, terus hilang penat.\""),
+        (17.1, 21.0, "\"Kadang-kadang kita cuma perlukan benda kecil yang buat kita happy.\""),
+    ]
+
+    def phone(f, t):
+        d = ImageDraw.Draw(f)
+        x0, y0, x1, y1 = 130, 250, 590, 1060
+        d.rounded_rectangle([x0, y0, x1, y1], 50, fill=(30, 25, 40))
+        d.rounded_rectangle([x0 + 16, y0 + 16, x1 - 16, y1 - 16], 38, fill=(120, 150, 210))
+        d.rounded_rectangle([310, y0 + 30, 410, y0 + 56], 13, fill=(30, 25, 40))
+        clock = text_sprite("5:47", size=90, fill=WHITE, stroke=(60, 70, 120), stroke_w=2)
+        paste(f, clock, W / 2, 370)
+        cleared = prog(t, 2.2, 0.35)
+        for i, sp in enumerate(notif_sp):
+            tk = 0.25 + i * 0.35
+            if t < tk:
+                continue
+            p = back_out(prog(t, tk, 0.25))
+            x = W / 2 + 600 * ease_out(cleared) * (1 if i % 2 else -1)
+            paste(f, sp, x, 480 + i * 112, scale=p, alpha=1 - cleared)
+        tog = dnd_on if t >= 2.2 else dnd_off
+        paste(f, tog, W / 2, 1008, scale=1 + 0.15 * math.sin(math.pi * prog(t, 2.2, 0.3)))
+        # finger tap
+        if 1.9 <= t < 2.5:
+            d.ellipse([W / 2 - 34, 1008 - 34 + 30 * (1 - prog(t, 1.9, 0.3)), W / 2 + 34, 1008 + 34 + 30 * (1 - prog(t, 1.9, 0.3))],
+                      fill=(245, 205, 170), outline=(200, 160, 130), width=4)
+
+    def penat_meter(f, t, level):
+        d = ImageDraw.Draw(f)
+        x0, y0 = 430, 300
+        lab = text_sprite("PENAT", size=30, fill=WHITE, stroke=(40, 30, 50), stroke_w=3, pad=4)
+        paste(f, lab, x0 + 40, y0 - 30)
+        d.rounded_rectangle([x0, y0, x0 + 250, y0 + 40], 20, fill=(255, 255, 255, 230), outline=(40, 30, 50), width=5)
+        col = mix(APPLE, RED, level)
+        d.rounded_rectangle([x0 + 8, y0 + 8, x0 + 8 + 234 * max(0.03, level), y0 + 32], 12, fill=col)
+        pct = text_sprite(f"{int(round(level * 100))}%", size=30, fill=WHITE, stroke=(40, 30, 50), stroke_w=3, pad=4)
+        paste(f, pct, x0 + 210, y0 - 30)
+
+    def draw(t):
+        golden = t >= 17.1
+        f = (gold if golden else bg).copy()
+        if t < 3.0:
+            ov = Image.new("RGBA", (W, H), (20, 10, 30, 150))
+            f.alpha_composite(ov)
+            dx, dy = shake(t, 1.7, 0.4, 10)
+            phone(f, t)
+            if dx:
+                f = f.transform(f.size, Image.AFFINE, (1, 0, -dx, 0, 1, -dy))
+        else:
+            if t < 13.1:
+                level = 1.0
+            else:
+                level = lerp(1.0, 0.0, ease_in_out(prog(t, 13.3, 3.2)))
+            mood = "tired" if t < 9.1 else ("neutral" if t < 13.1 else ("happy" if t < 17.1 else "glow"))
+            if golden:
+                paste(f, glow_sprite(360), W / 2, 830, scale=1 + 0.05 * math.sin(t * 5), alpha=prog(t, 17.1, 0.5))
+                sparkles(f, t, W / 2, 820, 330, n=16)
+            sway = 8 * math.sin(t * 1.5) if mood == "tired" else 6 * math.sin(t * 5)
+            paste(f, ch[mood], W / 2, 880 + sway, rot=4 * math.sin(t * 1.2) if mood == "tired" else 0)
+            if mood == "tired":
+                zz = text_sprite("haihh...", size=36, fill=WHITE, stroke=(90, 90, 120))
+                paste(f, zz, W / 2 - 170, 600 - 20 * (t % 1.5), alpha=1 - (t % 1.5) / 1.5)
+            if t < 9.1 or 13.1 <= t < 17.1:
+                penat_meter(f, t, level)
+            # tote bag + pack pull
+            if 6.1 <= t < 9.1:
+                d = ImageDraw.Draw(f)
+                d.rounded_rectangle([450, 930, 660, 1100], 18, fill=(240, 225, 200), outline=(200, 180, 150), width=4)
+                d.arc([490, 850, 620, 990], 180, 360, fill=(200, 180, 150), width=10)
+                p = back_out(prog(t, 6.3, 0.7))
+                paste(f, PACK_SM, 555, lerp(1060, 760, p), rot=-8 + 3 * math.sin(t * 5))
+                sparkles(f, t, 555, 760, 160, n=6, alpha=prog(t, 6.8, 0.3))
+            # macro bite
+            if 9.1 <= t < 13.1:
+                p = ease_out(prog(t, 9.1, 0.4))
+                ov = vgradient(W, H, (240, 220, 255), (200, 160, 240))
+                ov.putalpha(int(235 * p))
+                f.alpha_composite(ov)
+                sp = bar if t < 10.4 else bar_bite
+                sc = lerp(1.2, 1.9, ease_in_out(prog(t, 9.1, 4.0)))
+                paste(f, sp, W / 2, 680, scale=sc, rot=-8 + 3 * math.sin(t * 2), alpha=p)
+                sparkles(f, t, W / 2, 680, 300, alpha=p)
+                if t >= 10.4:
+                    lab = text_sprite("CHEWY!", size=70, fill=YELLOW, stroke=PURPLE)
+                    paste(f, lab, W / 2 + 170, 470, scale=back_out(prog(t, 10.4, 0.3)), rot=12)
+            if t >= 13.1:
+                paste(f, bar, W / 2 + 200, 900, scale=0.9, rot=-15 + 3 * math.sin(t * 3))
+            if 13.1 <= t < 17.1:
+                for k in range(3):
+                    tk = 13.5 + k * 1.1
+                    if t >= tk:
+                        p = prog(t, tk, 1.0)
+                        plus = text_sprite("-PENAT  +HAPPY", size=34, fill=WHITE, stroke=PINK)
+                        paste(f, plus, W / 2 + (k - 1) * 140, 620 - 150 * p, alpha=1 - p)
+        for c in caps:
+            c.draw(f, t)
+        for a, b, s in subs:
+            if a <= t < b:
+                subtitle(f, s)
+        tiktok_ui(f, caption="Long week? Treat secured! #WallsMalaysia #WallsJollyJelly")
+        end_card(f, t, 21.0, "Take a happy bite & Treat to Glow dengan Wall's Jolly Jelly!", pack=PACK)
+        return f
+
+    events = [(0.25 + i * 0.35, "ding") for i in range(5)]
+    events += [(2.2, "pop"), (2.3, "whoosh"), (3.1, "whoosh"), (6.3, "whoosh"), (6.9, "pop"), (9.1, "whoosh"),
+               (10.4, "crunch"), (10.42, "boing"), (13.3, "rise"), (13.5, "pop"), (14.6, "pop"), (15.7, "pop"),
+               (17.1, "chime"), (21.0, "whoosh"), (21.7, "ding")]
+    render("videos/04_long_week_treat_secured.mp4", D, draw, events, bpm=112, key=62, duck=[(0.0, 3.0), (9.1, 12.5)])
+
+
 if __name__ == "__main__":
-    which = sys.argv[1:] or ["1", "2", "3"]
+    which = sys.argv[1:] or ["1", "2", "3", "4"]
     for w_ in which:
-        {"1": concept1, "2": concept2, "3": concept3}[w_]()
+        {"1": concept1, "2": concept2, "3": concept3, "4": concept4}[w_]()
         print("done", w_)
