@@ -5,3 +5,4 @@ assets/*.wav
 renders/
 node_modules/
 .hyperframes/
+assets/clips/
