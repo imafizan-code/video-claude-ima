@@ -1,0 +1,135 @@
+<template>
+  <style>
+        @font-face {
+          font-family: "Baloo 2";
+          src: url("assets/fonts/Baloo2-latin.woff2") format("woff2");
+          font-weight: 400 800;
+        }
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Baloo 2", sans-serif;
+          pointer-events: none;
+          --grape: #4a1352;
+          --jelly: #c02784;
+          --sun: #ffd23f;
+          --cream: #fff7ea;
+        }
+        .band {
+          position: absolute;
+          left: 120px;
+          width: 840px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          overflow: visible;
+        }
+        .hl {
+          font-weight: 800;
+          color: var(--cream);
+          -webkit-text-stroke: 18px var(--grape);
+          paint-order: stroke fill;
+          text-shadow: 0 10px 0 rgba(58, 10, 66, 0.55);
+          line-height: 0.95;
+          white-space: nowrap;
+        }
+        .hl .w {
+          display: inline-block;
+        }
+        .acc {
+          color: var(--sun);
+        }
+        .pill {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          padding: 10px 34px 14px;
+          border-radius: 999px;
+          border: 5px solid var(--grape);
+          background: linear-gradient(180deg, #e8509f 0%, #b01d73 100%);
+          box-shadow: 0 8px 0 var(--grape);
+          color: var(--cream);
+          font-weight: 800;
+          font-size: 46px;
+          line-height: 1;
+          white-space: nowrap;
+        }
+        .pill::before {
+          content: "";
+          position: absolute;
+          left: 16%;
+          right: 16%;
+          top: 6px;
+          height: 28%;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.4);
+        }
+        .pill.sun {
+          background: linear-gradient(180deg, #ffe37a 0%, #f5b81c 100%);
+          color: var(--grape);
+        }
+        .pill.lilac {
+          background: linear-gradient(180deg, #e9d3ff 0%, #b98ae6 100%);
+          color: var(--grape);
+        }
+    #rv-ff {
+      position: absolute;
+      left: 140px;
+      top: 250px;
+    }
+    #rv-ff svg {
+      width: 54px;
+      height: 34px;
+    }
+    #rv-stars {
+      position: absolute;
+      inset: 0;
+    }
+    .rv-star {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      margin: -45px 0 0 -45px;
+    }
+    #rv-line {
+      top: 250px;
+    }
+    #rv-text {
+      font-size: 108px;
+    }
+  </style>
+  <div id="root" data-composition-id="reveal" data-width="1080" data-height="1920">
+    <div id="rv-ff" class="clip" data-start="0" data-duration="2.4">
+      <div id="rv-ff-pill" class="pill sun">
+        <svg viewBox="0 0 54 34"><path d="M2 2 L24 17 L2 32 Z M28 2 L50 17 L28 32 Z" fill="#4a1352" /></svg>
+        3.5×
+      </div>
+    </div>
+    <div id="rv-stars" class="clip" data-start="2.4" data-duration="1.6" data-layout-ignore>
+      <svg class="rv-star" style="left: 330px; top: 560px" viewBox="-50 -50 100 100"><path d="M0 -48 C6 -8 8 -6 48 0 C8 6 6 8 0 48 C-6 8 -8 6 -48 0 C-8 -6 -6 -8 0 -48 Z" fill="#fff7ea" /></svg>
+      <svg class="rv-star" style="left: 740px; top: 500px" viewBox="-50 -50 100 100"><path d="M0 -48 C6 -8 8 -6 48 0 C8 6 6 8 0 48 C-6 8 -8 6 -48 0 C-8 -6 -6 -8 0 -48 Z" fill="#ffd23f" /></svg>
+      <svg class="rv-star" style="left: 820px; top: 780px" viewBox="-50 -50 100 100"><path d="M0 -48 C6 -8 8 -6 48 0 C8 6 6 8 0 48 C-6 8 -8 6 -48 0 C-8 -6 -6 -8 0 -48 Z" fill="#fff7ea" /></svg>
+      <svg class="rv-star" style="left: 250px; top: 860px" viewBox="-50 -50 100 100"><path d="M0 -48 C6 -8 8 -6 48 0 C8 6 6 8 0 48 C-6 8 -8 6 -48 0 C-8 -6 -6 -8 0 -48 Z" fill="#ffd23f" /></svg>
+      <svg class="rv-star" style="left: 560px; top: 440px" viewBox="-50 -50 100 100"><path d="M0 -48 C6 -8 8 -6 48 0 C8 6 6 8 0 48 C-6 8 -8 6 -48 0 C-8 -6 -6 -8 0 -48 Z" fill="#fff7ea" /></svg>
+    </div>
+    <div id="rv-line" class="band clip" data-start="2.55" data-duration="1.45">
+      <div id="rv-text" class="hl"><span class="w">Warna</span> <span class="w">dia,</span> <span class="w acc">weh!</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#rv-ff-pill", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.35, ease: "expo.out" }, 0.05);
+    tl.to("#rv-ff-pill", { opacity: 0, x: 30, duration: 0.15, ease: "power2.in" }, 2.22);
+    const stars = gsap.utils.toArray(".rv-star");
+    stars.forEach((s, i) => {
+      const t = 2.42 + i * 0.06;
+      tl.fromTo(s, { scale: 0, rotation: -40, opacity: 1 }, { scale: 1, rotation: 0, duration: 0.28, ease: "back.out(2.5)" }, t);
+      tl.to(s, { scale: 0, rotation: 30, duration: 0.3, ease: "power2.in" }, t + 0.45);
+    });
+    tl.fromTo("#rv-text .w", { opacity: 0, y: 24, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.08, ease: "back.out(1.8)" }, 2.55);
+    tl.to("#rv-text .w", { opacity: 0, filter: "blur(8px)", duration: 0.16, stagger: 0.04, ease: "power2.in" }, 3.72);
+    window.__timelines["reveal"] = tl;
+  </script>
+</template>

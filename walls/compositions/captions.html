@@ -1,0 +1,119 @@
+<template>
+  <style>
+        @font-face {
+          font-family: "Baloo 2";
+          src: url("assets/fonts/Baloo2-latin.woff2") format("woff2");
+          font-weight: 400 800;
+        }
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Baloo 2", sans-serif;
+          pointer-events: none;
+          --grape: #4a1352;
+          --jelly: #c02784;
+          --sun: #ffd23f;
+          --cream: #fff7ea;
+        }
+        .band {
+          position: absolute;
+          left: 120px;
+          width: 840px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          overflow: visible;
+        }
+        .hl {
+          font-weight: 800;
+          color: var(--cream);
+          -webkit-text-stroke: 18px var(--grape);
+          paint-order: stroke fill;
+          text-shadow: 0 10px 0 rgba(58, 10, 66, 0.55);
+          line-height: 0.95;
+          white-space: nowrap;
+        }
+        .hl .w {
+          display: inline-block;
+        }
+        .acc {
+          color: var(--sun);
+        }
+        .pill {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          padding: 10px 34px 14px;
+          border-radius: 999px;
+          border: 5px solid var(--grape);
+          background: linear-gradient(180deg, #e8509f 0%, #b01d73 100%);
+          box-shadow: 0 8px 0 var(--grape);
+          color: var(--cream);
+          font-weight: 800;
+          font-size: 46px;
+          line-height: 1;
+          white-space: nowrap;
+        }
+        .pill::before {
+          content: "";
+          position: absolute;
+          left: 16%;
+          right: 16%;
+          top: 6px;
+          height: 28%;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.4);
+        }
+        .pill.sun {
+          background: linear-gradient(180deg, #ffe37a 0%, #f5b81c 100%);
+          color: var(--grape);
+        }
+        .pill.lilac {
+          background: linear-gradient(180deg, #e9d3ff 0%, #b98ae6 100%);
+          color: var(--grape);
+        }
+    .cap {
+      position: absolute;
+      left: 120px;
+      width: 840px;
+      top: 1240px;
+      text-align: center;
+      overflow: visible;
+    }
+    .cap .hl {
+      font-size: 84px;
+      -webkit-text-stroke: 14px var(--grape);
+      text-shadow: 0 7px 0 rgba(58, 10, 66, 0.55);
+    }
+    .cap .w {
+      display: inline-block;
+      margin: 0 6px;
+    }
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1080" data-height="1920">
+    <!-- Words from IMG_0284 (whisper large-v3); times are film seconds -->
+    <div id="cap-1" class="cap clip" data-start="0.12" data-duration="0.96"><div class="hl"><span class="w" data-t="0.13">Macam</span><span class="w" data-t="0.27">terkejut</span><span class="w" data-t="0.97">lah,</span></div></div>
+    <div id="cap-2" class="cap clip" data-start="1.08" data-duration="0.54"><div class="hl"><span class="w" data-t="1.09">sedap</span><span class="w" data-t="1.53">ni!</span></div></div>
+    <div id="cap-3" class="cap clip" data-start="10.32" data-duration="0.8"><div class="hl"><span class="w" data-t="10.35">Macam...</span><span class="w" data-t="10.91">wah,</span></div></div>
+    <div id="cap-4" class="cap clip" data-start="11.12" data-duration="0.96"><div class="hl"><span class="w" data-t="11.13">sedap</span><span class="w" data-t="11.89">ni!</span></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    document.querySelectorAll("#root .cap").forEach((g) => {
+      const start = parseFloat(g.dataset.start);
+      const end = start + parseFloat(g.dataset.duration);
+      const words = g.querySelectorAll(".w");
+      tl.fromTo(g, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, start);
+      words.forEach((w) => {
+        const t = parseFloat(w.dataset.t);
+        tl.fromTo(w, { color: "#fff7ea", scale: 1 }, { color: "#ffd23f", scale: 1.1, duration: 0.08, ease: "power2.out" }, t);
+        tl.to(w, { scale: 1, duration: 0.18, ease: "power2.out" }, t + 0.08);
+      });
+      tl.to(g, { opacity: 0, duration: 0.1, ease: "power2.in" }, end - 0.1);
+      tl.set(g, { opacity: 0 }, end);
+    });
+    window.__timelines["captions"] = tl;
+  </script>
+</template>

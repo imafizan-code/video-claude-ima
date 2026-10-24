@@ -1,0 +1,103 @@
+<template>
+  <style>
+        @font-face {
+          font-family: "Baloo 2";
+          src: url("assets/fonts/Baloo2-latin.woff2") format("woff2");
+          font-weight: 400 800;
+        }
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Baloo 2", sans-serif;
+          pointer-events: none;
+          --grape: #4a1352;
+          --jelly: #c02784;
+          --sun: #ffd23f;
+          --cream: #fff7ea;
+        }
+        .band {
+          position: absolute;
+          left: 120px;
+          width: 840px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          overflow: visible;
+        }
+        .hl {
+          font-weight: 800;
+          color: var(--cream);
+          -webkit-text-stroke: 18px var(--grape);
+          paint-order: stroke fill;
+          text-shadow: 0 10px 0 rgba(58, 10, 66, 0.55);
+          line-height: 0.95;
+          white-space: nowrap;
+        }
+        .hl .w {
+          display: inline-block;
+        }
+        .acc {
+          color: var(--sun);
+        }
+        .pill {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          padding: 10px 34px 14px;
+          border-radius: 999px;
+          border: 5px solid var(--grape);
+          background: linear-gradient(180deg, #e8509f 0%, #b01d73 100%);
+          box-shadow: 0 8px 0 var(--grape);
+          color: var(--cream);
+          font-weight: 800;
+          font-size: 46px;
+          line-height: 1;
+          white-space: nowrap;
+        }
+        .pill::before {
+          content: "";
+          position: absolute;
+          left: 16%;
+          right: 16%;
+          top: 6px;
+          height: 28%;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.4);
+        }
+        .pill.sun {
+          background: linear-gradient(180deg, #ffe37a 0%, #f5b81c 100%);
+          color: var(--grape);
+        }
+        .pill.lilac {
+          background: linear-gradient(180deg, #e9d3ff 0%, #b98ae6 100%);
+          color: var(--grape);
+        }
+    #hook-top {
+      top: 250px;
+    }
+    #hook-l1 {
+      font-size: 76px;
+    }
+    #hook-l2 {
+      font-size: 108px;
+      margin-top: 4px;
+    }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hook-top" class="band clip" data-start="0" data-duration="1.65">
+      <div id="hook-l1" class="hl"><span class="w">Aiskrim</span> <span class="w">ni</span></div>
+      <div id="hook-l2" class="hl"><span class="w">BERSALUT</span> <span class="w acc">JELI?!</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Frame 0 is the thumbnail: the hook is already readable, then settles
+    tl.fromTo("#hook-l1", { scale: 1.06 }, { scale: 1, duration: 0.4, ease: "expo.out" }, 0);
+    tl.fromTo("#hook-l2", { scale: 1.04 }, { scale: 1, duration: 0.5, ease: "back.out(2)" }, 0);
+    tl.fromTo("#hook-l2 .acc", { scale: 0.92 }, { scale: 1, duration: 0.45, ease: "back.out(3)" }, 0.12);
+    tl.to("#hook-top", { scale: 1.5, opacity: 0, duration: 0.22, ease: "power3.in" }, 1.41);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>

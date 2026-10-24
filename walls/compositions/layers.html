@@ -1,0 +1,140 @@
+<template>
+  <style>
+        @font-face {
+          font-family: "Baloo 2";
+          src: url("assets/fonts/Baloo2-latin.woff2") format("woff2");
+          font-weight: 400 800;
+        }
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Baloo 2", sans-serif;
+          pointer-events: none;
+          --grape: #4a1352;
+          --jelly: #c02784;
+          --sun: #ffd23f;
+          --cream: #fff7ea;
+        }
+        .band {
+          position: absolute;
+          left: 120px;
+          width: 840px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          overflow: visible;
+        }
+        .hl {
+          font-weight: 800;
+          color: var(--cream);
+          -webkit-text-stroke: 18px var(--grape);
+          paint-order: stroke fill;
+          text-shadow: 0 10px 0 rgba(58, 10, 66, 0.55);
+          line-height: 0.95;
+          white-space: nowrap;
+        }
+        .hl .w {
+          display: inline-block;
+        }
+        .acc {
+          color: var(--sun);
+        }
+        .pill {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          padding: 10px 34px 14px;
+          border-radius: 999px;
+          border: 5px solid var(--grape);
+          background: linear-gradient(180deg, #e8509f 0%, #b01d73 100%);
+          box-shadow: 0 8px 0 var(--grape);
+          color: var(--cream);
+          font-weight: 800;
+          font-size: 46px;
+          line-height: 1;
+          white-space: nowrap;
+        }
+        .pill::before {
+          content: "";
+          position: absolute;
+          left: 16%;
+          right: 16%;
+          top: 6px;
+          height: 28%;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.4);
+        }
+        .pill.sun {
+          background: linear-gradient(180deg, #ffe37a 0%, #f5b81c 100%);
+          color: var(--grape);
+        }
+        .pill.lilac {
+          background: linear-gradient(180deg, #e9d3ff 0%, #b98ae6 100%);
+          color: var(--grape);
+        }
+    #ly-band {
+      top: 1080px;
+    }
+    #ly-head {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+    #ly-num {
+      font-size: 170px;
+      color: var(--sun);
+    }
+    #ly-word {
+      font-size: 104px;
+    }
+    #ly-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px 16px;
+      width: 820px;
+      margin-top: 10px;
+    }
+    #ly-chips .pill {
+      font-size: 40px;
+      padding: 8px 28px 12px;
+    }
+    .ly-n {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--grape);
+      color: var(--cream);
+      font-size: 28px;
+    }
+  </style>
+  <div id="root" data-composition-id="layers" data-width="1080" data-height="1920">
+    <div id="ly-band" class="band clip" data-start="0" data-duration="1.8">
+      <div id="ly-head">
+        <div id="ly-num" class="hl">4</div>
+        <div id="ly-word" class="hl">LAPISAN</div>
+      </div>
+      <div id="ly-chips">
+        <div id="ly-c1" class="pill"><span class="ly-n">1</span>salut jeli</div>
+        <div id="ly-c2" class="pill lilac"><span class="ly-n">2</span>grape</div>
+        <div id="ly-c3" class="pill sun"><span class="ly-n">3</span>apple</div>
+        <div id="ly-c4" class="pill"><span class="ly-n">4</span>nata de coco</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ly-num", { opacity: 0, scale: 0.3, rotation: -25 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.55, ease: "back.out(2.2)" }, 0.06);
+    tl.fromTo("#ly-word", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power2.out" }, 0.16);
+    ["#ly-c1", "#ly-c2", "#ly-c3", "#ly-c4"].forEach((c, i) =>
+      tl.fromTo(c, { opacity: 0, scale: 0.5, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "back.out(2)" }, 0.3 + i * 0.13),
+    );
+    tl.to("#ly-band", { opacity: 0, y: 20, filter: "blur(6px)", duration: 0.15, ease: "power2.in" }, 1.64);
+    window.__timelines["layers"] = tl;
+  </script>
+</template>

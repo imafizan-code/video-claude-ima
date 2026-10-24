@@ -1,0 +1,167 @@
+<template>
+  <style>
+        @font-face {
+          font-family: "Baloo 2";
+          src: url("assets/fonts/Baloo2-latin.woff2") format("woff2");
+          font-weight: 400 800;
+        }
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Baloo 2", sans-serif;
+          pointer-events: none;
+          --grape: #4a1352;
+          --jelly: #c02784;
+          --sun: #ffd23f;
+          --cream: #fff7ea;
+        }
+        .band {
+          position: absolute;
+          left: 120px;
+          width: 840px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          overflow: visible;
+        }
+        .hl {
+          font-weight: 800;
+          color: var(--cream);
+          -webkit-text-stroke: 18px var(--grape);
+          paint-order: stroke fill;
+          text-shadow: 0 10px 0 rgba(58, 10, 66, 0.55);
+          line-height: 0.95;
+          white-space: nowrap;
+        }
+        .hl .w {
+          display: inline-block;
+        }
+        .acc {
+          color: var(--sun);
+        }
+        .pill {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          padding: 10px 34px 14px;
+          border-radius: 999px;
+          border: 5px solid var(--grape);
+          background: linear-gradient(180deg, #e8509f 0%, #b01d73 100%);
+          box-shadow: 0 8px 0 var(--grape);
+          color: var(--cream);
+          font-weight: 800;
+          font-size: 46px;
+          line-height: 1;
+          white-space: nowrap;
+        }
+        .pill::before {
+          content: "";
+          position: absolute;
+          left: 16%;
+          right: 16%;
+          top: 6px;
+          height: 28%;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.4);
+        }
+        .pill.sun {
+          background: linear-gradient(180deg, #ffe37a 0%, #f5b81c 100%);
+          color: var(--grape);
+        }
+        .pill.lilac {
+          background: linear-gradient(180deg, #e9d3ff 0%, #b98ae6 100%);
+          color: var(--grape);
+        }
+    #co-wires {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: visible;
+    }
+    .co-dot {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 34px;
+      height: 34px;
+      margin: -17px 0 0 -17px;
+      border-radius: 50%;
+      background: var(--sun);
+      border: 6px solid var(--grape);
+    }
+    .co-label {
+      position: absolute;
+    }
+    #co-l1 {
+      left: 560px;
+      top: 470px;
+    }
+    #co-l2 {
+      left: 150px;
+      top: 1300px;
+    }
+    #co-sub {
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--cream);
+      -webkit-text-stroke: 9px var(--grape);
+      paint-order: stroke fill;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+  <div id="root" data-composition-id="callouts" data-width="1080" data-height="1920">
+    <div id="co-all" class="clip" data-start="0" data-duration="2.4" data-layout-allow-overlap>
+      <svg id="co-wires" viewBox="0 0 1080 1920">
+        <line id="co-w1" x1="760" y1="560" x2="700" y2="985" stroke="#4a1352" stroke-width="12" stroke-linecap="round" />
+        <line id="co-w1b" x1="760" y1="560" x2="700" y2="985" stroke="#fff7ea" stroke-width="5" stroke-linecap="round" />
+        <line id="co-w2" x1="380" y1="1300" x2="570" y2="1030" stroke="#4a1352" stroke-width="12" stroke-linecap="round" />
+        <line id="co-w2b" x1="380" y1="1300" x2="570" y2="1030" stroke="#fff7ea" stroke-width="5" stroke-linecap="round" />
+      </svg>
+      <div id="co-d1" class="co-dot"></div>
+      <div id="co-d2" class="co-dot"></div>
+      <div id="co-l1" class="co-label"><div class="pill lilac">salut jeli</div></div>
+      <div id="co-l2" class="co-label">
+        <div class="pill">nata de coco</div>
+        <div id="co-sub">kenyal-kenyal!</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Anchors follow the bite in IMG_0275 (measured at src 0.6 / 1.6 / 2.6 s)
+    const rim = [
+      { t: 0, x: 700, y: 985 },
+      { t: 1.2, x: 725, y: 1015 },
+      { t: 2.2, x: 690, y: 835 },
+    ];
+    const core = [
+      { t: 0, x: 570, y: 1030 },
+      { t: 1.2, x: 600, y: 1055 },
+      { t: 2.2, x: 545, y: 880 },
+    ];
+    tl.set("#co-d1", { x: rim[0].x, y: rim[0].y }, 0);
+    tl.set("#co-d2", { x: core[0].x, y: core[0].y }, 0);
+    for (let i = 1; i < rim.length; i++) {
+      const d = rim[i].t - rim[i - 1].t;
+      tl.to("#co-d1", { x: rim[i].x, y: rim[i].y, duration: d, ease: "sine.inOut" }, rim[i - 1].t);
+      tl.to(["#co-w1", "#co-w1b"], { attr: { x2: rim[i].x, y2: rim[i].y }, duration: d, ease: "sine.inOut" }, rim[i - 1].t);
+      tl.to("#co-d2", { x: core[i].x, y: core[i].y, duration: d, ease: "sine.inOut" }, core[i - 1].t);
+      tl.to(["#co-w2", "#co-w2b"], { attr: { x2: core[i].x, y2: core[i].y }, duration: d, ease: "sine.inOut" }, core[i - 1].t);
+    }
+    // Reveal: dot pops, wire draws, label springs
+    tl.fromTo("#co-d1", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 0.2);
+    tl.fromTo(["#co-w1", "#co-w1b"], { opacity: 0 }, { opacity: 1, duration: 0.15 }, 0.25);
+    tl.fromTo("#co-l1", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.42, ease: "back.out(2)" }, 0.28);
+    tl.fromTo("#co-d2", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 0.6);
+    tl.fromTo(["#co-w2", "#co-w2b"], { opacity: 0 }, { opacity: 1, duration: 0.15 }, 0.65);
+    tl.fromTo("#co-l2", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.42, ease: "back.out(2)" }, 0.68);
+    tl.fromTo("#co-sub", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 0.95);
+    tl.to("#co-all", { opacity: 0, duration: 0.15, ease: "power2.in" }, 2.24);
+    window.__timelines["callouts"] = tl;
+  </script>
+</template>

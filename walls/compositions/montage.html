@@ -1,0 +1,136 @@
+<template>
+  <style>
+        @font-face {
+          font-family: "Baloo 2";
+          src: url("assets/fonts/Baloo2-latin.woff2") format("woff2");
+          font-weight: 400 800;
+        }
+        #root {
+          position: absolute;
+          inset: 0;
+          font-family: "Baloo 2", sans-serif;
+          pointer-events: none;
+          --grape: #4a1352;
+          --jelly: #c02784;
+          --sun: #ffd23f;
+          --cream: #fff7ea;
+        }
+        .band {
+          position: absolute;
+          left: 120px;
+          width: 840px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          overflow: visible;
+        }
+        .hl {
+          font-weight: 800;
+          color: var(--cream);
+          -webkit-text-stroke: 18px var(--grape);
+          paint-order: stroke fill;
+          text-shadow: 0 10px 0 rgba(58, 10, 66, 0.55);
+          line-height: 0.95;
+          white-space: nowrap;
+        }
+        .hl .w {
+          display: inline-block;
+        }
+        .acc {
+          color: var(--sun);
+        }
+        .pill {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          padding: 10px 34px 14px;
+          border-radius: 999px;
+          border: 5px solid var(--grape);
+          background: linear-gradient(180deg, #e8509f 0%, #b01d73 100%);
+          box-shadow: 0 8px 0 var(--grape);
+          color: var(--cream);
+          font-weight: 800;
+          font-size: 46px;
+          line-height: 1;
+          white-space: nowrap;
+        }
+        .pill::before {
+          content: "";
+          position: absolute;
+          left: 16%;
+          right: 16%;
+          top: 6px;
+          height: 28%;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.4);
+        }
+        .pill.sun {
+          background: linear-gradient(180deg, #ffe37a 0%, #f5b81c 100%);
+          color: var(--grape);
+        }
+        .pill.lilac {
+          background: linear-gradient(180deg, #e9d3ff 0%, #b98ae6 100%);
+          color: var(--grape);
+        }
+    .mt-band {
+      top: 1170px;
+    }
+    .mt-word {
+      font-size: 150px;
+    }
+    #mt-v-band {
+      top: 1110px;
+    }
+    #mt-v-kick {
+      font-size: 64px;
+    }
+    #mt-v-word {
+      font-size: 190px;
+      color: var(--sun);
+    }
+    #mt-blob {
+      position: absolute;
+      left: 190px;
+      top: 1120px;
+      width: 700px;
+      height: 300px;
+    }
+    #mt-pack-band {
+      top: 240px;
+    }
+  </style>
+  <div id="root" data-composition-id="montage" data-width="1080" data-height="1920">
+    <div id="mt-b1" class="band mt-band clip" data-start="0" data-duration="0.9"><div class="hl mt-word">sejuk.</div></div>
+    <div id="mt-b2" class="band mt-band clip" data-start="0.9" data-duration="0.9"><div class="hl mt-word">manis.</div></div>
+    <div id="mt-b3" class="band mt-band clip" data-start="1.8" data-duration="0.9"><div class="hl mt-word acc">kenyal.</div></div>
+
+    <svg id="mt-blob" class="clip" data-start="2.7" data-duration="1.4" viewBox="0 0 700 300" data-layout-ignore>
+      <path id="mt-blob-p" d="M60 150 C40 60 170 20 260 40 C330 0 460 10 520 50 C640 40 690 140 650 200 C680 270 560 300 470 270 C390 300 250 300 190 270 C80 290 20 230 60 150 Z" fill="#c02784" stroke="#4a1352" stroke-width="10" />
+      <ellipse cx="300" cy="70" rx="160" ry="22" fill="rgba(255,255,255,0.35)" />
+    </svg>
+    <div id="mt-v-band" class="band clip" data-start="2.7" data-duration="1.4">
+      <div id="mt-v-kick" class="hl">verdict:</div>
+      <div id="mt-v-word" class="hl">SEDAP!</div>
+    </div>
+
+    <div id="mt-pack-band" class="band clip" data-start="4.1" data-duration="1.6">
+      <div id="mt-pack" class="pill lilac">Jolly Jelly · Grape Apple</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    [["#mt-b1 .mt-word", 0], ["#mt-b2 .mt-word", 0.9], ["#mt-b3 .mt-word", 1.8]].forEach(([el, t], i) => {
+      const dir = i % 2 === 0 ? -1 : 1;
+      tl.fromTo(el, { opacity: 0, scale: 1.3, rotation: 6 * dir, filter: "blur(8px)" }, { opacity: 1, scale: 1, rotation: 2 * dir, filter: "blur(0px)", duration: 0.2, ease: "expo.out" }, t + 0.02);
+    });
+    tl.fromTo("#mt-blob", { opacity: 0, scale: 0.2 }, { opacity: 0.95, scale: 1, duration: 0.5, ease: "elastic.out(1, 0.55)" }, 2.72);
+    tl.fromTo("#mt-v-kick", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 2.75);
+    tl.fromTo("#mt-v-word", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(2.2)" }, 2.82);
+    tl.to(["#mt-v-band", "#mt-blob"], { opacity: 0, scale: 0.9, duration: 0.15, ease: "power2.in" }, 3.93);
+    tl.fromTo("#mt-pack", { opacity: 0, y: -24 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 4.15);
+    tl.to("#mt-pack", { opacity: 0, filter: "blur(6px)", duration: 0.15, ease: "power2.in" }, 5.5);
+    window.__timelines["montage"] = tl;
+  </script>
+</template>
