@@ -56,10 +56,18 @@ FACE = {"0399": (537, 1031), "0408": (547, 973), "0424": (545, 981), "0431": (58
         "0540": (582, 868), "0541": (593, 881), "0553": (643, 865)}
 
 # ---------------------------------------------------------------- layout constants
-PIP_D = 340                                    # PiP circle diameter on canvas
-PIP_X, PIP_Y = 692, 196                        # PiP top-left on canvas
-PIP_SCALE = 0.40
-PIP_R_SRC = PIP_D / 2 / PIP_SCALE              # circle radius in source pixels
+FC_X, FC_Y, FC_W, FC_H = 548, 296, 476, 680    # face card beside the phone (demo mode), canvas px
+FC_R = 40                                      # its corner radius on canvas
+CROP_W = 760                                   # source px of face footage shown in the card
+FC_S = FC_W / CROP_W
+CROP_H = FC_H / FC_S
+FULL_CLIP = "inset(0px 0px 0px 0px round 0px)"
+
+
+def card_clip(fx, fy):
+    left = fx - CROP_W / 2; top = fy - CROP_H * 0.48
+    right = W - (left + CROP_W); bottom = H - (top + CROP_H)
+    return left, top, f"inset({top:.0f}px {right:.0f}px {bottom:.0f}px {left:.0f}px round {FC_R / FC_S:.0f}px)"
 PH_X, PH_Y, BEZ = 56, 300, 10                  # phone card
 SW = 452; SH = round(SW * 1920 / 888)          # phone screen size (screen recording aspect)
 K = SW / 888                                   # screen-recording px -> screen px
@@ -244,7 +252,7 @@ for i, (aid, f, tt, vol) in enumerate(sorted(SFX, key=lambda x: x[2])):
 # GSAP for root: punch-ins, PiP morph, phone in/out, zooms, ripples, share
 js = []
 cx0, cy0 = FACE["0399"]
-js.append(f'tl.set("#facewrap", {{x:0, y:0, scale:1, clipPath:"circle(1500px at {cx0}px {cy0}px)"}}, 0);')
+js.append(f'tl.set("#facewrap", {{x:0, y:0, scale:1, transformOrigin:"0px 0px", clipPath:"{FULL_CLIP}"}}, 0);')
 # #phone, #pipring and #ctacard start hidden through CSS (opacity:0); their first tween sets the rest
 punch = [1.0, 1.10, 1.0, 1.07, 1.0, 1.12]
 pi = 0
@@ -264,18 +272,19 @@ for mt, mode, sid in modes[1:]:
     t0 = max(0, mt - 0.18)
     holder = "#ctacard" if sid.startswith("c") else "#phone"
     if mode == "demo":
-        px = PIP_X + PIP_D / 2 - fx * PIP_SCALE; py = PIP_Y + PIP_D / 2 - fy * PIP_SCALE
-        js.append(f'tl.to("#facewrap", {{clipPath:"circle({PIP_R_SRC:.0f}px at {fx}px {fy}px)", x:{px:.1f}, y:{py:.1f}, scale:{PIP_SCALE}, '
+        left, top, clip = card_clip(fx, fy)
+        px = FC_X - left * FC_S; py = FC_Y - top * FC_S
+        js.append(f'tl.to("#facewrap", {{clipPath:"{clip}", x:{px:.1f}, y:{py:.1f}, scale:{FC_S:.4f}, '
                   f'transformOrigin:"0px 0px", duration:{TRANS}, ease:"power3.inOut"}}, {t0:.3f});')
         ir = "" if not seen.get("#pipring") else ", immediateRender:false"; seen["#pipring"] = 1
-        js.append(f'tl.fromTo("#pipring", {{opacity:0, scale:0.8}}, {{opacity:1, scale:1, duration:0.35, ease:"power2.out"{ir}}}, {t0 + 0.35:.3f});')
+        js.append(f'tl.fromTo("#pipring", {{opacity:0, scale:0.96}}, {{opacity:1, scale:1, duration:0.35, ease:"power2.out"{ir}}}, {t0 + 0.35:.3f});')
         ir = "" if not seen.get(holder) else ", immediateRender:false"; seen[holder] = 1
         js.append(f'tl.fromTo("{holder}", {{opacity:0, y:140, filter:"blur(10px)"}}, {{opacity:1, y:0, filter:"blur(0px)", duration:0.6, ease:"expo.out"{ir}}}, {t0 + 0.22:.3f});')
         last_holder = holder
     else:
         js.append(f'tl.to("{last_holder}", {{opacity:0, y:90, filter:"blur(8px)", duration:0.3, ease:"power3.in"}}, {t0:.3f});')
-        js.append(f'tl.to("#pipring", {{opacity:0, scale:0.9, duration:0.2, ease:"power2.in"}}, {t0:.3f});')
-        js.append(f'tl.to("#facewrap", {{clipPath:"circle(1500px at {fx}px {fy}px)", x:0, y:0, scale:1, duration:{TRANS}, ease:"power3.inOut"}}, {t0 + 0.05:.3f});')
+        js.append(f'tl.to("#pipring", {{opacity:0, duration:0.15, ease:"power2.in"}}, {t0:.3f});')
+        js.append(f'tl.to("#facewrap", {{clipPath:"{FULL_CLIP}", x:0, y:0, scale:1, duration:{TRANS}, ease:"power3.inOut"}}, {t0 + 0.05:.3f});')
 
 for i, (z0, z1, sc, cx, cy) in enumerate(ZOOMS):
     x = min(0, max(SW - SW * sc, SW / 2 - cx * sc)); y = min(0, max(SH - SH * sc, SH / 2 - cy * sc))
@@ -322,10 +331,10 @@ index = f"""<!doctype html>
       #facewrap {{ position:absolute; left:0; top:0; width:{W}px; height:{H}px; will-change:transform, clip-path; z-index:5; }}
       #phone, #pipring, #ctacard {{ opacity:0; }}
       #punch {{ position:absolute; inset:0; }}
-      #pipring {{ position:absolute; left:{PIP_X - 8}px; top:{PIP_Y - 8}px; width:{PIP_D + 16}px; height:{PIP_D + 16}px; border-radius:50%;
-              border:6px solid transparent; z-index:6;
-              background: linear-gradient(var(--ink), var(--ink)) padding-box, conic-gradient(from 200deg, var(--mint), var(--brand2), var(--brand), var(--mint)) border-box;
-              -webkit-mask: radial-gradient(circle, transparent {PIP_D / 2}px, #000 {PIP_D / 2 + 1}px); mask: radial-gradient(circle, transparent {PIP_D / 2}px, #000 {PIP_D / 2 + 1}px); }}
+      #pipring {{ position:absolute; left:{FC_X - 7}px; top:{FC_Y - 7}px; width:{FC_W + 14}px; height:{FC_H + 14}px; border-radius:{FC_R + 7}px;
+              padding:6px; z-index:6; background:linear-gradient(150deg, #FFD08A, var(--mint) 40%, var(--brand2));
+              -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+              box-shadow: 0 30px 80px rgba(0,0,0,.45); }}
       #phone {{ position:absolute; left:{PH_X}px; top:{PH_Y}px; width:{SW + 2 * BEZ}px; height:{SH + 2 * BEZ}px; border-radius:58px; padding:{BEZ}px;
               background:linear-gradient(160deg,#2A2F55,#0B0E24); z-index:7;
               box-shadow: 0 0 0 2px rgba(255,255,255,.12), 0 40px 90px rgba(0,0,0,.55), 0 0 120px rgba(37,28,252,.45); }}
@@ -418,7 +427,7 @@ hw = B["hook_words"]
 line1, line2 = ["Kau", "tahu", "tak,", "sekarang", "ni", "boleh", "buka", "akaun", "bank"], []
 head_words = [("Boleh", "boleh"), ("buka", "buka"), ("akaun", "bank"), ("bank", "bank"), ("tanpa", "tanpa"), ("pergi", "pergi"),
               ("cawangan?", "kecawangan")]
-times = {w.strip(",.?!").lower(): t_ for t_, w in hw}
+times = {w["w"].strip(",.?! ").lower(): at("h1", w["s"]) for w in words_raw["IMG_0399"] if w["s"] < 4.18}
 spans = []
 for i, (txt, key) in enumerate(head_words):
     cls = ' class="hl"' if txt in ("tanpa",) else ""
@@ -542,7 +551,7 @@ for gi, g in enumerate(groups):
         g1 = min(g1, groups[gi + 1][0][0] - 0.06)
     mode, sid = g[0][3], g[0][4]
     if mode == "demo":
-        style = "left:560px;width:400px;top:600px;text-align:left"
+        style = f"left:{FC_X}px;width:{950 - FC_X}px;top:{FC_Y + FC_H + 26}px;text-align:left"
         cls = "cg demo"
     else:
         style = f"left:0;width:{W}px;top:{FACE_CAP_Y.get(sid, FACE_CAP_Y['default'])}px;text-align:center"
