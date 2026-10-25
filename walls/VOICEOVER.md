@@ -49,7 +49,7 @@ Fail dari Google Drive. Setiap fail dibersihkan (highpass, denoise ringan, compr
 
 | Fail | Ayat (transcribe) | Mula dalam video | Teks atas skrin |
 | --- | --- | --- | --- |
-| Penatnye.m4a | "Penatnya..." | 0.35 s | Penatnya... |
+| Penatnye.m4a | "Penatnya..." | 0.35 s | POV: Survived another hectic week 😮‍💨 |
 | Masa utk self reward.m4a | "Masa untuk self reward." | 3.07 s | Masa untuk self reward! |
 | Eh kejap.m4a | "Eh kejap, ada jeli." | 7.63 s | Eh, kejap... ada jeli?! |
 | Ok ni lain mcm.m4a | "Okay ni lain macam." | 14.45 s (lepas hentakan WOW) | Okay, ni lain macam! |

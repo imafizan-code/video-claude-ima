@@ -70,8 +70,12 @@
       stroke-linejoin: round;
       filter: drop-shadow(0 3px 0 rgba(194, 24, 126, 0.9));
     }
-    #b1-band { top: 1190px; }
-    #b1-text { font-size: 168px; }
+    @font-face { font-family: "Noto Color Emoji"; src: local("Noto Color Emoji"); }
+    #b1-band { top: 1185px; }
+    #b1-l1 { font-size: 88px; }
+    #b1-l2 { font-size: 124px; margin-top: 2px; }
+    #b1-pov { color: var(--lemon); }
+    .b1-emoji { font-family: "Noto Color Emoji"; -webkit-text-stroke: 0; paint-order: normal; text-shadow: none; font-size: 0.82em; margin-left: 12px; display: inline-block; vertical-align: 0.04em; }
     /* Thought cloud sits in the empty sky above her head (face y 670-975 in IMG_0290) */
     #b1-cloud { left: 370px; top: 270px; width: 470px; height: 270px; }
     #b1-tangle { left: 470px; top: 320px; width: 270px; height: 170px; }
@@ -86,7 +90,12 @@
   </style>
   <div id="root" data-composition-id="b1" data-width="1080" data-height="1920">
     <div id="b1-all" class="clip" data-start="0" data-duration="2.95" data-layout-allow-overlap>
-      <div id="b1-band" class="band"><div id="b1-text" class="hand">Penatnya...</div></div>
+      <div id="b1-band" class="band">
+        <div id="b1-text">
+          <div id="b1-l1" class="hand"><span id="b1-pov">POV:</span> Survived another</div>
+          <div id="b1-l2" class="hand">hectic week<span class="b1-emoji">&#x1F62E;&#x200D;&#x1F4A8;</span></div>
+        </div>
+      </div>
       <svg id="b1-cloud" class="doodle" viewBox="0 0 470 270"><path pathLength="1" d="M90 210 C30 210 20 140 70 125 C55 70 120 40 165 70 C185 20 265 15 290 60 C330 25 410 45 405 105 C455 115 460 195 400 205 C390 245 320 250 295 222 C260 255 190 255 165 222 C140 245 95 240 90 210 Z" /></svg>
       <svg id="b1-tangle" class="doodle" viewBox="0 0 270 170"><path pathLength="1" d="M20 90 C40 20 110 30 100 80 C90 130 30 120 60 70 C90 20 170 30 160 90 C150 150 80 140 110 85 C140 30 230 40 225 95 C220 150 150 140 175 95 C195 60 245 70 250 100" /></svg>
       <svg id="b1-dots" class="doodle" viewBox="0 0 90 90"><path pathLength="1" d="M20 70 C14 70 14 60 20 60 C26 60 26 70 20 70 Z M55 40 C47 40 47 27 55 27 C63 27 63 40 55 40 Z" /></svg>
