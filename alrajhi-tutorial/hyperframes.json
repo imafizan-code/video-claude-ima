@@ -8,5 +8,22 @@
   },
   "media": {
     "autoProxy": true
-  }
+  },
+  "registryItems": [
+    {
+      "name": "camera-shake",
+      "type": "hyperframes:component",
+      "target": "compositions/components/camera-shake.html"
+    },
+    {
+      "name": "beat-accent",
+      "type": "hyperframes:component",
+      "target": "compositions/components/beat-accent.html"
+    },
+    {
+      "name": "editorial-flash-overlay",
+      "type": "hyperframes:block",
+      "target": "compositions/editorial-flash-overlay.html"
+    }
+  ]
 }

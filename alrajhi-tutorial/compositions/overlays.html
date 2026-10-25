@@ -11,6 +11,7 @@
             -webkit-text-stroke:14px #111; paint-order:stroke fill; letter-spacing:-.01em; filter: drop-shadow(0 8px 16px rgba(0,0,0,.35)); }
     .big.right { left:330px; right:30px; }
     .bw { display:inline-block; }
+    .bw.box { background:#FF3B30; color:#fff; -webkit-text-stroke:0; padding:2px 18px 8px; border-radius:14px; border:7px solid #111; margin-right:6px; }
     .lime { color:#E8FF3A; }
     .red { color:#FF3B30; }
     .tag { position:absolute; left:40px; top:196px; padding:12px 22px; border-radius:14px; background:#111; color:#fff; font:900 30px 'Montserrat', 'Inter', sans-serif;
@@ -31,7 +32,7 @@
     .tnc { position:absolute; left:0; right:0; top:1150px; text-align:center; font:800 28px 'Montserrat', 'Inter', sans-serif; color:#fff; -webkit-text-stroke:7px #111; paint-order:stroke fill; }
   </style>
   <div id="root" data-composition-id="overlays" data-width="1080" data-height="1920">
-    <div id="hook" class="clip big" data-start="0.000" data-duration="4.180" data-track-index="0" style="top:220px;font-size:94px"><span class="bw " id="hook-w0">BUKA</span> <span class="bw " id="hook-w1">AKAUN</span> <span class="bw lime" id="hook-w2">BANK</span><br><span class="bw red" id="hook-w3">TANPA</span> <span class="bw " id="hook-w4">PERGI</span> <span class="bw " id="hook-w5">CAWANGAN?</span></div>
+    <div id="hook" class="clip big" data-start="0.000" data-duration="4.180" data-track-index="0" style="top:220px;font-size:90px"><span class="bw " id="hook-w0">BUKA</span> <span class="bw " id="hook-w1">AKAUN</span> <span class="bw lime" id="hook-w2">BANK</span><br><span class="bw  box" id="hook-w3">TANPA</span> <span class="bw " id="hook-w4">PERGI</span> <span class="bw lime" id="hook-w5">CAWANGAN?</span></div>
     <div id="st-queue" class="clip st" data-start="4.730" data-duration="2.030" data-track-index="1" style="left:75px;top:300px;width:210px"><svg class="ic" viewBox="0 0 24 24"><circle cx="4.5" cy="6" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="19.5" cy="6" r="2"/><path d="M2 21v-8a2.5 2.5 0 0 1 5 0v8zm7.5 0v-8a2.5 2.5 0 0 1 5 0v8zm7.5 0v-8a2.5 2.5 0 0 1 5 0v8z"/></svg><svg class="x" viewBox="0 0 24 24"><path d="M4 4 20 20M20 4 4 20"/></svg></div>
     <div id="st-ticket" class="clip st" data-start="6.190" data-duration="0.570" data-track-index="2" style="left:795px;top:300px;width:210px"><svg class="ic" viewBox="0 0 24 24"><path d="M2 6h20v4a2 2 0 0 0 0 4v4H2v-4a2 2 0 0 0 0-4z"/><text x="12" y="15" text-anchor="middle" font-size="6.5" font-weight="900" fill="#fff" stroke="none">A12</text></svg><svg class="x" viewBox="0 0 24 24"><path d="M4 4 20 20M20 4 4 20"/></svg></div>
     <div id="how" class="clip big" data-start="6.760" data-duration="0.900" data-track-index="3" style="top:230px;font-size:96px"><span class="bw " id="how-w0">NAK</span> <span class="bw " id="how-w1">TAHU</span> <span class="bw " id="how-w2">MACAM</span><br><span class="bw lime" id="how-w3">MANA?</span></div>
@@ -72,9 +73,9 @@
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#hook-w3", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 2.200);
-    tl.fromTo("#hook-w4", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 3.120);
-    tl.fromTo("#hook-w5", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 3.320);
+    tl.fromTo("#hook-w3", {scale:2.8, opacity:0, rotation:-3, filter:"blur(12px)"}, {scale:1, opacity:1, rotation:-3, filter:"blur(0px)", duration:0.2, ease:"back.out(1.6)"}, 2.140);
+    tl.fromTo("#hook-w4", {scale:2.8, opacity:0, rotation:0, filter:"blur(12px)"}, {scale:1, opacity:1, rotation:0, filter:"blur(0px)", duration:0.2, ease:"back.out(1.6)"}, 3.060);
+    tl.fromTo("#hook-w5", {scale:2.8, opacity:0, rotation:0, filter:"blur(12px)"}, {scale:1, opacity:1, rotation:0, filter:"blur(0px)", duration:0.2, ease:"back.out(1.6)"}, 3.260);
     tl.to("#hook", {opacity:0, duration:0.12, ease:"power2.in"}, 4.040);
     tl.fromTo("#st-queue .ic", {scale:0.3, rotation:-12, opacity:0}, {scale:1, rotation:0, opacity:1, duration:0.35, ease:"back.out(2.2)"}, 4.730);
     tl.fromTo("#st-queue .x path", {strokeDashoffset:30}, {strokeDashoffset:0, duration:0.22, ease:"power2.out"}, 5.030);
@@ -123,11 +124,10 @@
     tl.fromTo("#manis-w0", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 28.570);
     tl.fromTo("#manis-w1", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 29.810);
     tl.fromTo("#manis-w2", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 30.170);
-    tl.fromTo("#manis-w3", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 30.730);
+    tl.fromTo("#manis-w3", {scale:2.8, opacity:0, rotation:0, filter:"blur(12px)"}, {scale:1, opacity:1, rotation:0, filter:"blur(0px)", duration:0.2, ease:"back.out(1.6)"}, 30.670);
     tl.to("#manis", {opacity:0, duration:0.12, ease:"power2.in"}, 32.830);
     tl.fromTo("#st-ok .ic", {scale:0.3, rotation:-12, opacity:0}, {scale:1, rotation:0, opacity:1, duration:0.35, ease:"back.out(2.2)"}, 32.870);
     tl.to("#st-ok", {opacity:0, scale:0.9, duration:0.14, ease:"power2.in"}, 33.490);
-    tl.to("#manis", {opacity:0, duration:0.1}, 32.850);
     tl.fromTo("#st-shield .ic", {scale:0.3, rotation:-12, opacity:0}, {scale:1, rotation:0, opacity:1, duration:0.35, ease:"back.out(2.2)"}, 34.840);
     tl.to("#st-shield", {opacity:0, scale:0.9, duration:0.14, ease:"power2.in"}, 36.970);
     tl.fromTo("#pidm-w0", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 35.630);
@@ -149,7 +149,7 @@
     tl.fromTo("#tdi-w2", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 44.970);
     tl.to("#tdi", {opacity:0, duration:0.12, ease:"power2.in"}, 45.370);
     tl.fromTo("#rate-w0", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 47.870);
-    tl.fromTo("#rate-w1", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 48.550);
+    tl.fromTo("#rate-w1", {scale:2.8, opacity:0, rotation:0, filter:"blur(12px)"}, {scale:1, opacity:1, rotation:0, filter:"blur(0px)", duration:0.2, ease:"back.out(1.6)"}, 48.490);
     tl.to("#rate", {opacity:0, duration:0.12, ease:"power2.in"}, 50.670);
     tl.fromTo("#st-cal .ic", {scale:0.3, rotation:-12, opacity:0}, {scale:1, rotation:0, opacity:1, duration:0.35, ease:"back.out(2.2)"}, 49.870);
     tl.fromTo("#st-cal .lab", {opacity:0, y:10}, {opacity:1, y:0, duration:0.2, ease:"power2.out"}, 50.020);
@@ -164,8 +164,8 @@
     tl.to("#code-card", {opacity:0, y:-20, duration:0.16, ease:"power2.in"}, 57.680);
     tl.fromTo("#st-piggy .ic", {scale:0.3, rotation:-12, opacity:0}, {scale:1, rotation:0, opacity:1, duration:0.35, ease:"back.out(2.2)"}, 57.660);
     tl.to("#st-piggy", {opacity:0, scale:0.9, duration:0.14, ease:"power2.in"}, 59.680);
-    tl.fromTo("#jom-w0", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 57.760);
-    tl.fromTo("#jom-w1", {scale:1.35, opacity:0}, {scale:1, opacity:1, duration:0.16, ease:"power3.out"}, 58.060);
+    tl.fromTo("#jom-w0", {scale:2.8, opacity:0, rotation:0, filter:"blur(12px)"}, {scale:1, opacity:1, rotation:0, filter:"blur(0px)", duration:0.2, ease:"back.out(1.6)"}, 57.700);
+    tl.fromTo("#jom-w1", {scale:2.8, opacity:0, rotation:0, filter:"blur(12px)"}, {scale:1, opacity:1, rotation:0, filter:"blur(0px)", duration:0.2, ease:"back.out(1.6)"}, 58.000);
     tl.to("#jom", {opacity:0, duration:0.12, ease:"power2.in"}, 59.700);
     tl.set("#jom", {opacity:1}, 59.640);
     window.__timelines["overlays"] = tl;

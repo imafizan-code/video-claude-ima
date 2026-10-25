@@ -142,7 +142,8 @@ for i, w in enumerate(CAP):
     cur.append(w)
     nxt = CAP[i + 1] if i + 1 < len(CAP) else None
     chars = sum(len(x[2]) + 1 for x in cur)
-    if (nxt is None or re.search(r"[,.?!]$", w[2]) or len(cur) >= 5 or chars > 24 or (nxt and nxt[0] - w[1] > 0.3)):
+    crosses_cut = nxt is not None and any(w[0] < c <= nxt[0] + 0.05 for c in (CUT_IN, CUT_OUT))
+    if (nxt is None or re.search(r"[,.?!]$", w[2]) or len(cur) >= 5 or chars > 24 or (nxt and nxt[0] - w[1] > 0.3) or crosses_cut):
         groups.append(cur); cur = []
 
 LIME = {"my", "alrajhi", "duitplus", "savings", "account-i", "td-i", "advantage", "campaign", "referral", "code",
@@ -283,13 +284,13 @@ def sticker(id_, icon, slot, t0, t1, y=300, size=210, cross=False, label=None):
     SFX.append((f"sx-{id_}", "pop", t0 + 0.06, 0.24))
 
 
-def bigtext(id_, lines, t0, t1, top=230, size=96, word_times=None):
+def bigtext(id_, lines, t0, t1, top=230, size=96, word_times=None, slam=(), box=()):
     """Stacked emphasis type. lines = [[(word, tone), ...], ...]; words pop in on word_times (else all at t0)."""
     spans, k = [], 0
     for line in lines:
         ws = []
         for wtxt, tn in line:
-            ws.append(f'<span class="bw {tn}" id="{id_}-w{k}">{wtxt}</span>'); k += 1
+            ws.append(f'<span class="bw {tn}{" box" if k in box else ""}" id="{id_}-w{k}">{wtxt}</span>'); k += 1
         spans.append(" ".join(ws))
     OV.append(f'<div id="{id_}" class="clip big" data-start="{t0:.3f}" data-duration="{t1 - t0:.3f}" data-track-index="{len(OV) % 4}" '
               f'style="top:{top}px;font-size:{size}px">{"<br>".join(spans)}</div>')
@@ -297,7 +298,12 @@ def bigtext(id_, lines, t0, t1, top=230, size=96, word_times=None):
         wt = word_times[i] if word_times else t0
         if wt <= 0.001:
             continue                                          # on screen from frame 0: the hook is already there
-        OJS.append(f'tl.fromTo("#{id_}-w{i}", {{scale:1.35, opacity:0}}, {{scale:1, opacity:1, duration:0.16, ease:"power3.out"}}, {wt:.3f});')
+        if i in slam:                                         # lands like a hit: huge and blurred to its place
+            rot = -3 if i in box else 0
+            OJS.append(f'tl.fromTo("#{id_}-w{i}", {{scale:2.8, opacity:0, rotation:{rot}, filter:"blur(12px)"}}, '
+                       f'{{scale:1, opacity:1, rotation:{rot}, filter:"blur(0px)", duration:0.2, ease:"back.out(1.6)"}}, {wt - 0.06:.3f});')
+        else:
+            OJS.append(f'tl.fromTo("#{id_}-w{i}", {{scale:1.35, opacity:0}}, {{scale:1, opacity:1, duration:0.16, ease:"power3.out"}}, {wt:.3f});')
     OJS.append(f'tl.to("#{id_}", {{opacity:0, duration:0.12, ease:"power2.in"}}, {t1 - 0.14:.3f});')
 
 
@@ -317,9 +323,9 @@ def tag(id_, text, t0, t1):
 
 wt = word_time
 # hook: the opening line is already on screen at frame 0, the rest lands with the voice
-bigtext("hook", [[("BUKA", ""), ("AKAUN", ""), ("BANK", "lime")], [("TANPA", "red"), ("PERGI", ""), ("CAWANGAN?", "")]],
-        0, seg_end("h1"), top=220, size=94,
-        word_times=[0, 0, 0, wt("h1", "tanpa"), wt("h1", "pergi"), wt("h1", "ke c")])
+bigtext("hook", [[("BUKA", ""), ("AKAUN", ""), ("BANK", "lime")], [("TANPA", ""), ("PERGI", ""), ("CAWANGAN?", "lime")]],
+        0, seg_end("h1"), top=220, size=90,
+        word_times=[0, 0, 0, wt("h1", "tanpa"), wt("h1", "pergi"), wt("h1", "ke c")], slam=(3, 4, 5), box=(3,))
 sticker("st-queue", "queue", "L", wt("h2", "beratur") - 0.05, seg_end("h2"), cross=True)
 sticker("st-ticket", "ticket", "R", wt("h2", "giliran") - 0.15, seg_end("h2"), cross=True)
 bigtext("how", [[("NAK", ""), ("TAHU", ""), ("MACAM", "")], [("MANA?", "lime")]], SEG["h3"]["start"], seg_end("h3"), top=230, size=96,
@@ -355,11 +361,10 @@ sticker("st-kwn", "people", "R", wt("s4b", "kawan") - 0.05, seg_end("s4b"), labe
 
 sticker("st-gift", "gift", "L", wt("r1b", "manis") - 0.1, seg_end("r1b"), y=300)
 bigtext("manis", [[("DUA-DUA", "")], [("DAPAT", "")], [("MANIS-MANIS", "lime")], [("RM10", "red")]], wt("r1b", "kedua") - 0.05, wt("r1b", "diaktifkan"),
-        top=210, size=78, word_times=[wt("r1b", "kedua"), wt("r1b", "dapat"), wt("r1b", "manis"), wt("r1b", "RM10")])
+        top=210, size=78, word_times=[wt("r1b", "kedua"), wt("r1b", "dapat"), wt("r1b", "manis"), wt("r1b", "RM10")], slam=(3,))
 OV[-1] = OV[-1].replace('class="clip big"', 'class="clip big right"')
 OV.append(f'<div id="tnc" class="clip tnc" style="top:548px;left:330px;right:30px" data-start="{wt("r1b", "manis"):.3f}" data-duration="{seg_end("r1b") - wt("r1b", "manis"):.3f}" data-track-index="2">*T&amp;C APPLIED</div>')
 sticker("st-ok", "check", "C", wt("r1b", "diaktifkan") - 0.1, seg_end("r1b"), y=270, size=230)
-OJS.append(f'tl.to("#manis", {{opacity:0, duration:0.1}}, {wt("r1b", "diaktifkan") - 0.12:.3f});')
 
 sticker("st-shield", "shield", "L", wt("p1", "selamat") - 0.05, seg_end("p1"), y=290, size=230)
 bigtext("pidm", [[("DILINDUNGI", "")], [("PIDM", "lime")]], wt("p1", "dilindungi") - 0.05, seg_end("p1"), top=300, size=96,
@@ -375,7 +380,7 @@ bigtext("tdi", [[("TD-I", "lime"), ("ADVANTAGE", "lime")], [("CAMPAIGN", "lime")
         top=250, size=92, word_times=[wt("t1a", "TD"), wt("t1a", "Advantage"), wt("t1a", "Campaign")])
 RATE_T = wt("t1b", "4")
 bigtext("rate", [[("SEHINGGA", "")], [("4%", "red")]], wt("t1b", "sehingga") - 0.05, seg_end("t2"), top=220, size=104,
-        word_times=[wt("t1b", "sehingga"), RATE_T])
+        word_times=[wt("t1b", "sehingga"), RATE_T], slam=(1,))
 OV[-1] = OV[-1].replace('class="clip big"', 'class="clip big right"').replace('>4%<', ' style="font-size:150px">4%<')
 SFX.append(("sx-rate", "ping", RATE_T + 0.05, 0.3))
 sticker("st-cal", "calendar", "L", wt("t2", "12") - 0.1, seg_end("t2"), y=280, size=230, label="12 BULAN")
@@ -391,7 +396,7 @@ card("code-card", '<div class="lbl">Referral code</div><div class="field"><span>
 
 sticker("st-piggy", "piggy", "C", SEG["e1"]["start"] + 0.1, TOTAL, y=250, size=250)
 bigtext("jom", [[("JOM", "")], [("MENABUNG!", "lime")]], SEG["e1"]["start"] + 0.15, TOTAL, top=560, size=120,
-        word_times=[SEG["e1"]["start"] + 0.2, SEG["e1"]["start"] + 0.5])
+        word_times=[SEG["e1"]["start"] + 0.2, SEG["e1"]["start"] + 0.5], slam=(0, 1))
 OJS.append(f'tl.set("#jom", {{opacity:1}}, {TOTAL - 0.2:.3f});')
 
 overlays = f"""<template>
@@ -407,6 +412,7 @@ overlays = f"""<template>
             -webkit-text-stroke:14px #111; paint-order:stroke fill; letter-spacing:-.01em; filter: drop-shadow(0 8px 16px rgba(0,0,0,.35)); }}
     .big.right {{ left:330px; right:30px; }}
     .bw {{ display:inline-block; }}
+    .bw.box {{ background:#FF3B30; color:#fff; -webkit-text-stroke:0; padding:2px 18px 8px; border-radius:14px; border:7px solid #111; margin-right:6px; }}
     .lime {{ color:#E8FF3A; }}
     .red {{ color:#FF3B30; }}
     .tag {{ position:absolute; left:40px; top:196px; padding:12px 22px; border-radius:14px; background:#111; color:#fff; font:900 30px {FONT};
@@ -445,7 +451,10 @@ for gi, g in enumerate(groups):
     if gi + 1 < len(groups):
         g1 = min(g1, groups[gi + 1][0][0] - 0.04)
     words = " ".join(f'<span class="w {tone(w[2])}" id="cw{gi}_{wi}">{w[2].upper()}</span>' for wi, w in enumerate(g))
-    top = " top" if CUT_IN - 0.05 <= g0 < CUT_OUT else ""
+    w0 = g[0][0]
+    if w0 >= CUT_OUT - 0.001:
+        g0 = max(g0, CUT_OUT)                    # a line after the cut back never starts on the recording
+    top = " top" if CUT_IN - 0.001 <= w0 < CUT_OUT - 0.001 else ""
     CG.append(f'<div id="cg{gi}" class="clip cg{top}" data-start="{g0:.3f}" data-duration="{g1 - g0:.3f}" data-track-index="0"><div class="ln">{words}</div></div>')
     for wi, w in enumerate(g):
         CJS.append(f'tl.fromTo("#cw{gi}_{wi}", {{opacity:0, y:12, scale:1.15}}, {{opacity:1, y:0, scale:1, duration:0.1, ease:"power2.out"}}, {max(g0, w[0] - 0.03):.3f});')
@@ -474,13 +483,49 @@ captions = f"""<template>
 """
 open(os.path.join(ROOT, "compositions", "captions.html"), "w").write(captions)
 
+# ---- hits: a short camera shake, a zoom bump and a white pop on the face plate, with an impact
+SHAKE = [(1, -0.6, 1), (-0.85, 0.9, -1), (0.6, -0.5, 0.6), (-0.35, 0.3, -0.4), (0.15, -0.12, 0.2), (0, 0, 0)]
+FLASH_N = [0]
+
+
+def hit(t0, amp=16, zoom=1.08, flash=0.45, sfx=("impact-bass-2", 0.32)):
+    for i, (dx, dy, dr) in enumerate(SHAKE):
+        js.append(f'tl.to("#facewrap", {{x:{dx * amp:.1f}, y:{dy * amp * 0.6:.1f}, rotation:{dr * amp / 14:.2f}, duration:0.045, ease:"none"}}, {t0 + i * 0.045:.3f});')
+    if zoom:
+        js.append(f'tl.to("#facewrap", {{scale:{zoom}, duration:0.06, ease:"power2.out"}}, {t0:.3f});')
+        js.append(f'tl.to("#facewrap", {{scale:1, duration:0.38, ease:"power3.out"}}, {t0 + 0.06:.3f});')
+    if flash:
+        js.append(f'tl.set("#pop", {{opacity:{flash}}}, {t0:.3f});')
+        js.append(f'tl.to("#pop", {{opacity:0, duration:0.22, ease:"power2.out"}}, {t0 + 0.01:.3f});')
+    if sfx:
+        SFX.append((f"sx-hit{len(SFX)}", sfx[0], t0 - 0.01, sfx[1]))
+
+
+js.append('tl.set("#facewrap", {transformOrigin:"540px 900px"}, 0);')
+HOOK_T = wt("h1", "tanpa")
+hit(HOOK_T, amp=24, zoom=1.14, flash=0, sfx=("impact-bass-1", 0.42))          # the registry flash carries this one
+hit(wt("h1", "ke c"), amp=16, zoom=1.07, flash=0.35, sfx=("impact-bass-2", 0.3))
+hit(wt("r1b", "RM10"), amp=14, zoom=1.06, flash=0.35)
+hit(RATE_T, amp=14, zoom=1.06, flash=0.35, sfx=("impact-bass-2", 0.26))
+hit(SEG["e1"]["start"] + 0.5, amp=12, zoom=1.05, flash=0.3)
+js.append(f'tl.set("#pop", {{opacity:0.75}}, {CUT_IN:.3f}); tl.to("#pop", {{opacity:0, duration:0.2, ease:"power2.out"}}, {CUT_IN + 0.01:.3f});')
+FLASH_D = 0.6
+FLASH_START = HOOK_T - FLASH_D * 0.58                                           # the block peaks at 58% of its slot
+SFX.append(("sx-hook-wh", "whoosh-short", HOOK_T - 0.3, 0.22))
+
 # ---- audio tags (after the overlays added their own sounds)
-DUR = {"click-soft": 0.366, "whoosh-short": 0.575, "sparkle": 1.8, "pop": 0.72, "chime": 2.5, "ping": 1.32}
+DUR = {"click-soft": 0.366, "whoosh-short": 0.575, "sparkle": 1.8, "pop": 0.72, "chime": 2.5, "ping": 1.32,
+       "impact-bass-1": 2.12, "impact-bass-2": 2.59}
 audio = [f'<audio id="music" class="clip" data-start="0" data-duration="{TOTAL:.3f}" data-track-index="8" src="assets/music/bed.mp3" '
          f'data-media-start="10" data-volume="0.12" data-fade-in="0.4" data-fade-out="1.4"></audio>']
+lane_free = []                                       # first-fit lanes so no two sounds share a track while playing
 for i, (aid, f, tt, vol) in enumerate(sorted(SFX, key=lambda x: x[2])):
     d = min(DUR[f], TOTAL - tt - 0.01)
-    audio.append(f'<audio id="{aid}" class="clip" data-start="{tt:.3f}" data-duration="{d:.3f}" data-track-index="{9 + i % 3}" '
+    lane = next((k for k, free in enumerate(lane_free) if free <= tt), None)
+    if lane is None:
+        lane_free.append(0); lane = len(lane_free) - 1
+    lane_free[lane] = tt + d
+    audio.append(f'<audio id="{aid}" class="clip" data-start="{tt:.3f}" data-duration="{d:.3f}" data-track-index="{9 + lane}" '
                  f'src="assets/sfx/{f}.mp3" data-volume="{vol}"></audio>')
 
 index = f"""<!doctype html>
@@ -506,6 +551,7 @@ index = f"""<!doctype html>
       .ring {{ position:absolute; overflow:visible; z-index:19; }}
       .ring path {{ fill:none; stroke:#FF3B30; stroke-width:9; stroke-linecap:round; stroke-dasharray:100; stroke-dashoffset:100; }}
       #dim {{ position:absolute; inset:0; z-index:9; background:#000; opacity:0; }}
+      #pop {{ position:absolute; inset:0; z-index:12; background:#FFF8EE; opacity:0; pointer-events:none; }}
     </style>
   </head>
   <body>
@@ -520,6 +566,10 @@ index = f"""<!doctype html>
         </div></div>
       </div>
       <div id="dim"></div>
+      <div id="pop"></div>
+      <div id="flash-hook" data-composition-id="editorial-flash-overlay" data-composition-src="compositions/editorial-flash-overlay.html"
+           data-track-kind="graphics" data-start="{FLASH_START:.3f}" data-duration="{FLASH_D}" data-track-index="7" data-width="{W}" data-height="{H}"
+           style="position:absolute;inset:0;z-index:13"></div>
       <div id="overlays" data-composition-id="overlays" data-composition-src="compositions/overlays.html" data-track-kind="graphics"
            data-start="0" data-duration="{TOTAL:.3f}" data-track-index="5" data-width="{W}" data-height="{H}" style="z-index:30"></div>
       <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-track-kind="captions"

@@ -21,6 +21,7 @@
       .ring { position:absolute; overflow:visible; z-index:19; }
       .ring path { fill:none; stroke:#FF3B30; stroke-width:9; stroke-linecap:round; stroke-dasharray:100; stroke-dashoffset:100; }
       #dim { position:absolute; inset:0; z-index:9; background:#000; opacity:0; }
+      #pop { position:absolute; inset:0; z-index:12; background:#FFF8EE; opacity:0; pointer-events:none; }
     </style>
   </head>
   <body>
@@ -57,42 +58,50 @@
         </div></div>
       </div>
       <div data-hf-id="hf-6pf9" id="dim"></div>
+      <div data-hf-id="hf-mnri" id="pop"></div>
+      <div data-hf-id="hf-20ax" id="flash-hook" data-composition-id="editorial-flash-overlay" data-composition-src="compositions/editorial-flash-overlay.html" data-track-kind="graphics" data-start="1.852" data-duration="0.6" data-track-index="7" data-width="1080" data-height="1920" style="position:absolute;inset:0;z-index:13"></div>
       <div data-hf-id="hf-zk2c" id="overlays" data-composition-id="overlays" data-composition-src="compositions/overlays.html" data-track-kind="graphics" data-start="0" data-duration="59.840" data-track-index="5" data-width="1080" data-height="1920" style="z-index:30"></div>
       <div data-hf-id="hf-ti3u" id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-track-kind="captions" data-start="0" data-duration="59.840" data-track-index="6" data-width="1080" data-height="1920" style="z-index:40"></div>
       <audio data-hf-id="hf-id5a" id="vo-s2a" class="clip" data-start="11.680" data-duration="2.120" data-track-index="2" src="assets/face/f0424.mp4" data-media-start="0.000" data-volume="1"></audio>
       <audio data-hf-id="hf-1872" id="vo-s2b" class="clip" data-start="13.800" data-duration="2.060" data-track-index="2" src="assets/face/f0424.mp4" data-media-start="2.440" data-volume="1"></audio>
       <audio data-hf-id="hf-5h3p" id="music" class="clip" data-start="0" data-duration="59.840" data-track-index="8" src="assets/music/bed.mp3" data-media-start="10" data-volume="0.12" data-fade-in="0.4" data-fade-out="1.4"></audio>
-      <audio data-hf-id="hf-lhao" id="sx-st-queue" class="clip" data-start="4.790" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-ztpg" id="sx-st-ticket" class="clip" data-start="6.250" data-duration="0.720" data-track-index="10" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-zdsv" id="sx-st-dl" class="clip" data-start="8.650" data-duration="0.720" data-track-index="11" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-h7mk" id="sx-hook-wh" class="clip" data-start="1.900" data-duration="0.575" data-track-index="9" src="assets/sfx/whoosh-short.mp3" data-volume="0.22"></audio>
+      <audio data-hf-id="hf-fkmt" id="sx-hit31" class="clip" data-start="2.190" data-duration="2.120" data-track-index="10" src="assets/sfx/impact-bass-1.mp3" data-volume="0.42"></audio>
+      <audio data-hf-id="hf-qq44" id="sx-hit32" class="clip" data-start="3.310" data-duration="2.590" data-track-index="9" src="assets/sfx/impact-bass-2.mp3" data-volume="0.3"></audio>
+      <audio data-hf-id="hf-fozq" id="sx-st-queue" class="clip" data-start="4.790" data-duration="0.720" data-track-index="10" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-7vyg" id="sx-st-ticket" class="clip" data-start="6.250" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-30i2" id="sx-st-dl" class="clip" data-start="8.650" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
       <audio data-hf-id="hf-1eza" id="sx-logo" class="clip" data-start="9.560" data-duration="1.800" data-track-index="9" src="assets/sfx/sparkle.mp3" data-volume="0.32"></audio>
       <audio data-hf-id="hf-9is1" id="sx-cutin" class="clip" data-start="10.530" data-duration="0.575" data-track-index="10" src="assets/sfx/whoosh-short.mp3" data-volume="0.26"></audio>
-      <audio data-hf-id="hf-v372" id="sx-tap0" class="clip" data-start="11.513" data-duration="0.366" data-track-index="11" src="assets/sfx/click-soft.mp3" data-volume="0.42"></audio>
+      <audio data-hf-id="hf-r513" id="sx-tap0" class="clip" data-start="11.513" data-duration="0.366" data-track-index="9" src="assets/sfx/click-soft.mp3" data-volume="0.42"></audio>
       <audio data-hf-id="hf-jj8a" id="sx-tap1" class="clip" data-start="12.663" data-duration="0.366" data-track-index="9" src="assets/sfx/click-soft.mp3" data-volume="0.5"></audio>
-      <audio data-hf-id="hf-qi8z" id="sx-tap2" class="clip" data-start="13.742" data-duration="0.366" data-track-index="10" src="assets/sfx/click-soft.mp3" data-volume="0.42"></audio>
-      <audio data-hf-id="hf-mt0m" id="sx-tap3" class="clip" data-start="14.277" data-duration="0.366" data-track-index="11" src="assets/sfx/click-soft.mp3" data-volume="0.5"></audio>
+      <audio data-hf-id="hf-dh5z" id="sx-tap2" class="clip" data-start="13.742" data-duration="0.366" data-track-index="9" src="assets/sfx/click-soft.mp3" data-volume="0.42"></audio>
+      <audio data-hf-id="hf-7zy5" id="sx-tap3" class="clip" data-start="14.277" data-duration="0.366" data-track-index="9" src="assets/sfx/click-soft.mp3" data-volume="0.5"></audio>
       <audio data-hf-id="hf-1a9s" id="sx-tap4" class="clip" data-start="15.493" data-duration="0.366" data-track-index="9" src="assets/sfx/click-soft.mp3" data-volume="0.42"></audio>
       <audio data-hf-id="hf-kpf4" id="sx-cutout" class="clip" data-start="15.810" data-duration="0.575" data-track-index="10" src="assets/sfx/whoosh-short.mp3" data-volume="0.2"></audio>
-      <audio data-hf-id="hf-wtuh" id="sx-st-wallet" class="clip" data-start="16.120" data-duration="0.720" data-track-index="11" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-prk6" id="sx-st-wallet" class="clip" data-start="16.120" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
       <audio data-hf-id="hf-jbit" id="sx-st-toggle" class="clip" data-start="18.890" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
       <audio data-hf-id="hf-un7s" id="sx-on" class="clip" data-start="19.030" data-duration="2.500" data-track-index="10" src="assets/sfx/chime.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-8twa" id="sx-ref-card" class="clip" data-start="22.340" data-duration="0.575" data-track-index="11" src="assets/sfx/whoosh-short.mp3" data-volume="0.18"></audio>
+      <audio data-hf-id="hf-ee53" id="sx-ref-card" class="clip" data-start="22.340" data-duration="0.575" data-track-index="9" src="assets/sfx/whoosh-short.mp3" data-volume="0.18"></audio>
       <audio data-hf-id="hf-qp56" id="sx-st-share" class="clip" data-start="24.530" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
       <audio data-hf-id="hf-lip1" id="sx-st-fam" class="clip" data-start="25.230" data-duration="0.720" data-track-index="10" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-vjko" id="sx-st-kwn" class="clip" data-start="26.190" data-duration="0.720" data-track-index="11" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-2o51" id="sx-st-kwn" class="clip" data-start="26.190" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
       <audio data-hf-id="hf-4mes" id="sx-st-gift" class="clip" data-start="30.130" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-nt0m" id="sx-st-ok" class="clip" data-start="32.930" data-duration="0.720" data-track-index="10" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-rhar" id="sx-st-shield" class="clip" data-start="34.900" data-duration="0.720" data-track-index="11" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-6mga" id="sx-hit33" class="clip" data-start="30.720" data-duration="2.590" data-track-index="10" src="assets/sfx/impact-bass-2.mp3" data-volume="0.32"></audio>
+      <audio data-hf-id="hf-toje" id="sx-st-ok" class="clip" data-start="32.930" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-rgwc" id="sx-st-shield" class="clip" data-start="34.900" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
       <audio data-hf-id="hf-6jkc" id="sx-st-house" class="clip" data-start="38.990" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-p2th" id="sx-st-rings" class="clip" data-start="39.830" data-duration="0.720" data-track-index="10" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-mk4v" id="sx-st-plane" class="clip" data-start="40.690" data-duration="0.720" data-track-index="11" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-8pes" id="sx-rate" class="clip" data-start="48.600" data-duration="1.320" data-track-index="9" src="assets/sfx/ping.mp3" data-volume="0.3"></audio>
+      <audio data-hf-id="hf-3u9h" id="sx-st-rings" class="clip" data-start="39.830" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-224w" id="sx-st-plane" class="clip" data-start="40.690" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-rzid" id="sx-hit34" class="clip" data-start="48.540" data-duration="2.590" data-track-index="9" src="assets/sfx/impact-bass-2.mp3" data-volume="0.26"></audio>
+      <audio data-hf-id="hf-pve0" id="sx-rate" class="clip" data-start="48.600" data-duration="1.320" data-track-index="10" src="assets/sfx/ping.mp3" data-volume="0.3"></audio>
       <audio data-hf-id="hf-h6ka" id="sx-st-cal" class="clip" data-start="49.930" data-duration="0.720" data-track-index="10" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-4nnj" id="sx-st-wait" class="clip" data-start="50.920" data-duration="0.720" data-track-index="11" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-0272" id="sx-st-wait" class="clip" data-start="50.920" data-duration="0.720" data-track-index="10" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
       <audio data-hf-id="hf-gk0k" id="sx-st-dl2" class="clip" data-start="51.780" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-jw8g" id="sx-st-toggle2" class="clip" data-start="53.540" data-duration="0.720" data-track-index="10" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
-      <audio data-hf-id="hf-z8gr" id="sx-code-card" class="clip" data-start="56.070" data-duration="0.575" data-track-index="11" src="assets/sfx/whoosh-short.mp3" data-volume="0.18"></audio>
+      <audio data-hf-id="hf-n1c0" id="sx-st-toggle2" class="clip" data-start="53.540" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-96iy" id="sx-code-card" class="clip" data-start="56.070" data-duration="0.575" data-track-index="9" src="assets/sfx/whoosh-short.mp3" data-volume="0.18"></audio>
       <audio data-hf-id="hf-6v62" id="sx-st-piggy" class="clip" data-start="57.720" data-duration="0.720" data-track-index="9" src="assets/sfx/pop.mp3" data-volume="0.24"></audio>
+      <audio data-hf-id="hf-emk6" id="sx-hit35" class="clip" data-start="58.050" data-duration="1.780" data-track-index="10" src="assets/sfx/impact-bass-2.mp3" data-volume="0.32"></audio>
     </div>
     <script>
       window.__timelines = window.__timelines || {};
@@ -151,6 +160,56 @@
       tl.fromTo("#rp4 b", {scale:1.25, opacity:0}, {scale:0.85, opacity:0.95, duration:0.1, ease:"power2.out"}, 15.360);
       tl.to("#rp4 b", {scale:1, opacity:0, duration:0.22, ease:"power2.in"}, 15.540);
       tl.fromTo("#dim", {opacity:0}, {opacity:0.62, duration:0.4, ease:"power2.out"}, 57.760);
+      tl.set("#facewrap", {transformOrigin:"540px 900px"}, 0);
+      tl.to("#facewrap", {x:24.0, y:-8.6, rotation:1.71, duration:0.045, ease:"none"}, 2.200);
+      tl.to("#facewrap", {x:-20.4, y:13.0, rotation:-1.71, duration:0.045, ease:"none"}, 2.245);
+      tl.to("#facewrap", {x:14.4, y:-7.2, rotation:1.03, duration:0.045, ease:"none"}, 2.290);
+      tl.to("#facewrap", {x:-8.4, y:4.3, rotation:-0.69, duration:0.045, ease:"none"}, 2.335);
+      tl.to("#facewrap", {x:3.6, y:-1.7, rotation:0.34, duration:0.045, ease:"none"}, 2.380);
+      tl.to("#facewrap", {x:0.0, y:0.0, rotation:0.00, duration:0.045, ease:"none"}, 2.425);
+      tl.to("#facewrap", {scale:1.14, duration:0.06, ease:"power2.out"}, 2.200);
+      tl.to("#facewrap", {scale:1, duration:0.38, ease:"power3.out"}, 2.260);
+      tl.to("#facewrap", {x:16.0, y:-5.8, rotation:1.14, duration:0.045, ease:"none"}, 3.320);
+      tl.to("#facewrap", {x:-13.6, y:8.6, rotation:-1.14, duration:0.045, ease:"none"}, 3.365);
+      tl.to("#facewrap", {x:9.6, y:-4.8, rotation:0.69, duration:0.045, ease:"none"}, 3.410);
+      tl.to("#facewrap", {x:-5.6, y:2.9, rotation:-0.46, duration:0.045, ease:"none"}, 3.455);
+      tl.to("#facewrap", {x:2.4, y:-1.2, rotation:0.23, duration:0.045, ease:"none"}, 3.500);
+      tl.to("#facewrap", {x:0.0, y:0.0, rotation:0.00, duration:0.045, ease:"none"}, 3.545);
+      tl.to("#facewrap", {scale:1.07, duration:0.06, ease:"power2.out"}, 3.320);
+      tl.to("#facewrap", {scale:1, duration:0.38, ease:"power3.out"}, 3.380);
+      tl.set("#pop", {opacity:0.35}, 3.320);
+      tl.to("#pop", {opacity:0, duration:0.22, ease:"power2.out"}, 3.330);
+      tl.to("#facewrap", {x:14.0, y:-5.0, rotation:1.00, duration:0.045, ease:"none"}, 30.730);
+      tl.to("#facewrap", {x:-11.9, y:7.6, rotation:-1.00, duration:0.045, ease:"none"}, 30.775);
+      tl.to("#facewrap", {x:8.4, y:-4.2, rotation:0.60, duration:0.045, ease:"none"}, 30.820);
+      tl.to("#facewrap", {x:-4.9, y:2.5, rotation:-0.40, duration:0.045, ease:"none"}, 30.865);
+      tl.to("#facewrap", {x:2.1, y:-1.0, rotation:0.20, duration:0.045, ease:"none"}, 30.910);
+      tl.to("#facewrap", {x:0.0, y:0.0, rotation:0.00, duration:0.045, ease:"none"}, 30.955);
+      tl.to("#facewrap", {scale:1.06, duration:0.06, ease:"power2.out"}, 30.730);
+      tl.to("#facewrap", {scale:1, duration:0.38, ease:"power3.out"}, 30.790);
+      tl.set("#pop", {opacity:0.35}, 30.730);
+      tl.to("#pop", {opacity:0, duration:0.22, ease:"power2.out"}, 30.740);
+      tl.to("#facewrap", {x:14.0, y:-5.0, rotation:1.00, duration:0.045, ease:"none"}, 48.550);
+      tl.to("#facewrap", {x:-11.9, y:7.6, rotation:-1.00, duration:0.045, ease:"none"}, 48.595);
+      tl.to("#facewrap", {x:8.4, y:-4.2, rotation:0.60, duration:0.045, ease:"none"}, 48.640);
+      tl.to("#facewrap", {x:-4.9, y:2.5, rotation:-0.40, duration:0.045, ease:"none"}, 48.685);
+      tl.to("#facewrap", {x:2.1, y:-1.0, rotation:0.20, duration:0.045, ease:"none"}, 48.730);
+      tl.to("#facewrap", {x:0.0, y:0.0, rotation:0.00, duration:0.045, ease:"none"}, 48.775);
+      tl.to("#facewrap", {scale:1.06, duration:0.06, ease:"power2.out"}, 48.550);
+      tl.to("#facewrap", {scale:1, duration:0.38, ease:"power3.out"}, 48.610);
+      tl.set("#pop", {opacity:0.35}, 48.550);
+      tl.to("#pop", {opacity:0, duration:0.22, ease:"power2.out"}, 48.560);
+      tl.to("#facewrap", {x:12.0, y:-4.3, rotation:0.86, duration:0.045, ease:"none"}, 58.060);
+      tl.to("#facewrap", {x:-10.2, y:6.5, rotation:-0.86, duration:0.045, ease:"none"}, 58.105);
+      tl.to("#facewrap", {x:7.2, y:-3.6, rotation:0.51, duration:0.045, ease:"none"}, 58.150);
+      tl.to("#facewrap", {x:-4.2, y:2.2, rotation:-0.34, duration:0.045, ease:"none"}, 58.195);
+      tl.to("#facewrap", {x:1.8, y:-0.9, rotation:0.17, duration:0.045, ease:"none"}, 58.240);
+      tl.to("#facewrap", {x:0.0, y:0.0, rotation:0.00, duration:0.045, ease:"none"}, 58.285);
+      tl.to("#facewrap", {scale:1.05, duration:0.06, ease:"power2.out"}, 58.060);
+      tl.to("#facewrap", {scale:1, duration:0.38, ease:"power3.out"}, 58.120);
+      tl.set("#pop", {opacity:0.3}, 58.060);
+      tl.to("#pop", {opacity:0, duration:0.22, ease:"power2.out"}, 58.070);
+      tl.set("#pop", {opacity:0.75}, 10.580); tl.to("#pop", {opacity:0, duration:0.2, ease:"power2.out"}, 10.590);
       window.__timelines["main"] = tl;
     </script>
   </body>
