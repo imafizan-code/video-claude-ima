@@ -1,0 +1,370 @@
+{
+ "total": 59.88,
+ "segments": {
+  "h1": {
+   "id": "h1",
+   "clip": "0399",
+   "a": 0.0,
+   "b": 4.18,
+   "mode": "face",
+   "start": 0.0,
+   "dur": 4.18
+  },
+  "h2": {
+   "id": "h2",
+   "clip": "0399",
+   "a": 4.72,
+   "b": 7.3,
+   "mode": "face",
+   "start": 4.18,
+   "dur": 2.58
+  },
+  "h3": {
+   "id": "h3",
+   "clip": "0399",
+   "a": 7.66,
+   "b": 8.56,
+   "mode": "face",
+   "start": 6.76,
+   "dur": 0.9
+  },
+  "s1": {
+   "id": "s1",
+   "clip": "0408",
+   "a": 0.0,
+   "b": 4.02,
+   "mode": "demo",
+   "start": 7.66,
+   "dur": 4.02
+  },
+  "s2a": {
+   "id": "s2a",
+   "clip": "0424",
+   "a": 0.0,
+   "b": 2.12,
+   "mode": "demo",
+   "start": 11.68,
+   "dur": 2.12
+  },
+  "s2b": {
+   "id": "s2b",
+   "clip": "0424",
+   "a": 2.44,
+   "b": 4.5,
+   "mode": "demo",
+   "start": 13.8,
+   "dur": 2.06
+  },
+  "s3": {
+   "id": "s3",
+   "clip": "0431",
+   "a": 0.1,
+   "b": 2.22,
+   "mode": "face",
+   "start": 15.86,
+   "dur": 2.12
+  },
+  "s4a": {
+   "id": "s4a",
+   "clip": "0484",
+   "a": 0.0,
+   "b": 3.8,
+   "mode": "face",
+   "start": 17.98,
+   "dur": 3.8
+  },
+  "s4b": {
+   "id": "s4b",
+   "clip": "0484",
+   "a": 3.8,
+   "b": 8.86,
+   "mode": "demo",
+   "start": 21.78,
+   "dur": 5.06
+  },
+  "r1": {
+   "id": "r1",
+   "clip": "0494",
+   "a": 0.46,
+   "b": 4.64,
+   "mode": "face",
+   "start": 26.84,
+   "dur": 4.18
+  },
+  "r2": {
+   "id": "r2",
+   "clip": "0494",
+   "a": 5.24,
+   "b": 7.5,
+   "mode": "face",
+   "start": 31.02,
+   "dur": 2.26
+  },
+  "p1": {
+   "id": "p1",
+   "clip": "0529",
+   "a": 0.0,
+   "b": 3.48,
+   "mode": "face",
+   "start": 33.28,
+   "dur": 3.48
+  },
+  "b1": {
+   "id": "b1",
+   "clip": "0503",
+   "a": 0.0,
+   "b": 4.48,
+   "mode": "face",
+   "start": 36.76,
+   "dur": 4.48
+  },
+  "t1": {
+   "id": "t1",
+   "clip": "0518",
+   "a": 0.46,
+   "b": 8.62,
+   "mode": "face",
+   "start": 41.24,
+   "dur": 8.16
+  },
+  "t2": {
+   "id": "t2",
+   "clip": "0519",
+   "a": 0.14,
+   "b": 1.44,
+   "mode": "face",
+   "start": 49.4,
+   "dur": 1.3
+  },
+  "c1": {
+   "id": "c1",
+   "clip": "0540",
+   "a": 0.86,
+   "b": 7.24,
+   "mode": "demo",
+   "start": 50.7,
+   "dur": 6.38
+  },
+  "c2": {
+   "id": "c2",
+   "clip": "0541",
+   "a": 0.08,
+   "b": 1.2,
+   "mode": "demo",
+   "start": 57.08,
+   "dur": 1.12
+  },
+  "e1": {
+   "id": "e1",
+   "clip": "0553",
+   "a": 0.6,
+   "b": 1.38,
+   "mode": "face",
+   "start": 58.2,
+   "dur": 0.78
+  }
+ },
+ "modes": [
+  [
+   0.0,
+   "face",
+   "h1"
+  ],
+  [
+   7.66,
+   "demo",
+   "s1"
+  ],
+  [
+   15.86,
+   "face",
+   "s3"
+  ],
+  [
+   21.78,
+   "demo",
+   "s4b"
+  ],
+  [
+   26.84,
+   "face",
+   "r1"
+  ],
+  [
+   50.7,
+   "demo",
+   "c1"
+  ],
+  [
+   58.2,
+   "face",
+   "e1"
+  ]
+ ],
+ "taps": [
+  [
+   10.86,
+   226.0,
+   730.427927927928
+  ],
+  [
+   12.01,
+   226.0,
+   610.8108108108108
+  ],
+  [
+   13.402,
+   41.22972972972973,
+   654.0765765765766
+  ],
+  [
+   13.979,
+   226.0,
+   884.6576576576576
+  ],
+  [
+   14.618,
+   152.7027027027027,
+   361.3963963963964
+  ],
+  [
+   15.64,
+   226.0,
+   882.4640600315955
+  ],
+  [
+   23.03,
+   390.1880341880342,
+   360.53206997084544
+  ]
+ ],
+ "beats": {
+  "hook_words": [
+   [
+    0.0,
+    "Kau"
+   ],
+   [
+    0.24,
+    "tahu"
+   ],
+   [
+    0.4,
+    "tak,"
+   ],
+   [
+    0.76,
+    "sekarang"
+   ],
+   [
+    0.9,
+    "ni"
+   ],
+   [
+    1.1,
+    "kita"
+   ],
+   [
+    1.32,
+    "boleh"
+   ],
+   [
+    1.52,
+    "buka"
+   ],
+   [
+    1.74,
+    "bank"
+   ],
+   [
+    2.2,
+    "tanpa"
+   ],
+   [
+    2.8,
+    "perlu"
+   ],
+   [
+    3.12,
+    "pergi"
+   ],
+   [
+    3.32,
+    "ke cawangan"
+   ],
+   [
+    3.96,
+    "pun"
+   ]
+  ],
+  "beratur": 4.78,
+  "giliran": 6.34,
+  "aktif": 18.93,
+  "rm20": 17.02,
+  "share": 24.58,
+  "gift": 30.08,
+  "aktifkan2": 32.63,
+  "pidm": 36.23,
+  "rumah": 38.71,
+  "kahwin": 39.56,
+  "umrah": 40.41,
+  "tdi": 43.38,
+  "rate": 48.48,
+  "bulan": 49.91,
+  "cta1": 52.04,
+  "cta2": 54.24,
+  "cta3": 56.14,
+  "jom": 58.22
+ },
+ "groups": [
+  "tak perlu nak beratur,",
+  "tak perlu nak ambil",
+  "nombor giliran",
+  "Nak tahu macam mana?",
+  "Mula-mula korang",
+  "download dulu app",
+  "MY alrajhi bank",
+  "dekat phone korang",
+  "Lepas itu,",
+  "ikut arahan untuk",
+  "pendaftaran,",
+  "isi maklumat pengesahan",
+  "yang diperlukan",
+  "dan top up minimum",
+  "RM20 je.",
+  "Bila dah berjaya aktifkan",
+  "DuitPlus Savings Account-i",
+  "ni,",
+  "korang akan dapat",
+  "referral code dan",
+  "bolehlah korang share",
+  "dengan family dan",
+  "kawan-kawan.",
+  "guna referral code ini",
+  "dan kedua-dua belah pihak",
+  "akan dapat manis-manis",
+  "selepas account berjaya",
+  "diaktifkan.",
+  "dan duit korang pun",
+  "selamat sebab dilindungi",
+  "oleh PIDM.",
+  "lagi satu yang tengah",
+  "simpan duit untuk beli",
+  "rumah,",
+  "kahwin atau pergi umrah",
+  "alrajhi bank Malaysia menawarkan",
+  "TD-i Advantage Campaign,",
+  "di mana korang boleh",
+  "dapatkan profit rate sehingga",
+  "4%",
+  "selama 12 bulan",
+  "tunggu apa lagi,",
+  "korang download je",
+  "MY alrajhi app,",
+  "aktifkan DuitPlus",
+  "Savings Account-i",
+  "dan",
+  "guna referral code",
+  "ni"
+ ]
+}

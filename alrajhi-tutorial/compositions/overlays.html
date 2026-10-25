@@ -1,0 +1,112 @@
+<template>
+  <style>
+    #root { position:absolute; inset:0; pointer-events:none; font-family:'Outfit', 'Inter', sans-serif; }
+    .ov { position:absolute; }
+    .glass { background:rgba(10,14,42,.88); border:2px solid rgba(255,255,255,.14); border-radius:34px; color:#fff;
+             box-shadow:0 24px 60px rgba(0,0,0,.35); }
+    #hook .kicker { font:800 28px var(--f, 'Outfit', 'Inter', sans-serif); letter-spacing:.18em; color:#2EE6A6; margin-bottom:10px; }
+    #hook .head { font:900 70px/1.08 'Outfit', 'Inter', sans-serif; letter-spacing:-.02em; color:#fff; }
+    #hook .hl { color:#2EE6A6; }
+    .chip { display:flex; align-items:center; gap:14px; padding:16px 28px 16px 18px; border-radius:999px; background:rgba(10,14,42,.82);
+            color:#fff; font:800 36px 'Outfit', 'Inter', sans-serif; white-space:nowrap; border:2px solid rgba(255,255,255,.14); }
+    .chip s { position:absolute; left:74px; right:24px; top:50%; height:5px; background:#FF4D6D; transform-origin:left; border-radius:3px; }
+    .chip.mint { background:#2EE6A6; color:#0A0E2A; border-color:transparent; padding:16px 30px; }
+    .chip .tickc svg { width:44px; height:44px; }
+    .step { display:flex; align-items:center; gap:0; border-radius:20px; overflow:hidden; box-shadow:0 16px 40px rgba(0,0,0,.35); white-space:nowrap; }
+    .step .k { background:#251CFC; color:#fff; font:900 30px 'Outfit', 'Inter', sans-serif; letter-spacing:.08em; padding:18px 22px; }
+    .step .t { background:#fff; color:#0A0E2A; font:800 32px 'Outfit', 'Inter', sans-serif; padding:18px 26px; }
+    .card { padding:26px 34px; }
+    .row { display:flex; align-items:center; gap:22px; }
+    .card .big { font:900 92px/1 'Outfit', 'Inter', sans-serif; color:#2EE6A6; letter-spacing:-.02em; }
+    .card .big2 { font:900 50px/1.05 'Outfit', 'Inter', sans-serif; color:#fff; letter-spacing:-.01em; }
+    .card .sub { font:700 30px/1.25 'Outfit', 'Inter', sans-serif; color:rgba(255,255,255,.75); }
+    .card .tc { font:600 28px 'Outfit', 'Inter', sans-serif; color:rgba(255,255,255,.82); margin-top:8px; }
+    .tdi { display:grid; grid-template-columns:1fr auto; align-items:center; column-gap:20px; }
+    .tdi .sub { color:#fff; font-weight:900; font-size:38px; }
+    .tdi .pre { font:700 30px/1.15 'Outfit', 'Inter', sans-serif; color:rgba(255,255,255,.75); margin-top:6px; }
+    .tdi .num { font:900 150px/1 'Outfit', 'Inter', sans-serif; color:#2EE6A6; letter-spacing:-.03em; }
+    .tdi .tc { grid-column:1 / span 2; }
+    .tdi .term { display:inline-block; margin-top:14px; font:700 32px 'Outfit', 'Inter', sans-serif; color:#0A0E2A; background:#fff; padding:10px 22px; border-radius:999px; }
+    .logo { width:240px; text-align:center; padding:26px 0 20px; border-radius:40px; background:#fff; box-shadow:0 30px 80px rgba(37,28,252,.45); }
+    .logo img { width:130px; height:auto; }
+    .logo div { margin-top:8px; font:900 34px 'Outfit', 'Inter', sans-serif; color:#251CFC; }
+    .jom { text-align:center; padding:34px 0; font:900 92px/1 'Outfit', 'Inter', sans-serif; color:#fff; letter-spacing:-.02em; }
+    .jom .hl { color:#2EE6A6; }
+  </style>
+  <div id="root" data-composition-id="overlays" data-width="1080" data-height="1920">
+    <div id="hook" class="clip ov glass" data-start="0.000" data-duration="4.230" data-track-index="0" style="left:60px;top:200px;width:960px;padding:30px 40px"><div class="kicker">TIPS BANK DIGITAL</div><div class="head"><span id="hw0">Boleh</span> <span id="hw1">buka</span> <span id="hw2">akaun</span> <span id="hw3">bank</span><br><span id="hw4" class="hl">tanpa</span> <span id="hw5">pergi</span> <span id="hw6">cawangan?</span></div></div>
+    <div id="no1" class="clip ov chip" data-start="4.680" data-duration="2.980" data-track-index="1" style="left:60px;top:220px"><svg viewBox="0 0 24 24" width="40" height="40"><circle cx="12" cy="12" r="11" fill="#FF4D6D"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg><span>Beratur</span><s></s></div>
+    <div id="no2" class="clip ov chip" data-start="6.240" data-duration="1.420" data-track-index="2" style="left:350px;top:220px"><svg viewBox="0 0 24 24" width="40" height="40"><circle cx="12" cy="12" r="11" fill="#FF4D6D"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg><span>Nombor giliran</span><s></s></div>
+    <div id="st1" class="clip ov step" data-start="7.810" data-duration="3.870" data-track-index="0" style="left:56px;top:196px"><span class="k">STEP 1</span><span class="t">Download MY alrajhi app</span></div>
+    <div id="st2" class="clip ov step" data-start="11.830" data-duration="4.030" data-track-index="1" style="left:56px;top:196px"><span class="k">STEP 2</span><span class="t">Daftar &amp; sahkan akaun</span></div>
+    <div id="st3" class="clip ov step" data-start="16.010" data-duration="1.970" data-track-index="2" style="left:56px;top:196px"><span class="k">STEP 3</span><span class="t">Top up minimum RM20</span></div>
+    <div id="st4" class="clip ov step" data-start="18.130" data-duration="3.650" data-track-index="0" style="left:56px;top:196px"><span class="k">STEP 4</span><span class="t">Aktifkan DuitPlus Savings Account-i</span></div>
+    <div id="st5" class="clip ov step" data-start="21.930" data-duration="4.910" data-track-index="1" style="left:56px;top:196px"><span class="k">STEP 5</span><span class="t">Ambil &amp; share referral code</span></div>
+    <div id="st6" class="clip ov step" data-start="36.910" data-duration="4.330" data-track-index="2" style="left:56px;top:196px"><span class="k">BONUS</span><span class="t">Simpanan masa depan</span></div>
+    <div id="logo" class="clip ov logo" data-start="9.560" data-duration="1.050" data-track-index="0" style="left:172px;top:340px"><img src="assets/screen/alrajhi-mark.png" alt=""><div>MY alrajhi</div></div>
+    <div id="c-rm20" class="clip ov glass card row" data-start="15.960" data-duration="2.020" data-track-index="1" style="left:56px;top:300px"><div class="big">RM20</div><div class="sub">top up minimum<br>untuk aktifkan akaun</div></div>
+    <div id="c-aktif" class="clip ov glass card row" data-start="18.780" data-duration="3.000" data-track-index="2" style="left:56px;top:300px"><svg viewBox="0 0 24 24" width="54" height="54"><circle cx="12" cy="12" r="12" fill="#2EE6A6"/><path class="tick" d="M6.5 12.5l3.5 3.5 7.5-8" stroke="#0A0E2A" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><div class="sub">DuitPlus Savings Account-i</div><div class="big2">AKTIF</div></div></div>
+    <div id="c-gift" class="clip ov glass card row" data-start="29.880" data-duration="3.400" data-track-index="0" style="left:56px;top:200px"><svg viewBox="0 0 48 48" width="70" height="70"><rect x="7" y="20" width="34" height="22" rx="4" fill="#5B54FF"/><rect x="4" y="13" width="40" height="9" rx="3" fill="#251CFC"/><rect x="21" y="13" width="6" height="29" fill="#2EE6A6"/><path d="M24 13c-4-8-12-6-9 0M24 13c4-8 12-6 9 0" stroke="#2EE6A6" stroke-width="3" fill="none"/></svg><svg viewBox="0 0 48 48" width="70" height="70"><rect x="7" y="20" width="34" height="22" rx="4" fill="#5B54FF"/><rect x="4" y="13" width="40" height="9" rx="3" fill="#251CFC"/><rect x="21" y="13" width="6" height="29" fill="#2EE6A6"/><path d="M24 13c-4-8-12-6-9 0M24 13c4-8 12-6 9 0" stroke="#2EE6A6" stroke-width="3" fill="none"/></svg><div><div class="big2">Dua-dua dapat<br>manis-manis</div><div class="tc">*T&amp;C applied</div></div></div>
+    <div id="c-akt2" class="clip ov chip mint" data-start="32.430" data-duration="0.850" data-track-index="1" style="left:56px;top:420px">Selepas akaun <b>diaktifkan</b></div>
+    <div id="c-pidm" class="clip ov glass card row" data-start="33.480" data-duration="3.280" data-track-index="2" style="left:56px;top:200px"><svg viewBox="0 0 48 56" width="64" height="74"><path d="M24 2l20 8v16c0 14-9 24-20 28C13 50 4 40 4 26V10z" fill="#251CFC"/><path d="M14 28l7 7 14-15" stroke="#2EE6A6" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><div class="sub">Duit korang selamat</div><div class="big2">Dilindungi PIDM</div></div></div>
+    <div id="g-rumah" class="clip ov chip" data-start="38.610" data-duration="2.630" data-track-index="0" style="left:56px;top:300px"><span class="tickc"><svg viewBox="0 0 24 24" width="54" height="54"><circle cx="12" cy="12" r="12" fill="#2EE6A6"/><path class="tick" d="M6.5 12.5l3.5 3.5 7.5-8" stroke="#0A0E2A" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Rumah</div>
+    <div id="g-kahwin" class="clip ov chip" data-start="39.460" data-duration="1.780" data-track-index="1" style="left:356px;top:300px"><span class="tickc"><svg viewBox="0 0 24 24" width="54" height="54"><circle cx="12" cy="12" r="12" fill="#2EE6A6"/><path class="tick" d="M6.5 12.5l3.5 3.5 7.5-8" stroke="#0A0E2A" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Kahwin</div>
+    <div id="g-umrah" class="clip ov chip" data-start="40.310" data-duration="0.930" data-track-index="2" style="left:656px;top:300px"><span class="tickc"><svg viewBox="0 0 24 24" width="54" height="54"><circle cx="12" cy="12" r="12" fill="#2EE6A6"/><path class="tick" d="M6.5 12.5l3.5 3.5 7.5-8" stroke="#0A0E2A" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Umrah</div>
+    <div id="c-tdi" class="clip ov glass card tdi" data-start="43.180" data-duration="7.540" data-track-index="0" style="left:56px;top:196px;width:968px"><div class="tl"><div class="sub">TD-i Advantage Campaign</div><div class="pre">profit rate sehingga</div><div class="term" id="term">tempoh <b>12 bulan</b></div></div><div class="num"><span id="ratenum">0.0</span>%</div><div class="tc">*Tertakluk pada T&amp;C. Rujuk website alrajhi bank Malaysia.</div></div>
+    <div id="jom" class="clip ov glass jom" data-start="58.120" data-duration="1.760" data-track-index="1" style="left:60px;top:250px;width:960px">Jom <span class="hl">menabung!</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#hw0", {opacity:0.0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power2.out"}, 1.270);
+    tl.fromTo("#hw1", {opacity:0.0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power2.out"}, 1.470);
+    tl.fromTo("#hw2", {opacity:0.0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power2.out"}, 1.690);
+    tl.fromTo("#hw3", {opacity:0.0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power2.out"}, 1.690);
+    tl.fromTo("#hw4", {opacity:0.0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power2.out"}, 2.150);
+    tl.fromTo("#hw5", {opacity:0.0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power2.out"}, 3.070);
+    tl.fromTo("#hw6", {opacity:0.0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:0.16, ease:"power2.out"}, 0.000);
+    tl.set("#hw0,#hw1,#hw2,#hw3", {opacity:1, filter:"blur(0px)"}, 0);
+    tl.to("#hook", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 3.990);
+    tl.fromTo("#no1", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.4, ease:"back.out(1.7)"}, 4.680);
+    tl.fromTo("#no2", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.4, ease:"back.out(1.7)"}, 6.240);
+    tl.fromTo("#no1 s", {scaleX:0}, {scaleX:1, duration:0.25, ease:"power2.out"}, 5.030);
+    tl.fromTo("#no2 s", {scaleX:0}, {scaleX:1, duration:0.25, ease:"power2.out"}, 6.590);
+    tl.to("#no1", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 7.420);
+    tl.to("#no2", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 7.420);
+    tl.fromTo("#st1", {opacity:0, x:-60, filter:"blur(8px)"}, {opacity:1, x:0, filter:"blur(0px)", duration:0.5, ease:"expo.out"}, 7.810);
+    tl.to("#st1", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 11.440);
+    tl.fromTo("#st2", {opacity:0, x:-60, filter:"blur(8px)"}, {opacity:1, x:0, filter:"blur(0px)", duration:0.5, ease:"expo.out"}, 11.830);
+    tl.to("#st2", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 15.620);
+    tl.fromTo("#st3", {opacity:0, x:-60, filter:"blur(8px)"}, {opacity:1, x:0, filter:"blur(0px)", duration:0.5, ease:"expo.out"}, 16.010);
+    tl.to("#st3", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 17.740);
+    tl.fromTo("#st4", {opacity:0, x:-60, filter:"blur(8px)"}, {opacity:1, x:0, filter:"blur(0px)", duration:0.5, ease:"expo.out"}, 18.130);
+    tl.to("#st4", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 21.540);
+    tl.fromTo("#st5", {opacity:0, x:-60, filter:"blur(8px)"}, {opacity:1, x:0, filter:"blur(0px)", duration:0.5, ease:"expo.out"}, 21.930);
+    tl.to("#st5", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 26.600);
+    tl.fromTo("#st6", {opacity:0, x:-60, filter:"blur(8px)"}, {opacity:1, x:0, filter:"blur(0px)", duration:0.5, ease:"expo.out"}, 36.910);
+    tl.to("#st6", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 41.000);
+    tl.fromTo("#logo", {opacity:0, scale:0.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:0.45, ease:"back.out(1.6)"}, 9.560);
+    tl.to("#logo", {opacity:0, scale:0.85, filter:"blur(8px)", duration:0.25, ease:"power2.in"}, 10.330);
+    tl.fromTo("#c-rm20", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.45, ease:"back.out(1.7)"}, 15.960);
+    tl.to("#c-rm20", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 17.740);
+    tl.fromTo("#c-aktif", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.45, ease:"back.out(1.7)"}, 18.780);
+    tl.to("#c-aktif", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 21.540);
+    tl.fromTo("#c-gift", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.5, ease:"back.out(1.7)"}, 29.880);
+    tl.to("#c-gift", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 33.040);
+    tl.fromTo("#c-akt2", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.4, ease:"back.out(1.7)"}, 32.430);
+    tl.to("#c-akt2", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 33.040);
+    tl.fromTo("#c-pidm", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.45, ease:"back.out(1.7)"}, 33.480);
+    tl.to("#c-pidm", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 36.520);
+    tl.fromTo("#g-rumah", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.4, ease:"back.out(1.7)"}, 38.610);
+    tl.to("#g-rumah", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 41.000);
+    tl.fromTo("#g-kahwin", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.4, ease:"back.out(1.7)"}, 39.460);
+    tl.to("#g-kahwin", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 41.000);
+    tl.fromTo("#g-umrah", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.4, ease:"back.out(1.7)"}, 40.310);
+    tl.to("#g-umrah", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 41.000);
+    tl.fromTo("#c-tdi", {opacity:0, filter:"blur(10px)", y:16}, {opacity:1, filter:"blur(0px)", y:0, duration:0.5, ease:"expo.out"}, 43.180);
+    tl.to("#c-tdi", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 50.480);
+    const rc = {v:0}; tl.fromTo(rc, {v:0}, {v:4, duration:0.9, ease:"power3.out", onUpdate:function(){ document.querySelector("#ratenum").textContent = rc.v.toFixed(1); }}, 47.780);
+    tl.fromTo("#term", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.4, ease:"back.out(1.7)"}, 48.780);
+    tl.fromTo("#jom", {opacity:0, scale:0.6}, {opacity:1, scale:1, duration:0.5, ease:"back.out(1.7)"}, 58.120);
+    window.__timelines["overlays"] = tl;
+  </script>
+</template>
