@@ -60,30 +60,6 @@ def process(img, lm):
         soft = smooth + detail * 0.35
         r = r * (1 - skin[..., None] * 0.6) + soft * (skin[..., None] * 0.6)
 
-        # ---- tone: brighter, more even skin; lift the darker patches round the mouth corners
-        lab = cv2.cvtColor(np.clip(r, 0, 255).astype(np.uint8), cv2.COLOR_BGR2Lab).astype(np.float32)
-        L, A, Bc = lab[..., 0], lab[..., 1], lab[..., 2]
-        core = skin > 0.6
-        if core.sum() > 50:
-            Lm, Am, Bm = np.median(L[core]), np.median(A[core]), np.median(Bc[core])
-            Lbig = cv2.GaussianBlur(L, (0, 0), fw * 0.06)
-            Le = L - (Lbig - Lm) * 0.45                               # flatten blotches / uneven shading
-            Le = Le + 13 * np.clip(1.25 - L / 255, 0, 1)              # brighten, more in the darker tones
-            Ae = A + (Am - A) * 0.35; Be = Bc + (Bm - Bc) * 0.35 - 2  # even out redness and sallowness
-            k = skin
-            L = L * (1 - k) + Le * k; A = A * (1 - k) + Ae * k; Bc = Bc * (1 - k) + Be * k
-            lipm = np.zeros((h, w), np.uint8); poly(lipm, Q[LIPS_OUT])
-            ring = cv2.dilate(lipm, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (int(fw * 0.14) | 1,) * 2))
-            for c in (61, 291):
-                cv2.circle(ring, tuple(Q[c].astype(int)), int(fw * 0.06), 255, -1)
-            ring[lipm > 0] = 0
-            ring = cv2.GaussianBlur(ring.astype(np.float32) / 255, (0, 0), fw * 0.02)
-            dark = np.clip((Lm + 6 - L) / 18, 0, 1) * ring
-            L = L + (Lm + 6 - L) * 0.75 * dark
-            A = A + (Am - A) * 0.5 * dark; Bc = Bc + (Bm - Bc) * 0.5 * dark
-            lab = np.dstack([L, A, Bc])
-            r = cv2.cvtColor(np.clip(lab, 0, 255).astype(np.uint8), cv2.COLOR_Lab2BGR).astype(np.float32)
-
         # ---- blush
         blush = np.zeros((h, w), np.float32)
         for c in (CHEEK_L, CHEEK_R):
@@ -108,7 +84,7 @@ def process(img, lm):
         out[y0:y1, x0:x1] = r
 
     # ---- sun-kissed key: screen a warm light in from the upper left, warm the mids a touch
-    lightc = SUN[..., None] * SUN_COL * 255 * 0.30
+    lightc = SUN[..., None] * SUN_COL * 255 * 0.38
     out = 255 - (255 - out) * (255 - lightc) / 255
     out[..., 2] *= 1.035; out[..., 0] *= 0.965
     return np.clip(out, 0, 255).astype(np.uint8)
