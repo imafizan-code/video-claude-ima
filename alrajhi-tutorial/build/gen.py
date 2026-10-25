@@ -488,7 +488,7 @@ SHAKE = [(1, -0.6, 1), (-0.85, 0.9, -1), (0.6, -0.5, 0.6), (-0.35, 0.3, -0.4), (
 FLASH_N = [0]
 
 
-def hit(t0, amp=16, zoom=1.08, flash=0.45, sfx=("impact-bass-2", 0.32)):
+def hit(t0, amp=16, zoom=1.08, flash=0.45, sfx=("impact-bass-2", 0.13)):
     for i, (dx, dy, dr) in enumerate(SHAKE):
         js.append(f'tl.to("#facewrap", {{x:{dx * amp:.1f}, y:{dy * amp * 0.6:.1f}, rotation:{dr * amp / 14:.2f}, duration:0.045, ease:"none"}}, {t0 + i * 0.045:.3f});')
     if zoom:
@@ -503,10 +503,10 @@ def hit(t0, amp=16, zoom=1.08, flash=0.45, sfx=("impact-bass-2", 0.32)):
 
 js.append('tl.set("#facewrap", {transformOrigin:"540px 900px"}, 0);')
 HOOK_T = wt("h1", "tanpa")
-hit(HOOK_T, amp=24, zoom=1.14, flash=0, sfx=("impact-bass-1", 0.42))          # the registry flash carries this one
-hit(wt("h1", "ke c"), amp=16, zoom=1.07, flash=0.35, sfx=("impact-bass-2", 0.3))
+hit(HOOK_T, amp=24, zoom=1.14, flash=0, sfx=("impact-bass-1", 0.17))          # the registry flash carries this one
+hit(wt("h1", "ke c"), amp=16, zoom=1.07, flash=0.35, sfx=("impact-bass-2", 0.12))
 hit(wt("r1b", "RM10"), amp=14, zoom=1.06, flash=0.35)
-hit(RATE_T, amp=14, zoom=1.06, flash=0.35, sfx=("impact-bass-2", 0.26))
+hit(RATE_T, amp=14, zoom=1.06, flash=0.35, sfx=("impact-bass-2", 0.11))
 hit(SEG["e1"]["start"] + 0.5, amp=12, zoom=1.05, flash=0.3)
 js.append(f'tl.set("#pop", {{opacity:0.75}}, {CUT_IN:.3f}); tl.to("#pop", {{opacity:0, duration:0.2, ease:"power2.out"}}, {CUT_IN + 0.01:.3f});')
 FLASH_D = 0.6
