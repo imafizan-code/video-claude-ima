@@ -26,8 +26,7 @@ EDL = [
     ("s4a", "0484", 0.00, 3.80, "face"),   # Bila dah berjaya aktifkan DuitPlus Savings Account-i ni,
     ("s4b", "0484", 3.80, 8.86, "face"),   # korang akan dapat referral code dan bolehlah korang share dengan family dan kawan-kawan.
     ("r1a", "0494", 0.46, 1.90, "face"),   # Boleh guna referral code ini
-    ("r1b", "0494", 2.13, 4.64, "face"),   # dan kedua-dua belah pihak akan dapat manis-manis
-    ("r2", "0494", 5.24, 7.50, "face"),    # selepas account berjaya diaktifkan.      ("RM10" cut: the brief says manis-manis only)
+    ("r1b", "0494", 2.13, 7.50, "face"),   # dan kedua-dua belah pihak akan dapat manis-manis RM10 selepas account berjaya diaktifkan.
     ("p1", "0529", 0.00, 3.48, "face"),    # dan duit korang pun selamat sebab dilindungi oleh PIDM.
     ("b1", "0503", 0.00, 4.48, "face"),    # lagi satu yang tengah simpan duit untuk beli rumah, kahwin atau pergi umrah
     ("t1a", "0518", 0.46, 4.36, "face"),   # alrajhi bank Malaysia menawarkan TD-i Advantage Campaign,
@@ -354,13 +353,13 @@ sticker("st-share", "share", "L", wt("s4b", "share") - 0.05, seg_end("s4b"))
 sticker("st-fam", "people", "C", wt("s4b", "family") - 0.05, seg_end("s4b"), label="FAMILY")
 sticker("st-kwn", "people", "R", wt("s4b", "kawan") - 0.05, seg_end("s4b"), label="KAWAN-KAWAN")
 
-sticker("st-gift", "gift", "L", wt("r1b", "manis") - 0.1, seg_end("r2"), y=300)
-bigtext("manis", [[("DUA-DUA", "")], [("DAPAT", "")], [("MANIS-MANIS", "lime")]], wt("r1b", "kedua") - 0.05, seg_end("r1b") + 0.6,
-        top=230, size=84, word_times=[wt("r1b", "kedua"), wt("r1b", "dapat"), wt("r1b", "manis")])
+sticker("st-gift", "gift", "L", wt("r1b", "manis") - 0.1, seg_end("r1b"), y=300)
+bigtext("manis", [[("DUA-DUA", "")], [("DAPAT", "")], [("MANIS-MANIS", "lime")], [("RM10", "red")]], wt("r1b", "kedua") - 0.05, wt("r1b", "diaktifkan"),
+        top=210, size=78, word_times=[wt("r1b", "kedua"), wt("r1b", "dapat"), wt("r1b", "manis"), wt("r1b", "RM10")])
 OV[-1] = OV[-1].replace('class="clip big"', 'class="clip big right"')
-OV.append(f'<div id="tnc" class="clip tnc" style="top:505px;left:330px;right:30px" data-start="{wt("r1b", "manis"):.3f}" data-duration="{seg_end("r2") - wt("r1b", "manis"):.3f}" data-track-index="2">*T&amp;C APPLIED</div>')
-sticker("st-ok", "check", "C", wt("r2", "diaktifkan") - 0.1, seg_end("r2"), y=270, size=230)
-OJS.append(f'tl.to("#manis", {{opacity:0, duration:0.1}}, {wt("r2", "diaktifkan") - 0.12:.3f});')
+OV.append(f'<div id="tnc" class="clip tnc" style="top:548px;left:330px;right:30px" data-start="{wt("r1b", "manis"):.3f}" data-duration="{seg_end("r1b") - wt("r1b", "manis"):.3f}" data-track-index="2">*T&amp;C APPLIED</div>')
+sticker("st-ok", "check", "C", wt("r1b", "diaktifkan") - 0.1, seg_end("r1b"), y=270, size=230)
+OJS.append(f'tl.to("#manis", {{opacity:0, duration:0.1}}, {wt("r1b", "diaktifkan") - 0.12:.3f});')
 
 sticker("st-shield", "shield", "L", wt("p1", "selamat") - 0.05, seg_end("p1"), y=290, size=230)
 bigtext("pidm", [[("DILINDUNGI", "")], [("PIDM", "lime")]], wt("p1", "dilindungi") - 0.05, seg_end("p1"), top=300, size=96,

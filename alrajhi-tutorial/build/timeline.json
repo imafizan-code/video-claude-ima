@@ -1,5 +1,5 @@
 {
- "total": 59.24,
+ "total": 59.84,
  "segments": {
   "h1": {
    "id": "h1",
@@ -95,19 +95,10 @@
    "id": "r1b",
    "clip": "0494",
    "a": 2.13,
-   "b": 4.64,
-   "mode": "face",
-   "start": 28.28,
-   "dur": 2.51
-  },
-  "r2": {
-   "id": "r2",
-   "clip": "0494",
-   "a": 5.24,
    "b": 7.5,
    "mode": "face",
-   "start": 30.79,
-   "dur": 2.26
+   "start": 28.28,
+   "dur": 5.37
   },
   "p1": {
    "id": "p1",
@@ -115,7 +106,7 @@
    "a": 0.0,
    "b": 3.48,
    "mode": "face",
-   "start": 33.05,
+   "start": 33.65,
    "dur": 3.48
   },
   "b1": {
@@ -124,7 +115,7 @@
    "a": 0.0,
    "b": 4.48,
    "mode": "face",
-   "start": 36.53,
+   "start": 37.13,
    "dur": 4.48
   },
   "t1a": {
@@ -133,7 +124,7 @@
    "a": 0.46,
    "b": 4.36,
    "mode": "face",
-   "start": 41.01,
+   "start": 41.61,
    "dur": 3.9
   },
   "t1b": {
@@ -142,7 +133,7 @@
    "a": 4.62,
    "b": 8.62,
    "mode": "face",
-   "start": 44.91,
+   "start": 45.51,
    "dur": 4.0
   },
   "t2": {
@@ -151,7 +142,7 @@
    "a": 0.14,
    "b": 1.44,
    "mode": "face",
-   "start": 48.91,
+   "start": 49.51,
    "dur": 1.3
   },
   "c1a": {
@@ -160,7 +151,7 @@
    "a": 0.86,
    "b": 1.56,
    "mode": "face",
-   "start": 50.21,
+   "start": 50.81,
    "dur": 0.7
   },
   "c1b": {
@@ -169,7 +160,7 @@
    "a": 1.86,
    "b": 3.88,
    "mode": "face",
-   "start": 50.91,
+   "start": 51.51,
    "dur": 2.02
   },
   "c1c": {
@@ -178,7 +169,7 @@
    "a": 4.33,
    "b": 7.24,
    "mode": "face",
-   "start": 52.93,
+   "start": 53.53,
    "dur": 2.91
   },
   "c2": {
@@ -187,7 +178,7 @@
    "a": 0.08,
    "b": 1.2,
    "mode": "face",
-   "start": 55.84,
+   "start": 56.44,
    "dur": 1.12
   },
   "e1": {
@@ -196,7 +187,7 @@
    "a": 0.6,
    "b": 1.38,
    "mode": "face",
-   "start": 56.96,
+   "start": 57.56,
    "dur": 0.78
   }
  },
@@ -261,8 +252,8 @@
   "share dengan family dan kawan-kawan.",
   "Boleh guna referral code",
   "ini dan kedua-dua belah pihak",
-  "akan dapat manis-manis selepas",
-  "account berjaya diaktifkan.",
+  "akan dapat manis-manis RM10",
+  "selepas account berjaya diaktifkan.",
   "dan duit korang pun selamat",
   "sebab dilindungi oleh PIDM.",
   "lagi satu yang tengah simpan",
