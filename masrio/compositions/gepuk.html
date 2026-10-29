@@ -88,6 +88,19 @@
       .gp-tag.flip {
         flex-direction: row-reverse;
       }
+      #gp-tong {
+        position: absolute;
+        left: 60px;
+        top: 250px;
+        background: var(--kunyit);
+        color: var(--tinta);
+        font-family: "Archivo Black", sans-serif;
+        font-size: 96px;
+        line-height: 1;
+        padding: 20px 30px 14px;
+        box-shadow: 10px 10px 0 var(--tinta);
+        white-space: nowrap;
+      }
       #gp-flash {
         position: absolute;
         left: 0;
@@ -128,6 +141,7 @@
       <div class="gp-tag" id="gp-t2" style="left: 285px; top: 760px"><span class="gp-dot"></span><span class="gp-stem"></span><span class="gp-label">ENOKI RANGUP</span></div>
       <div class="gp-tag flip" id="gp-t3" style="left: 300px; top: 990px"><span class="gp-dot"></span><span class="gp-stem"></span><span class="gp-label">SAYUR RANGUP</span></div>
 
+      <div id="gp-tong">TONGKENG</div>
       <div id="gp-flash"></div>
       <div id="gp-badge" data-var-text="gepuk-badge">1 SET KENYANG TERUS</div>
     </div>
@@ -171,6 +185,9 @@
 
       // Whip out to the left with the footage (abs 11.298).
       tl.to(["#gp-flood", "#gp-title", "#gp-sub", "#gp-badge"], { x: -1080, duration: 0.3, ease: "power3.inOut" }, 5.069);
+      // Tongkeng rides in with the push (abs 11.33) and leaves with the next one (abs 12.372).
+      tl.fromTo("#gp-tong", { x: 1080, rotation: -3 }, { x: 0, rotation: -3, duration: 0.3, ease: "power3.inOut" }, 5.069);
+      tl.to("#gp-tong", { x: -1080, duration: 0.3, ease: "power3.inOut" }, 6.111);
       window.__timelines["gepuk"] = tl;
     </script>
   </template>
