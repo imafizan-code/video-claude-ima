@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* "Struk Gepuk": receipt paper, chili red, leaf-green tile, pandan lime, dessert pink. */
+      :root {
+        --cabe: #e63b2e;
+        --daun: #1e5b3a;
+        --kertas: #fff6e3;
+        --tinta: #1a1410;
+        --pandan: #b6f04a;
+        --ros: #ff4fa3;
+        --kunyit: #ffc21a;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--tinta);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      #bg {
+        position: absolute;
+        inset: 0;
+        background: var(--tinta);
+      }
+      .vw {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .vw video {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="29.75"
+      data-width="1080"
+      data-height="1920"
+      data-fps="30"
+      data-motion-blur="on"
+    >
+      <div id="bg"></div>
+
+      <!-- FOOTAGE: cuts sit on the 115 BPM beat grid (1 beat = 0.5217 s) -->
+      <div class="vw" id="w1" style="z-index: 1">
+        <video id="v1" class="clip" src="assets/video/IMG_0681.mp4" data-start="0" data-duration="2.087" data-media-start="0" data-track-index="0" data-has-audio="true" data-volume="0.3" playsinline></video>
+      </div>
+      <div class="vw" id="w2" style="z-index: 2">
+        <video id="v2" class="clip" src="assets/video/IMG_0692.mp4" data-start="2.087" data-duration="1.043" data-media-start="0.3" data-track-index="0" data-has-audio="true" data-volume="0.3" playsinline></video>
+      </div>
+      <div class="vw" id="w3" style="z-index: 3">
+        <video id="v3" class="clip" src="assets/video/IMG_0690.mp4" data-start="3.130" data-duration="1.044" data-media-start="1.3" data-playback-rate="1.3" data-track-index="0" data-has-audio="true" data-volume="0.3" playsinline></video>
+      </div>
+      <div class="vw" id="w4" style="z-index: 4">
+        <video id="v4" class="clip" src="assets/video/IMG_0688.mp4" data-start="4.174" data-duration="2.087" data-media-start="0.8" data-track-index="0" data-has-audio="true" data-volume="0.3" playsinline></video>
+      </div>
+      <div class="vw" id="w5" style="z-index: 5">
+        <video id="v5" class="clip" src="assets/video/IMG_0675.mp4" data-start="6.261" data-duration="3.130" data-media-start="0.4" data-track-index="0" data-has-audio="true" data-volume="0.3" playsinline></video>
+      </div>
+      <div class="vw" id="w6" style="z-index: 6">
+        <video id="v6" class="clip" src="assets/video/IMG_0670.mp4" data-start="9.391" data-duration="2.239" data-media-start="1.0" data-track-index="0" data-has-audio="true" data-volume="0.3" playsinline></video>
+      </div>
+      <div class="vw" id="w7" style="z-index: 7">
+        <video id="v7" class="clip" src="assets/video/IMG_0667.mp4" data-start="11.33" data-duration="1.342" data-media-start="0.65" data-track-index="0" data-has-audio="true" data-volume="0.3" playsinline></video>
+      </div>
+      <div class="vw" id="w8" style="z-index: 8">
+        <video id="v8" class="clip" src="assets/video/IMG_0669.mp4" data-start="12.372" data-duration="2.237" data-media-start="0.85" data-track-index="0" data-has-audio="true" data-volume="0.3" playsinline></video>
+      </div>
+      <div class="vw" id="w9" style="z-index: 9">
+        <video id="v9" class="clip" src="assets/video/IMG_0676.mp4" data-start="14.609" data-duration="2.087" data-media-start="0.3" data-track-index="0" data-has-audio="true" data-volume="0.3" playsinline></video>
+      </div>
+      <div class="vw" id="w10" style="z-index: 10">
+        <video id="v10" class="clip" src="assets/video/IMG_0666.mp4" data-start="16.696" data-duration="4.174" data-media-start="0" data-playback-rate="1.35" data-track-index="0" data-has-audio="true" data-volume="0.25" playsinline></video>
+      </div>
+      <div class="vw" id="w11" style="z-index: 11">
+        <video id="v11" class="clip" src="assets/video/IMG_0673.mp4" data-start="20.870" data-duration="2.608" data-media-start="1.4" data-track-index="0" data-has-audio="true" data-volume="0.3" playsinline></video>
+      </div>
+      <div class="vw" id="w12" style="z-index: 12">
+        <video id="v12" class="clip" src="assets/video/IMG_0674.mp4" data-start="23.478" data-duration="6.272" data-media-start="0.1" data-playback-rate="0.75" data-track-index="0" data-has-audio="true" data-volume="0.2" playsinline></video>
+      </div>
+
+      <!-- GRAPHICS: one scene per chapter -->
+      <div id="hook" class="clip scene" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="2.087" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 30"></div>
+      <div id="place" class="clip scene" data-composition-id="place" data-composition-src="compositions/place.html" data-start="2.087" data-duration="2.087" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 30"></div>
+      <div id="menu" class="clip scene" data-composition-id="menu" data-composition-src="compositions/menu.html" data-start="4.174" data-duration="2.087" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 30"></div>
+      <div id="gepuk" class="clip scene" data-composition-id="gepuk" data-composition-src="compositions/gepuk.html" data-start="6.261" data-duration="6.261" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 30"></div>
+      <div id="lauk" class="clip scene" data-composition-id="lauk" data-composition-src="compositions/lauk.html" data-start="12.522" data-duration="4.174" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 30"></div>
+      <div id="dessert" class="clip scene" data-composition-id="dessert" data-composition-src="compositions/dessert.html" data-start="16.45" data-duration="7.028" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 31"></div>
+      <div id="outro" class="clip scene" data-composition-id="outro" data-composition-src="compositions/outro.html" data-start="23.478" data-duration="6.272" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 30"></div>
+      <div id="hud" class="clip scene" data-composition-id="hud" data-composition-src="compositions/hud.html" data-start="2.087" data-duration="21.391" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 40"></div>
+
+      <!-- MUSIC: "Funky Chunk", Kevin MacLeod (incompetech.com), CC BY 4.0. Enters on the downbeat at 34.475 s. -->
+      <audio id="bgm" class="clip" src="assets/music/Funky_Chunk.mp3" data-start="0" data-duration="29.75" data-media-start="34.475" data-volume="0.6" data-fade-out="1.6" data-track-index="5"></audio>
+
+      <!-- SFX (Mixkit): each placed so its measured peak lands one frame after its picture -->
+      <audio id="sfx-stamp" class="clip" src="assets/sfx/impact_zoom.mp3" data-start="0" data-media-start="1.53" data-duration="1.6" data-volume="0.55" data-track-index="6"></audio>
+      <audio id="sfx-whip1" class="clip" src="assets/sfx/whoosh_c.mp3" data-start="1.935" data-duration="0.6" data-volume="0.5" data-track-index="7"></audio>
+      <audio id="sfx-pin" class="clip" src="assets/sfx/pop_whoosh.mp3" data-start="2.15" data-duration="0.42" data-volume="0.5" data-track-index="8"></audio>
+      <audio id="sfx-cut2" class="clip" src="assets/sfx/whoosh_a.mp3" data-start="2.07" data-media-start="0.7" data-duration="1.0" data-volume="0.35" data-track-index="9"></audio>
+      <audio id="sfx-line1" class="clip" src="assets/sfx/key-press.mp3" data-start="4.36" data-duration="0.43" data-volume="1" data-track-index="6"></audio>
+      <audio id="sfx-line2" class="clip" src="assets/sfx/key-press.mp3" data-start="4.66" data-duration="0.43" data-volume="1" data-track-index="7"></audio>
+      <audio id="sfx-line3" class="clip" src="assets/sfx/key-press.mp3" data-start="4.96" data-duration="0.43" data-volume="1" data-track-index="8"></audio>
+      <audio id="sfx-zoomthru" class="clip" src="assets/sfx/whoosh_b.mp3" data-start="5.67" data-duration="1.4" data-volume="0.45" data-track-index="9"></audio>
+      <audio id="sfx-sizzle" class="clip" src="assets/sfx/sizzle.mp3" data-start="6.3" data-duration="0.97" data-volume="0.6" data-track-index="6"></audio>
+      <audio id="sfx-tag1" class="clip" src="assets/sfx/pop_hard.mp3" data-start="7.08" data-duration="0.21" data-volume="0.4" data-track-index="7"></audio>
+      <audio id="sfx-tag2" class="clip" src="assets/sfx/crunch.mp3" data-start="7.45" data-media-start="4.55" data-duration="0.7" data-fade-out="0.2" data-volume="0.9" data-track-index="8"></audio>
+      <audio id="sfx-tag3" class="clip" src="assets/sfx/pop_long.mp3" data-start="7.83" data-duration="0.5" data-volume="0.6" data-track-index="6"></audio>
+      <audio id="sfx-shutter" class="clip" src="assets/sfx/shutter.mp3" data-start="9.28" data-duration="0.63" data-volume="0.8" data-track-index="7"></audio>
+      <audio id="sfx-badge" class="clip" src="assets/sfx/pop_whoosh.mp3" data-start="9.55" data-duration="0.42" data-volume="0.5" data-track-index="9"></audio>
+      <audio id="sfx-whip2" class="clip" src="assets/sfx/whoosh_c.mp3" data-start="11.31" data-duration="0.6" data-volume="0.45" data-track-index="8"></audio>
+      <audio id="sfx-whip3" class="clip" src="assets/sfx/whoosh_a.mp3" data-start="12.3" data-media-start="0.85" data-duration="1.0" data-volume="0.3" data-track-index="6"></audio>
+      <audio id="sfx-lauk" class="clip" src="assets/sfx/pop_hard.mp3" data-start="12.75" data-duration="0.21" data-volume="0.4" data-track-index="7"></audio>
+      <audio id="sfx-bowl" class="clip" src="assets/sfx/bowl.mp3" data-start="14.49" data-duration="0.9" data-volume="0.7" data-track-index="9"></audio>
+      <audio id="sfx-flood" class="clip" src="assets/sfx/whoosh_d.mp3" data-start="15.65" data-duration="1.5" data-fade-out="0.4" data-volume="0.4" data-track-index="8"></audio>
+      <audio id="sfx-pour" class="clip" src="assets/sfx/pour_ice.mp3" data-start="17.2" data-media-start="0.25" data-duration="3.6" data-fade-in="0.3" data-fade-out="0.6" data-volume="0.9" data-track-index="6"></audio>
+      <audio id="sfx-wipe" class="clip" src="assets/sfx/whoosh_c.mp3" data-start="17.16" data-duration="0.6" data-volume="0.35" data-track-index="7"></audio>
+      <audio id="sfx-price" class="clip" src="assets/sfx/pop_long.mp3" data-start="18.22" data-duration="0.5" data-volume="0.6" data-track-index="9"></audio>
+      <audio id="sfx-cut11" class="clip" src="assets/sfx/whoosh_c.mp3" data-start="20.72" data-duration="0.6" data-volume="0.4" data-track-index="8"></audio>
+      <audio id="sfx-chip1" class="clip" src="assets/sfx/pop_hard.mp3" data-start="21.12" data-duration="0.21" data-volume="0.35" data-track-index="7"></audio>
+      <audio id="sfx-chip2" class="clip" src="assets/sfx/pop_whoosh.mp3" data-start="21.13" data-duration="0.42" data-volume="0.4" data-track-index="9"></audio>
+      <audio id="sfx-chip3" class="clip" src="assets/sfx/pop_hard.mp3" data-start="21.52" data-duration="0.21" data-volume="0.35" data-track-index="6"></audio>
+      <audio id="sfx-chip4" class="clip" src="assets/sfx/pop_whoosh.mp3" data-start="21.53" data-duration="0.42" data-volume="0.4" data-track-index="8"></audio>
+      <audio id="sfx-outro" class="clip" src="assets/sfx/whoosh_b.mp3" data-start="22.89" data-duration="1.3" data-volume="0.4" data-track-index="7"></audio>
+      <audio id="sfx-print" class="clip" src="assets/sfx/typing.mp3" data-start="23.55" data-media-start="0.4" data-duration="1.1" data-volume="1" data-track-index="9"></audio>
+      <audio id="sfx-total" class="clip" src="assets/sfx/pop_long.mp3" data-start="25.33" data-duration="0.5" data-volume="0.6" data-track-index="6"></audio>
+      <audio id="sfx-verdict" class="clip" src="assets/sfx/impact_intro.mp3" data-start="25.82" data-duration="2.2" data-fade-out="0.8" data-volume="0.5" data-track-index="8"></audio>
+      <audio id="sfx-cta" class="clip" src="assets/sfx/pop_whoosh.mp3" data-start="26.75" data-duration="0.42" data-volume="0.45" data-track-index="7"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // 1 -> hook: settle from 1.14, punch on the stamp (0.55 s), whip up into the room.
+      tl.fromTo("#w1", { scale: 1.14 }, { scale: 1.04, duration: 0.5, ease: "expo.out" }, 0);
+      tl.set("#w1", { scale: 1.13 }, 0.55);
+      tl.fromTo("#w1", { x: -14 }, { x: 0, duration: 0.1, ease: "steps(3)" }, 0.55);
+      tl.to("#w1", { y: -620, duration: 0.2, ease: "power3.in" }, 1.887);
+      tl.fromTo("#w2", { y: 620 }, { y: 0, duration: 0.3, ease: "power3.out" }, 2.087);
+
+      // Wall pan: hard cut with a slight settle.
+      tl.fromTo("#w3", { scale: 1.1 }, { scale: 1.0, duration: 0.4, ease: "expo.out" }, 3.13);
+
+      // Menu: settle, then the receipt line becomes the next frame (handled in scenes).
+      tl.fromTo("#w4", { scale: 1.08 }, { scale: 1.0, duration: 0.5, ease: "expo.out" }, 4.174);
+
+      // Gepuk Ori reveal comes up from inside the red panel.
+      tl.fromTo("#w5", { scale: 1.18 }, { scale: 1.02, duration: 0.7, ease: "expo.out" }, 6.261);
+      tl.to("#w5", { scale: 1.1, duration: 0.12, ease: "power2.out" }, 7.45);
+
+      // Top-down after the camera flash.
+      tl.fromTo("#w6", { scale: 1.12 }, { scale: 1.0, duration: 0.5, ease: "expo.out" }, 9.391);
+      // Push whips: outgoing and incoming move together, crossing the cut on the beat.
+      tl.to("#w6", { x: -1080, duration: 0.3, ease: "power3.inOut" }, 11.33);
+      tl.fromTo("#w7", { x: 1080 }, { x: 0, duration: 0.3, ease: "power3.inOut" }, 11.33);
+      tl.to("#w7", { x: -1080, duration: 0.3, ease: "power3.inOut" }, 12.372);
+      tl.fromTo("#w8", { x: 1080 }, { x: 0, duration: 0.3, ease: "power3.inOut" }, 12.372);
+
+      // Bakso after a dip cut.
+      tl.fromTo("#w9", { scale: 1.12 }, { scale: 1.0, duration: 0.5, ease: "expo.out" }, 14.609);
+
+      // Dessert: scoop shot punches in on the cut.
+      tl.fromTo("#w11", { scale: 1.16 }, { scale: 1.0, duration: 0.45, ease: "expo.out" }, 20.87);
+
+      // Outro plate drifts under the receipt (footage plays; the camera holds).
+      tl.fromTo("#w12", { scale: 1.1 }, { scale: 1.0, duration: 0.6, ease: "expo.out" }, 23.478);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

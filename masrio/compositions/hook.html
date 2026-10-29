@@ -1,0 +1,103 @@
+<html
+  data-composition-variables='[
+    {"id":"hook-kicker","type":"string","label":"Hook kicker","default":"SET AYAM GEPUK"},
+    {"id":"hook-price","type":"string","label":"Hook price","default":"RM19.90"},
+    {"id":"hook-stamp","type":"string","label":"Hook stamp","default":"BERBALOI KE?"}
+  ]'
+>
+  <template>
+    <style>
+      #root {
+        position: absolute;
+        inset: 0;
+        --cabe: #e63b2e;
+        --kertas: #fff6e3;
+        --tinta: #1a1410;
+        --kunyit: #ffc21a;
+      }
+      #hook-scrim {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1100px;
+        background: linear-gradient(180deg, rgba(26, 20, 16, 0.72) 0%, rgba(26, 20, 16, 0.45) 55%, rgba(26, 20, 16, 0) 100%);
+      }
+      #hook-group {
+        position: absolute;
+        left: 0;
+        top: 330px;
+        width: 1080px;
+        text-align: center;
+      }
+      #hook-kicker {
+        display: inline-block;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 44px;
+        letter-spacing: 0.12em;
+        color: var(--kertas);
+        background: var(--cabe);
+        padding: 10px 26px 8px;
+        transform: rotate(-2deg);
+      }
+      #hook-price {
+        display: block;
+        margin-top: 6px;
+        font-family: "League Gothic", sans-serif;
+        font-size: 330px;
+        line-height: 0.92;
+        letter-spacing: 0.01em;
+        color: var(--kunyit);
+        text-shadow: 10px 10px 0 var(--tinta);
+      }
+      #hook-stamp-wrap {
+        position: absolute;
+        left: 0;
+        top: 820px;
+        width: 1080px;
+        text-align: center;
+      }
+      #hook-stamp {
+        display: inline-block;
+        font-family: "Archivo Black", sans-serif;
+        font-size: 76px;
+        line-height: 1;
+        color: var(--cabe);
+        background: var(--kertas);
+        border: 9px solid var(--cabe);
+        outline: 4px solid var(--kertas);
+        padding: 18px 34px 14px;
+        border-radius: 14px;
+        opacity: 0;
+      }
+    </style>
+    <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+      <div id="hook-scrim"></div>
+      <div id="hook-group">
+        <span id="hook-kicker" data-var-text="hook-kicker">SET AYAM GEPUK</span>
+        <span id="hook-price" data-var-text="hook-price">RM19.90</span>
+      </div>
+      <div id="hook-stamp-wrap">
+        <span id="hook-stamp" data-var-text="hook-stamp">BERBALOI KE?</span>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // Frame 0 is the thumbnail: price already on screen, it only settles.
+      tl.fromTo("#hook-price", { scale: 1.06 }, { scale: 1, duration: 0.45, ease: "expo.out" }, 0);
+      // Rubber stamp slams at 0.55 s.
+      tl.fromTo(
+        "#hook-stamp",
+        { opacity: 0, scale: 2.3, rotation: -16 },
+        { opacity: 1, scale: 1, rotation: -7, duration: 0.17, ease: "power4.in" },
+        0.38,
+      );
+      tl.fromTo("#hook-group", { x: -10, y: 6 }, { x: 0, y: 0, duration: 0.1, ease: "steps(3)" }, 0.55);
+      // Leave with the whip.
+      tl.to(["#hook-group", "#hook-stamp-wrap"], { y: -520, duration: 0.2, ease: "power3.in" }, 1.887);
+      tl.to("#hook-scrim", { opacity: 0, duration: 0.2, ease: "power2.in" }, 1.887);
+      window.__timelines["hook"] = tl;
+    </script>
+  </template>
+</html>

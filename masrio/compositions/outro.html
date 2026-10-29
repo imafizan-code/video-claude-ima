@@ -1,0 +1,202 @@
+<html
+  data-composition-variables='[
+    {"id":"rc-shop","type":"string","label":"Receipt header","default":"AYAM GEPUK MAS RIO"},
+    {"id":"rc-total","type":"string","label":"Total","default":"RM35.80"},
+    {"id":"rc-stamp","type":"string","label":"Verdict stamp","default":"BERBALOI!"},
+    {"id":"cta-main","type":"string","label":"CTA","default":"Korang rate berapa /10?"},
+    {"id":"cta-sub","type":"string","label":"CTA line","default":"komen kat bawah ↓"}
+  ]'
+>
+  <template>
+    <style>
+      #root {
+        position: absolute;
+        inset: 0;
+        --cabe: #e63b2e;
+        --kertas: #fff6e3;
+        --tinta: #1a1410;
+        --pandan: #b6f04a;
+        --ros: #ff4fa3;
+        --kunyit: #ffc21a;
+      }
+      #oc-dim {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        background: rgba(26, 20, 16, 0.58);
+        opacity: 0;
+      }
+      #oc-slot {
+        position: absolute;
+        left: 100px;
+        top: 222px;
+        width: 840px;
+        height: 36px;
+        border-radius: 18px;
+        background: #0d0a08;
+        box-shadow: 0 6px 0 rgba(0, 0, 0, 0.4);
+      }
+      #oc-mask {
+        position: absolute;
+        left: 130px;
+        top: 240px;
+        width: 780px;
+        height: 640px;
+        overflow: hidden;
+      }
+      #oc-rc {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 780px;
+        height: 600px;
+        background: var(--kertas);
+        padding: 46px 52px 0;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        color: var(--tinta);
+      }
+      #oc-rc::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -18px;
+        width: 100%;
+        height: 18px;
+        background: linear-gradient(-45deg, transparent 12px, #fff6e3 0) 0 0 / 24px 18px repeat-x,
+          linear-gradient(45deg, transparent 12px, #fff6e3 0) 0 0 / 24px 18px repeat-x;
+      }
+      #rc-shop {
+        font-family: "Archivo Black", sans-serif;
+        font-size: 46px;
+        text-align: center;
+        line-height: 1.05;
+      }
+      .rc-small {
+        font-size: 28px;
+        text-align: center;
+        letter-spacing: 0.25em;
+        margin-top: 10px;
+      }
+      .rc-rule {
+        border-top: 4px dashed var(--tinta);
+        margin: 26px 0;
+      }
+      .rc-line {
+        display: flex;
+        justify-content: space-between;
+        font-size: 34px;
+        margin: 14px 0;
+      }
+      #rc-totline {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+      #rc-totline .lbl {
+        font-size: 40px;
+      }
+      #rc-total {
+        font-family: "League Gothic", sans-serif;
+        font-weight: 400;
+        font-size: 120px;
+        line-height: 1;
+        color: var(--cabe);
+      }
+      #rc-bars {
+        margin-top: 28px;
+        height: 70px;
+        background: repeating-linear-gradient(90deg, #1a1410 0 4px, transparent 4px 9px, #1a1410 9px 11px, transparent 11px 17px, #1a1410 17px 24px, transparent 24px 28px);
+      }
+      #oc-stamp-wrap {
+        position: absolute;
+        left: 0;
+        top: 730px;
+        width: 1080px;
+        text-align: center;
+      }
+      #rc-stamp {
+        display: inline-block;
+        font-family: "Archivo Black", sans-serif;
+        font-size: 104px;
+        line-height: 1;
+        color: var(--cabe);
+        border: 10px solid var(--cabe);
+        border-radius: 16px;
+        padding: 20px 36px 14px;
+        background: rgba(255, 246, 227, 0.88);
+        opacity: 0;
+      }
+      #oc-cta {
+        position: absolute;
+        left: 60px;
+        top: 1010px;
+        width: 860px;
+      }
+      #cta-main {
+        display: inline-block;
+        font-family: "Archivo Black", sans-serif;
+        font-size: 62px;
+        line-height: 1;
+        color: var(--tinta);
+        background: var(--ros);
+        padding: 18px 26px 14px;
+        box-shadow: 8px 8px 0 var(--tinta);
+        white-space: nowrap;
+      }
+      #cta-sub {
+        display: inline-block;
+        margin: 22px 0 0 18px;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 40px;
+        color: var(--tinta);
+        background: var(--pandan);
+        padding: 6px 18px 4px;
+        white-space: nowrap;
+      }
+    </style>
+    <div id="root" data-composition-id="outro" data-width="1080" data-height="1920">
+      <div id="oc-dim"></div>
+      <div id="oc-mask">
+        <div id="oc-rc">
+          <div id="rc-shop" data-var-text="rc-shop">AYAM GEPUK MAS RIO</div>
+          <div class="rc-small">STRUK REVIEW</div>
+          <div class="rc-rule"></div>
+          <div class="rc-line"><span>1x GEPUK ORI</span><span>RM19.90</span></div>
+          <div class="rc-line"><span>1x ES PISANG IJO</span><span>RM15.90</span></div>
+          <div class="rc-rule"></div>
+          <div id="rc-totline"><span class="lbl">TOTAL</span><span id="rc-total" data-var-text="rc-total">RM35.80</span></div>
+          <div id="rc-bars"></div>
+        </div>
+      </div>
+      <div id="oc-slot"></div>
+      <div id="oc-stamp-wrap"><span id="rc-stamp" data-var-text="rc-stamp">BERBALOI!</span></div>
+      <div id="oc-cta">
+        <div id="cta-main" data-var-text="cta-main">Korang rate berapa /10?</div><br />
+        <div id="cta-sub" data-var-text="cta-sub">komen kat bawah ↓</div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#oc-dim", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0);
+      tl.fromTo("#oc-slot", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "expo.out" }, 0);
+      // Thermal print: the receipt feeds out of the slot in steps.
+      tl.fromTo("#oc-rc", { y: -640 }, { y: 0, duration: 1.2, ease: "steps(14)" }, 0.1);
+      tl.fromTo("#rc-total", { scale: 0.6, transformOrigin: "100% 80%" }, { scale: 1, duration: 0.3, ease: "back.out(2)" }, 1.88);
+      // Verdict stamp: the payoff, once.
+      tl.fromTo(
+        "#rc-stamp",
+        { opacity: 0, scale: 2.4, rotation: -20 },
+        { opacity: 1, scale: 1, rotation: -9, duration: 0.17, ease: "power4.in" },
+        2.43,
+      );
+      tl.fromTo("#oc-mask", { x: -10, y: 8 }, { x: 0, y: 0, duration: 0.1, ease: "steps(3)" }, 2.6);
+      tl.fromTo("#cta-main", { opacity: 0, x: -120, rotation: -1.5 }, { opacity: 1, x: 0, rotation: -1.5, duration: 0.4, ease: "expo.out" }, 3.38);
+      tl.fromTo("#cta-sub", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 3.75);
+      window.__timelines["outro"] = tl;
+    </script>
+  </template>
+</html>

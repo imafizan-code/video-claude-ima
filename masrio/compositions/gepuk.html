@@ -1,0 +1,177 @@
+<html
+  data-composition-variables='[
+    {"id":"gepuk-title","type":"string","label":"Title","default":"GEPUK ORI"},
+    {"id":"gepuk-sub","type":"string","label":"Subtitle","default":"SET ULTIMATE · RM19.90"},
+    {"id":"gepuk-badge","type":"string","label":"Badge","default":"1 SET KENYANG TERUS"}
+  ]'
+>
+  <template>
+    <style>
+      #root {
+        position: absolute;
+        inset: 0;
+        --cabe: #e63b2e;
+        --kertas: #fff6e3;
+        --tinta: #1a1410;
+        --kunyit: #ffc21a;
+        --pandan: #b6f04a;
+      }
+      #gp-flood {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        background: var(--cabe);
+      }
+      #gp-title {
+        position: absolute;
+        left: 60px;
+        top: 230px;
+        width: 760px;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "League Gothic", sans-serif;
+        font-size: 196px;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        color: var(--kertas);
+        padding-top: 14px;
+      }
+      #gp-title .ch {
+        display: inline-block;
+      }
+      #gp-sub {
+        position: absolute;
+        left: 60px;
+        top: 430px;
+        background: var(--tinta);
+        color: var(--kunyit);
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 36px;
+        padding: 10px 22px 8px;
+        white-space: nowrap;
+      }
+      .gp-tag {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        white-space: nowrap;
+      }
+      .gp-dot {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--kunyit);
+        border: 6px solid var(--tinta);
+        flex: none;
+      }
+      .gp-stem {
+        width: 70px;
+        height: 6px;
+        background: var(--kertas);
+        flex: none;
+      }
+      .gp-label {
+        font-family: "Archivo Black", sans-serif;
+        font-size: 44px;
+        line-height: 1;
+        color: var(--tinta);
+        background: var(--kertas);
+        padding: 14px 20px 10px;
+        box-shadow: 6px 6px 0 var(--tinta);
+      }
+      .gp-tag.flip {
+        flex-direction: row-reverse;
+      }
+      #gp-flash {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        background: #fffdf6;
+        opacity: 0;
+      }
+      #gp-badge {
+        position: absolute;
+        left: 560px;
+        top: 600px;
+        width: 330px;
+        height: 330px;
+        border-radius: 50%;
+        background: var(--kunyit);
+        border: 8px solid var(--tinta);
+        box-shadow: 10px 10px 0 var(--tinta);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-family: "League Gothic", sans-serif;
+        font-size: 78px;
+        line-height: 0.95;
+        color: var(--tinta);
+        padding: 30px;
+        opacity: 0;
+      }
+    </style>
+    <div id="root" data-composition-id="gepuk" data-width="1080" data-height="1920">
+      <div id="gp-flood"></div>
+      <div id="gp-title" data-var-text="gepuk-title">GEPUK ORI</div>
+      <div id="gp-sub" data-var-text="gepuk-sub">SET ULTIMATE · RM19.90</div>
+
+      <div class="gp-tag" id="gp-t1" style="left: 120px; top: 1175px"><span class="gp-dot"></span><span class="gp-stem"></span><span class="gp-label">AYAM GEPUK</span></div>
+      <div class="gp-tag" id="gp-t2" style="left: 285px; top: 760px"><span class="gp-dot"></span><span class="gp-stem"></span><span class="gp-label">ENOKI RANGUP</span></div>
+      <div class="gp-tag flip" id="gp-t3" style="left: 300px; top: 990px"><span class="gp-dot"></span><span class="gp-stem"></span><span class="gp-label">SAYUR RANGUP</span></div>
+
+      <div id="gp-flash"></div>
+      <div id="gp-badge" data-var-text="gepuk-badge">1 SET KENYANG TERUS</div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const t = document.querySelector("#gp-title");
+      const txt = t.textContent;
+      t.textContent = "";
+      for (const c of txt) {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = c === " " ? " " : c;
+        t.appendChild(s);
+      }
+      // The menu's red panel shrinks into the title plate (x 60..820, y 230..430).
+      tl.fromTo(
+        "#gp-flood",
+        { scaleX: 1, scaleY: 1, transformOrigin: "202.5px 256.7px" },
+        { scaleX: 0.7037, scaleY: 0.10417, duration: 0.5, ease: "power3.inOut" },
+        0,
+      );
+      tl.fromTo("#gp-title .ch", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.22, stagger: 0.035, ease: "expo.out" }, 0.32);
+      tl.fromTo("#gp-sub", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.3, ease: "power3.out" }, 0.62);
+
+      // Callouts: dot lands, stem draws, label pops.
+      [
+        ["#gp-t1", 0.8],
+        ["#gp-t2", 1.18],
+        ["#gp-t3", 1.56],
+      ].forEach(([id, at]) => {
+        tl.fromTo(`${id} .gp-dot`, { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(2)" }, at);
+        tl.fromTo(`${id} .gp-stem`, { scaleX: 0, transformOrigin: id === "#gp-t3" ? "100% 50%" : "0% 50%" }, { scaleX: 1, duration: 0.15, ease: "power3.out" }, at + 0.06);
+        tl.fromTo(`${id} .gp-label`, { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.7)" }, at + 0.12);
+      });
+      tl.to(["#gp-t1", "#gp-t2", "#gp-t3"], { opacity: 0, filter: "blur(8px)", duration: 0.15, stagger: 0.03, ease: "power2.in" }, 2.9);
+
+      // Camera flash on the cut to the top-down shot (abs 9.391).
+      tl.set("#gp-flash", { opacity: 0.9 }, 3.13);
+      tl.to("#gp-flash", { opacity: 0, duration: 0.32, ease: "power2.out" }, 3.13);
+      tl.fromTo("#gp-badge", { opacity: 0, scale: 0.3, rotation: -30 }, { opacity: 1, scale: 1, rotation: 10, duration: 0.4, ease: "back.out(1.8)" }, 3.36);
+
+      // Whip out to the left with the footage (abs 11.298).
+      tl.to(["#gp-flood", "#gp-title", "#gp-sub", "#gp-badge"], { x: -1080, duration: 0.3, ease: "power3.inOut" }, 5.069);
+      window.__timelines["gepuk"] = tl;
+    </script>
+  </template>
+</html>

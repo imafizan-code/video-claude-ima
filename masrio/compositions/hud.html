@@ -1,0 +1,112 @@
+<html>
+  <template>
+    <style>
+      #root {
+        position: absolute;
+        inset: 0;
+        --cabe: #e63b2e;
+        --kertas: #fff6e3;
+        --tinta: #1a1410;
+        --pandan: #b6f04a;
+      }
+      #hud-chip {
+        position: absolute;
+        left: 60px;
+        top: 1258px;
+        height: 60px;
+        display: flex;
+        align-items: stretch;
+        background: var(--tinta);
+        box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.35);
+      }
+      .hud-mask {
+        position: relative;
+        height: 60px;
+        overflow: hidden;
+      }
+      #hud-no {
+        width: 92px;
+        background: var(--cabe);
+      }
+      #hud-lbl {
+        width: 380px;
+      }
+      .hud-col {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+      .hud-col div {
+        height: 60px;
+        line-height: 60px;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      #hud-no .hud-col div {
+        font-size: 32px;
+        text-align: center;
+        color: var(--kertas);
+      }
+      #hud-lbl .hud-col div {
+        font-size: 30px;
+        letter-spacing: 0.08em;
+        color: var(--kertas);
+        padding-left: 20px;
+      }
+      #hud-dots {
+        position: absolute;
+        left: 60px;
+        top: 1232px;
+        display: flex;
+        gap: 8px;
+      }
+      .hud-dot {
+        width: 84px;
+        height: 10px;
+        background: rgba(255, 246, 227, 0.35);
+      }
+      .hud-fill {
+        width: 100%;
+        height: 100%;
+        background: var(--pandan);
+        transform-origin: 0% 50%;
+      }
+    </style>
+    <div id="root" data-composition-id="hud" data-width="1080" data-height="1920">
+      <div id="hud-dots">
+        <div class="hud-dot"><div class="hud-fill" id="hud-f1"></div></div>
+        <div class="hud-dot"><div class="hud-fill" id="hud-f2"></div></div>
+        <div class="hud-dot"><div class="hud-fill" id="hud-f3"></div></div>
+        <div class="hud-dot"><div class="hud-fill" id="hud-f4"></div></div>
+        <div class="hud-dot"><div class="hud-fill" id="hud-f5"></div></div>
+      </div>
+      <div id="hud-chip">
+        <div class="hud-mask" id="hud-no">
+          <div class="hud-col" id="hud-no-col" data-layout-allow-overflow data-layout-allow-occlusion><div data-layout-ignore>01</div><div data-layout-ignore>02</div><div data-layout-ignore>03</div><div data-layout-ignore>04</div><div data-layout-ignore>05</div></div>
+        </div>
+        <div class="hud-mask" id="hud-lbl">
+          <div class="hud-col" id="hud-lbl-col" data-layout-allow-overflow data-layout-allow-occlusion><div data-layout-ignore>MASUK KEDAI</div><div data-layout-ignore>TENGOK MENU</div><div data-layout-ignore>GEPUK ORI</div><div data-layout-ignore>LAUK SAMPING</div><div data-layout-ignore>PENCUCI MULUT</div></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // Chapter starts in scene time (film time minus 2.087).
+      const ch = [0, 2.087, 4.174, 10.435, 14.609];
+      const end = 21.391;
+      tl.fromTo("#hud-chip", { x: -560 }, { x: 0, duration: 0.4, ease: "expo.out" }, 0.1);
+      tl.fromTo("#hud-dots", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0.2);
+      ch.forEach((at, i) => {
+        if (i > 0) {
+          tl.to(["#hud-no-col", "#hud-lbl-col"], { y: -60 * i, duration: 0.28, ease: "expo.out" }, at);
+        }
+        const until = i < ch.length - 1 ? ch[i + 1] : end - 0.3;
+        tl.fromTo(`#hud-f${i + 1}`, { scaleX: 0 }, { scaleX: 1, duration: until - at, ease: "none" }, at);
+      });
+      tl.to(["#hud-chip", "#hud-dots"], { x: -600, duration: 0.2, ease: "power3.in" }, end - 0.25);
+      window.__timelines["hud"] = tl;
+    </script>
+  </template>
+</html>

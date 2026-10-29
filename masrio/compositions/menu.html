@@ -1,0 +1,110 @@
+<html>
+  <template>
+    <style>
+      #root {
+        position: absolute;
+        inset: 0;
+        --cabe: #e63b2e;
+        --kertas: #fff6e3;
+        --tinta: #1a1410;
+      }
+      #menu-receipt {
+        position: absolute;
+        left: 60px;
+        top: 220px;
+        width: 860px;
+        padding: 26px 0 34px;
+        background: var(--kertas);
+        box-shadow: 10px 10px 0 rgba(26, 20, 16, 0.85);
+      }
+      #menu-receipt::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -18px;
+        width: 100%;
+        height: 18px;
+        background: linear-gradient(-45deg, transparent 12px, #fff6e3 0) 0 0 / 24px 18px repeat-x,
+          linear-gradient(45deg, transparent 12px, #fff6e3 0) 0 0 / 24px 18px repeat-x;
+      }
+      #menu-head {
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 30px;
+        letter-spacing: 0.3em;
+        text-align: center;
+        color: var(--tinta);
+        padding: 0 36px 16px;
+        border-bottom: 4px dashed var(--tinta);
+        margin: 0 36px 10px;
+      }
+      .menu-line {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        height: 72px;
+        padding: 14px 72px 0;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 38px;
+        color: var(--tinta);
+      }
+      .menu-line .px {
+        font-family: "League Gothic", sans-serif;
+        font-size: 58px;
+        font-weight: 400;
+        line-height: 1;
+      }
+      .menu-line .soon {
+        font-size: 30px;
+        color: var(--cabe);
+      }
+      #menu-mark {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 860px;
+        height: 72px;
+        background: var(--cabe);
+        transform-origin: 0% 50%;
+      }
+      #menu-l1 span {
+        position: relative;
+      }
+      #menu-flood {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        background: var(--cabe);
+        opacity: 0;
+      }
+    </style>
+    <div id="root" data-composition-id="menu" data-width="1080" data-height="1920">
+      <div id="menu-receipt">
+        <div id="menu-head">MENU HARI NI</div>
+        <div class="menu-line" id="menu-l1"><div id="menu-mark"></div><span class="nm">GEPUK ORI</span><span class="px">RM19.90</span></div>
+        <div class="menu-line" id="menu-l2"><span class="nm">ES PISANG IJO</span><span class="px">RM15.90</span></div>
+        <div class="menu-line" id="menu-l3"><span class="nm">CHICKEN ROLL</span><span class="px soon">COMING SOON</span></div>
+      </div>
+      <div id="menu-flood"></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#menu-receipt", { y: -480 }, { y: 0, duration: 0.32, ease: "expo.out" }, 0);
+      ["#menu-l1", "#menu-l2", "#menu-l3"].forEach((id, i) => {
+        tl.fromTo(`${id} span`, { opacity: 0 }, { opacity: 1, duration: 0.06, stagger: 0.04, ease: "none" }, 0.22 + i * 0.3);
+      });
+      // Marker swipes the Gepuk Ori line; its red becomes the next frame.
+      tl.fromTo("#menu-mark", { scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: "power3.out" }, 1.4);
+      tl.to("#menu-l1 span", { color: "#fff6e3", duration: 0.08, ease: "none" }, 1.48);
+      // Full-frame red panel starts as the marker's box and grows past the frame.
+      // Marker box on canvas: x 60..920, y 330..402 (receipt top 220 + head ~110).
+      tl.set("#menu-flood", { opacity: 1, scaleX: 0.7963, scaleY: 0.0375, transformOrigin: "294.5px 342.8px" }, 1.8);
+      tl.to("#menu-flood", { scaleX: 1, scaleY: 1, duration: 0.287, ease: "power3.in" }, 1.8);
+      window.__timelines["menu"] = tl;
+    </script>
+  </template>
+</html>

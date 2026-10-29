@@ -1,0 +1,138 @@
+<html
+  data-composition-variables='[
+    {"id":"ds-card","type":"string","label":"Chapter card","default":"PENCUCI MULUT"},
+    {"id":"ds-title","type":"string","label":"Dessert title","default":"ES PISANG IJO"},
+    {"id":"ds-price","type":"string","label":"Dessert price","default":"RM15.90"}
+  ]'
+>
+  <template>
+    <style>
+      #root {
+        position: absolute;
+        inset: 0;
+        --cabe: #e63b2e;
+        --kertas: #fff6e3;
+        --tinta: #1a1410;
+        --pandan: #b6f04a;
+        --ros: #ff4fa3;
+        --kunyit: #ffc21a;
+      }
+      #ds-panel {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        background: var(--ros);
+      }
+      #ds-card {
+        position: absolute;
+        left: 90px;
+        top: 560px;
+        width: 900px;
+        text-align: center;
+        font-family: "League Gothic", sans-serif;
+        font-size: 270px;
+        line-height: 0.9;
+        color: var(--pandan);
+        text-shadow: 12px 12px 0 var(--tinta);
+      }
+      #ds-card .wd {
+        display: inline-block;
+      }
+      #ds-title {
+        position: absolute;
+        left: 60px;
+        top: 240px;
+        background: var(--ros);
+        color: var(--kertas);
+        font-family: "Archivo Black", sans-serif;
+        font-size: 82px;
+        line-height: 1;
+        padding: 20px 28px 14px;
+        transform: rotate(-2deg);
+        box-shadow: 10px 10px 0 var(--tinta);
+        white-space: nowrap;
+      }
+      #ds-title .wd {
+        display: inline-block;
+      }
+      #ds-price {
+        position: absolute;
+        left: 640px;
+        top: 400px;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background: var(--pandan);
+        border: 8px solid var(--tinta);
+        box-shadow: 8px 8px 0 var(--tinta);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "League Gothic", sans-serif;
+        font-size: 96px;
+        color: var(--tinta);
+        padding-top: 8px;
+        opacity: 0;
+      }
+      .ds-chip {
+        position: absolute;
+        font-family: "Archivo Black", sans-serif;
+        font-size: 48px;
+        line-height: 1;
+        color: var(--tinta);
+        padding: 16px 24px 12px;
+        border: 5px solid var(--tinta);
+        border-radius: 60px;
+        box-shadow: 6px 6px 0 var(--tinta);
+        white-space: nowrap;
+        opacity: 0;
+      }
+    </style>
+    <div id="root" data-composition-id="dessert" data-width="1080" data-height="1920">
+      <div id="ds-panel"><div id="ds-card" data-var-text="ds-card">PENCUCI MULUT</div></div>
+      <div id="ds-title" data-var-text="ds-title">ES PISANG IJO</div>
+      <div id="ds-price" data-var-text="ds-price">RM15.90</div>
+      <div class="ds-chip" id="ds-c1" style="left: 60px; top: 230px; background: #b6f04a">PISANG IJO</div>
+      <div class="ds-chip" id="ds-c2" style="left: 440px; top: 250px; background: #fff6e3">BUBUR SUMSUM</div>
+      <div class="ds-chip" id="ds-c3" style="left: 90px; top: 370px; background: #ffc21a">KUAH SANTAN</div>
+      <div class="ds-chip" id="ds-c4" style="left: 560px; top: 390px; background: #ff4fa3">JAGUNG</div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      for (const sel of ["#ds-card", "#ds-title"]) {
+        const el = document.querySelector(sel);
+        const words = el.textContent.split(" ");
+        el.textContent = "";
+        words.forEach((w, i) => {
+          const s = document.createElement("span");
+          s.className = "wd";
+          s.textContent = w;
+          el.appendChild(s);
+          if (i < words.length - 1) el.appendChild(document.createTextNode(" "));
+        });
+      }
+      // Pink flood rises over the bakso and lands on the cut (abs 16.696).
+      tl.fromTo("#ds-panel", { y: 1920 }, { y: 0, duration: 0.246, ease: "power3.in" }, 0);
+      tl.fromTo("#ds-card .wd", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.2, stagger: 0.09, ease: "expo.out" }, 0.2);
+      // Wipe up to reveal the pour.
+      tl.fromTo("#ds-panel", { clipPath: "inset(0% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.3, ease: "power3.inOut" }, 0.74);
+      tl.fromTo("#ds-title", { opacity: 0 }, { opacity: 1, duration: 0.01 }, 1.15);
+      tl.fromTo("#ds-title .wd", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.067, ease: "power2.out" }, 1.15);
+      tl.fromTo("#ds-price", { opacity: 0, scale: 0.3, rotation: -40 }, { opacity: 1, scale: 1, rotation: 12, duration: 0.4, ease: "back.out(1.8)" }, 1.75);
+      tl.to(["#ds-title", "#ds-price"], { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in" }, 4.1);
+      // Ingredient chips on the scoop shot.
+      [
+        ["#ds-c1", 4.69, -4],
+        ["#ds-c2", 4.92, 3],
+        ["#ds-c3", 5.09, 2],
+        ["#ds-c4", 5.32, -3],
+      ].forEach(([id, at, r]) => {
+        tl.fromTo(id, { opacity: 0, scale: 0.4, rotation: r * 4 }, { opacity: 1, scale: 1, rotation: r, duration: 0.3, ease: "back.out(1.9)" }, at - 0.06);
+      });
+      tl.to(".ds-chip", { opacity: 0, y: -40, duration: 0.15, stagger: 0.03, ease: "power2.in" }, 6.75);
+      window.__timelines["dessert"] = tl;
+    </script>
+  </template>
+</html>

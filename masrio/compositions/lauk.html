@@ -1,0 +1,118 @@
+<html
+  data-composition-variables='[
+    {"id":"lauk-title","type":"string","label":"Side dish title","default":"LAUK SAMPING"},
+    {"id":"lauk-sub","type":"string","label":"Side dish line","default":"tambah lagi sikit..."},
+    {"id":"bakso-sub","type":"string","label":"Bakso line","default":"berkuah, panas-panas"}
+  ]'
+>
+  <template>
+    <style>
+      #root {
+        position: absolute;
+        inset: 0;
+        --cabe: #e63b2e;
+        --kertas: #fff6e3;
+        --tinta: #1a1410;
+        --pandan: #b6f04a;
+      }
+      #lk-tape {
+        position: absolute;
+        left: 60px;
+        top: 250px;
+        background: var(--pandan);
+        color: var(--tinta);
+        font-family: "Archivo Black", sans-serif;
+        font-size: 84px;
+        line-height: 1;
+        padding: 20px 30px 14px;
+        box-shadow: 10px 10px 0 var(--tinta);
+        white-space: nowrap;
+      }
+      #lk-sub {
+        position: absolute;
+        left: 80px;
+        top: 400px;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 40px;
+        color: var(--kertas);
+        background: var(--tinta);
+        padding: 8px 18px 6px;
+        white-space: nowrap;
+      }
+      #lk-dip {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        background: #000;
+        opacity: 0;
+      }
+      #bk-word {
+        position: absolute;
+        left: 0;
+        top: 200px;
+        width: 1080px;
+        text-align: center;
+        font-family: "League Gothic", sans-serif;
+        font-size: 300px;
+        line-height: 1;
+        color: var(--kertas);
+        text-shadow: 12px 12px 0 var(--cabe);
+        opacity: 0;
+      }
+      #bk-word .ch {
+        display: inline-block;
+      }
+      #bk-sub-wrap {
+        position: absolute;
+        left: 0;
+        top: 510px;
+        width: 1080px;
+        text-align: center;
+      }
+      #bk-sub {
+        display: inline-block;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 40px;
+        color: var(--kertas);
+        background: var(--cabe);
+        padding: 8px 20px 6px;
+        opacity: 0;
+      }
+    </style>
+    <div id="root" data-composition-id="lauk" data-width="1080" data-height="1920">
+      <div id="lk-tape" data-var-text="lauk-title">LAUK SAMPING</div>
+      <div id="lk-sub" data-var-text="lauk-sub">tambah lagi sikit...</div>
+      <div id="lk-dip"></div>
+      <div id="bk-word">BAKSO</div>
+      <div id="bk-sub-wrap"><span id="bk-sub" data-var-text="bakso-sub">berkuah, panas-panas</span></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const w = document.querySelector("#bk-word");
+      const txt = w.textContent;
+      w.textContent = "";
+      for (const c of txt) {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = c;
+        w.appendChild(s);
+      }
+      tl.fromTo("#lk-tape", { x: 900, rotation: 8 }, { x: 0, rotation: 2, duration: 0.4, ease: "expo.out" }, 0.18);
+      tl.fromTo("#lk-sub", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.6);
+      tl.to(["#lk-tape", "#lk-sub"], { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in" }, 1.8);
+      // Dip cut: three frames darker before the bakso cut (abs 14.609).
+      tl.fromTo("#lk-dip", { opacity: 0 }, { opacity: 0.4, duration: 0.03, ease: "none" }, 1.987);
+      tl.set("#lk-dip", { opacity: 0 }, 2.087);
+      // BAKSO lands letter by letter.
+      tl.set("#bk-word", { opacity: 1 }, 2.12);
+      tl.fromTo("#bk-word .ch", { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.05, ease: "expo.out" }, 2.12);
+      tl.fromTo("#bk-sub", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 2.5);
+      tl.to(["#bk-word", "#bk-sub-wrap"], { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.83);
+      window.__timelines["lauk"] = tl;
+    </script>
+  </template>
+</html>
