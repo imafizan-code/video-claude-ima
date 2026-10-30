@@ -1,7 +1,8 @@
 <html
   data-composition-variables='[
-    {"id":"hook-kicker","type":"string","label":"Hook kicker","default":"GEPUK + ES PISANG IJO"},
-    {"id":"hook-price","type":"string","label":"Hook price","default":"RM35.80"},
+    {"id":"hook-kicker","type":"string","label":"Hook kicker","default":"AMARAN!"},
+    {"id":"hook-line1","type":"string","label":"Hook line 1","default":"JANGAN SCROLL"},
+    {"id":"hook-line2","type":"string","label":"Hook line 2","default":"KALAU LAPAR"},
     {"id":"hook-stamp","type":"string","label":"Hook stamp","default":"BERBALOI KE?"}
   ]'
 >
@@ -34,21 +35,20 @@
         display: inline-block;
         font-family: "Space Mono", monospace;
         font-weight: 700;
-        font-size: 44px;
+        font-size: 52px;
         letter-spacing: 0.12em;
         color: var(--kertas);
         background: var(--cabe);
         padding: 10px 26px 8px;
         transform: rotate(-2deg);
       }
-      #hook-price {
+      .hook-big {
         display: block;
-        margin-top: 6px;
         font-family: "League Gothic", sans-serif;
-        font-size: 270px;
-        line-height: 0.92;
+        font-size: 190px;
+        line-height: 0.95;
         letter-spacing: 0.01em;
-        color: var(--kunyit);
+        color: var(--kertas);
         text-shadow: 10px 10px 0 var(--tinta);
       }
       #hook-stamp-wrap {
@@ -75,8 +75,9 @@
     <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
       <div id="hook-scrim"></div>
       <div id="hook-group">
-        <span id="hook-kicker" data-var-text="hook-kicker">GEPUK + ES PISANG IJO</span>
-        <span id="hook-price" data-var-text="hook-price">RM35.80</span>
+        <span id="hook-kicker" data-var-text="hook-kicker">AMARAN!</span>
+        <span class="hook-big" id="hook-l1" data-var-text="hook-line1">JANGAN SCROLL</span>
+        <span class="hook-big" id="hook-l2" data-var-text="hook-line2">KALAU LAPAR</span>
       </div>
       <div id="hook-stamp-wrap">
         <span id="hook-stamp" data-var-text="hook-stamp">BERBALOI KE?</span>
@@ -84,16 +85,17 @@
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
-      // Frame 0 is the thumbnail: price already on screen, it only settles.
-      tl.fromTo("#hook-price", { scale: 1.06 }, { scale: 1, duration: 0.45, ease: "expo.out" }, 0);
-      // Rubber stamp slams at 0.55 s.
+      // Frame 0 is the thumbnail: the warning is already on screen; line 2 turns yellow on the first cut.
+      tl.fromTo(".hook-big", { scale: 1.06 }, { scale: 1, duration: 0.3, ease: "expo.out" }, 0);
+      tl.fromTo("#hook-l2", { color: "#fff6e3" }, { color: "#ffc21a", duration: 0.01, ease: "none" }, 0.261);
+      // Rubber stamp slams on beat 2 (1.043 s).
       tl.fromTo(
         "#hook-stamp",
         { opacity: 0, scale: 2.3, rotation: -16 },
         { opacity: 1, scale: 1, rotation: -7, duration: 0.17, ease: "power4.in" },
-        0.38,
+        0.873,
       );
-      tl.fromTo("#hook-group", { x: -10, y: 6 }, { x: 0, y: 0, duration: 0.1, ease: "steps(3)" }, 0.55);
+      tl.fromTo("#hook-group", { x: -10, y: 6 }, { x: 0, y: 0, duration: 0.1, ease: "steps(3)" }, 1.043);
       // Leave with the whip.
       tl.to(["#hook-group", "#hook-stamp-wrap"], { y: -520, duration: 0.2, ease: "power3.in" }, 1.887);
       tl.to("#hook-scrim", { opacity: 0, duration: 0.2, ease: "power2.in" }, 1.887);
