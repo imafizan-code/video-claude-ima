@@ -56,6 +56,9 @@
         font-weight: 400;
         line-height: 1;
       }
+      .menu-line .tick {
+        font-size: 44px;
+      }
       .menu-line .soon {
         font-size: 30px;
         color: var(--cabe);
@@ -85,9 +88,9 @@
     <div id="root" data-composition-id="menu" data-width="1080" data-height="1920">
       <div id="menu-receipt">
         <div id="menu-head">MENU HARI NI</div>
-        <div class="menu-line" id="menu-l1"><div id="menu-mark"></div><span class="nm">GEPUK ORI</span><span class="px">RM19.90</span></div>
-        <div class="menu-line" id="menu-l2"><span class="nm">ES PISANG IJO</span><span class="px">RM15.90</span></div>
-        <div class="menu-line" id="menu-l3"><span class="nm">CHICKEN ROLL</span><span class="px soon">COMING SOON</span></div>
+        <div class="menu-line" id="menu-l1"><div id="menu-mark"></div><span class="nm">GEPUK ORI</span><span class="px tick">ORDER ✓</span></div>
+        <div class="menu-line" id="menu-l2"><span class="nm">ES PISANG IJO</span><span class="px tick">ORDER ✓</span></div>
+        <div class="menu-line" id="menu-l3"><span class="nm">CHICKEN ROLL</span><span class="px soon">SOON</span></div>
       </div>
       <div id="menu-flood"></div>
     </div>
@@ -98,12 +101,12 @@
         tl.fromTo(`${id} span`, { opacity: 0 }, { opacity: 1, duration: 0.06, stagger: 0.04, ease: "none" }, 0.22 + i * 0.3);
       });
       // Marker swipes the Gepuk Ori line; its red becomes the next frame.
-      tl.fromTo("#menu-mark", { scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: "power3.out" }, 1.4);
-      tl.to("#menu-l1 span", { color: "#fff6e3", duration: 0.08, ease: "none" }, 1.48);
+      tl.fromTo("#menu-mark", { scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: "power3.out" }, 2.4);
+      tl.to("#menu-l1 span", { color: "#fff6e3", duration: 0.08, ease: "none" }, 2.48);
       // Full-frame red panel starts as the marker's box and grows past the frame.
       // Marker box on canvas: x 60..920, y 330..402 (receipt top 220 + head ~110).
-      tl.set("#menu-flood", { opacity: 1, scaleX: 0.7963, scaleY: 0.0375, transformOrigin: "294.5px 342.8px" }, 1.8);
-      tl.to("#menu-flood", { scaleX: 1, scaleY: 1, duration: 0.287, ease: "power3.in" }, 1.8);
+      tl.set("#menu-flood", { opacity: 1, scaleX: 0.7963, scaleY: 0.0375, transformOrigin: "294.5px 342.8px" }, 2.843);
+      tl.to("#menu-flood", { scaleX: 1, scaleY: 1, duration: 0.287, ease: "power3.in" }, 2.843);
       window.__timelines["menu"] = tl;
     </script>
   </template>

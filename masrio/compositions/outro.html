@@ -1,7 +1,7 @@
 <html
   data-composition-variables='[
     {"id":"rc-shop","type":"string","label":"Receipt header","default":"AYAM GEPUK MAS RIO"},
-    {"id":"rc-total","type":"string","label":"Total","default":"RM35.80"},
+    {"id":"rc-total","type":"string","label":"Total","default":"KENYANG"},
     {"id":"rc-stamp","type":"string","label":"Verdict stamp","default":"BERBALOI!"},
     {"id":"cta-main","type":"string","label":"CTA","default":"Korang rate berapa /10?"},
     {"id":"cta-sub","type":"string","label":"CTA line","default":"komen kat bawah ↓"}
@@ -43,7 +43,7 @@
         left: 130px;
         top: 240px;
         width: 780px;
-        height: 640px;
+        height: 760px;
         overflow: hidden;
       }
       #oc-rc {
@@ -51,7 +51,7 @@
         left: 0;
         top: 0;
         width: 780px;
-        height: 600px;
+        height: 720px;
         background: var(--kertas);
         padding: 46px 52px 0;
         font-family: "Space Mono", monospace;
@@ -113,7 +113,7 @@
       #oc-stamp-wrap {
         position: absolute;
         left: 0;
-        top: 730px;
+        top: 925px;
         width: 1080px;
         text-align: center;
       }
@@ -132,7 +132,7 @@
       #oc-cta {
         position: absolute;
         left: 60px;
-        top: 1010px;
+        top: 1135px;
         width: 860px;
       }
       #cta-main {
@@ -165,10 +165,12 @@
           <div id="rc-shop" data-var-text="rc-shop">AYAM GEPUK MAS RIO</div>
           <div class="rc-small">STRUK REVIEW</div>
           <div class="rc-rule"></div>
-          <div class="rc-line"><span>1x GEPUK ORI</span><span>RM19.90</span></div>
-          <div class="rc-line"><span>1x ES PISANG IJO</span><span>RM15.90</span></div>
+          <div class="rc-line"><span>1x GEPUK ORI</span><span>✓</span></div>
+          <div class="rc-line"><span>1x TONGKENG</span><span>✓</span></div>
+          <div class="rc-line"><span>1x PENTOL KUAH MERCUN</span><span>✓</span></div>
+          <div class="rc-line"><span>1x ES PISANG IJO</span><span>✓</span></div>
           <div class="rc-rule"></div>
-          <div id="rc-totline"><span class="lbl">TOTAL</span><span id="rc-total" data-var-text="rc-total">RM35.80</span></div>
+          <div id="rc-totline"><span class="lbl">TOTAL</span><span id="rc-total" data-var-text="rc-total">KENYANG</span></div>
           <div id="rc-bars"></div>
         </div>
       </div>
@@ -184,7 +186,7 @@
       tl.fromTo("#oc-dim", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0);
       tl.fromTo("#oc-slot", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "expo.out" }, 0);
       // Thermal print: the receipt feeds out of the slot in steps.
-      tl.fromTo("#oc-rc", { y: -640 }, { y: 0, duration: 1.2, ease: "steps(14)" }, 0.1);
+      tl.fromTo("#oc-rc", { y: -760 }, { y: 0, duration: 1.2, ease: "steps(14)" }, 0.1);
       tl.fromTo("#rc-total", { scale: 0.6, transformOrigin: "100% 80%" }, { scale: 1, duration: 0.3, ease: "back.out(2)" }, 1.88);
       // Verdict stamp: the payoff, once.
       tl.fromTo(

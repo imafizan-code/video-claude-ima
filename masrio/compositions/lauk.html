@@ -104,15 +104,15 @@
       }
       tl.fromTo("#lk-tape", { x: 900, rotation: 8 }, { x: 0, rotation: 2, duration: 0.4, ease: "expo.out" }, 0.18);
       tl.fromTo("#lk-sub", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.6);
-      tl.to(["#lk-tape", "#lk-sub"], { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in" }, 1.8);
+      tl.to(["#lk-tape", "#lk-sub"], { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in" }, 2.843);
       // Dip cut: three frames darker before the bakso cut (abs 14.609).
-      tl.fromTo("#lk-dip", { opacity: 0 }, { opacity: 0.4, duration: 0.03, ease: "none" }, 1.987);
-      tl.set("#lk-dip", { opacity: 0 }, 2.087);
+      tl.fromTo("#lk-dip", { opacity: 0 }, { opacity: 0.4, duration: 0.03, ease: "none" }, 3.03);
+      tl.set("#lk-dip", { opacity: 0 }, 3.13);
       // PENTOL lands letter by letter, then the KUAH MERCUN tape pops.
-      tl.set("#bk-word", { opacity: 1 }, 2.12);
-      tl.fromTo("#bk-word .ch", { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.05, ease: "expo.out" }, 2.12);
-      tl.fromTo("#bk-sub", { opacity: 0, scale: 0.4, rotation: -12 }, { opacity: 1, scale: 1, rotation: -3, duration: 0.3, ease: "back.out(2)" }, 2.45);
-      tl.to(["#bk-word", "#bk-sub-wrap"], { opacity: 0, duration: 0.12, ease: "power2.in" }, 3.83);
+      tl.set("#bk-word", { opacity: 1 }, 3.163);
+      tl.fromTo("#bk-word .ch", { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.05, ease: "expo.out" }, 3.163);
+      tl.fromTo("#bk-sub", { opacity: 0, scale: 0.4, rotation: -12 }, { opacity: 1, scale: 1, rotation: -3, duration: 0.3, ease: "back.out(2)" }, 3.493);
+      tl.to(["#bk-word", "#bk-sub-wrap"], { opacity: 0, duration: 0.12, ease: "power2.in" }, 5.917);
       window.__timelines["lauk"] = tl;
     </script>
   </template>

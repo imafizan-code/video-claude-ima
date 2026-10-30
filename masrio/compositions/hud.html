@@ -94,8 +94,8 @@
     <script>
       const tl = gsap.timeline({ paused: true });
       // Chapter starts in scene time (film time minus 2.087).
-      const ch = [0, 2.087, 4.174, 12.522, 16.696];
-      const end = 23.478;
+      const ch = [0, 4.174, 7.304, 18.783, 25.044];
+      const end = 31.822;
       tl.fromTo("#hud-chip", { x: -560 }, { x: 0, duration: 0.4, ease: "expo.out" }, 0.1);
       tl.fromTo("#hud-dots", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0.2);
       ch.forEach((at, i) => {
