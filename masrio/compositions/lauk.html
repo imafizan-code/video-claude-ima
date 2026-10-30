@@ -2,7 +2,9 @@
   data-composition-variables='[
     {"id":"lauk-title","type":"string","label":"Tongkeng title","default":"TONGKENG"},
     {"id":"lauk-sub","type":"string","label":"Side dish line","default":"tambah lagi sikit..."},
-    {"id":"bakso-sub","type":"string","label":"Pentol line","default":"KUAH MERCUN"}
+    {"id":"bakso-sub","type":"string","label":"Pentol line","default":"KUAH MERCUN"},
+    {"id":"pentol-c1","type":"string","label":"Pentol detail 1","default":"PEDAS!"},
+    {"id":"pentol-c2","type":"string","label":"Pentol detail 2","default":"KENYAL!"}
   ]'
 >
   <template>
@@ -72,6 +74,19 @@
         width: 1080px;
         text-align: center;
       }
+      .bk-chip {
+        position: absolute;
+        font-family: "Archivo Black", sans-serif;
+        font-size: 58px;
+        line-height: 1;
+        color: var(--tinta);
+        padding: 16px 28px 12px;
+        border: 5px solid var(--tinta);
+        border-radius: 60px;
+        box-shadow: 6px 6px 0 var(--tinta);
+        white-space: nowrap;
+        opacity: 0;
+      }
       #bk-sub {
         display: inline-block;
         font-family: "Archivo Black", sans-serif;
@@ -90,6 +105,8 @@
       <div id="lk-dip"></div>
       <div id="bk-word">PENTOL</div>
       <div id="bk-sub-wrap"><span id="bk-sub" data-var-text="bakso-sub">KUAH MERCUN</span></div>
+      <div class="bk-chip" id="bk-c1" style="left: 170px; top: 610px; background: #ffc21a" data-var-text="pentol-c1">PEDAS!</div>
+      <div class="bk-chip" id="bk-c2" style="left: 560px; top: 625px; background: #b6f04a" data-var-text="pentol-c2">KENYAL!</div>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
@@ -112,7 +129,10 @@
       tl.set("#bk-word", { opacity: 1 }, 3.163);
       tl.fromTo("#bk-word .ch", { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.05, ease: "expo.out" }, 3.163);
       tl.fromTo("#bk-sub", { opacity: 0, scale: 0.4, rotation: -12 }, { opacity: 1, scale: 1, rotation: -3, duration: 0.3, ease: "back.out(2)" }, 3.493);
-      tl.to(["#bk-word", "#bk-sub-wrap"], { opacity: 0, duration: 0.12, ease: "power2.in" }, 5.917);
+      // Detail chips: pedas, then kenyal.
+      tl.fromTo("#bk-c1", { opacity: 0, scale: 0.4, rotation: -16 }, { opacity: 1, scale: 1, rotation: -4, duration: 0.3, ease: "back.out(1.9)" }, 4.0);
+      tl.fromTo("#bk-c2", { opacity: 0, scale: 0.4, rotation: 16 }, { opacity: 1, scale: 1, rotation: 4, duration: 0.3, ease: "back.out(1.9)" }, 4.52);
+      tl.to(["#bk-word", "#bk-sub-wrap", "#bk-c1", "#bk-c2"], { opacity: 0, duration: 0.12, ease: "power2.in" }, 5.917);
       window.__timelines["lauk"] = tl;
     </script>
   </template>
