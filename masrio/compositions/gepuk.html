@@ -124,7 +124,7 @@
       <div id="gp-title" data-var-text="gepuk-title">GEPUK ORI</div>
       <div id="gp-sub" data-var-text="gepuk-sub">SET ULTIMATE · RM19.90</div>
 
-      <div class="gp-tag" id="gp-t1" style="left: 120px; top: 1175px"><span class="gp-dot"></span><span class="gp-stem"></span><span class="gp-label">AYAM GEPUK</span></div>
+      <div class="gp-tag" id="gp-t1" style="left: 120px; top: 1150px"><span class="gp-dot"></span><span class="gp-stem"></span><span class="gp-label">AYAM GEPUK</span></div>
       <div class="gp-tag" id="gp-t2" style="left: 285px; top: 760px"><span class="gp-dot"></span><span class="gp-stem"></span><span class="gp-label">ENOKI RANGUP</span></div>
       <div class="gp-tag flip" id="gp-t3" style="left: 300px; top: 990px"><span class="gp-dot"></span><span class="gp-stem"></span><span class="gp-label">SAYUR RANGUP</span></div>
 
@@ -162,15 +162,15 @@
         tl.fromTo(`${id} .gp-stem`, { scaleX: 0, transformOrigin: id === "#gp-t3" ? "100% 50%" : "0% 50%" }, { scaleX: 1, duration: 0.15, ease: "power3.out" }, at + 0.06);
         tl.fromTo(`${id} .gp-label`, { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.7)" }, at + 0.12);
       });
-      tl.to(["#gp-t1", "#gp-t2", "#gp-t3"], { opacity: 0, filter: "blur(8px)", duration: 0.15, stagger: 0.03, ease: "power2.in" }, 2.9);
+      tl.to(["#gp-t1", "#gp-t2", "#gp-t3"], { opacity: 0, filter: "blur(8px)", duration: 0.15, stagger: 0.03, ease: "power2.in" }, 3.944);
 
-      // Camera flash on the cut to the top-down shot (abs 9.391).
-      tl.set("#gp-flash", { opacity: 0.9 }, 3.13);
-      tl.to("#gp-flash", { opacity: 0, duration: 0.32, ease: "power2.out" }, 3.13);
-      tl.fromTo("#gp-badge", { opacity: 0, scale: 0.3, rotation: -30 }, { opacity: 1, scale: 1, rotation: 10, duration: 0.4, ease: "back.out(1.8)" }, 3.36);
+      // Camera flash on the cut to the top-down shot (abs 10.435).
+      tl.set("#gp-flash", { opacity: 0.9 }, 4.173);
+      tl.to("#gp-flash", { opacity: 0, duration: 0.32, ease: "power2.out" }, 4.173);
+      tl.fromTo("#gp-badge", { opacity: 0, scale: 0.3, rotation: -30 }, { opacity: 1, scale: 1, rotation: 10, duration: 0.4, ease: "back.out(1.8)" }, 4.404);
 
-      // Whip out to the left with the footage (abs 11.298).
-      tl.to(["#gp-flood", "#gp-title", "#gp-sub", "#gp-badge"], { x: -1080, duration: 0.3, ease: "power3.inOut" }, 5.069);
+      // Whip out to the left with the footage (abs 12.374).
+      tl.to(["#gp-flood", "#gp-title", "#gp-sub", "#gp-badge"], { x: -1080, duration: 0.3, ease: "power3.inOut" }, 6.112);
       window.__timelines["gepuk"] = tl;
     </script>
   </template>
