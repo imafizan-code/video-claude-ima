@@ -28,23 +28,28 @@
 
 > **[VO]** = voiceover / cakap ke kamera · **[VISUAL]** = apa yang nampak · **[EDIT]** = benda tambah masa edit
 
-### BABAK 1 — HOOK (0:00 – 0:06) · *Lokasi A: duduk atas sofa, bantal atas riba*
+### BABAK 1 — HOOK BARU (0:00 – 0:05) · *Lokasi A: duduk atas sofa, close-up*
+
+> Brief kata hook **WAJIB ikut** mesej ni: *"ShopeePay app is the all-in-one e-wallet, macam T-N-G!"*, dan hook visual kena ada **screenshot ShopeePay app kat App Store / Play Store**. Jadi hook baru ni terus guna mesej tu.
 
 | Masa | Shot | Dialog |
 |---|---|---|
-| 0:00–0:02 | Pose berfikir — tangan kat pipi, mata ke atas, muka keliru | **[VO]** "Korang, macam mana eh nak dapat RM100?" |
-| 0:02–0:04 | Masih pose berfikir. | **[EDIT]** Logo ShopeePay pop-up + animasi cursor klik + bunyi "klik" |
-| 0:04–0:06 | Muka tiba-tiba terkejut — mulut "O", tangan kat kepala | **[VO]** "Ohhh… jumpa dah!" |
+| 0:00–0:02 | Close-up. Angkat telefon dekat kamera, skrin tunjuk page ShopeePay app kat App Store / Play Store | **[VO]** "Korang, ni je app yang korang perlu!" |
+| | | **[EDIT]** Punch-in zoom ke skrin telefon. Boleh tampal screenshot App Store tu terus atas skrin supaya jelas |
+| 0:02–0:05 | Turunkan telefon, muka excited, pegang mic | **[VO]** "**ShopeePay app** — all-in-one e-wallet, macam **T-N-G**!" *(sebut huruf satu-satu: T… N… G)* |
+| | | **[EDIT]** Logo ShopeePay pop-up + animasi cursor klik + bunyi "klik" |
 
-### BABAK 2 — REVEAL (0:06 – 0:12) · *Lokasi B: duduk, pegang mic dekat dagu, excited*
+**Hook lain kalau nak tukar** (semua masih ikut mesej wajib):
+- **B — "Stop scroll":** *"Kejap, jangan scroll! Kalau korang nak satu e-wallet yang boleh buat semua, ShopeePay app ni all-in-one, macam T-N-G!"* (tangan tahan ke kamera macam suruh berhenti)
+- **C — POV kawan tanya:** Teks atas skrin *"POV: kawan tanya aku guna e-wallet apa"*, lepas tu angkat telefon: *"ShopeePay app lah! All-in-one, macam T-N-G!"*
+
+### BABAK 2 — REVEAL RM100 (0:05 – 0:10) · *Lokasi B: duduk, pegang mic dekat dagu, excited*
 
 | Masa | Shot | Dialog |
 |---|---|---|
-| 0:06–0:09 | Medium shot, senyum besar, pegang mic | **[VO]** "Korang, I jumpa **ShopeePay app** ni — boleh settle banyak benda, macam **T-N-G**!" *(sebut huruf satu-satu: T… N… G)* |
-| 0:09–0:12 | Tunjuk jari ke kamera, mata besar | **[VO]** "Lagi best, user baru boleh dapat **Welcome Bonus sehingga RM100**!" |
-| | | **[EDIT]** Banner RM100 Welcome Bonus terapung atas badan |
-
-**[EDIT] Hook visual wajib:** selit screenshot ShopeePay app kat App Store / Play Store dalam 0:06–0:09 (boleh jadi overlay kecil).
+| 0:05–0:07 | Medium shot, senyum besar | **[VO]** "Satu app je, boleh settle banyak benda." |
+| 0:07–0:10 | Tunjuk jari ke kamera, mata besar | **[VO]** "Lagi best, kalau korang **user baru**, boleh dapat **Welcome Bonus sehingga RM100**!" |
+| | | **[EDIT]** Banner RM100 Welcome Bonus terapung atas badan (guna **aset rasmi dari brief**) |
 
 ### BABAK 3 — KEY CONTENT (0:12 – 0:24) · *Lokasi C: berdiri (ada kipas siling / background rumah)*
 
@@ -62,11 +67,26 @@
 
 | Masa | Visual (screen recording) | Dialog |
 |---|---|---|
-| 0:24–0:27 | App Store / Play Store → taip "shopee pay" → tekan download → "Open" | **[VO]** "Caranya senang. Pertama, **download ShopeePay app** kat App Store atau Google Play." |
-| 0:27–0:30 | Page "Welcome to ShopeePay" → log in / sign up | **[VO]** "Lepas tu **sign up** akaun ShopeePay korang." |
-| 0:30–0:34 | Home page → tekan banner RM100 → page New User Deals (voucher-voucher) | **[VO]** "Then klik banner RM100 — **claim Welcome Bonus** korang!" |
+| 0:24–0:27 | Screen recording sendiri: App Store / Play Store → taip "shopee pay" → page ShopeePay app | **[VO]** "Caranya senang. Pertama, **download ShopeePay app** kat App Store atau Google Play." |
+| 0:27–0:30 | Screen recording sendiri: buka app → home page ShopeePay | **[VO]** "Lepas tu **sign up** akaun ShopeePay." |
+| 0:30–0:34 | **Aset rasmi brief: banner RM100 Welcome Bonus** (full screen + zoom-in perlahan / efek pop) | **[VO]** "Untuk user baru, terus boleh **claim Welcome Bonus sehingga RM100**!" |
 
 **[EDIT]** Masa tekan sesuatu, zoom-in sikit kat bahagian tu. Hujung babak: **whip/zoom blur transition** balik ke muka.
+
+#### ⚠️ Masalah: akaun aku dah lama, banner RM100 "New User" tak keluar
+
+Banner tu keluar untuk **user baru je**, jadi akaun lama memang takkan nampak. Ni cara settle, ikut keutamaan:
+
+1. **Guna aset rasmi dari brief (paling selamat).** Brief dah bagi *"RM100 Wlc Bonus Banner"* bawah "Video Assets", dan dia kata demonstration boleh *"refer to the visual asset provided"*. Jadi:
+   - Download banner RM100 tu dari link dalam brief
+   - Masa edit, letak full screen kat 0:30–0:34 dengan zoom-in perlahan atau efek pop
+   - Dialog sebut **"untuk user baru"**, jadi tak pelik kenapa bukan akaun kau sendiri
+2. **Rakam flow new user guna telefon ahli keluarga / kawan yang belum pernah guna ShopeePay.** Dia download, sign up akaun **dia sendiri**, dan kau screen record sampai page RM100 Welcome Bonus. Bonus untuk dia, video kau dapat footage sebenar. Minta izin dulu, dan blur nombor telefon / nama dia masa edit.
+3. **Tanya PIC / agency kempen.** Minta screen recording flow new user (download → sign up → page RM100). Diorang biasanya ada, sebab ramai KOL dah ada akaun.
+
+❌ Jangan buat akaun baru guna IC / nombor orang lain untuk diri sendiri. Akaun kena lepas KYC, dan nanti boleh kena isu dengan brand.
+
+Bahagian lain (Scan & Pay, Bill Center, Coins) **tetap guna akaun sendiri**. Page tu keluar untuk semua user.
 
 ### BABAK 5 — CTA (0:34 – 0:40) · *Lokasi D: berdiri depan TV / spot lain, close-up*
 
@@ -81,13 +101,13 @@
 
 ## 3. Skrip penuh (untuk hafal / baca laju)
 
-> Korang, macam mana eh nak dapat RM100? … Ohhh, jumpa dah!
+> Korang, ni je app yang korang perlu! ShopeePay app — all-in-one e-wallet, macam T-N-G!
 >
-> Korang, I jumpa ShopeePay app ni — boleh settle banyak benda, macam T-N-G! Lagi best, user baru boleh dapat Welcome Bonus sehingga RM100!
+> Satu app je, boleh settle banyak benda. Lagi best, kalau korang user baru, boleh dapat Welcome Bonus sehingga RM100!
 >
 > Korang! Nak Scan & Pay? Scan je DuitNow QR kat mana-mana kedai. Nak bayar bil — elektrik, air, data — pun boleh. Setiap kali bayar, boleh kumpul Coins cashback sehingga 20,000 Coins! Senang sangat kan?
 >
-> Caranya senang. Pertama, download ShopeePay app kat App Store atau Google Play. Lepas tu sign up akaun ShopeePay korang. Then klik banner RM100 — claim Welcome Bonus korang!
+> Caranya senang. Pertama, download ShopeePay app kat App Store atau Google Play. Lepas tu sign up akaun ShopeePay. Untuk user baru, terus boleh claim Welcome Bonus sehingga RM100!
 >
 > Tunggu apa lagi? Download ShopeePay app dan claim RM100 Welcome Bonus voucher korang sekarang! Link ada kat bio! Bye bye!
 
@@ -102,9 +122,9 @@
 - [ ] Siapkan verification akaun (KYC)
 
 **Screen recording untuk rakam (guna telefon sendiri):**
-- [ ] App Store / Play Store — cari "shopee pay" → download → Open (untuk hook visual + demo)
-- [ ] Page Welcome / sign up / log in
-- [ ] Home → klik banner RM100 → page New User Deals
+- [ ] App Store / Play Store — cari "shopee pay" → page ShopeePay app (untuk hook visual + demo). Ambil **screenshot** sekali untuk hook
+- [ ] Buka app → home page ShopeePay
+- [ ] **Banner RM100:** download aset rasmi dari brief, ATAU rakam guna telefon family/kawan yang new user (rujuk bahagian ⚠️ dalam Babak 4)
 - [ ] Scan & Pay (page scan QR)
 - [ ] Bill Center / bayar bil
 - [ ] Banner Coins Bonanza 20,000 ATAU Free Coins Daily > History
