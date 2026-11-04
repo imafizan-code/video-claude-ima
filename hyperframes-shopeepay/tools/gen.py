@@ -164,7 +164,7 @@ def fx_js(p, pieces, nstars, t0, t1, tpop, fall_from, fall_to, hero_img, shine):
 HOOK_FX=fx_parts('hk',420,500,840,7)
 KW=[
 # id, start, end, inner html, extra js (relative to group)
-("k-rm100",0.15,4.35,(lambda b:b[0]+'<div class="card ban"><img id="k-rm100-img" src="assets/banner_welcome_popup.png" alt="RM100 Welcome Bonus"/><div class="fx-shine" data-layout-ignore id="k-rm100-shine"></div></div>'+b[1])(HOOK_FX),
+("k-rm100",1.50,4.35,(lambda b:b[0]+'<div class="card ban"><img id="k-rm100-img" src="assets/banner_welcome_popup.png" alt="RM100 Welcome Bonus"/><div class="fx-shine" data-layout-ignore id="k-rm100-shine"></div></div>'+b[1])(HOOK_FX),
  []),
 ("k-app",5.98,8.98,f'''<div class="card row">
   <div class="logo-wrap"><img src="assets/logo.png" alt="ShopeePay"/></div>
@@ -203,7 +203,7 @@ for k,s,e,h,extra in KW:
     for sel,a,b,t in extra: js.append(f'    tl.fromTo({sel},{a},{b},{t});')
     js.append(f'    tl.to("#{k} > .card",{{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"}},{e-0.16:.2f});')
     js.append(f'    tl.set("#{k}",{{opacity:0,visibility:"hidden"}},{e});')
-js += fx_js('hk',HOOK_FX[2],HOOK_FX[3],R(0.15),R(4.35,True),R(3.28),-560,1950,'#k-rm100','k-rm100-shine')
+js += fx_js('hk',HOOK_FX[2],HOOK_FX[3],R(1.50),R(4.35,True),R(3.28),-560,1950,'#k-rm100','k-rm100-shine')
 js.append('''    const cn={v:0}, numEl=document.getElementById("k-coins-num");
     tl.fromTo(cn,{v:0},{v:20000,duration:1.2,ease:"power2.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},'''+f'{R(18.9)});')
 open(f"{P}/compositions/keywords.html","w").write('''<template>

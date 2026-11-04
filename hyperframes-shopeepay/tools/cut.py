@@ -20,6 +20,8 @@ for i,(c,a,b,l) in enumerate(SEG):
     o=f"{S}/build/p{i:02d}.mp4"; d=b-a
     vf="scale=1080:1920:flags=lanczos,setsar=1,fps=30,format=yuv420p"
     # punch-in zoom on alternate segments for energy (same clip back-to-back)
+    if l=="hook":   # she looks down after ~9.70s: hold the last good frame while "ringgit" finishes
+        vf=f"trim=0:{9.70-a:.3f},setpts=PTS-STARTPTS,tpad=stop_mode=clone:stop_duration={b-9.70:.3f},"+vf
     if l in ("senang","cara2","cara4","settle"):
         vf="scale=1188:2112:flags=lanczos,crop=1080:1920:54:110,setsar=1,fps=30,format=yuv420p"
     subprocess.run(["ffmpeg","-v","error","-y","-ss",str(a),"-t",f"{d:.3f}","-i",f"{S}/src/{c}.MOV",

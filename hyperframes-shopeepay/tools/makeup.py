@@ -33,8 +33,8 @@ while True:
         prev = p
         x0,y0=np.maximum(p.min(0)-60,0).astype(int); x1,y1=np.minimum(p.max(0)+60,[W,H]).astype(int)
         faces.append({"f":i,"top":float(p[10,1]),"chin":float(p[152,1]),"x0":float(p[234,0]),"x1":float(p[454,0])})
-        if skip: pass
-        else:
+        if True:
+          K = 0.0 if skip else 1.0   # skip ranges: lipstick only (no smoothing / lift / blush)
           crop = fr[y0:y1,x0:x1].copy(); q = p-[x0,y0]; h,w = crop.shape[:2]
           fw = np.linalg.norm(p[454]-p[234])
           # --- masks ---
@@ -49,14 +49,14 @@ while True:
           # --- light makeup: smoothing + gentle lift ---
           sm=cv2.bilateralFilter(crop,9,38,9).astype(np.float32)
           f=crop.astype(np.float32); a=(skin*0.5)[...,None]
-          f=f*(1-a)+sm*a
+          f=f*(1-a*K)+sm*(a*K)
           lab=cv2.cvtColor(np.clip(f,0,255).astype(np.uint8),cv2.COLOR_BGR2LAB).astype(np.float32)
-          lab[...,0]+=skin*5           # brighten skin a touch
+          lab[...,0]+=skin*5*K           # brighten skin a touch
           # blush on cheeks
           bl=np.zeros((h,w),np.float32)
           for c in (q[205],q[425]): cv2.circle(bl,tuple(int(v) for v in c),int(fw*0.11),1.0,-1)
           bl=cv2.GaussianBlur(bl,(0,0),fw*0.07)*skin
-          lab[...,1]+=bl*6; lab[...,2]+=bl*1.5
+          lab[...,1]+=bl*6*K; lab[...,2]+=bl*1.5*K
           # lipstick: pull lip chroma toward soft rose, keep texture (luminance)
           la=lip*0.6
           lab[...,1]=lab[...,1]*(1-la)+LIP_LAB[1]*la
