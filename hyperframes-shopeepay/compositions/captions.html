@@ -1,50 +1,54 @@
 <template>
   <style>
     #root { position:absolute; inset:0; pointer-events:none; }
-    /* Safe band for TikTok + IG Reels: x 60..900 (clear of right action rail), y 1170..1330 */
-    .cap { position:absolute; left:60px; width:840px; top:1170px; height:160px;
+    /* Placed per group just under the chin (from face landmarks), x 60..900 clear of the right action rail */
+    .cap { position:absolute; left:60px; width:840px; top:1200px; height:110px; white-space:nowrap;
            display:flex; align-items:center; justify-content:center; text-align:center;
            opacity:0; visibility:hidden; overflow:visible; }
-    .cap-in { display:inline-block; font-family:Poppins, sans-serif; font-weight:800; font-size:66px;
+    .cap-in { display:inline-block; font-family:Poppins, sans-serif; font-weight:800; font-size:62px;
               line-height:1.1; color:#fff; letter-spacing:-0.01em;
               paint-order:stroke fill; -webkit-text-stroke:10px rgba(0,0,0,.85);
               text-shadow:0 6px 18px rgba(0,0,0,.55); }
     .hl { color:#FFD23F; }
   </style>
   <div id="root" data-composition-id="captions" data-width="1080" data-height="1920">
-    <div class="cap" id="cap-0"><span class="cap-in">Kalau korang <span class="hl">user baru</span></span></div>
-    <div class="cap" id="cap-1"><span class="cap-in">korang boleh dapat</span></div>
-    <div class="cap" id="cap-2"><span class="cap-in"><span class="hl">Welcome Bonus</span></span></div>
-    <div class="cap" id="cap-3"><span class="cap-in">sehingga <span class="hl">RM100!</span></span></div>
-    <div class="cap" id="cap-4"><span class="cap-in">Korang, ni je app</span></div>
-    <div class="cap" id="cap-5"><span class="cap-in">yang korang perlu</span></div>
-    <div class="cap" id="cap-6"><span class="cap-in"><span class="hl">ShopeePay app</span></span></div>
-    <div class="cap" id="cap-7"><span class="cap-in"><span class="hl">all-in-one</span> e-wallet</span></div>
-    <div class="cap" id="cap-8"><span class="cap-in">macam T-N-G!</span></div>
-    <div class="cap" id="cap-9"><span class="cap-in">Satu app saja</span></div>
-    <div class="cap" id="cap-10"><span class="cap-in">boleh settle <span class="hl">banyak benda</span></span></div>
-    <div class="cap" id="cap-11"><span class="cap-in">Nak <span class="hl">Scan &amp; Pay?</span></span></div>
-    <div class="cap" id="cap-12"><span class="cap-in">scan je <span class="hl">DuitNow QR</span></span></div>
-    <div class="cap" id="cap-13"><span class="cap-in">dekat mana-mana kedai</span></div>
-    <div class="cap" id="cap-14"><span class="cap-in">Nak <span class="hl">bayar bil</span></span></div>
-    <div class="cap" id="cap-15"><span class="cap-in">elektrik, air,</span></div>
-    <div class="cap" id="cap-16"><span class="cap-in">data, internet</span></div>
-    <div class="cap" id="cap-17"><span class="cap-in">semua pun boleh!</span></div>
-    <div class="cap" id="cap-18"><span class="cap-in">Setiap kali bayar</span></div>
-    <div class="cap" id="cap-19"><span class="cap-in">boleh kumpul <span class="hl">Coins cashback</span></span></div>
-    <div class="cap" id="cap-20"><span class="cap-in">sehingga <span class="hl">20,000 Coins!</span></span></div>
-    <div class="cap" id="cap-21"><span class="cap-in">Senang kan?</span></div>
-    <div class="cap" id="cap-22"><span class="cap-in">Cara dia senang je</span></div>
-    <div class="cap" id="cap-23"><span class="cap-in">mula-mula <span class="hl">download</span> dulu</span></div>
-    <div class="cap" id="cap-24"><span class="cap-in"><span class="hl">ShopeePay app</span></span></div>
-    <div class="cap" id="cap-25"><span class="cap-in">dekat telefon korang</span></div>
-    <div class="cap" id="cap-26"><span class="cap-in">lepas tu <span class="hl">Sign Up</span></span></div>
-    <div class="cap" id="cap-27"><span class="cap-in">untuk <span class="hl">user baru,</span></span></div>
-    <div class="cap" id="cap-28"><span class="cap-in">terus boleh <span class="hl">claim</span></span></div>
-    <div class="cap" id="cap-29"><span class="cap-in"><span class="hl">Welcome Bonus</span></span></div>
-    <div class="cap" id="cap-30"><span class="cap-in">sehingga <span class="hl">RM100!</span></span></div>
-    <div class="cap" id="cap-31"><span class="cap-in">Tunggu apa lagi?</span></div>
-    <div class="cap" id="cap-32"><span class="cap-in"><span class="hl">Download ShopeePay</span> sekarang!</span></div>
+    <div class="cap" id="cap-0" style="top:1223px"><span class="cap-in">Kalau korang <span class="hl">user baru</span></span></div>
+    <div class="cap" id="cap-1" style="top:1200px"><span class="cap-in">korang boleh dapat</span></div>
+    <div class="cap" id="cap-2" style="top:1200px"><span class="cap-in"><span class="hl">Welcome Bonus</span></span></div>
+    <div class="cap" id="cap-3" style="top:1241px"><span class="cap-in">sehingga <span class="hl">RM100!</span></span></div>
+    <div class="cap" id="cap-4" style="top:1236px"><span class="cap-in">Korang, ni je app</span></div>
+    <div class="cap" id="cap-5" style="top:1236px"><span class="cap-in">yang korang perlu</span></div>
+    <div class="cap" id="cap-6" style="top:1239px"><span class="cap-in"><span class="hl">ShopeePay app</span></span></div>
+    <div class="cap" id="cap-7" style="top:1223px"><span class="cap-in"><span class="hl">all-in-one</span> e-wallet</span></div>
+    <div class="cap" id="cap-8" style="top:1233px"><span class="cap-in">macam T-N-G!</span></div>
+    <div class="cap" id="cap-9" style="top:1241px"><span class="cap-in">Satu app saja</span></div>
+    <div class="cap" id="cap-10" style="top:1218px"><span class="cap-in">boleh settle</span></div>
+    <div class="cap" id="cap-11" style="top:1304px"><span class="cap-in"><span class="hl">banyak benda!</span></span></div>
+    <div class="cap" id="cap-12" style="top:1344px"><span class="cap-in">Nak <span class="hl">Scan &amp; Pay?</span></span></div>
+    <div class="cap" id="cap-13" style="top:1236px"><span class="cap-in">scan je <span class="hl">DuitNow QR</span></span></div>
+    <div class="cap" id="cap-14" style="top:1236px"><span class="cap-in">dekat mana-mana kedai</span></div>
+    <div class="cap" id="cap-15" style="top:1236px"><span class="cap-in">Nak <span class="hl">bayar bil</span></span></div>
+    <div class="cap" id="cap-16" style="top:1236px"><span class="cap-in">elektrik, air,</span></div>
+    <div class="cap" id="cap-17" style="top:1236px"><span class="cap-in">data, internet</span></div>
+    <div class="cap" id="cap-18" style="top:1236px"><span class="cap-in">semua pun boleh!</span></div>
+    <div class="cap" id="cap-19" style="top:1362px"><span class="cap-in">Setiap kali bayar</span></div>
+    <div class="cap" id="cap-20" style="top:1350px"><span class="cap-in">boleh kumpul</span></div>
+    <div class="cap" id="cap-21" style="top:1383px"><span class="cap-in"><span class="hl">Coins cashback</span></span></div>
+    <div class="cap" id="cap-22" style="top:1383px"><span class="cap-in">sehingga <span class="hl">20,000 Coins!</span></span></div>
+    <div class="cap" id="cap-23" style="top:1395px"><span class="cap-in">Senang kan?</span></div>
+    <div class="cap" id="cap-24" style="top:1395px"><span class="cap-in">Cara dia senang je</span></div>
+    <div class="cap" id="cap-25" style="top:1200px"><span class="cap-in">mula-mula</span></div>
+    <div class="cap" id="cap-26" style="top:1236px"><span class="cap-in"><span class="hl">download</span> dulu</span></div>
+    <div class="cap" id="cap-27" style="top:1236px"><span class="cap-in"><span class="hl">ShopeePay app</span></span></div>
+    <div class="cap" id="cap-28" style="top:1236px"><span class="cap-in">dekat telefon korang</span></div>
+    <div class="cap" id="cap-29" style="top:1248px"><span class="cap-in">lepas tu <span class="hl">Sign Up</span></span></div>
+    <div class="cap" id="cap-30" style="top:1244px"><span class="cap-in">untuk <span class="hl">user baru,</span></span></div>
+    <div class="cap" id="cap-31" style="top:1242px"><span class="cap-in">terus boleh <span class="hl">claim</span></span></div>
+    <div class="cap" id="cap-32" style="top:1258px"><span class="cap-in"><span class="hl">Welcome Bonus</span></span></div>
+    <div class="cap" id="cap-33" style="top:1258px"><span class="cap-in">sehingga <span class="hl">RM100!</span></span></div>
+    <div class="cap" id="cap-34" style="top:1256px"><span class="cap-in">Tunggu apa lagi?</span></div>
+    <div class="cap" id="cap-35" style="top:1254px"><span class="cap-in"><span class="hl">Download ShopeePay</span></span></div>
+    <div class="cap" id="cap-36" style="top:1278px"><span class="cap-in">sekarang!</span></div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
@@ -90,96 +94,112 @@
     tl.set("#cap-9",{opacity:0,visibility:"hidden"},9.9);
     tl.fromTo("#cap-10 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},9.9);
     tl.set("#cap-10",{opacity:1,visibility:"visible"},9.9);
-    tl.to("#cap-10",{opacity:0,duration:0.06,ease:"power2.in"},11.24);
-    tl.set("#cap-10",{opacity:0,visibility:"hidden"},11.3);
-    tl.fromTo("#cap-11 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},11.37);
-    tl.set("#cap-11",{opacity:1,visibility:"visible"},11.37);
-    tl.to("#cap-11",{opacity:0,duration:0.06,ease:"power2.in"},12.44);
-    tl.set("#cap-11",{opacity:0,visibility:"hidden"},12.5);
-    tl.fromTo("#cap-12 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},12.5);
-    tl.set("#cap-12",{opacity:1,visibility:"visible"},12.5);
-    tl.to("#cap-12",{opacity:0,duration:0.06,ease:"power2.in"},13.46);
-    tl.set("#cap-12",{opacity:0,visibility:"hidden"},13.52);
-    tl.fromTo("#cap-13 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},13.52);
-    tl.set("#cap-13",{opacity:1,visibility:"visible"},13.52);
-    tl.to("#cap-13",{opacity:0,duration:0.06,ease:"power2.in"},14.89);
-    tl.set("#cap-13",{opacity:0,visibility:"hidden"},14.95);
-    tl.fromTo("#cap-14 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},14.99);
-    tl.set("#cap-14",{opacity:1,visibility:"visible"},14.99);
-    tl.to("#cap-14",{opacity:0,duration:0.06,ease:"power2.in"},15.54);
-    tl.set("#cap-14",{opacity:0,visibility:"hidden"},15.6);
-    tl.fromTo("#cap-15 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},15.6);
-    tl.set("#cap-15",{opacity:1,visibility:"visible"},15.6);
-    tl.to("#cap-15",{opacity:0,duration:0.06,ease:"power2.in"},16.89);
-    tl.set("#cap-15",{opacity:0,visibility:"hidden"},16.95);
-    tl.fromTo("#cap-16 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},16.95);
-    tl.set("#cap-16",{opacity:1,visibility:"visible"},16.95);
-    tl.to("#cap-16",{opacity:0,duration:0.06,ease:"power2.in"},17.59);
-    tl.set("#cap-16",{opacity:0,visibility:"hidden"},17.65);
-    tl.fromTo("#cap-17 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},17.65);
-    tl.set("#cap-17",{opacity:1,visibility:"visible"},17.65);
-    tl.to("#cap-17",{opacity:0,duration:0.06,ease:"power2.in"},18.59);
-    tl.set("#cap-17",{opacity:0,visibility:"hidden"},18.65);
-    tl.fromTo("#cap-18 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},18.7);
-    tl.set("#cap-18",{opacity:1,visibility:"visible"},18.7);
-    tl.to("#cap-18",{opacity:0,duration:0.06,ease:"power2.in"},19.66);
-    tl.set("#cap-18",{opacity:0,visibility:"hidden"},19.72);
-    tl.fromTo("#cap-19 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},19.72);
-    tl.set("#cap-19",{opacity:1,visibility:"visible"},19.72);
-    tl.to("#cap-19",{opacity:0,duration:0.06,ease:"power2.in"},21.01);
-    tl.set("#cap-19",{opacity:0,visibility:"hidden"},21.07);
-    tl.fromTo("#cap-20 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},21.07);
-    tl.set("#cap-20",{opacity:1,visibility:"visible"},21.07);
-    tl.to("#cap-20",{opacity:0,duration:0.06,ease:"power2.in"},22.69);
-    tl.set("#cap-20",{opacity:0,visibility:"hidden"},22.75);
-    tl.fromTo("#cap-21 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},22.79);
-    tl.set("#cap-21",{opacity:1,visibility:"visible"},22.79);
-    tl.to("#cap-21",{opacity:0,duration:0.06,ease:"power2.in"},23.22);
-    tl.set("#cap-21",{opacity:0,visibility:"hidden"},23.28);
-    tl.fromTo("#cap-22 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},23.32);
-    tl.set("#cap-22",{opacity:1,visibility:"visible"},23.32);
-    tl.to("#cap-22",{opacity:0,duration:0.06,ease:"power2.in"},24.30);
-    tl.set("#cap-22",{opacity:0,visibility:"hidden"},24.36);
-    tl.fromTo("#cap-23 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},24.36);
-    tl.set("#cap-23",{opacity:1,visibility:"visible"},24.36);
-    tl.to("#cap-23",{opacity:0,duration:0.06,ease:"power2.in"},25.36);
-    tl.set("#cap-23",{opacity:0,visibility:"hidden"},25.42);
-    tl.fromTo("#cap-24 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},25.42);
-    tl.set("#cap-24",{opacity:1,visibility:"visible"},25.42);
-    tl.to("#cap-24",{opacity:0,duration:0.06,ease:"power2.in"},26.34);
-    tl.set("#cap-24",{opacity:0,visibility:"hidden"},26.4);
-    tl.fromTo("#cap-25 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},26.4);
-    tl.set("#cap-25",{opacity:1,visibility:"visible"},26.4);
-    tl.to("#cap-25",{opacity:0,duration:0.06,ease:"power2.in"},27.52);
-    tl.set("#cap-25",{opacity:0,visibility:"hidden"},27.58);
-    tl.fromTo("#cap-26 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},27.62);
-    tl.set("#cap-26",{opacity:1,visibility:"visible"},27.62);
-    tl.to("#cap-26",{opacity:0,duration:0.06,ease:"power2.in"},28.72);
-    tl.set("#cap-26",{opacity:0,visibility:"hidden"},28.78);
-    tl.fromTo("#cap-27 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},28.82);
-    tl.set("#cap-27",{opacity:1,visibility:"visible"},28.82);
-    tl.to("#cap-27",{opacity:0,duration:0.06,ease:"power2.in"},29.79);
-    tl.set("#cap-27",{opacity:0,visibility:"hidden"},29.85);
-    tl.fromTo("#cap-28 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},29.89);
-    tl.set("#cap-28",{opacity:1,visibility:"visible"},29.89);
-    tl.to("#cap-28",{opacity:0,duration:0.06,ease:"power2.in"},30.77);
-    tl.set("#cap-28",{opacity:0,visibility:"hidden"},30.83);
-    tl.fromTo("#cap-29 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},30.83);
-    tl.set("#cap-29",{opacity:1,visibility:"visible"},30.83);
-    tl.to("#cap-29",{opacity:0,duration:0.06,ease:"power2.in"},31.53);
-    tl.set("#cap-29",{opacity:0,visibility:"hidden"},31.59);
-    tl.fromTo("#cap-30 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},31.59);
-    tl.set("#cap-30",{opacity:1,visibility:"visible"},31.59);
-    tl.to("#cap-30",{opacity:0,duration:0.06,ease:"power2.in"},33.22);
-    tl.set("#cap-30",{opacity:0,visibility:"hidden"},33.28);
-    tl.fromTo("#cap-31 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},33.32);
-    tl.set("#cap-31",{opacity:1,visibility:"visible"},33.32);
-    tl.to("#cap-31",{opacity:0,duration:0.06,ease:"power2.in"},34.00);
-    tl.set("#cap-31",{opacity:0,visibility:"hidden"},34.06);
-    tl.fromTo("#cap-32 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},34.06);
-    tl.set("#cap-32",{opacity:1,visibility:"visible"},34.06);
-    tl.to("#cap-32",{opacity:0,duration:0.06,ease:"power2.in"},35.19);
-    tl.set("#cap-32",{opacity:0,visibility:"hidden"},35.25);
+    tl.to("#cap-10",{opacity:0,duration:0.06,ease:"power2.in"},10.28);
+    tl.set("#cap-10",{opacity:0,visibility:"hidden"},10.34);
+    tl.fromTo("#cap-11 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},10.34);
+    tl.set("#cap-11",{opacity:1,visibility:"visible"},10.34);
+    tl.to("#cap-11",{opacity:0,duration:0.06,ease:"power2.in"},11.24);
+    tl.set("#cap-11",{opacity:0,visibility:"hidden"},11.3);
+    tl.fromTo("#cap-12 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},11.37);
+    tl.set("#cap-12",{opacity:1,visibility:"visible"},11.37);
+    tl.to("#cap-12",{opacity:0,duration:0.06,ease:"power2.in"},12.44);
+    tl.set("#cap-12",{opacity:0,visibility:"hidden"},12.5);
+    tl.fromTo("#cap-13 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},12.5);
+    tl.set("#cap-13",{opacity:1,visibility:"visible"},12.5);
+    tl.to("#cap-13",{opacity:0,duration:0.06,ease:"power2.in"},13.46);
+    tl.set("#cap-13",{opacity:0,visibility:"hidden"},13.52);
+    tl.fromTo("#cap-14 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},13.52);
+    tl.set("#cap-14",{opacity:1,visibility:"visible"},13.52);
+    tl.to("#cap-14",{opacity:0,duration:0.06,ease:"power2.in"},14.89);
+    tl.set("#cap-14",{opacity:0,visibility:"hidden"},14.95);
+    tl.fromTo("#cap-15 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},14.99);
+    tl.set("#cap-15",{opacity:1,visibility:"visible"},14.99);
+    tl.to("#cap-15",{opacity:0,duration:0.06,ease:"power2.in"},15.54);
+    tl.set("#cap-15",{opacity:0,visibility:"hidden"},15.6);
+    tl.fromTo("#cap-16 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},15.6);
+    tl.set("#cap-16",{opacity:1,visibility:"visible"},15.6);
+    tl.to("#cap-16",{opacity:0,duration:0.06,ease:"power2.in"},16.89);
+    tl.set("#cap-16",{opacity:0,visibility:"hidden"},16.95);
+    tl.fromTo("#cap-17 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},16.95);
+    tl.set("#cap-17",{opacity:1,visibility:"visible"},16.95);
+    tl.to("#cap-17",{opacity:0,duration:0.06,ease:"power2.in"},17.59);
+    tl.set("#cap-17",{opacity:0,visibility:"hidden"},17.65);
+    tl.fromTo("#cap-18 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},17.65);
+    tl.set("#cap-18",{opacity:1,visibility:"visible"},17.65);
+    tl.to("#cap-18",{opacity:0,duration:0.06,ease:"power2.in"},18.59);
+    tl.set("#cap-18",{opacity:0,visibility:"hidden"},18.65);
+    tl.fromTo("#cap-19 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},18.7);
+    tl.set("#cap-19",{opacity:1,visibility:"visible"},18.7);
+    tl.to("#cap-19",{opacity:0,duration:0.06,ease:"power2.in"},19.66);
+    tl.set("#cap-19",{opacity:0,visibility:"hidden"},19.72);
+    tl.fromTo("#cap-20 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},19.72);
+    tl.set("#cap-20",{opacity:1,visibility:"visible"},19.72);
+    tl.to("#cap-20",{opacity:0,duration:0.06,ease:"power2.in"},20.19);
+    tl.set("#cap-20",{opacity:0,visibility:"hidden"},20.25);
+    tl.fromTo("#cap-21 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},20.25);
+    tl.set("#cap-21",{opacity:1,visibility:"visible"},20.25);
+    tl.to("#cap-21",{opacity:0,duration:0.06,ease:"power2.in"},21.01);
+    tl.set("#cap-21",{opacity:0,visibility:"hidden"},21.07);
+    tl.fromTo("#cap-22 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},21.07);
+    tl.set("#cap-22",{opacity:1,visibility:"visible"},21.07);
+    tl.to("#cap-22",{opacity:0,duration:0.06,ease:"power2.in"},22.69);
+    tl.set("#cap-22",{opacity:0,visibility:"hidden"},22.75);
+    tl.fromTo("#cap-23 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},22.79);
+    tl.set("#cap-23",{opacity:1,visibility:"visible"},22.79);
+    tl.to("#cap-23",{opacity:0,duration:0.06,ease:"power2.in"},23.22);
+    tl.set("#cap-23",{opacity:0,visibility:"hidden"},23.28);
+    tl.fromTo("#cap-24 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},23.32);
+    tl.set("#cap-24",{opacity:1,visibility:"visible"},23.32);
+    tl.to("#cap-24",{opacity:0,duration:0.06,ease:"power2.in"},24.30);
+    tl.set("#cap-24",{opacity:0,visibility:"hidden"},24.36);
+    tl.fromTo("#cap-25 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},24.36);
+    tl.set("#cap-25",{opacity:1,visibility:"visible"},24.36);
+    tl.to("#cap-25",{opacity:0,duration:0.06,ease:"power2.in"},24.72);
+    tl.set("#cap-25",{opacity:0,visibility:"hidden"},24.78);
+    tl.fromTo("#cap-26 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},24.78);
+    tl.set("#cap-26",{opacity:1,visibility:"visible"},24.78);
+    tl.to("#cap-26",{opacity:0,duration:0.06,ease:"power2.in"},25.36);
+    tl.set("#cap-26",{opacity:0,visibility:"hidden"},25.42);
+    tl.fromTo("#cap-27 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},25.42);
+    tl.set("#cap-27",{opacity:1,visibility:"visible"},25.42);
+    tl.to("#cap-27",{opacity:0,duration:0.06,ease:"power2.in"},26.34);
+    tl.set("#cap-27",{opacity:0,visibility:"hidden"},26.4);
+    tl.fromTo("#cap-28 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},26.4);
+    tl.set("#cap-28",{opacity:1,visibility:"visible"},26.4);
+    tl.to("#cap-28",{opacity:0,duration:0.06,ease:"power2.in"},27.52);
+    tl.set("#cap-28",{opacity:0,visibility:"hidden"},27.58);
+    tl.fromTo("#cap-29 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},27.62);
+    tl.set("#cap-29",{opacity:1,visibility:"visible"},27.62);
+    tl.to("#cap-29",{opacity:0,duration:0.06,ease:"power2.in"},28.72);
+    tl.set("#cap-29",{opacity:0,visibility:"hidden"},28.78);
+    tl.fromTo("#cap-30 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},28.82);
+    tl.set("#cap-30",{opacity:1,visibility:"visible"},28.82);
+    tl.to("#cap-30",{opacity:0,duration:0.06,ease:"power2.in"},29.79);
+    tl.set("#cap-30",{opacity:0,visibility:"hidden"},29.85);
+    tl.fromTo("#cap-31 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},29.89);
+    tl.set("#cap-31",{opacity:1,visibility:"visible"},29.89);
+    tl.to("#cap-31",{opacity:0,duration:0.06,ease:"power2.in"},30.77);
+    tl.set("#cap-31",{opacity:0,visibility:"hidden"},30.83);
+    tl.fromTo("#cap-32 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},30.83);
+    tl.set("#cap-32",{opacity:1,visibility:"visible"},30.83);
+    tl.to("#cap-32",{opacity:0,duration:0.06,ease:"power2.in"},31.53);
+    tl.set("#cap-32",{opacity:0,visibility:"hidden"},31.59);
+    tl.fromTo("#cap-33 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},31.59);
+    tl.set("#cap-33",{opacity:1,visibility:"visible"},31.59);
+    tl.to("#cap-33",{opacity:0,duration:0.06,ease:"power2.in"},33.22);
+    tl.set("#cap-33",{opacity:0,visibility:"hidden"},33.28);
+    tl.fromTo("#cap-34 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},33.32);
+    tl.set("#cap-34",{opacity:1,visibility:"visible"},33.32);
+    tl.to("#cap-34",{opacity:0,duration:0.06,ease:"power2.in"},34.00);
+    tl.set("#cap-34",{opacity:0,visibility:"hidden"},34.06);
+    tl.fromTo("#cap-35 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},34.06);
+    tl.set("#cap-35",{opacity:1,visibility:"visible"},34.06);
+    tl.to("#cap-35",{opacity:0,duration:0.06,ease:"power2.in"},34.76);
+    tl.set("#cap-35",{opacity:0,visibility:"hidden"},34.82);
+    tl.fromTo("#cap-36 .cap-in",{scale:0.86,y:14},{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"},34.82);
+    tl.set("#cap-36",{opacity:1,visibility:"visible"},34.82);
+    tl.to("#cap-36",{opacity:0,duration:0.06,ease:"power2.in"},35.19);
+    tl.set("#cap-36",{opacity:0,visibility:"hidden"},35.25);
     window.__timelines["captions"] = tl;
   </script>
 </template>

@@ -12,7 +12,8 @@ CAP=[
 (6.88,7.98,"all-in-one e-wallet","all-in-one"),
 (7.98,8.98,"macam T-N-G!",""),
 (9.02,9.90,"Satu app saja",""),
-(9.90,11.30,"boleh settle banyak benda","banyak benda"),
+(9.90,10.34,"boleh settle",""),
+(10.34,11.30,"banyak benda!","banyak benda!"),
 (11.37,12.50,"Nak Scan & Pay?","Scan & Pay?"),
 (12.50,13.52,"scan je DuitNow QR","DuitNow QR"),
 (13.52,14.95,"dekat mana-mana kedai",""),
@@ -21,11 +22,13 @@ CAP=[
 (16.95,17.65,"data, internet",""),
 (17.65,18.65,"semua pun boleh!",""),
 (18.70,19.72,"Setiap kali bayar",""),
-(19.72,21.07,"boleh kumpul Coins cashback","Coins cashback"),
+(19.72,20.25,"boleh kumpul",""),
+(20.25,21.07,"Coins cashback","Coins cashback"),
 (21.07,22.75,"sehingga 20,000 Coins!","20,000 Coins!"),
 (22.79,23.28,"Senang kan?",""),
 (23.32,24.36,"Cara dia senang je",""),
-(24.36,25.42,"mula-mula download dulu","download"),
+(24.36,24.78,"mula-mula",""),
+(24.78,25.42,"download dulu","download"),
 (25.42,26.40,"ShopeePay app","ShopeePay app"),
 (26.40,27.58,"dekat telefon korang",""),
 (27.62,28.78,"lepas tu Sign Up","Sign Up"),
@@ -34,13 +37,22 @@ CAP=[
 (30.83,31.59,"Welcome Bonus","Welcome Bonus"),
 (31.59,33.28,"sehingga RM100!","RM100!"),
 (33.32,34.06,"Tunggu apa lagi?",""),
-(34.06,35.25,"Download ShopeePay sekarang!","Download ShopeePay"),
+(34.06,34.82,"Download ShopeePay","Download ShopeePay"),
+(34.82,35.25,"sekarang!",""),
 ]
+# screen-recording cutaways (start,end) -- face hidden, captions go in a fixed band under the phone
+CUT=[(4.45,5.98),(12.45,14.95),(14.99,18.65),(24.50,27.58)]
+import json
+_F=json.load(open(sys.argv[2])); _fps=_F["fps"]
+def cap_top(s,e):
+    if any(a<=s and e<=b+0.01 for a,b in CUT): return 1236
+    c=[f["chin"] for f in _F["faces"] if f["chin"] and s*_fps-3<=f["f"]<=e*_fps+3]
+    return int(min(1395,max(1200,max(c)+35)))
 def capspan(t,h):
     if h and h in t:
         a,b=t.split(h,1); return html.escape(a)+f'<span class="hl">{html.escape(h)}</span>'+html.escape(b)
     return html.escape(t)
-cap_html="\n".join(f'    <div class="cap" id="cap-{i}"><span class="cap-in">{capspan(t,h)}</span></div>' for i,(s,e,t,h) in enumerate(CAP))
+cap_html="\n".join(f'    <div class="cap" id="cap-{i}" style="top:{cap_top(s,e)}px"><span class="cap-in">{capspan(t,h)}</span></div>' for i,(s,e,t,h) in enumerate(CAP))
 cap_js="\n".join(
  f'    tl.fromTo("#cap-{i} .cap-in",{{scale:0.86,y:14}},{{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"}},{s});\n'
  f'    tl.set("#cap-{i}",{{opacity:1,visibility:"visible"}},{s});\n'
@@ -50,11 +62,11 @@ cap_js="\n".join(
 open(f"{P}/compositions/captions.html","w").write(f'''<template>
   <style>
     #root {{ position:absolute; inset:0; pointer-events:none; }}
-    /* Safe band for TikTok + IG Reels: x 60..900 (clear of right action rail), y 1170..1330 */
-    .cap {{ position:absolute; left:60px; width:840px; top:1170px; height:160px;
+    /* Placed per group just under the chin (from face landmarks), x 60..900 clear of the right action rail */
+    .cap {{ position:absolute; left:60px; width:840px; top:1200px; height:110px; white-space:nowrap;
            display:flex; align-items:center; justify-content:center; text-align:center;
            opacity:0; visibility:hidden; overflow:visible; }}
-    .cap-in {{ display:inline-block; font-family:Poppins, sans-serif; font-weight:800; font-size:66px;
+    .cap-in {{ display:inline-block; font-family:Poppins, sans-serif; font-weight:800; font-size:62px;
               line-height:1.1; color:#fff; letter-spacing:-0.01em;
               paint-order:stroke fill; -webkit-text-stroke:10px rgba(0,0,0,.85);
               text-shadow:0 6px 18px rgba(0,0,0,.55); }}
@@ -90,7 +102,7 @@ KW=[
   <div class="big" id="k-rm100-big"><span class="ic gift">{ICON["gift"]}</span>RM100</div>
   <div class="sub">Welcome Bonus</div></div>''',
  [('"#k-rm100-big"','{scale:1}','{scale:1.18,duration:0.12,yoyo:true,repeat:1,ease:"power2.out"}',3.28)]),
-("k-app",4.50,8.98,f'''<div class="card row">
+("k-app",5.98,8.98,f'''<div class="card row">
   <div class="logo-wrap"><img src="assets/logo.png" alt="ShopeePay"/></div>
   <div class="pill" id="k-app-pill">All-in-one e-wallet</div></div>''',
  [('"#k-app-pill"','{opacity:0,y:16}','{opacity:1,y:0,duration:0.25,ease:"back.out(2)"}',6.88)]),
@@ -98,20 +110,14 @@ KW=[
   <div class="one">1</div><div class="stack"><div class="t1">App</div><div class="t2">Banyak benda settle</div></div>
   <div class="minis"><span class="mini">{ICON["qr"]}</span><span class="mini">{ICON["bolt"]}</span><span class="mini">{coin}</span></div></div>''',
  []),
-("k-scan",11.37,14.95,f'''<div class="card row">
-  <div class="sq">{ICON["qr"]}</div><div class="stack"><div class="t1">Scan &amp; Pay</div><div class="t2" id="k-scan-sub">DuitNow QR · mana-mana kedai</div></div></div>''',
- [('"#k-scan-sub"','{opacity:0,x:-14}','{opacity:1,x:0,duration:0.25,ease:"power2.out"}',12.9)]),
-("k-bil",14.99,18.65,f'''<div class="card">
-  <div class="t1 c">Bayar Bil</div>
-  <div class="bills"><span class="bill" id="k-bil-1">{ICON["bolt"]}<b>Elektrik</b></span><span class="bill" id="k-bil-2">{ICON["drop"]}<b>Air</b></span><span class="bill" id="k-bil-3">{ICON["wifi"]}<b>Data</b></span></div></div>''',
- [('"#k-bil-1"','{opacity:0,scale:0.6}','{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"}',15.61),
-  ('"#k-bil-2"','{opacity:0,scale:0.6}','{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"}',16.51),
-  ('"#k-bil-3"','{opacity:0,scale:0.6}','{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"}',16.97)]),
+("k-scan",11.37,12.45,f'''<div class="card row">
+  <div class="sq">{ICON["qr"]}</div><div class="stack"><div class="t1">Scan &amp; Pay</div><div class="t2" id="k-scan-sub">DuitNow QR</div></div></div>''',
+ []),
 ("k-coins",18.70,23.28,f'''<div class="card row">
   {coin}<div class="stack"><div class="t2">Coins cashback sehingga</div><div class="t1 num"><span id="k-coins-num">0</span> Coins</div></div></div>''',
  []),
-("k-dl",23.32,27.58,f'''<div class="card row">
-  <div class="sq">{ICON["dl"]}</div><div class="stack"><div class="t1">Download</div><div class="t2">ShopeePay app · App Store / Google Play</div></div></div>''',
+("k-dl",23.32,24.50,f'''<div class="card row">
+  <div class="sq">{ICON["dl"]}</div><div class="stack"><div class="t2">Cara claim?</div><div class="t1">3 langkah je!</div></div></div>''',
  []),
 ("k-steps",27.62,29.85,f'''<div class="card row steps">
   <span class="step done">{ICON["check"]}<b>Download</b></span><span class="arrow">›</span>
@@ -137,7 +143,7 @@ for k,s,e,h,extra in KW:
     js.append(f'    tl.to("#{k} > .card",{{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"}},{e-0.16:.2f});')
     js.append(f'    tl.set("#{k}",{{opacity:0,visibility:"hidden"}},{e});')
 js.append('''    const cn={v:0}, numEl=document.getElementById("k-coins-num");
-    tl.fromTo(cn,{v:0},{v:20000,duration:0.9,ease:"power3.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},21.07);''')
+    tl.fromTo(cn,{v:0},{v:20000,duration:2.6,ease:"power2.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},18.9);''')
 open(f"{P}/compositions/keywords.html","w").write('''<template>
   <style>
     #root { position:absolute; inset:0; pointer-events:none; }
@@ -201,6 +207,68 @@ open(f"{P}/compositions/keywords.html","w").write('''<template>
 </template>
 ''')
 
+
+# ---------- screen-recording cutaways (phone mockup on brand background) ----------
+BR=[
+ # id, start, end, media html, chip html, extra js
+ ("b-app",4.45,5.98,'<img id="b-app-media" class="clip media" src="assets/appstore.png" data-start="4.45" data-duration="1.53" alt="ShopeePay di App Store"/>',
+  '<span class="chip-t">ShopeePay app</span><span class="chip-s">App Store &amp; Google Play</span>',
+  ['tl.fromTo("#b-app-media",{scale:1.0,y:0},{scale:1.08,y:-30,duration:1.53,ease:"none"},4.45);']),
+ ("b-scan",12.45,14.95,'<video id="b-scan-media" class="clip media" src="assets/rec_scan.mp4" data-start="12.45" data-duration="2.5" data-media-start="0.9" data-playback-rate="1.25" muted playsinline></video>',
+  f'<span class="chip-ic">{ICON["qr"]}</span><span class="chip-t">Scan &amp; Pay</span><span class="chip-s">DuitNow QR</span>',[]),
+ ("b-bil",14.99,18.65,'<video id="b-bil-media" class="clip media" src="assets/rec_bil.mp4" data-start="14.99" data-duration="3.66" data-media-start="11.25" muted playsinline></video>',
+  f'<span class="chip-t">Bayar Bil</span><span class="bi" id="b-bil-1">{ICON["bolt"]}</span><span class="bi" id="b-bil-2">{ICON["drop"]}</span><span class="bi" id="b-bil-3">{ICON["wifi"]}</span>',
+  ['tl.fromTo("#b-bil-1",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},15.61);',
+   'tl.fromTo("#b-bil-2",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},16.51);',
+   'tl.fromTo("#b-bil-3",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},16.97);']),
+ ("b-dl",24.50,27.58,'<video id="b-dl-media" class="clip media" src="assets/rec_download.mp4" data-start="24.50" data-duration="3.08" data-media-start="0.6" data-playback-rate="2.8" muted playsinline></video>',
+  f'<span class="chip-ic">{ICON["dl"]}</span><span class="chip-t">Download ShopeePay app</span>',[]),
+]
+br_html="\n".join(f'''    <div class="cut" id="{k}">
+      <div class="bg"></div>
+      <div class="chip" id="{k}-chip">{chip}</div>
+      <div class="phone" id="{k}-phone"><div class="screen">{media}</div></div>
+    </div>''' for k,s0,e0,media,chip,_ in BR)
+bj=[]
+for k,s0,e0,media,chip,extra in BR:
+    bj.append(f'    tl.set("#{k}",{{opacity:1,visibility:"visible"}},{s0});')
+    bj.append(f'    tl.fromTo("#{k} .bg",{{opacity:0}},{{opacity:1,duration:0.12}},{s0});')
+    bj.append(f'    tl.fromTo("#{k}-phone",{{y:420,scale:0.85,rotation:4}},{{y:0,scale:1,rotation:0,duration:0.34,ease:"back.out(1.4)"}},{s0});')
+    bj.append(f'    tl.fromTo("#{k}-chip",{{y:-60,opacity:0}},{{y:0,opacity:1,duration:0.26,ease:"back.out(2)"}},{s0+0.08:.2f});')
+    bj+=["    "+x for x in extra]
+    bj.append(f'    tl.to("#{k}",{{opacity:0,duration:0.12,ease:"power2.in"}},{e0-0.12:.2f});')
+    bj.append(f'    tl.set("#{k}",{{opacity:0,visibility:"hidden"}},{e0});')
+open(f"{P}/compositions/broll.html","w").write('''<template>
+  <style>
+    #root { position:absolute; inset:0; pointer-events:none; }
+    .cut { position:absolute; inset:0; opacity:0; visibility:hidden; }
+    .bg { position:absolute; inset:0; background:
+          radial-gradient(circle at 25% 15%, rgba(255,255,255,.22), transparent 45%),
+          radial-gradient(circle at 80% 85%, rgba(255,190,120,.35), transparent 50%),
+          linear-gradient(160deg,#FF7A45 0%,#EE4D2D 55%,#D63A1D 100%); }
+    /* chip: under platform top UI; phone: centred in the TikTok/IG safe column (x 60..900) */
+    .chip { position:absolute; left:60px; width:840px; top:190px; height:110px; display:flex; align-items:center; justify-content:center; gap:16px;
+            font-family:Poppins, sans-serif; color:#fff; }
+    .chip-t { font-weight:900; font-size:50px; letter-spacing:-0.02em; white-space:nowrap; background:#fff; color:#C7361A; padding:10px 28px; border-radius:999px; box-shadow:0 8px 22px rgba(80,10,0,.3); }
+    .chip-s { font-weight:800; font-size:30px; background:#1b1b1b; color:#fff; padding:8px 18px; border-radius:999px; white-space:nowrap; }
+    .chip-ic, .bi { width:62px; height:62px; border-radius:18px; background:#fff; color:#EE4D2D; padding:12px; display:flex; flex:none; }
+    .chip-ic svg, .bi svg { width:100%; height:100%; }
+    .phone { position:absolute; left:271px; top:318px; width:418px; height:890px; border-radius:54px; background:#111; padding:12px;
+             box-shadow:0 30px 70px rgba(80,10,0,.45), 0 0 0 4px rgba(255,255,255,.55); }
+    .screen { position:relative; width:100%; height:100%; border-radius:44px; overflow:hidden; background:#fff; }
+    .media { position:absolute; left:0; top:0; width:100%; height:100%; object-fit:cover; object-position:top center; }
+  </style>
+  <div id="root" data-composition-id="broll" data-width="1080" data-height="1920">
+'''+br_html+'''
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+'''+"\n".join(bj)+'''
+    window.__timelines["broll"] = tl;
+  </script>
+</template>
+''')
+
 open(f"{P}/index.html","w").write(f'''<!doctype html>
 <html lang="ms" data-resolution="portrait">
   <head>
@@ -213,7 +281,8 @@ open(f"{P}/index.html","w").write(f'''<!doctype html>
       #root {{ position:relative; width:100%; height:100%; }}
       #talk {{ position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; z-index:1; }}
       #keywords {{ z-index:2; }}
-      #captions {{ z-index:3; }}
+      #broll {{ z-index:3; }}
+      #captions {{ z-index:4; }}
     </style>
   </head>
   <body>
@@ -222,6 +291,9 @@ open(f"{P}/index.html","w").write(f'''<!doctype html>
              playsinline data-has-audio="true" data-volume="1"></video>
       <div id="keywords" data-composition-id="keywords" data-composition-src="compositions/keywords.html"
            data-start="0" data-duration="{DUR}" data-track-index="1" data-track-kind="graphics"
+           data-width="1080" data-height="1920"></div>
+      <div id="broll" data-composition-id="broll" data-composition-src="compositions/broll.html"
+           data-start="0" data-duration="{DUR}" data-track-index="3" data-track-kind="graphics"
            data-width="1080" data-height="1920"></div>
       <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html"
            data-start="0" data-duration="{DUR}" data-track-index="2" data-track-kind="captions"

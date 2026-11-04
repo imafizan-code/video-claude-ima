@@ -1,0 +1,75 @@
+<template>
+  <style>
+    #root { position:absolute; inset:0; pointer-events:none; }
+    .cut { position:absolute; inset:0; opacity:0; visibility:hidden; }
+    .bg { position:absolute; inset:0; background:
+          radial-gradient(circle at 25% 15%, rgba(255,255,255,.22), transparent 45%),
+          radial-gradient(circle at 80% 85%, rgba(255,190,120,.35), transparent 50%),
+          linear-gradient(160deg,#FF7A45 0%,#EE4D2D 55%,#D63A1D 100%); }
+    /* chip: under platform top UI; phone: centred in the TikTok/IG safe column (x 60..900) */
+    .chip { position:absolute; left:60px; width:840px; top:190px; height:110px; display:flex; align-items:center; justify-content:center; gap:16px;
+            font-family:Poppins, sans-serif; color:#fff; }
+    .chip-t { font-weight:900; font-size:50px; letter-spacing:-0.02em; white-space:nowrap; background:#fff; color:#C7361A; padding:10px 28px; border-radius:999px; box-shadow:0 8px 22px rgba(80,10,0,.3); }
+    .chip-s { font-weight:800; font-size:30px; background:#1b1b1b; color:#fff; padding:8px 18px; border-radius:999px; white-space:nowrap; }
+    .chip-ic, .bi { width:62px; height:62px; border-radius:18px; background:#fff; color:#EE4D2D; padding:12px; display:flex; flex:none; }
+    .chip-ic svg, .bi svg { width:100%; height:100%; }
+    .phone { position:absolute; left:271px; top:318px; width:418px; height:890px; border-radius:54px; background:#111; padding:12px;
+             box-shadow:0 30px 70px rgba(80,10,0,.45), 0 0 0 4px rgba(255,255,255,.55); }
+    .screen { position:relative; width:100%; height:100%; border-radius:44px; overflow:hidden; background:#fff; }
+    .media { position:absolute; left:0; top:0; width:100%; height:100%; object-fit:cover; object-position:top center; }
+  </style>
+  <div id="root" data-composition-id="broll" data-width="1080" data-height="1920">
+    <div class="cut" id="b-app">
+      <div class="bg"></div>
+      <div class="chip" id="b-app-chip"><span class="chip-t">ShopeePay app</span><span class="chip-s">App Store &amp; Google Play</span></div>
+      <div class="phone" id="b-app-phone"><div class="screen"><img id="b-app-media" class="clip media" src="assets/appstore.png" data-start="4.45" data-duration="1.53" alt="ShopeePay di App Store"/></div></div>
+    </div>
+    <div class="cut" id="b-scan">
+      <div class="bg"></div>
+      <div class="chip" id="b-scan-chip"><span class="chip-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg></span><span class="chip-t">Scan &amp; Pay</span><span class="chip-s">DuitNow QR</span></div>
+      <div class="phone" id="b-scan-phone"><div class="screen"><video id="b-scan-media" class="clip media" src="assets/rec_scan.mp4" data-start="12.45" data-duration="2.5" data-media-start="0.9" data-playback-rate="1.25" muted playsinline></video></div></div>
+    </div>
+    <div class="cut" id="b-bil">
+      <div class="bg"></div>
+      <div class="chip" id="b-bil-chip"><span class="chip-t">Bayar Bil</span><span class="bi" id="b-bil-1"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><span class="bi" id="b-bil-2"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5S5 10.2 5 15a7 7 0 0 0 14 0c0-4.8-7-12.5-7-12.5z"/></svg></span><span class="bi" id="b-bil-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 8.8a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16.2a5 5 0 0 1 6 0"/><circle cx="12" cy="19.6" r="1.2" fill="currentColor"/></svg></span></div>
+      <div class="phone" id="b-bil-phone"><div class="screen"><video id="b-bil-media" class="clip media" src="assets/rec_bil.mp4" data-start="14.99" data-duration="3.66" data-media-start="11.25" muted playsinline></video></div></div>
+    </div>
+    <div class="cut" id="b-dl">
+      <div class="bg"></div>
+      <div class="chip" id="b-dl-chip"><span class="chip-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6.5 10 12 15.5 17.5 10M4 20h16"/></svg></span><span class="chip-t">Download ShopeePay app</span></div>
+      <div class="phone" id="b-dl-phone"><div class="screen"><video id="b-dl-media" class="clip media" src="assets/rec_download.mp4" data-start="24.50" data-duration="3.08" data-media-start="0.6" data-playback-rate="2.8" muted playsinline></video></div></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#b-app",{opacity:1,visibility:"visible"},4.45);
+    tl.fromTo("#b-app .bg",{opacity:0},{opacity:1,duration:0.12},4.45);
+    tl.fromTo("#b-app-phone",{y:420,scale:0.85,rotation:4},{y:0,scale:1,rotation:0,duration:0.34,ease:"back.out(1.4)"},4.45);
+    tl.fromTo("#b-app-chip",{y:-60,opacity:0},{y:0,opacity:1,duration:0.26,ease:"back.out(2)"},4.53);
+    tl.fromTo("#b-app-media",{scale:1.0,y:0},{scale:1.08,y:-30,duration:1.53,ease:"none"},4.45);
+    tl.to("#b-app",{opacity:0,duration:0.12,ease:"power2.in"},5.86);
+    tl.set("#b-app",{opacity:0,visibility:"hidden"},5.98);
+    tl.set("#b-scan",{opacity:1,visibility:"visible"},12.45);
+    tl.fromTo("#b-scan .bg",{opacity:0},{opacity:1,duration:0.12},12.45);
+    tl.fromTo("#b-scan-phone",{y:420,scale:0.85,rotation:4},{y:0,scale:1,rotation:0,duration:0.34,ease:"back.out(1.4)"},12.45);
+    tl.fromTo("#b-scan-chip",{y:-60,opacity:0},{y:0,opacity:1,duration:0.26,ease:"back.out(2)"},12.53);
+    tl.to("#b-scan",{opacity:0,duration:0.12,ease:"power2.in"},14.83);
+    tl.set("#b-scan",{opacity:0,visibility:"hidden"},14.95);
+    tl.set("#b-bil",{opacity:1,visibility:"visible"},14.99);
+    tl.fromTo("#b-bil .bg",{opacity:0},{opacity:1,duration:0.12},14.99);
+    tl.fromTo("#b-bil-phone",{y:420,scale:0.85,rotation:4},{y:0,scale:1,rotation:0,duration:0.34,ease:"back.out(1.4)"},14.99);
+    tl.fromTo("#b-bil-chip",{y:-60,opacity:0},{y:0,opacity:1,duration:0.26,ease:"back.out(2)"},15.07);
+    tl.fromTo("#b-bil-1",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},15.61);
+    tl.fromTo("#b-bil-2",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},16.51);
+    tl.fromTo("#b-bil-3",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},16.97);
+    tl.to("#b-bil",{opacity:0,duration:0.12,ease:"power2.in"},18.53);
+    tl.set("#b-bil",{opacity:0,visibility:"hidden"},18.65);
+    tl.set("#b-dl",{opacity:1,visibility:"visible"},24.5);
+    tl.fromTo("#b-dl .bg",{opacity:0},{opacity:1,duration:0.12},24.5);
+    tl.fromTo("#b-dl-phone",{y:420,scale:0.85,rotation:4},{y:0,scale:1,rotation:0,duration:0.34,ease:"back.out(1.4)"},24.5);
+    tl.fromTo("#b-dl-chip",{y:-60,opacity:0},{y:0,opacity:1,duration:0.26,ease:"back.out(2)"},24.58);
+    tl.to("#b-dl",{opacity:0,duration:0.12,ease:"power2.in"},27.46);
+    tl.set("#b-dl",{opacity:0,visibility:"hidden"},27.58);
+    window.__timelines["broll"] = tl;
+  </script>
+</template>
