@@ -366,6 +366,26 @@ open(f"{P}/compositions/broll.html","w").write('''<template>
 </template>
 ''')
 
+
+# ---------- sound-effect cue list (same clock as the graphics) ----------
+EV=[]
+for k,a,b,h,ex in KW:
+    if k=="k-rm100":
+        EV+= [(a-0.05,"whoosh"),(a,"pop_big"),(a+0.15,"coins"),(R(3.28),"chime"),(R(3.28)+0.05,"coins")]
+    else:
+        EV.append((a,"pop"))
+    if k=="k-app": EV.append((R(6.88),"pop_small"))
+    if k=="k-steps": EV+= [(R(28.10),"ding"),(R(28.85),"pop_small")]
+    if k=="k-coins": EV.append((R(18.9),"ticks"))
+for k,a,b,media,chip,ex in BR:
+    EV.append((a-0.08,"whoosh"))
+    EV.append((a+0.06,"pop_big" if "poster-img" in media else "pop"))
+    if k=="b-bil": EV+= [(R(15.61),"pop_small"),(R(16.51),"pop_small"),(R(16.97),"pop_small")]
+    if k=="b-claim": EV+= [(a+0.15,"coins"),(R(32.19),"chime"),(R(32.19)+0.05,"coins")]
+    if k=="b-coins": EV.append((a+0.12,"coins"))
+import json as _j
+_j.dump({"dur":DUR,"events":sorted((round(t,3),n) for t,n in EV)},open(sys.argv[3] if len(sys.argv)>3 else "sfx_events.json","w"),indent=0)
+
 open(f"{P}/index.html","w").write(f'''<!doctype html>
 <html lang="ms" data-resolution="portrait">
   <head>
@@ -386,6 +406,7 @@ open(f"{P}/index.html","w").write(f'''<!doctype html>
     <div id="root" data-composition-id="main" data-start="0" data-duration="{DUR}" data-width="1080" data-height="1920">
       <video id="talk" class="clip" src="assets/talk.mp4" data-start="0" data-duration="{DUR}" data-track-index="0"
              playsinline data-has-audio="true" data-volume="1"></video>
+      <audio id="sfx" class="clip" src="assets/sfx.wav" data-start="0" data-duration="{DUR}" data-track-index="5" data-volume="0.55"></audio>
       <div id="keywords" data-composition-id="keywords" data-composition-src="compositions/keywords.html"
            data-start="0" data-duration="{DUR}" data-track-index="1" data-track-kind="graphics"
            data-width="1080" data-height="1920"></div>
