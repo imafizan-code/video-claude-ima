@@ -425,6 +425,7 @@ open(f"{P}/index.html","w").write(f'''<!doctype html>
     <div id="root" data-composition-id="main" data-start="0" data-duration="{DUR}" data-width="1080" data-height="1920">
       <video id="talk" class="clip" src="assets/talk.mp4" data-start="0" data-duration="{DUR}" data-track-index="0"
              playsinline data-has-audio="true" data-volume="1"></video>
+      <audio id="bgm" class="clip" src="assets/bgm.wav" data-start="0" data-duration="{DUR}" data-track-index="6" data-volume="1"></audio>
       <audio id="sfx" class="clip" src="assets/sfx.wav" data-start="0" data-duration="{DUR}" data-track-index="5" data-volume="0.55"></audio>
       <div id="keywords" data-composition-id="keywords" data-composition-src="compositions/keywords.html"
            data-start="0" data-duration="{DUR}" data-track-index="1" data-track-kind="graphics"
