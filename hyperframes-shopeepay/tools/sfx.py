@@ -45,7 +45,12 @@ def ticks(n=12,span=1.15,gain=0.32):
     s=coin(2637,0.55); o=int(span*SR); y[o:o+len(s)]+=s   # final "ching"
     return y
 def ding(gain=0.5): return gain*tone([1568,3136,4704],0.7,0.22,amps=[1,0.3,0.1])
-LIB={"pop":lambda:pop(),"pop_small":lambda:pop(1500,500,0.08,0.55),"pop_big":lambda:pop(900,180,0.16,1.0),
+def boing(gain=0.55,dur=0.45):
+    n=int(dur*SR); t=np.arange(n)/SR
+    f=180+260*(1-np.exp(-t/0.05))+40*np.sin(2*np.pi*14*t)*np.exp(-t/0.25)   # springy glide with wobble
+    y=np.sin(2*np.pi*np.cumsum(f)/SR)+0.3*np.sin(4*np.pi*np.cumsum(f)/SR)
+    return gain*y*env(n,0.004,0.16)
+LIB={"boing":boing,"tick_pop":lambda:pop(1900,700,0.06,0.4),"pop":lambda:pop(),"pop_small":lambda:pop(1500,500,0.08,0.55),"pop_big":lambda:pop(900,180,0.16,1.0),
      "whoosh":lambda:whoosh(),"chime":chime,"coins":coins,"ticks":ticks,"ding":ding}
 N=int(ev["dur"]*SR); mix=np.zeros(N)
 for t,name in ev["events"]:

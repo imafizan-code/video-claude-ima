@@ -35,7 +35,6 @@ CAP=[
 (19.72,20.25,"boleh kumpul",""),
 (20.25,21.07,"Coins cashback","Coins cashback"),
 (21.07,22.75,"sehingga 20,000 Coins!","20,000 Coins!"),
-(22.79,23.28,"Senang kan?",""),
 (23.32,24.36,"Cara dia senang je",""),
 (24.36,24.78,"mula-mula",""),
 (24.78,25.42,"download dulu","download"),
@@ -180,7 +179,11 @@ KW=[
 ("k-coins",18.70,20.25,f'''<div class="card row">
   {coin}<div class="stack"><div class="t2">Coins cashback sehingga</div><div class="t1 num"><span id="k-coins-num">0</span> Coins</div></div></div>''',
  []),
-("k-dl",23.32,24.50,f'''<div class="card row">
+("k-senang",22.78,23.52,f'''<div class="card kin"><div class="kin-l1"><span class="kl" id="ks-l0">S</span><span class="kl" id="ks-l1">e</span><span class="kl" id="ks-l2">n</span><span class="kl" id="ks-l3">a</span><span class="kl" id="ks-l4">n</span><span class="kl" id="ks-l5">g</span></div><div class="kin-l2"><span id="ks-kan">kan?</span><span class="kin-ok" id="ks-ok">{ICON["check"]}</span></div></div>''',
+ [('"#ks-l0"','{y:-180,opacity:0,rotation:12}','{y:0,opacity:1,rotation:0,duration:0.28,ease:"back.out(3)"}',22.780),('"#ks-l1"','{y:-180,opacity:0,rotation:-14}','{y:0,opacity:1,rotation:0,duration:0.28,ease:"back.out(3)"}',22.815),('"#ks-l2"','{y:-180,opacity:0,rotation:12}','{y:0,opacity:1,rotation:0,duration:0.28,ease:"back.out(3)"}',22.850),('"#ks-l3"','{y:-180,opacity:0,rotation:-14}','{y:0,opacity:1,rotation:0,duration:0.28,ease:"back.out(3)"}',22.885),('"#ks-l4"','{y:-180,opacity:0,rotation:12}','{y:0,opacity:1,rotation:0,duration:0.28,ease:"back.out(3)"}',22.920),('"#ks-l5"','{y:-180,opacity:0,rotation:-14}','{y:0,opacity:1,rotation:0,duration:0.28,ease:"back.out(3)"}',22.955),
+  ('"#ks-kan"','{scale:0,rotation:-25}','{scale:1,rotation:-6,duration:0.3,ease:"back.out(3.5)"}',23.02),
+  ('"#ks-ok"','{scale:0,rotation:-90}','{scale:1,rotation:0,duration:0.3,ease:"back.out(3)"}',23.14)]),
+("k-dl",23.52,24.50,f'''<div class="card row">
   <div class="sq">{ICON["dl"]}</div><div class="stack"><div class="t2">Cara claim?</div><div class="t1">3 langkah je!</div></div></div>''',
  []),
 ("k-steps",27.62,29.85,f'''<div class="card row steps">
@@ -261,6 +264,17 @@ open(f"{P}/compositions/keywords.html","w").write('''<template>
     .kw#k-cta { top:190px; height:360px; }
     .card.biglogo { background:none; box-shadow:none; padding:0; }
     .card.biglogo img { display:block; width:820px; height:auto; filter:drop-shadow(0 10px 24px rgba(0,0,0,.18)) drop-shadow(0 0 2px #fff); }
+    .kw#k-senang { top:200px; height:370px; }
+    .card.kin { background:none; box-shadow:none; padding:0; gap:0; font-family:Poppins, sans-serif; }
+    .kin-l1 { display:flex; font-weight:900; font-size:178px; line-height:1; letter-spacing:-0.02em; color:#fff;
+              paint-order:stroke fill; -webkit-text-stroke:14px #EE4D2D; text-shadow:0 10px 0 #B8321A, 0 18px 30px rgba(0,0,0,.25); }
+    .kl { display:inline-block; }
+    .kin-l2 { display:flex; align-items:center; gap:18px; margin-top:-6px; }
+    #ks-kan { display:inline-block; font-weight:900; font-size:150px; line-height:1; color:#FFD23F;
+              paint-order:stroke fill; -webkit-text-stroke:14px #1b1b1b; text-shadow:0 10px 0 #1b1b1b; }
+    .kin-ok { display:flex; width:120px; height:120px; border-radius:50%; background:#22C55E; color:#fff; padding:18px;
+              box-shadow:0 0 0 7px #fff, 0 12px 26px rgba(0,0,0,.25); }
+    .kin-ok svg { width:100%; height:100%; }
     .card.ban { position:relative; padding:0; overflow:hidden; border-radius:26px; box-shadow:0 14px 40px rgba(0,0,0,.3), 0 0 0 5px #fff; }
     .card.ban img { display:block; height:290px; width:auto; }
     .banner { width:200px; height:200px; border-radius:22px; object-fit:cover; }
@@ -373,6 +387,8 @@ EV=[]
 for k,a,b,h,ex in KW:
     if k=="k-rm100":
         EV+= [(a-0.05,"whoosh"),(a,"pop_big"),(a+0.15,"coins"),(R(3.28),"chime"),(R(3.28)+0.05,"coins")]
+    elif k=="k-senang":
+        EV+= [(a,"boing")]+[(a+0.035*i+0.12,"tick_pop") for i in range(0,6,2)]+[(R(23.02),"pop"),(R(23.14),"ding")]
     elif k=="k-cta":
         EV+= [(a-0.05,"whoosh"),(a,"pop_big")]
     else:
