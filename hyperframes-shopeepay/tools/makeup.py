@@ -58,10 +58,10 @@ while True:
           bl=cv2.GaussianBlur(bl,(0,0),fw*0.07)*skin
           lab[...,1]+=bl*6*K; lab[...,2]+=bl*1.5*K
           # lipstick: pull lip chroma toward soft rose, keep texture (luminance)
-          la=lip*0.6
+          la=lip*(0.6 if K else 0.3)   # skip ranges: a lighter touch of lipstick
           lab[...,1]=lab[...,1]*(1-la)+LIP_LAB[1]*la
           lab[...,2]=lab[...,2]*(1-la)+LIP_LAB[2]*la
-          lab[...,0]-=lip*4
+          lab[...,0]-=lip*4*K
           crop=cv2.cvtColor(np.clip(lab,0,255).astype(np.uint8),cv2.COLOR_LAB2BGR)
           out=fr.copy(); out[y0:y1,x0:x1]=crop
     else: faces.append({"f":i,"top":None,"chin":None})
