@@ -1,0 +1,139 @@
+<template>
+  <style>
+    #root { position:absolute; inset:0; pointer-events:none; }
+    /* Graphics band: above the head, below platform top UI (TikTok ~170px, IG Reels ~250px), clear of right rail */
+    .kw { position:absolute; left:60px; width:840px; top:265px; height:270px;
+          display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; overflow:visible; }
+    .card { background:#fff; color:#1b1b1b; border-radius:34px; padding:22px 30px;
+            box-shadow:0 14px 40px rgba(0,0,0,.28), 0 0 0 5px #EE4D2D inset;
+            font-family:Poppins, sans-serif; display:flex; flex-direction:column; align-items:center; gap:4px; }
+    .card.row { flex-direction:row; gap:22px; }
+    .ic { width:40px; height:40px; display:inline-flex; color:#EE4D2D; }
+    .ic svg, .sq svg, .mini svg, .bill svg, .pill svg, .step svg { width:100%; height:100%; }
+    .tag { display:flex; align-items:center; gap:10px; background:#EE4D2D; color:#fff; font-weight:700; font-size:30px;
+           padding:6px 20px; border-radius:999px; }
+    .tag .ic { color:#fff; width:30px; height:30px; }
+    .big { display:flex; align-items:center; gap:14px; font-weight:900; font-size:110px; line-height:1; color:#EE4D2D; letter-spacing:-0.03em; }
+    .big .gift { width:84px; height:84px; }
+    .sub { font-weight:800; font-size:40px; letter-spacing:.02em; text-transform:uppercase; }
+    .logo-wrap { height:110px; display:flex; align-items:center; }
+    .logo-wrap img { height:100px; width:auto; }
+    .logo-wrap.v { height:170px; } .logo-wrap.v img { height:170px; }
+    .pill { background:#EE4D2D; color:#fff; font-weight:800; font-size:36px; padding:14px 26px; border-radius:999px;
+            display:flex; align-items:center; gap:12px; white-space:nowrap; }
+    .pill.dl svg { width:38px; height:38px; }
+    .one { font-weight:900; font-size:120px; line-height:1; color:#EE4D2D; }
+    .stack { display:flex; flex-direction:column; align-items:flex-start; }
+    .t1 { font-weight:900; font-size:62px; line-height:1.05; color:#1b1b1b; letter-spacing:-0.02em; }
+    .t1.c { text-align:center; }
+    .t1.num { color:#EE4D2D; font-size:72px; }
+    .t2 { font-weight:700; font-size:30px; color:#555; }
+    .minis { display:flex; gap:10px; }
+    .mini { width:64px; height:64px; border-radius:18px; background:#FFF0EB; color:#EE4D2D; padding:12px; display:flex; align-items:center; justify-content:center; }
+    .mini .coin { width:44px; height:44px; font-size:26px; border-width:3px; }
+    .sq { width:120px; height:120px; border-radius:28px; background:#EE4D2D; color:#fff; padding:22px; display:flex; }
+    .bills { display:flex; gap:16px; margin-top:8px; }
+    .bill { display:flex; flex-direction:column; align-items:center; gap:6px; width:150px; padding:14px 8px; border-radius:22px;
+            background:#FFF0EB; color:#EE4D2D; }
+    .bill svg { width:56px; height:56px; }
+    .bill b { font-size:28px; color:#1b1b1b; }
+    .coin { width:120px; height:120px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #FFE27A, #F5B301 60%, #D98E00);
+            border:6px solid #FFF3C4; color:#9A5B00; font-weight:900; font-size:66px; display:flex; align-items:center; justify-content:center;
+            text-shadow:0 2px 0 rgba(0,0,0,.18); flex:none; }
+    .steps { gap:12px; }
+    .step { display:flex; align-items:center; gap:10px; padding:12px 18px; border-radius:999px; background:#EE4D2D; color:#fff; }
+    .step b { font-size:32px; font-weight:800; white-space:nowrap; }
+    .step svg { width:34px; height:34px; }
+    .step.done { background:#22C55E; }
+    .step .n { font-style:normal; font-weight:900; font-size:28px; width:40px; height:40px; border-radius:50%; background:#fff; color:#EE4D2D;
+               display:flex; align-items:center; justify-content:center; }
+    .arrow { font-size:48px; font-weight:900; color:#EE4D2D; }
+    .banner { width:200px; height:200px; border-radius:22px; object-fit:cover; }
+  </style>
+  <div id="root" data-composition-id="keywords" data-width="1080" data-height="1920">
+    <div class="kw" id="k-rm100"><div class="card">
+  <div class="tag" id="k-rm100-tag"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>User Baru</div>
+  <div class="big" id="k-rm100-big"><span class="ic gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="8" width="18" height="5" rx="1"/><path d="M5 13v8h14v-8M12 8v13M12 8S10.5 3 7.8 3.6C5.6 4.1 6.5 8 12 8zm0 0s1.5-5 4.2-4.4C18.4 4.1 17.5 8 12 8z"/></svg></span>RM100</div>
+  <div class="sub">Welcome Bonus</div></div></div>
+    <div class="kw" id="k-app"><div class="card row">
+  <div class="logo-wrap"><img src="assets/logo.png" alt="ShopeePay"/></div>
+  <div class="pill" id="k-app-pill">All-in-one e-wallet</div></div></div>
+    <div class="kw" id="k-settle"><div class="card row">
+  <div class="one">1</div><div class="stack"><div class="t1">App</div><div class="t2">Banyak benda settle</div></div>
+  <div class="minis"><span class="mini"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg></span><span class="mini"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><span class="mini"><div class="coin" data-layout-ignore>S</div></span></div></div></div>
+    <div class="kw" id="k-scan"><div class="card row">
+  <div class="sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg></div><div class="stack"><div class="t1">Scan &amp; Pay</div><div class="t2" id="k-scan-sub">DuitNow QR · mana-mana kedai</div></div></div></div>
+    <div class="kw" id="k-bil"><div class="card">
+  <div class="t1 c">Bayar Bil</div>
+  <div class="bills"><span class="bill" id="k-bil-1"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg><b>Elektrik</b></span><span class="bill" id="k-bil-2"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5S5 10.2 5 15a7 7 0 0 0 14 0c0-4.8-7-12.5-7-12.5z"/></svg><b>Air</b></span><span class="bill" id="k-bil-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 8.8a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16.2a5 5 0 0 1 6 0"/><circle cx="12" cy="19.6" r="1.2" fill="currentColor"/></svg><b>Data</b></span></div></div></div>
+    <div class="kw" id="k-coins"><div class="card row">
+  <div class="coin" data-layout-ignore>S</div><div class="stack"><div class="t2">Coins cashback sehingga</div><div class="t1 num"><span id="k-coins-num">0</span> Coins</div></div></div></div>
+    <div class="kw" id="k-dl"><div class="card row">
+  <div class="sq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6.5 10 12 15.5 17.5 10M4 20h16"/></svg></div><div class="stack"><div class="t1">Download</div><div class="t2">ShopeePay app · App Store / Google Play</div></div></div></div>
+    <div class="kw" id="k-steps"><div class="card row steps">
+  <span class="step done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><b>Download</b></span><span class="arrow">›</span>
+  <span class="step" id="k-step2"><i class="n">2</i><b>Sign Up</b></span><span class="arrow">›</span>
+  <span class="step dim" id="k-step3"><i class="n">3</i><b>Claim</b></span></div></div>
+    <div class="kw" id="k-claim"><div class="card row">
+  <img class="banner" src="assets/welcome_bonus.jpg" alt="RM100 Welcome Bonus"/>
+  <div class="stack"><div class="t2">Claim untuk user baru</div><div class="t1 num" id="k-claim-big">RM100</div><div class="t2">Welcome Bonus</div></div></div></div>
+    <div class="kw" id="k-cta"><div class="card row">
+  <div class="logo-wrap v"><img src="assets/logo_v.png" alt="ShopeePay"/></div>
+  <div class="pill dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6.5 10 12 15.5 17.5 10M4 20h16"/></svg>Download sekarang</div></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#k-rm100",{opacity:1,visibility:"visible"},0.15);
+    tl.fromTo("#k-rm100 > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},0.15);
+    tl.fromTo("#k-rm100-big",{scale:1},{scale:1.18,duration:0.12,yoyo:true,repeat:1,ease:"power2.out"},3.28);
+    tl.to("#k-rm100 > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},4.19);
+    tl.set("#k-rm100",{opacity:0,visibility:"hidden"},4.35);
+    tl.set("#k-app",{opacity:1,visibility:"visible"},4.5);
+    tl.fromTo("#k-app > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},4.5);
+    tl.fromTo("#k-app-pill",{opacity:0,y:16},{opacity:1,y:0,duration:0.25,ease:"back.out(2)"},6.88);
+    tl.to("#k-app > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},8.82);
+    tl.set("#k-app",{opacity:0,visibility:"hidden"},8.98);
+    tl.set("#k-settle",{opacity:1,visibility:"visible"},9.02);
+    tl.fromTo("#k-settle > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},9.02);
+    tl.to("#k-settle > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},11.14);
+    tl.set("#k-settle",{opacity:0,visibility:"hidden"},11.3);
+    tl.set("#k-scan",{opacity:1,visibility:"visible"},11.37);
+    tl.fromTo("#k-scan > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},11.37);
+    tl.fromTo("#k-scan-sub",{opacity:0,x:-14},{opacity:1,x:0,duration:0.25,ease:"power2.out"},12.9);
+    tl.to("#k-scan > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},14.79);
+    tl.set("#k-scan",{opacity:0,visibility:"hidden"},14.95);
+    tl.set("#k-bil",{opacity:1,visibility:"visible"},14.99);
+    tl.fromTo("#k-bil > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},14.99);
+    tl.fromTo("#k-bil-1",{opacity:0,scale:0.6},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},15.61);
+    tl.fromTo("#k-bil-2",{opacity:0,scale:0.6},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},16.51);
+    tl.fromTo("#k-bil-3",{opacity:0,scale:0.6},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},16.97);
+    tl.to("#k-bil > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},18.49);
+    tl.set("#k-bil",{opacity:0,visibility:"hidden"},18.65);
+    tl.set("#k-coins",{opacity:1,visibility:"visible"},18.7);
+    tl.fromTo("#k-coins > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},18.7);
+    tl.to("#k-coins > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},23.12);
+    tl.set("#k-coins",{opacity:0,visibility:"hidden"},23.28);
+    tl.set("#k-dl",{opacity:1,visibility:"visible"},23.32);
+    tl.fromTo("#k-dl > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},23.32);
+    tl.to("#k-dl > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},27.42);
+    tl.set("#k-dl",{opacity:0,visibility:"hidden"},27.58);
+    tl.set("#k-steps",{opacity:1,visibility:"visible"},27.62);
+    tl.fromTo("#k-steps > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},27.62);
+    tl.fromTo("#k-step2",{backgroundColor:"rgba(255,255,255,0.18)"},{backgroundColor:"#22C55E",duration:0.2},28.1);
+    tl.fromTo("#k-step3",{opacity:0.45},{opacity:1,duration:0.2},28.85);
+    tl.to("#k-steps > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},29.69);
+    tl.set("#k-steps",{opacity:0,visibility:"hidden"},29.85);
+    tl.set("#k-claim",{opacity:1,visibility:"visible"},29.89);
+    tl.fromTo("#k-claim > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},29.89);
+    tl.fromTo("#k-claim-big",{scale:1},{scale:1.15,duration:0.12,yoyo:true,repeat:1,ease:"power2.out"},32.19);
+    tl.to("#k-claim > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},33.12);
+    tl.set("#k-claim",{opacity:0,visibility:"hidden"},33.28);
+    tl.set("#k-cta",{opacity:1,visibility:"visible"},33.32);
+    tl.fromTo("#k-cta > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},33.32);
+    tl.to("#k-cta > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},35.14);
+    tl.set("#k-cta",{opacity:0,visibility:"hidden"},35.3);
+    const cn={v:0}, numEl=document.getElementById("k-coins-num");
+    tl.fromTo(cn,{v:0},{v:20000,duration:0.9,ease:"power3.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},21.07);
+    window.__timelines["keywords"] = tl;
+  </script>
+</template>
