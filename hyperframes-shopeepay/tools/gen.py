@@ -189,10 +189,8 @@ KW=[
   <span class="step dim" id="k-step3"><i class="n">3</i><b>Claim</b></span></div>''',
  [('"#k-step2"','{backgroundColor:"rgba(255,255,255,0.18)"}','{backgroundColor:"#22C55E",duration:0.2}',28.10),
   ('"#k-step3"','{opacity:0.45}','{opacity:1,duration:0.2}',28.85)]),
-("k-cta",33.32,35.30,f'''<div class="card row">
-  <div class="logo-wrap v"><img src="assets/logo_v.png" alt="ShopeePay"/></div>
-  <div class="pill dl">{ICON["dl"]}Download sekarang</div></div>''',
- []),
+("k-cta",33.32,35.30,'''<div class="card biglogo"><img id="k-cta-logo" src="assets/logo_cta.png" alt="ShopeePay"/></div>''',
+ [('"#k-cta-logo"','{scale:1}','{scale:1.06,duration:0.5,yoyo:true,repeat:1,ease:"sine.inOut"}',34.0)]),
 ]
 KW=[(k,R(a),R(b,True),h,[(x,y,z,R(t)) for x,y,z,t in ex]) for k,a,b,h,ex in KW]
 kw_html="\n".join(f'    <div class="kw" id="{k}">{h}</div>' for k,s,e,h,_ in KW)
@@ -260,6 +258,9 @@ open(f"{P}/compositions/keywords.html","w").write('''<template>
     .kw#k-rm100 .card { position:relative; z-index:2; }
     .kw#k-rm100 .card.ban img { height:780px; }
     .kw#k-rm100 .fx-rays { z-index:0; } .kw#k-rm100 .fx-ring, .kw#k-rm100 .fx-cf, .kw#k-rm100 .fx-coin, .kw#k-rm100 .fx-star { z-index:3; }
+    .kw#k-cta { top:190px; height:360px; }
+    .card.biglogo { background:none; box-shadow:none; padding:0; }
+    .card.biglogo img { display:block; width:820px; height:auto; filter:drop-shadow(0 10px 24px rgba(0,0,0,.18)) drop-shadow(0 0 2px #fff); }
     .card.ban { position:relative; padding:0; overflow:hidden; border-radius:26px; box-shadow:0 14px 40px rgba(0,0,0,.3), 0 0 0 5px #fff; }
     .card.ban img { display:block; height:290px; width:auto; }
     .banner { width:200px; height:200px; border-radius:22px; object-fit:cover; }
@@ -372,6 +373,8 @@ EV=[]
 for k,a,b,h,ex in KW:
     if k=="k-rm100":
         EV+= [(a-0.05,"whoosh"),(a,"pop_big"),(a+0.15,"coins"),(R(3.28),"chime"),(R(3.28)+0.05,"coins")]
+    elif k=="k-cta":
+        EV+= [(a-0.05,"whoosh"),(a,"pop_big")]
     else:
         EV.append((a,"pop"))
     if k=="k-app": EV.append((R(6.88),"pop_small"))

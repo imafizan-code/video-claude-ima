@@ -64,6 +64,9 @@
     .kw#k-rm100 .card { position:relative; z-index:2; }
     .kw#k-rm100 .card.ban img { height:780px; }
     .kw#k-rm100 .fx-rays { z-index:0; } .kw#k-rm100 .fx-ring, .kw#k-rm100 .fx-cf, .kw#k-rm100 .fx-coin, .kw#k-rm100 .fx-star { z-index:3; }
+    .kw#k-cta { top:190px; height:360px; }
+    .card.biglogo { background:none; box-shadow:none; padding:0; }
+    .card.biglogo img { display:block; width:820px; height:auto; filter:drop-shadow(0 10px 24px rgba(0,0,0,.18)) drop-shadow(0 0 2px #fff); }
     .card.ban { position:relative; padding:0; overflow:hidden; border-radius:26px; box-shadow:0 14px 40px rgba(0,0,0,.3), 0 0 0 5px #fff; }
     .card.ban img { display:block; height:290px; width:auto; }
     .banner { width:200px; height:200px; border-radius:22px; object-fit:cover; }
@@ -86,9 +89,7 @@
   <span class="step done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><b>Download</b></span><span class="arrow">›</span>
   <span class="step" id="k-step2"><i class="n">2</i><b>Sign Up</b></span><span class="arrow">›</span>
   <span class="step dim" id="k-step3"><i class="n">3</i><b>Claim</b></span></div></div>
-    <div class="kw" id="k-cta"><div class="card row">
-  <div class="logo-wrap v"><img src="assets/logo_v.png" alt="ShopeePay"/></div>
-  <div class="pill dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6.5 10 12 15.5 17.5 10M4 20h16"/></svg>Download sekarang</div></div></div>
+    <div class="kw" id="k-cta"><div class="card biglogo"><img id="k-cta-logo" src="assets/logo_cta.png" alt="ShopeePay"/></div></div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
@@ -125,6 +126,7 @@
     tl.set("#k-steps",{opacity:0,visibility:"hidden"},30.8);
     tl.set("#k-cta",{opacity:1,visibility:"visible"},34.42);
     tl.fromTo("#k-cta > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},34.42);
+    tl.fromTo("#k-cta-logo",{scale:1},{scale:1.06,duration:0.5,yoyo:true,repeat:1,ease:"sine.inOut"},35.1);
     tl.to("#k-cta > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},36.34);
     tl.set("#k-cta",{opacity:0,visibility:"hidden"},36.5);
     tl.fromTo("#hk-rays",{opacity:0,rotation:0,scale:0.6},{opacity:1,scale:1,duration:0.35,ease:"power2.out"},1.5);
