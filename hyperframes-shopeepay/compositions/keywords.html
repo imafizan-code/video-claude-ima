@@ -2,7 +2,7 @@
   <style>
     #root { position:absolute; inset:0; pointer-events:none; }
     /* Graphics band: above the head, below platform top UI (TikTok ~170px, IG Reels ~250px), clear of right rail */
-    .kw { position:absolute; left:60px; width:840px; top:265px; height:270px;
+    .kw { position:absolute; left:60px; width:840px; top:250px; height:300px;
           display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; overflow:visible; }
     .card { background:#fff; color:#1b1b1b; border-radius:34px; padding:22px 30px;
             box-shadow:0 14px 40px rgba(0,0,0,.28), 0 0 0 5px #EE4D2D inset;
@@ -48,13 +48,12 @@
     .step .n { font-style:normal; font-weight:900; font-size:28px; width:40px; height:40px; border-radius:50%; background:#fff; color:#EE4D2D;
                display:flex; align-items:center; justify-content:center; }
     .arrow { font-size:48px; font-weight:900; color:#EE4D2D; }
+    .card.ban { padding:0; overflow:hidden; border-radius:26px; box-shadow:0 14px 40px rgba(0,0,0,.3), 0 0 0 5px #fff; }
+    .card.ban img { display:block; height:290px; width:auto; }
     .banner { width:200px; height:200px; border-radius:22px; object-fit:cover; }
   </style>
   <div id="root" data-composition-id="keywords" data-width="1080" data-height="1920">
-    <div class="kw" id="k-rm100"><div class="card">
-  <div class="tag" id="k-rm100-tag"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>User Baru</div>
-  <div class="big" id="k-rm100-big"><span class="ic gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="8" width="18" height="5" rx="1"/><path d="M5 13v8h14v-8M12 8v13M12 8S10.5 3 7.8 3.6C5.6 4.1 6.5 8 12 8zm0 0s1.5-5 4.2-4.4C18.4 4.1 17.5 8 12 8z"/></svg></span>RM100</div>
-  <div class="sub">Welcome Bonus</div></div></div>
+    <div class="kw" id="k-rm100"><div class="card ban"><img id="k-rm100-img" src="assets/banner_welcome_popup.png" alt="RM100 Welcome Bonus"/></div></div>
     <div class="kw" id="k-app"><div class="card row">
   <div class="logo-wrap"><img src="assets/logo.png" alt="ShopeePay"/></div>
   <div class="pill" id="k-app-pill">All-in-one e-wallet</div></div></div>
@@ -71,9 +70,6 @@
   <span class="step done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><b>Download</b></span><span class="arrow">›</span>
   <span class="step" id="k-step2"><i class="n">2</i><b>Sign Up</b></span><span class="arrow">›</span>
   <span class="step dim" id="k-step3"><i class="n">3</i><b>Claim</b></span></div></div>
-    <div class="kw" id="k-claim"><div class="card row">
-  <img class="banner" src="assets/welcome_bonus.jpg" alt="RM100 Welcome Bonus"/>
-  <div class="stack"><div class="t2">Claim untuk user baru</div><div class="t1 num" id="k-claim-big">RM100</div><div class="t2">Welcome Bonus</div></div></div></div>
     <div class="kw" id="k-cta"><div class="card row">
   <div class="logo-wrap v"><img src="assets/logo_v.png" alt="ShopeePay"/></div>
   <div class="pill dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6.5 10 12 15.5 17.5 10M4 20h16"/></svg>Download sekarang</div></div></div>
@@ -82,7 +78,7 @@
     const tl = gsap.timeline({ paused: true });
     tl.set("#k-rm100",{opacity:1,visibility:"visible"},0.15);
     tl.fromTo("#k-rm100 > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},0.15);
-    tl.fromTo("#k-rm100-big",{scale:1},{scale:1.18,duration:0.12,yoyo:true,repeat:1,ease:"power2.out"},3.28);
+    tl.fromTo("#k-rm100-img",{scale:1},{scale:1.1,duration:0.12,yoyo:true,repeat:1,ease:"power2.out"},3.28);
     tl.to("#k-rm100 > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},4.19);
     tl.set("#k-rm100",{opacity:0,visibility:"hidden"},4.35);
     tl.set("#k-app",{opacity:1,visibility:"visible"},5.98);
@@ -100,8 +96,8 @@
     tl.set("#k-scan",{opacity:0,visibility:"hidden"},12.45);
     tl.set("#k-coins",{opacity:1,visibility:"visible"},18.7);
     tl.fromTo("#k-coins > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},18.7);
-    tl.to("#k-coins > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},23.12);
-    tl.set("#k-coins",{opacity:0,visibility:"hidden"},23.28);
+    tl.to("#k-coins > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},20.09);
+    tl.set("#k-coins",{opacity:0,visibility:"hidden"},20.25);
     tl.set("#k-dl",{opacity:1,visibility:"visible"},23.32);
     tl.fromTo("#k-dl > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},23.32);
     tl.to("#k-dl > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},24.34);
@@ -112,17 +108,12 @@
     tl.fromTo("#k-step3",{opacity:0.45},{opacity:1,duration:0.2},28.85);
     tl.to("#k-steps > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},29.69);
     tl.set("#k-steps",{opacity:0,visibility:"hidden"},29.85);
-    tl.set("#k-claim",{opacity:1,visibility:"visible"},29.89);
-    tl.fromTo("#k-claim > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},29.89);
-    tl.fromTo("#k-claim-big",{scale:1},{scale:1.15,duration:0.12,yoyo:true,repeat:1,ease:"power2.out"},32.19);
-    tl.to("#k-claim > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},33.12);
-    tl.set("#k-claim",{opacity:0,visibility:"hidden"},33.28);
     tl.set("#k-cta",{opacity:1,visibility:"visible"},33.32);
     tl.fromTo("#k-cta > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},33.32);
     tl.to("#k-cta > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},35.14);
     tl.set("#k-cta",{opacity:0,visibility:"hidden"},35.3);
     const cn={v:0}, numEl=document.getElementById("k-coins-num");
-    tl.fromTo(cn,{v:0},{v:20000,duration:2.6,ease:"power2.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},18.9);
+    tl.fromTo(cn,{v:0},{v:20000,duration:1.2,ease:"power2.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},18.9);
     window.__timelines["keywords"] = tl;
   </script>
 </template>

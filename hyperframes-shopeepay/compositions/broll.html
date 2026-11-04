@@ -16,6 +16,10 @@
     .phone { position:absolute; left:271px; top:318px; width:418px; height:890px; border-radius:54px; background:#111; padding:12px;
              box-shadow:0 30px 70px rgba(80,10,0,.45), 0 0 0 4px rgba(255,255,255,.55); }
     .screen { position:relative; width:100%; height:100%; border-radius:44px; overflow:hidden; background:#fff; }
+    /* official campaign banner (4:5) inside the safe column, captions sit below at 1236 */
+    .poster { position:absolute; left:110px; top:250px; width:740px; height:925px; border-radius:40px; overflow:hidden;
+              box-shadow:0 30px 70px rgba(80,10,0,.45), 0 0 0 8px #fff; background:#fff; }
+    .poster-img { position:absolute; left:0; top:0; width:100%; height:100%; object-fit:cover; }
     .media { position:absolute; left:0; top:0; width:100%; height:100%; object-fit:cover; object-position:top center; }
   </style>
   <div id="root" data-composition-id="broll" data-width="1080" data-height="1920">
@@ -33,6 +37,16 @@
       <div class="bg"></div>
       <div class="chip" id="b-bil-chip"><span class="chip-t">Bayar Bil</span><span class="bi" id="b-bil-1"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><span class="bi" id="b-bil-2"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5S5 10.2 5 15a7 7 0 0 0 14 0c0-4.8-7-12.5-7-12.5z"/></svg></span><span class="bi" id="b-bil-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 8.8a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16.2a5 5 0 0 1 6 0"/><circle cx="12" cy="19.6" r="1.2" fill="currentColor"/></svg></span></div>
       <div class="phone" id="b-bil-phone"><div class="screen"><video id="b-bil-media" class="clip media" src="assets/rec_bil.mp4" data-start="14.99" data-duration="3.66" data-media-start="11.25" muted playsinline></video></div></div>
+    </div>
+    <div class="cut" id="b-coins">
+      <div class="bg"></div>
+      <div class="chip" id="b-coins-chip"></div>
+      <div class="poster" id="b-coins-poster"><img id="b-coins-media" class="clip poster-img" src="assets/banner_coins.jpg" data-start="20.25" data-duration="2.5" alt="Mega Coins Bonanza: earn up to 20,000 Shopee Coins"/></div>
+    </div>
+    <div class="cut" id="b-claim">
+      <div class="bg"></div>
+      <div class="chip" id="b-claim-chip"></div>
+      <div class="poster" id="b-claim-poster"><img id="b-claim-media" class="clip poster-img" src="assets/banner_welcome.jpg" data-start="29.89" data-duration="3.39" alt="RM100 Welcome Bonus"/></div>
     </div>
     <div class="cut" id="b-dl">
       <div class="bg"></div>
@@ -64,6 +78,18 @@
     tl.fromTo("#b-bil-3",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},16.97);
     tl.to("#b-bil",{opacity:0,duration:0.12,ease:"power2.in"},18.53);
     tl.set("#b-bil",{opacity:0,visibility:"hidden"},18.65);
+    tl.set("#b-coins",{opacity:1,visibility:"visible"},20.25);
+    tl.fromTo("#b-coins .bg",{opacity:0},{opacity:1,duration:0.12},20.25);
+    tl.fromTo("#b-coins-poster",{y:380,scale:0.7,rotation:-5},{y:0,scale:1,rotation:0,duration:0.38,ease:"back.out(1.6)"},20.25);
+    tl.fromTo("#b-coins-media",{scale:1},{scale:1.05,duration:2.5,ease:"none"},20.25);
+    tl.to("#b-coins",{opacity:0,duration:0.12,ease:"power2.in"},22.63);
+    tl.set("#b-coins",{opacity:0,visibility:"hidden"},22.75);
+    tl.set("#b-claim",{opacity:1,visibility:"visible"},29.89);
+    tl.fromTo("#b-claim .bg",{opacity:0},{opacity:1,duration:0.12},29.89);
+    tl.fromTo("#b-claim-poster",{y:380,scale:0.7,rotation:-5},{y:0,scale:1,rotation:0,duration:0.38,ease:"back.out(1.6)"},29.89);
+    tl.fromTo("#b-claim-media",{scale:1},{scale:1.05,duration:3.39,ease:"none"},29.89);
+    tl.to("#b-claim",{opacity:0,duration:0.12,ease:"power2.in"},33.16);
+    tl.set("#b-claim",{opacity:0,visibility:"hidden"},33.28);
     tl.set("#b-dl",{opacity:1,visibility:"visible"},24.5);
     tl.fromTo("#b-dl .bg",{opacity:0},{opacity:1,duration:0.12},24.5);
     tl.fromTo("#b-dl-phone",{y:420,scale:0.85,rotation:4},{y:0,scale:1,rotation:0,duration:0.34,ease:"back.out(1.4)"},24.5);

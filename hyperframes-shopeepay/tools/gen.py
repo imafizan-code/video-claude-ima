@@ -41,7 +41,7 @@ CAP=[
 (34.82,35.25,"sekarang!",""),
 ]
 # screen-recording cutaways (start,end) -- face hidden, captions go in a fixed band under the phone
-CUT=[(4.45,5.98),(12.45,14.95),(14.99,18.65),(24.50,27.58)]
+CUT=[(4.45,5.98),(12.45,14.95),(14.99,18.65),(20.25,22.75),(24.50,27.58),(29.89,33.28)]
 import json
 _F=json.load(open(sys.argv[2])); _fps=_F["fps"]
 def cap_top(s,e):
@@ -97,11 +97,8 @@ ICON={
 coin='<div class="coin" data-layout-ignore>S</div>'
 KW=[
 # id, start, end, inner html, extra js (relative to group)
-("k-rm100",0.15,4.35,f'''<div class="card">
-  <div class="tag" id="k-rm100-tag"><span class="ic">{ICON["user"]}</span>User Baru</div>
-  <div class="big" id="k-rm100-big"><span class="ic gift">{ICON["gift"]}</span>RM100</div>
-  <div class="sub">Welcome Bonus</div></div>''',
- [('"#k-rm100-big"','{scale:1}','{scale:1.18,duration:0.12,yoyo:true,repeat:1,ease:"power2.out"}',3.28)]),
+("k-rm100",0.15,4.35,'''<div class="card ban"><img id="k-rm100-img" src="assets/banner_welcome_popup.png" alt="RM100 Welcome Bonus"/></div>''',
+ [('"#k-rm100-img"','{scale:1}','{scale:1.1,duration:0.12,yoyo:true,repeat:1,ease:"power2.out"}',3.28)]),
 ("k-app",5.98,8.98,f'''<div class="card row">
   <div class="logo-wrap"><img src="assets/logo.png" alt="ShopeePay"/></div>
   <div class="pill" id="k-app-pill">All-in-one e-wallet</div></div>''',
@@ -113,7 +110,7 @@ KW=[
 ("k-scan",11.37,12.45,f'''<div class="card row">
   <div class="sq">{ICON["qr"]}</div><div class="stack"><div class="t1">Scan &amp; Pay</div><div class="t2" id="k-scan-sub">DuitNow QR</div></div></div>''',
  []),
-("k-coins",18.70,23.28,f'''<div class="card row">
+("k-coins",18.70,20.25,f'''<div class="card row">
   {coin}<div class="stack"><div class="t2">Coins cashback sehingga</div><div class="t1 num"><span id="k-coins-num">0</span> Coins</div></div></div>''',
  []),
 ("k-dl",23.32,24.50,f'''<div class="card row">
@@ -125,10 +122,6 @@ KW=[
   <span class="step dim" id="k-step3"><i class="n">3</i><b>Claim</b></span></div>''',
  [('"#k-step2"','{backgroundColor:"rgba(255,255,255,0.18)"}','{backgroundColor:"#22C55E",duration:0.2}',28.10),
   ('"#k-step3"','{opacity:0.45}','{opacity:1,duration:0.2}',28.85)]),
-("k-claim",29.89,33.28,f'''<div class="card row">
-  <img class="banner" src="assets/welcome_bonus.jpg" alt="RM100 Welcome Bonus"/>
-  <div class="stack"><div class="t2">Claim untuk user baru</div><div class="t1 num" id="k-claim-big">RM100</div><div class="t2">Welcome Bonus</div></div></div>''',
- [('"#k-claim-big"','{scale:1}','{scale:1.15,duration:0.12,yoyo:true,repeat:1,ease:"power2.out"}',32.19)]),
 ("k-cta",33.32,35.30,f'''<div class="card row">
   <div class="logo-wrap v"><img src="assets/logo_v.png" alt="ShopeePay"/></div>
   <div class="pill dl">{ICON["dl"]}Download sekarang</div></div>''',
@@ -143,12 +136,12 @@ for k,s,e,h,extra in KW:
     js.append(f'    tl.to("#{k} > .card",{{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"}},{e-0.16:.2f});')
     js.append(f'    tl.set("#{k}",{{opacity:0,visibility:"hidden"}},{e});')
 js.append('''    const cn={v:0}, numEl=document.getElementById("k-coins-num");
-    tl.fromTo(cn,{v:0},{v:20000,duration:2.6,ease:"power2.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},18.9);''')
+    tl.fromTo(cn,{v:0},{v:20000,duration:1.2,ease:"power2.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},18.9);''')
 open(f"{P}/compositions/keywords.html","w").write('''<template>
   <style>
     #root { position:absolute; inset:0; pointer-events:none; }
     /* Graphics band: above the head, below platform top UI (TikTok ~170px, IG Reels ~250px), clear of right rail */
-    .kw { position:absolute; left:60px; width:840px; top:265px; height:270px;
+    .kw { position:absolute; left:60px; width:840px; top:250px; height:300px;
           display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; overflow:visible; }
     .card { background:#fff; color:#1b1b1b; border-radius:34px; padding:22px 30px;
             box-shadow:0 14px 40px rgba(0,0,0,.28), 0 0 0 5px #EE4D2D inset;
@@ -194,6 +187,8 @@ open(f"{P}/compositions/keywords.html","w").write('''<template>
     .step .n { font-style:normal; font-weight:900; font-size:28px; width:40px; height:40px; border-radius:50%; background:#fff; color:#EE4D2D;
                display:flex; align-items:center; justify-content:center; }
     .arrow { font-size:48px; font-weight:900; color:#EE4D2D; }
+    .card.ban { padding:0; overflow:hidden; border-radius:26px; box-shadow:0 14px 40px rgba(0,0,0,.3), 0 0 0 5px #fff; }
+    .card.ban img { display:block; height:290px; width:auto; }
     .banner { width:200px; height:200px; border-radius:22px; object-fit:cover; }
   </style>
   <div id="root" data-composition-id="keywords" data-width="1080" data-height="1920">
@@ -221,20 +216,27 @@ BR=[
   ['tl.fromTo("#b-bil-1",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},15.61);',
    'tl.fromTo("#b-bil-2",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},16.51);',
    'tl.fromTo("#b-bil-3",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},16.97);']),
+ ("b-coins",20.25,22.75,'<img id="b-coins-media" class="clip poster-img" src="assets/banner_coins.jpg" data-start="20.25" data-duration="2.5" alt="Mega Coins Bonanza: earn up to 20,000 Shopee Coins"/>','',
+  ['tl.fromTo("#b-coins-media",{scale:1},{scale:1.05,duration:2.5,ease:"none"},20.25);']),
+ ("b-claim",29.89,33.28,'<img id="b-claim-media" class="clip poster-img" src="assets/banner_welcome.jpg" data-start="29.89" data-duration="3.39" alt="RM100 Welcome Bonus"/>','',
+  ['tl.fromTo("#b-claim-media",{scale:1},{scale:1.05,duration:3.39,ease:"none"},29.89);']),
  ("b-dl",24.50,27.58,'<video id="b-dl-media" class="clip media" src="assets/rec_download.mp4" data-start="24.50" data-duration="3.08" data-media-start="0.6" data-playback-rate="2.8" muted playsinline></video>',
   f'<span class="chip-ic">{ICON["dl"]}</span><span class="chip-t">Download ShopeePay app</span>',[]),
 ]
 br_html="\n".join(f'''    <div class="cut" id="{k}">
       <div class="bg"></div>
       <div class="chip" id="{k}-chip">{chip}</div>
-      <div class="phone" id="{k}-phone"><div class="screen">{media}</div></div>
+      {('<div class="poster" id="'+k+'-poster">'+media+'</div>') if 'poster-img' in media else ('<div class="phone" id="'+k+'-phone"><div class="screen">'+media+'</div></div>')}
     </div>''' for k,s0,e0,media,chip,_ in BR)
 bj=[]
 for k,s0,e0,media,chip,extra in BR:
     bj.append(f'    tl.set("#{k}",{{opacity:1,visibility:"visible"}},{s0});')
     bj.append(f'    tl.fromTo("#{k} .bg",{{opacity:0}},{{opacity:1,duration:0.12}},{s0});')
-    bj.append(f'    tl.fromTo("#{k}-phone",{{y:420,scale:0.85,rotation:4}},{{y:0,scale:1,rotation:0,duration:0.34,ease:"back.out(1.4)"}},{s0});')
-    bj.append(f'    tl.fromTo("#{k}-chip",{{y:-60,opacity:0}},{{y:0,opacity:1,duration:0.26,ease:"back.out(2)"}},{s0+0.08:.2f});')
+    if 'poster-img' in media:
+        bj.append(f'    tl.fromTo("#{k}-poster",{{y:380,scale:0.7,rotation:-5}},{{y:0,scale:1,rotation:0,duration:0.38,ease:"back.out(1.6)"}},{s0});')
+    else:
+        bj.append(f'    tl.fromTo("#{k}-phone",{{y:420,scale:0.85,rotation:4}},{{y:0,scale:1,rotation:0,duration:0.34,ease:"back.out(1.4)"}},{s0});')
+        bj.append(f'    tl.fromTo("#{k}-chip",{{y:-60,opacity:0}},{{y:0,opacity:1,duration:0.26,ease:"back.out(2)"}},{s0+0.08:.2f});')
     bj+=["    "+x for x in extra]
     bj.append(f'    tl.to("#{k}",{{opacity:0,duration:0.12,ease:"power2.in"}},{e0-0.12:.2f});')
     bj.append(f'    tl.set("#{k}",{{opacity:0,visibility:"hidden"}},{e0});')
@@ -256,6 +258,10 @@ open(f"{P}/compositions/broll.html","w").write('''<template>
     .phone { position:absolute; left:271px; top:318px; width:418px; height:890px; border-radius:54px; background:#111; padding:12px;
              box-shadow:0 30px 70px rgba(80,10,0,.45), 0 0 0 4px rgba(255,255,255,.55); }
     .screen { position:relative; width:100%; height:100%; border-radius:44px; overflow:hidden; background:#fff; }
+    /* official campaign banner (4:5) inside the safe column, captions sit below at 1236 */
+    .poster { position:absolute; left:110px; top:250px; width:740px; height:925px; border-radius:40px; overflow:hidden;
+              box-shadow:0 30px 70px rgba(80,10,0,.45), 0 0 0 8px #fff; background:#fff; }
+    .poster-img { position:absolute; left:0; top:0; width:100%; height:100%; object-fit:cover; }
     .media { position:absolute; left:0; top:0; width:100%; height:100%; object-fit:cover; object-position:top center; }
   </style>
   <div id="root" data-composition-id="broll" data-width="1080" data-height="1920">
