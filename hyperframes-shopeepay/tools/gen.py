@@ -1,5 +1,15 @@
-import sys, html
-P=sys.argv[1]; DUR=35.3
+import sys, html, re
+P=sys.argv[1]; DUR=36.5
+# segment boundaries before/after lengthening word tails (so "ringgit"/"benda" are not clipped)
+OLDB=[0,4.40,9.00,11.33,14.97,18.67,22.77,23.30,27.60,28.80,29.87,33.30,35.30]
+NEWB=[0,4.67,9.37,11.97,15.70,19.50,23.60,24.23,28.53,29.73,30.80,34.40,36.50]
+def R(t,end=False):
+    for k in range(len(OLDB)-1):
+        a,b=OLDB[k],OLDB[k+1]
+        if (a<t<=b) if end else (a<=t<b):
+            if end and b-t<0.12: return NEWB[k+1]
+            return round(t-a+NEWB[k],3)
+    return NEWB[-1] if end else round(t-OLDB[-1]+NEWB[-1],3)
 # ---------- captions: (start,end,text,highlight-substring) ----------
 CAP=[
 (0.10,1.10,"Kalau korang user baru","user baru"),
@@ -42,6 +52,8 @@ CAP=[
 ]
 # screen-recording cutaways (start,end) -- face hidden, captions go in a fixed band under the phone
 CUT=[(4.45,5.98),(12.45,14.95),(14.99,18.65),(20.25,22.75),(24.50,27.58),(29.89,33.28)]
+CAP=[(R(a),R(b,True),t,h) for a,b,t,h in CAP]
+CUT=[(R(a),R(b,True)) for a,b in CUT]
 import json
 _F=json.load(open(sys.argv[2])); _fps=_F["fps"]
 def cap_top(s,e):
@@ -52,7 +64,8 @@ def capspan(t,h):
     if h and h in t:
         a,b=t.split(h,1); return html.escape(a)+f'<span class="hl">{html.escape(h)}</span>'+html.escape(b)
     return html.escape(t)
-cap_html="\n".join(f'    <div class="cap" id="cap-{i}" style="top:{cap_top(s,e)}px"><span class="cap-in">{capspan(t,h)}</span></div>' for i,(s,e,t,h) in enumerate(CAP))
+def _oncut(s,e): return " on-cut" if any(a<=s and e<=b+0.01 for a,b in CUT) else ""
+cap_html="\n".join(f'    <div class="cap{_oncut(s,e)}" id="cap-{i}" style="top:{cap_top(s,e)}px"><span class="cap-in">{capspan(t,h)}</span></div>' for i,(s,e,t,h) in enumerate(CAP))
 cap_js="\n".join(
  f'    tl.fromTo("#cap-{i} .cap-in",{{scale:0.86,y:14}},{{scale:1,y:0,duration:0.16,ease:"back.out(2.2)"}},{s});\n'
  f'    tl.set("#cap-{i}",{{opacity:1,visibility:"visible"}},{s});\n'
@@ -71,6 +84,7 @@ open(f"{P}/compositions/captions.html","w").write(f'''<template>
               paint-order:stroke fill; -webkit-text-stroke:10px rgba(0,0,0,.85);
               text-shadow:0 6px 18px rgba(0,0,0,.55); }}
     .hl {{ color:#FFD23F; }}
+    .on-cut .cap-in {{ background:rgba(20,8,4,.72); padding:6px 26px 10px; border-radius:22px; -webkit-text-stroke:0; }}
   </style>
   <div id="root" data-composition-id="captions" data-width="1080" data-height="1920">
 {cap_html}
@@ -95,10 +109,63 @@ ICON={
 "user":'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
 }
 coin='<div class="coin" data-layout-ignore>S</div>'
+
+# ---------- RM100 celebration effects (deterministic: seeded positions) ----------
+import random
+FX_CSS = """
+    .fx-rays { position:absolute; width:1400px; height:1400px; border-radius:50%; pointer-events:none;
+               background:repeating-conic-gradient(from 0deg, rgba(255,214,90,.62) 0deg 9deg, rgba(255,214,90,0) 9deg 24deg);
+               -webkit-mask-image:radial-gradient(circle, #000 18%, transparent 62%); mask-image:radial-gradient(circle, #000 18%, transparent 62%); }
+    .fx-ring { position:absolute; width:520px; height:520px; border-radius:50%; border:16px solid #FFD23F; box-shadow:0 0 40px rgba(255,210,63,.9); pointer-events:none; }
+    .fx-cf { position:absolute; top:0; border-radius:4px; pointer-events:none; }
+    .fx-coin { position:absolute; top:0; width:54px; height:54px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #FFE680, #F5B301 60%, #C98400);
+               border:4px solid #FFF3C4; color:#8A5200; font:900 30px Poppins, sans-serif; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+    .fx-star { position:absolute; width:70px; height:70px; pointer-events:none; color:#FFD23F; filter:drop-shadow(0 0 10px rgba(255,230,120,.9)); }
+    .fx-star svg { width:100%; height:100%; }
+    .fx-shine { position:absolute; top:-20%; left:0; width:140px; height:140%; pointer-events:none;
+                background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.75), rgba(255,255,255,0)); }
+"""
+STAR='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.8 6.4 4.8 10.4 12 12-7.2 1.6-11.2 5.6-12 12-.8-6.4-4.8-10.4-12-12C7.2 10.4 11.2 6.4 12 0z"/></svg>'
+def fx_parts(p, cx, cy, w, seed):
+    """html for rays (behind), front layer (confetti, coins, ring, stars); cx,cy = centre of the hero in container px"""
+    rnd=random.Random(seed); cols=["#EE4D2D","#FFD23F","#FFFFFF","#FF8A65","#FFB300"]
+    back=f'<div class="fx-rays" data-layout-ignore id="{p}-rays" style="left:{cx-700}px;top:{cy-700}px"></div>'
+    front=[f'<div class="fx-ring" data-layout-ignore id="{p}-ring" style="left:{cx-260}px;top:{cy-260}px"></div>']
+    pieces=[]
+    for wave in (0,1):
+        for i in range(16):
+            pid=f"{p}-c{wave}-{i}"; x=int(rnd.uniform(-60,w+20)); coin = i%4==0
+            if coin: front.append(f'<div class="fx-coin" data-layout-ignore id="{pid}" style="left:{x}px">S</div>')
+            else:
+                ww,hh=(rnd.choice([14,18,22]),rnd.choice([26,32,38]))
+                front.append(f'<div class="fx-cf" data-layout-ignore id="{pid}" style="left:{x}px;width:{ww}px;height:{hh}px;background:{rnd.choice(cols)}"></div>')
+            pieces.append((pid,wave,rnd.uniform(-90,90),rnd.uniform(-200,200),rnd.uniform(240,720),rnd.uniform(0,0.6),rnd.uniform(1.4,2.4),rnd.uniform(-420,0)))
+    stars=[(cx-330,cy-360),(cx+290,cy-320),(cx-360,cy+250),(cx+320,cy+280),(cx-20,cy-430)]
+    for j,(sx,sy) in enumerate(stars): front.append(f'<div class="fx-star" data-layout-ignore id="{p}-s{j}" style="left:{sx-35}px;top:{sy-35}px">{STAR}</div>')
+    return back, "".join(front), pieces, len(stars)
+def fx_js(p, pieces, nstars, t0, t1, tpop, fall_from, fall_to, hero_img, shine):
+    j=[f'tl.fromTo("#{p}-rays",{{opacity:0,rotation:0,scale:0.6}},{{opacity:1,scale:1,duration:0.35,ease:"power2.out"}},{t0});',
+       f'tl.fromTo("#{p}-rays",{{rotation:0}},{{rotation:110,duration:{t1-t0:.2f},ease:"none",immediateRender:false}},{t0});',
+       f'tl.fromTo("#{p}-ring",{{opacity:0,scale:0.3}},{{opacity:1,scale:0.32,duration:0.01}},{tpop});',
+       f'tl.to("#{p}-ring",{{opacity:0,scale:2.6,duration:0.7,ease:"power2.out"}},{tpop+0.01:.2f});',
+       f'tl.fromTo("#{shine}",{{x:-260}},{{x:900,duration:0.7,ease:"power2.inOut"}},{t0+0.45:.2f});',
+       f'tl.to("#{shine}",{{x:-260,duration:0.01}},{tpop-0.05:.2f});',
+       f'tl.to("#{shine}",{{x:900,duration:0.55,ease:"power2.inOut"}},{tpop:.2f});']
+    if hero_img: j.append(f'tl.fromTo("{hero_img}",{{scale:1}},{{scale:1.13,duration:0.14,yoyo:true,repeat:1,ease:"power2.out"}},{tpop});')
+    for pid,wave,rot,drift,spin,delay,dur,yoff in pieces:
+        st=(t0+0.15 if wave==0 else tpop)+delay
+        j.append(f'tl.fromTo("#{pid}",{{y:{fall_from+yoff:.0f},x:0,rotation:{rot:.0f},opacity:1}},{{y:{fall_to},x:{drift:.0f},rotation:{rot+spin:.0f},duration:{dur:.2f},ease:"power1.in"}},{st:.2f});')
+        j.append(f'tl.to("#{pid}",{{opacity:0,duration:0.2}},{st+dur-0.2:.2f});')
+    for k in range(nstars):
+        j.append(f'tl.fromTo("#{p}-s{k}",{{scale:0,rotation:0,opacity:1}},{{scale:1.2,rotation:90,duration:0.25,ease:"back.out(3)"}},{tpop+0.05*k:.2f});')
+        j.append(f'tl.to("#{p}-s{k}",{{scale:0,opacity:0,duration:0.3,ease:"power2.in"}},{tpop+0.5+0.05*k:.2f});')
+    return ["    "+x for x in j]
+
+HOOK_FX=fx_parts('hk',420,500,840,7)
 KW=[
 # id, start, end, inner html, extra js (relative to group)
-("k-rm100",0.15,4.35,'''<div class="card ban"><img id="k-rm100-img" src="assets/banner_welcome_popup.png" alt="RM100 Welcome Bonus"/></div>''',
- [('"#k-rm100-img"','{scale:1}','{scale:1.1,duration:0.12,yoyo:true,repeat:1,ease:"power2.out"}',3.28)]),
+("k-rm100",0.15,4.35,(lambda b:b[0]+'<div class="card ban"><img id="k-rm100-img" src="assets/banner_welcome_popup.png" alt="RM100 Welcome Bonus"/><div class="fx-shine" data-layout-ignore id="k-rm100-shine"></div></div>'+b[1])(HOOK_FX),
+ []),
 ("k-app",5.98,8.98,f'''<div class="card row">
   <div class="logo-wrap"><img src="assets/logo.png" alt="ShopeePay"/></div>
   <div class="pill" id="k-app-pill">All-in-one e-wallet</div></div>''',
@@ -127,6 +194,7 @@ KW=[
   <div class="pill dl">{ICON["dl"]}Download sekarang</div></div>''',
  []),
 ]
+KW=[(k,R(a),R(b,True),h,[(x,y,z,R(t)) for x,y,z,t in ex]) for k,a,b,h,ex in KW]
 kw_html="\n".join(f'    <div class="kw" id="{k}">{h}</div>' for k,s,e,h,_ in KW)
 js=[]
 for k,s,e,h,extra in KW:
@@ -135,11 +203,12 @@ for k,s,e,h,extra in KW:
     for sel,a,b,t in extra: js.append(f'    tl.fromTo({sel},{a},{b},{t});')
     js.append(f'    tl.to("#{k} > .card",{{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"}},{e-0.16:.2f});')
     js.append(f'    tl.set("#{k}",{{opacity:0,visibility:"hidden"}},{e});')
+js += fx_js('hk',HOOK_FX[2],HOOK_FX[3],R(0.15),R(4.35,True),R(3.28),-560,1950,'#k-rm100','k-rm100-shine')
 js.append('''    const cn={v:0}, numEl=document.getElementById("k-coins-num");
-    tl.fromTo(cn,{v:0},{v:20000,duration:1.2,ease:"power2.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},18.9);''')
+    tl.fromTo(cn,{v:0},{v:20000,duration:1.2,ease:"power2.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},'''+f'{R(18.9)});')
 open(f"{P}/compositions/keywords.html","w").write('''<template>
   <style>
-    #root { position:absolute; inset:0; pointer-events:none; }
+    #root { position:absolute; inset:0; pointer-events:none; }'''+FX_CSS+'''
     /* Graphics band: above the head, below platform top UI (TikTok ~170px, IG Reels ~250px), clear of right rail */
     .kw { position:absolute; left:60px; width:840px; top:250px; height:300px;
           display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; overflow:visible; }
@@ -187,7 +256,11 @@ open(f"{P}/compositions/keywords.html","w").write('''<template>
     .step .n { font-style:normal; font-weight:900; font-size:28px; width:40px; height:40px; border-radius:50%; background:#fff; color:#EE4D2D;
                display:flex; align-items:center; justify-content:center; }
     .arrow { font-size:48px; font-weight:900; color:#EE4D2D; }
-    .card.ban { padding:0; overflow:hidden; border-radius:26px; box-shadow:0 14px 40px rgba(0,0,0,.3), 0 0 0 5px #fff; }
+    .kw#k-rm100 { top:200px; height:1000px; }
+    .kw#k-rm100 .card { position:relative; z-index:2; }
+    .kw#k-rm100 .card.ban img { height:780px; }
+    .kw#k-rm100 .fx-rays { z-index:0; } .kw#k-rm100 .fx-ring, .kw#k-rm100 .fx-cf, .kw#k-rm100 .fx-coin, .kw#k-rm100 .fx-star { z-index:3; }
+    .card.ban { position:relative; padding:0; overflow:hidden; border-radius:26px; box-shadow:0 14px 40px rgba(0,0,0,.3), 0 0 0 5px #fff; }
     .card.ban img { display:block; height:290px; width:auto; }
     .banner { width:200px; height:200px; border-radius:22px; object-fit:cover; }
   </style>
@@ -207,11 +280,11 @@ open(f"{P}/compositions/keywords.html","w").write('''<template>
 BR=[
  # id, start, end, media html, chip html, extra js
  ("b-app",4.45,5.98,'<img id="b-app-media" class="clip media" src="assets/appstore.png" data-start="4.45" data-duration="1.53" alt="ShopeePay di App Store"/>',
-  '<span class="chip-t">ShopeePay app</span><span class="chip-s">App Store &amp; Google Play</span>',
+  '<span class="chip-t">ShopeePay app</span><span class="store" title="App Store"><svg viewBox="0 0 24 24"><defs><linearGradient id="asg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1AC8FC"/><stop offset="1" stop-color="#1A6FE8"/></linearGradient></defs><rect width="24" height="24" rx="5.4" fill="url(#asg)"/><g stroke="#fff" stroke-width="1.75" stroke-linecap="round" fill="none"><path d="M13.7 5.4 7.9 15.6"/><path d="M10.3 5.4 16.1 15.6"/><path d="M5.6 15.6h12.8"/><path d="M7.2 18.1 6.4 19.4"/></g></svg></span><span class="store" title="Google Play"><svg viewBox="0 0 24 24"><path fill="#00C3FF" d="M3.6 2.2 13.4 12 3.6 21.8c-.4-.2-.6-.6-.6-1.1V3.3c0-.5.2-.9.6-1.1z"/><path fill="#FFC400" d="m16.8 8.6-3.4 3.4 3.4 3.4 3.9-2.2c.8-.5.8-1.6 0-2.1z"/><path fill="#FF3A44" d="M13.4 12 3.6 21.8c.3.2.8.2 1.2 0l12-6.4z"/><path fill="#00D26A" d="M3.6 2.2c.4-.2.8-.2 1.2 0l12 6.4-3.4 3.4z"/></svg></span>',
   ['tl.fromTo("#b-app-media",{scale:1.0,y:0},{scale:1.08,y:-30,duration:1.53,ease:"none"},4.45);']),
  ("b-scan",12.45,14.95,'<video id="b-scan-media" class="clip media" src="assets/rec_scan.mp4" data-start="12.45" data-duration="2.5" data-media-start="0.9" data-playback-rate="1.25" muted playsinline></video>',
   f'<span class="chip-ic">{ICON["qr"]}</span><span class="chip-t">Scan &amp; Pay</span><span class="chip-s">DuitNow QR</span>',[]),
- ("b-bil",14.99,18.65,'<video id="b-bil-media" class="clip media" src="assets/rec_bil.mp4" data-start="14.99" data-duration="3.66" data-media-start="11.25" muted playsinline></video>',
+ ("b-bil",14.99,18.65,'<video id="b-bil-media" class="clip media" src="assets/rec_bil.mp4" data-start="14.99" data-duration="3.66" data-media-start="11.10" muted playsinline></video>',
   f'<span class="chip-t">Bayar Bil</span><span class="bi" id="b-bil-1">{ICON["bolt"]}</span><span class="bi" id="b-bil-2">{ICON["drop"]}</span><span class="bi" id="b-bil-3">{ICON["wifi"]}</span>',
   ['tl.fromTo("#b-bil-1",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},15.61);',
    'tl.fromTo("#b-bil-2",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.22,ease:"back.out(2.4)"},16.51);',
@@ -223,11 +296,25 @@ BR=[
  ("b-dl",24.50,27.58,'<video id="b-dl-media" class="clip media" src="assets/rec_download.mp4" data-start="24.50" data-duration="3.08" data-media-start="0.6" data-playback-rate="2.8" muted playsinline></video>',
   f'<span class="chip-ic">{ICON["dl"]}</span><span class="chip-t">Download ShopeePay app</span>',[]),
 ]
+def _rb(k,a,b,media,chip,extra):
+    na,nb=R(a),R(b,True)
+    media=re.sub(r'data-start="[0-9.]+"',f'data-start="{na}"',media)
+    media=re.sub(r'data-duration="[0-9.]+"',f'data-duration="{nb-na:.3f}"',media)
+    ex=[]
+    for x in extra:
+        x=x.replace(f'duration:{b-a:.2f}',f'duration:{nb-na:.3f}')
+        x=re.sub(r',([0-9.]+)\);$',lambda m:f',{R(float(m.group(1)))});',x)
+        ex.append(x)
+    return (k,na,nb,media,chip,ex)
+BR=[_rb(*b) for b in BR]
 br_html="\n".join(f'''    <div class="cut" id="{k}">
       <div class="bg"></div>
       <div class="chip" id="{k}-chip">{chip}</div>
       {('<div class="poster" id="'+k+'-poster">'+media+'</div>') if 'poster-img' in media else ('<div class="phone" id="'+k+'-phone"><div class="screen">'+media+'</div></div>')}
     </div>''' for k,s0,e0,media,chip,_ in BR)
+CLAIM_FX=fx_parts('cl',480,712,1080,11)
+br_html=br_html.replace('<div class="poster" id="b-claim-poster">', CLAIM_FX[0]+'<div class="poster" id="b-claim-poster">')
+br_html=re.sub(r'(<div class="poster" id="b-claim-poster">.*?</div>)', lambda m: m.group(1)[:-6]+'<div class="fx-shine" data-layout-ignore id="b-claim-shine"></div></div>'+CLAIM_FX[1], br_html, count=1, flags=re.S)
 bj=[]
 for k,s0,e0,media,chip,extra in BR:
     bj.append(f'    tl.set("#{k}",{{opacity:1,visibility:"visible"}},{s0});')
@@ -240,9 +327,11 @@ for k,s0,e0,media,chip,extra in BR:
     bj+=["    "+x for x in extra]
     bj.append(f'    tl.to("#{k}",{{opacity:0,duration:0.12,ease:"power2.in"}},{e0-0.12:.2f});')
     bj.append(f'    tl.set("#{k}",{{opacity:0,visibility:"hidden"}},{e0});')
+_bc=[b for b in BR if b[0]=="b-claim"][0]
+bj += fx_js('cl',CLAIM_FX[2],CLAIM_FX[3],_bc[1],_bc[2],R(32.19),-300,2150,None,'b-claim-shine')
 open(f"{P}/compositions/broll.html","w").write('''<template>
   <style>
-    #root { position:absolute; inset:0; pointer-events:none; }
+    #root { position:absolute; inset:0; pointer-events:none; }'''+FX_CSS+'''
     .cut { position:absolute; inset:0; opacity:0; visibility:hidden; }
     .bg { position:absolute; inset:0; background:
           radial-gradient(circle at 25% 15%, rgba(255,255,255,.22), transparent 45%),
@@ -253,6 +342,8 @@ open(f"{P}/compositions/broll.html","w").write('''<template>
             font-family:Poppins, sans-serif; color:#fff; }
     .chip-t { font-weight:900; font-size:50px; letter-spacing:-0.02em; white-space:nowrap; background:#fff; color:#C7361A; padding:10px 28px; border-radius:999px; box-shadow:0 8px 22px rgba(80,10,0,.3); }
     .chip-s { font-weight:800; font-size:30px; background:#1b1b1b; color:#fff; padding:8px 18px; border-radius:999px; white-space:nowrap; }
+    .store { width:76px; height:76px; border-radius:20px; background:#fff; padding:8px; display:flex; flex:none; box-shadow:0 8px 22px rgba(80,10,0,.3); }
+    .store svg { width:100%; height:100%; }
     .chip-ic, .bi { width:62px; height:62px; border-radius:18px; background:#fff; color:#EE4D2D; padding:12px; display:flex; flex:none; }
     .chip-ic svg, .bi svg { width:100%; height:100%; }
     .phone { position:absolute; left:271px; top:318px; width:418px; height:890px; border-radius:54px; background:#111; padding:12px;

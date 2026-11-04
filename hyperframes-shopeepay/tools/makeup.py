@@ -18,47 +18,52 @@ if not PREVIEW:
         "-i",src,"-map","0:v","-map","1:a","-c:v","libx264","-crf","16","-preset","medium","-g","30","-pix_fmt","yuv420p",
         "-c:a","copy","-movflags","+faststart",dst],stdin=subprocess.PIPE)
 want = set(int(float(t)*FPS) for t in sys.argv[5].split(",")) if PREVIEW else None
+import os
+SKIP=[tuple(map(float,r.split('-'))) for r in os.environ.get('SKIP','').split(',') if r]
 prev=None; faces=[]; i=0
 while True:
     ok, fr = cap.read()
     if not ok: break
     res = lm.detect_for_video(mp.Image(image_format=mp.ImageFormat.SRGB, data=cv2.cvtColor(fr,cv2.COLOR_BGR2RGB)), int(i*1000/FPS))
     out = fr
+    skip = any(a*FPS<=i<b*FPS for a,b in SKIP)
     if res.face_landmarks:
         p = np.array([[q.x*W,q.y*H] for q in res.face_landmarks[0]],np.float32)
         if prev is not None and np.abs(p-prev).mean()<25: p = 0.55*p+0.45*prev   # smooth jitter, reset on cuts
         prev = p
         x0,y0=np.maximum(p.min(0)-60,0).astype(int); x1,y1=np.minimum(p.max(0)+60,[W,H]).astype(int)
         faces.append({"f":i,"top":float(p[10,1]),"chin":float(p[152,1]),"x0":float(p[234,0]),"x1":float(p[454,0])})
-        crop = fr[y0:y1,x0:x1].copy(); q = p-[x0,y0]; h,w = crop.shape[:2]
-        fw = np.linalg.norm(p[454]-p[234])
-        # --- masks ---
-        skin=np.zeros((h,w),np.uint8); poly(skin,q,OVAL)
-        for idx in (LEYE,REYE,LBROW,RBROW,OUT_LIP): poly(skin,q,idx,0)
-        skin=cv2.GaussianBlur(skin,(0,0),fw*0.03).astype(np.float32)/255
-        lip=np.zeros((h,w),np.uint8); poly(lip,q,OUT_LIP); poly(lip,q,IN_LIP,0)
-        lip=cv2.GaussianBlur(lip,(0,0),max(1.5,fw*0.006)).astype(np.float32)/255
-        hsv=cv2.cvtColor(crop,cv2.COLOR_BGR2HSV)
-        notmic = 1-((hsv[...,1]>165)&(hsv[...,2]>140)).astype(np.float32)   # skip the hot-pink mic
-        lip*=cv2.GaussianBlur(notmic,(0,0),2)
-        # --- light makeup: smoothing + gentle lift ---
-        sm=cv2.bilateralFilter(crop,9,38,9).astype(np.float32)
-        f=crop.astype(np.float32); a=(skin*0.5)[...,None]
-        f=f*(1-a)+sm*a
-        lab=cv2.cvtColor(np.clip(f,0,255).astype(np.uint8),cv2.COLOR_BGR2LAB).astype(np.float32)
-        lab[...,0]+=skin*5           # brighten skin a touch
-        # blush on cheeks
-        bl=np.zeros((h,w),np.float32)
-        for c in (q[205],q[425]): cv2.circle(bl,tuple(int(v) for v in c),int(fw*0.11),1.0,-1)
-        bl=cv2.GaussianBlur(bl,(0,0),fw*0.07)*skin
-        lab[...,1]+=bl*6; lab[...,2]+=bl*1.5
-        # lipstick: pull lip chroma toward soft rose, keep texture (luminance)
-        la=lip*0.6
-        lab[...,1]=lab[...,1]*(1-la)+LIP_LAB[1]*la
-        lab[...,2]=lab[...,2]*(1-la)+LIP_LAB[2]*la
-        lab[...,0]-=lip*4
-        crop=cv2.cvtColor(np.clip(lab,0,255).astype(np.uint8),cv2.COLOR_LAB2BGR)
-        out=fr.copy(); out[y0:y1,x0:x1]=crop
+        if skip: pass
+        else:
+          crop = fr[y0:y1,x0:x1].copy(); q = p-[x0,y0]; h,w = crop.shape[:2]
+          fw = np.linalg.norm(p[454]-p[234])
+          # --- masks ---
+          skin=np.zeros((h,w),np.uint8); poly(skin,q,OVAL)
+          for idx in (LEYE,REYE,LBROW,RBROW,OUT_LIP): poly(skin,q,idx,0)
+          skin=cv2.GaussianBlur(skin,(0,0),fw*0.03).astype(np.float32)/255
+          lip=np.zeros((h,w),np.uint8); poly(lip,q,OUT_LIP); poly(lip,q,IN_LIP,0)
+          lip=cv2.GaussianBlur(lip,(0,0),max(1.5,fw*0.006)).astype(np.float32)/255
+          hsv=cv2.cvtColor(crop,cv2.COLOR_BGR2HSV)
+          notmic = 1-((hsv[...,1]>165)&(hsv[...,2]>140)).astype(np.float32)   # skip the hot-pink mic
+          lip*=cv2.GaussianBlur(notmic,(0,0),2)
+          # --- light makeup: smoothing + gentle lift ---
+          sm=cv2.bilateralFilter(crop,9,38,9).astype(np.float32)
+          f=crop.astype(np.float32); a=(skin*0.5)[...,None]
+          f=f*(1-a)+sm*a
+          lab=cv2.cvtColor(np.clip(f,0,255).astype(np.uint8),cv2.COLOR_BGR2LAB).astype(np.float32)
+          lab[...,0]+=skin*5           # brighten skin a touch
+          # blush on cheeks
+          bl=np.zeros((h,w),np.float32)
+          for c in (q[205],q[425]): cv2.circle(bl,tuple(int(v) for v in c),int(fw*0.11),1.0,-1)
+          bl=cv2.GaussianBlur(bl,(0,0),fw*0.07)*skin
+          lab[...,1]+=bl*6; lab[...,2]+=bl*1.5
+          # lipstick: pull lip chroma toward soft rose, keep texture (luminance)
+          la=lip*0.6
+          lab[...,1]=lab[...,1]*(1-la)+LIP_LAB[1]*la
+          lab[...,2]=lab[...,2]*(1-la)+LIP_LAB[2]*la
+          lab[...,0]-=lip*4
+          crop=cv2.cvtColor(np.clip(lab,0,255).astype(np.uint8),cv2.COLOR_LAB2BGR)
+          out=fr.copy(); out[y0:y1,x0:x1]=crop
     else: faces.append({"f":i,"top":None,"chin":None})
     if PREVIEW:
         if i in want: cv2.imwrite(f"{dst}_{i}.jpg", np.hstack([fr,out])[400:1300:,].copy())

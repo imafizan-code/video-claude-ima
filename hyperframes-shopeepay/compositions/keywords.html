@@ -1,6 +1,18 @@
 <template>
   <style>
     #root { position:absolute; inset:0; pointer-events:none; }
+    .fx-rays { position:absolute; width:1400px; height:1400px; border-radius:50%; pointer-events:none;
+               background:repeating-conic-gradient(from 0deg, rgba(255,214,90,.62) 0deg 9deg, rgba(255,214,90,0) 9deg 24deg);
+               -webkit-mask-image:radial-gradient(circle, #000 18%, transparent 62%); mask-image:radial-gradient(circle, #000 18%, transparent 62%); }
+    .fx-ring { position:absolute; width:520px; height:520px; border-radius:50%; border:16px solid #FFD23F; box-shadow:0 0 40px rgba(255,210,63,.9); pointer-events:none; }
+    .fx-cf { position:absolute; top:0; border-radius:4px; pointer-events:none; }
+    .fx-coin { position:absolute; top:0; width:54px; height:54px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #FFE680, #F5B301 60%, #C98400);
+               border:4px solid #FFF3C4; color:#8A5200; font:900 30px Poppins, sans-serif; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+    .fx-star { position:absolute; width:70px; height:70px; pointer-events:none; color:#FFD23F; filter:drop-shadow(0 0 10px rgba(255,230,120,.9)); }
+    .fx-star svg { width:100%; height:100%; }
+    .fx-shine { position:absolute; top:-20%; left:0; width:140px; height:140%; pointer-events:none;
+                background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.75), rgba(255,255,255,0)); }
+
     /* Graphics band: above the head, below platform top UI (TikTok ~170px, IG Reels ~250px), clear of right rail */
     .kw { position:absolute; left:60px; width:840px; top:250px; height:300px;
           display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; overflow:visible; }
@@ -48,12 +60,16 @@
     .step .n { font-style:normal; font-weight:900; font-size:28px; width:40px; height:40px; border-radius:50%; background:#fff; color:#EE4D2D;
                display:flex; align-items:center; justify-content:center; }
     .arrow { font-size:48px; font-weight:900; color:#EE4D2D; }
-    .card.ban { padding:0; overflow:hidden; border-radius:26px; box-shadow:0 14px 40px rgba(0,0,0,.3), 0 0 0 5px #fff; }
+    .kw#k-rm100 { top:200px; height:1000px; }
+    .kw#k-rm100 .card { position:relative; z-index:2; }
+    .kw#k-rm100 .card.ban img { height:780px; }
+    .kw#k-rm100 .fx-rays { z-index:0; } .kw#k-rm100 .fx-ring, .kw#k-rm100 .fx-cf, .kw#k-rm100 .fx-coin, .kw#k-rm100 .fx-star { z-index:3; }
+    .card.ban { position:relative; padding:0; overflow:hidden; border-radius:26px; box-shadow:0 14px 40px rgba(0,0,0,.3), 0 0 0 5px #fff; }
     .card.ban img { display:block; height:290px; width:auto; }
     .banner { width:200px; height:200px; border-radius:22px; object-fit:cover; }
   </style>
   <div id="root" data-composition-id="keywords" data-width="1080" data-height="1920">
-    <div class="kw" id="k-rm100"><div class="card ban"><img id="k-rm100-img" src="assets/banner_welcome_popup.png" alt="RM100 Welcome Bonus"/></div></div>
+    <div class="kw" id="k-rm100"><div class="fx-rays" data-layout-ignore id="hk-rays" style="left:-280px;top:-200px"></div><div class="card ban"><img id="k-rm100-img" src="assets/banner_welcome_popup.png" alt="RM100 Welcome Bonus"/><div class="fx-shine" data-layout-ignore id="k-rm100-shine"></div></div><div class="fx-ring" data-layout-ignore id="hk-ring" style="left:160px;top:240px"></div><div class="fx-coin" data-layout-ignore id="hk-c0-0" style="left:237px">S</div><div class="fx-cf" data-layout-ignore id="hk-c0-1" style="left:406px;width:14px;height:26px;background:#FF8A65"></div><div class="fx-cf" data-layout-ignore id="hk-c0-2" style="left:520px;width:22px;height:26px;background:#FFB300"></div><div class="fx-cf" data-layout-ignore id="hk-c0-3" style="left:437px;width:22px;height:32px;background:#FFB300"></div><div class="fx-coin" data-layout-ignore id="hk-c0-4" style="left:-2px">S</div><div class="fx-cf" data-layout-ignore id="hk-c0-5" style="left:356px;width:18px;height:26px;background:#FFD23F"></div><div class="fx-cf" data-layout-ignore id="hk-c0-6" style="left:204px;width:14px;height:26px;background:#FFB300"></div><div class="fx-cf" data-layout-ignore id="hk-c0-7" style="left:643px;width:22px;height:32px;background:#FFFFFF"></div><div class="fx-coin" data-layout-ignore id="hk-c0-8" style="left:376px">S</div><div class="fx-cf" data-layout-ignore id="hk-c0-9" style="left:201px;width:18px;height:38px;background:#FFFFFF"></div><div class="fx-cf" data-layout-ignore id="hk-c0-10" style="left:58px;width:14px;height:32px;background:#FF8A65"></div><div class="fx-cf" data-layout-ignore id="hk-c0-11" style="left:336px;width:22px;height:32px;background:#FF8A65"></div><div class="fx-coin" data-layout-ignore id="hk-c0-12" style="left:545px">S</div><div class="fx-cf" data-layout-ignore id="hk-c0-13" style="left:501px;width:18px;height:26px;background:#FFB300"></div><div class="fx-cf" data-layout-ignore id="hk-c0-14" style="left:566px;width:22px;height:32px;background:#FF8A65"></div><div class="fx-cf" data-layout-ignore id="hk-c0-15" style="left:89px;width:18px;height:38px;background:#EE4D2D"></div><div class="fx-coin" data-layout-ignore id="hk-c1-0" style="left:131px">S</div><div class="fx-cf" data-layout-ignore id="hk-c1-1" style="left:389px;width:18px;height:32px;background:#FF8A65"></div><div class="fx-cf" data-layout-ignore id="hk-c1-2" style="left:415px;width:14px;height:38px;background:#FFFFFF"></div><div class="fx-cf" data-layout-ignore id="hk-c1-3" style="left:580px;width:18px;height:38px;background:#FFFFFF"></div><div class="fx-coin" data-layout-ignore id="hk-c1-4" style="left:504px">S</div><div class="fx-cf" data-layout-ignore id="hk-c1-5" style="left:123px;width:18px;height:32px;background:#EE4D2D"></div><div class="fx-cf" data-layout-ignore id="hk-c1-6" style="left:683px;width:22px;height:32px;background:#FFFFFF"></div><div class="fx-cf" data-layout-ignore id="hk-c1-7" style="left:501px;width:14px;height:32px;background:#FFFFFF"></div><div class="fx-coin" data-layout-ignore id="hk-c1-8" style="left:379px">S</div><div class="fx-cf" data-layout-ignore id="hk-c1-9" style="left:309px;width:14px;height:38px;background:#FFD23F"></div><div class="fx-cf" data-layout-ignore id="hk-c1-10" style="left:700px;width:18px;height:38px;background:#FFFFFF"></div><div class="fx-cf" data-layout-ignore id="hk-c1-11" style="left:629px;width:14px;height:32px;background:#FFD23F"></div><div class="fx-coin" data-layout-ignore id="hk-c1-12" style="left:178px">S</div><div class="fx-cf" data-layout-ignore id="hk-c1-13" style="left:771px;width:18px;height:38px;background:#FFD23F"></div><div class="fx-cf" data-layout-ignore id="hk-c1-14" style="left:675px;width:14px;height:26px;background:#FF8A65"></div><div class="fx-cf" data-layout-ignore id="hk-c1-15" style="left:654px;width:22px;height:26px;background:#FFD23F"></div><div class="fx-star" data-layout-ignore id="hk-s0" style="left:55px;top:105px"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.8 6.4 4.8 10.4 12 12-7.2 1.6-11.2 5.6-12 12-.8-6.4-4.8-10.4-12-12C7.2 10.4 11.2 6.4 12 0z"/></svg></div><div class="fx-star" data-layout-ignore id="hk-s1" style="left:675px;top:145px"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.8 6.4 4.8 10.4 12 12-7.2 1.6-11.2 5.6-12 12-.8-6.4-4.8-10.4-12-12C7.2 10.4 11.2 6.4 12 0z"/></svg></div><div class="fx-star" data-layout-ignore id="hk-s2" style="left:25px;top:715px"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.8 6.4 4.8 10.4 12 12-7.2 1.6-11.2 5.6-12 12-.8-6.4-4.8-10.4-12-12C7.2 10.4 11.2 6.4 12 0z"/></svg></div><div class="fx-star" data-layout-ignore id="hk-s3" style="left:705px;top:745px"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.8 6.4 4.8 10.4 12 12-7.2 1.6-11.2 5.6-12 12-.8-6.4-4.8-10.4-12-12C7.2 10.4 11.2 6.4 12 0z"/></svg></div><div class="fx-star" data-layout-ignore id="hk-s4" style="left:365px;top:35px"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.8 6.4 4.8 10.4 12 12-7.2 1.6-11.2 5.6-12 12-.8-6.4-4.8-10.4-12-12C7.2 10.4 11.2 6.4 12 0z"/></svg></div></div>
     <div class="kw" id="k-app"><div class="card row">
   <div class="logo-wrap"><img src="assets/logo.png" alt="ShopeePay"/></div>
   <div class="pill" id="k-app-pill">All-in-one e-wallet</div></div></div>
@@ -78,42 +94,123 @@
     const tl = gsap.timeline({ paused: true });
     tl.set("#k-rm100",{opacity:1,visibility:"visible"},0.15);
     tl.fromTo("#k-rm100 > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},0.15);
-    tl.fromTo("#k-rm100-img",{scale:1},{scale:1.1,duration:0.12,yoyo:true,repeat:1,ease:"power2.out"},3.28);
-    tl.to("#k-rm100 > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},4.19);
-    tl.set("#k-rm100",{opacity:0,visibility:"hidden"},4.35);
-    tl.set("#k-app",{opacity:1,visibility:"visible"},5.98);
-    tl.fromTo("#k-app > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},5.98);
-    tl.fromTo("#k-app-pill",{opacity:0,y:16},{opacity:1,y:0,duration:0.25,ease:"back.out(2)"},6.88);
-    tl.to("#k-app > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},8.82);
-    tl.set("#k-app",{opacity:0,visibility:"hidden"},8.98);
-    tl.set("#k-settle",{opacity:1,visibility:"visible"},9.02);
-    tl.fromTo("#k-settle > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},9.02);
-    tl.to("#k-settle > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},11.14);
-    tl.set("#k-settle",{opacity:0,visibility:"hidden"},11.3);
-    tl.set("#k-scan",{opacity:1,visibility:"visible"},11.37);
-    tl.fromTo("#k-scan > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},11.37);
-    tl.to("#k-scan > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},12.29);
-    tl.set("#k-scan",{opacity:0,visibility:"hidden"},12.45);
-    tl.set("#k-coins",{opacity:1,visibility:"visible"},18.7);
-    tl.fromTo("#k-coins > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},18.7);
-    tl.to("#k-coins > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},20.09);
-    tl.set("#k-coins",{opacity:0,visibility:"hidden"},20.25);
-    tl.set("#k-dl",{opacity:1,visibility:"visible"},23.32);
-    tl.fromTo("#k-dl > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},23.32);
-    tl.to("#k-dl > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},24.34);
-    tl.set("#k-dl",{opacity:0,visibility:"hidden"},24.5);
-    tl.set("#k-steps",{opacity:1,visibility:"visible"},27.62);
-    tl.fromTo("#k-steps > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},27.62);
-    tl.fromTo("#k-step2",{backgroundColor:"rgba(255,255,255,0.18)"},{backgroundColor:"#22C55E",duration:0.2},28.1);
-    tl.fromTo("#k-step3",{opacity:0.45},{opacity:1,duration:0.2},28.85);
-    tl.to("#k-steps > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},29.69);
-    tl.set("#k-steps",{opacity:0,visibility:"hidden"},29.85);
-    tl.set("#k-cta",{opacity:1,visibility:"visible"},33.32);
-    tl.fromTo("#k-cta > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},33.32);
-    tl.to("#k-cta > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},35.14);
-    tl.set("#k-cta",{opacity:0,visibility:"hidden"},35.3);
+    tl.to("#k-rm100 > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},4.51);
+    tl.set("#k-rm100",{opacity:0,visibility:"hidden"},4.67);
+    tl.set("#k-app",{opacity:1,visibility:"visible"},6.25);
+    tl.fromTo("#k-app > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},6.25);
+    tl.fromTo("#k-app-pill",{opacity:0,y:16},{opacity:1,y:0,duration:0.25,ease:"back.out(2)"},7.15);
+    tl.to("#k-app > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},9.21);
+    tl.set("#k-app",{opacity:0,visibility:"hidden"},9.37);
+    tl.set("#k-settle",{opacity:1,visibility:"visible"},9.39);
+    tl.fromTo("#k-settle > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},9.39);
+    tl.to("#k-settle > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},11.81);
+    tl.set("#k-settle",{opacity:0,visibility:"hidden"},11.97);
+    tl.set("#k-scan",{opacity:1,visibility:"visible"},12.01);
+    tl.fromTo("#k-scan > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},12.01);
+    tl.to("#k-scan > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},12.93);
+    tl.set("#k-scan",{opacity:0,visibility:"hidden"},13.09);
+    tl.set("#k-coins",{opacity:1,visibility:"visible"},19.53);
+    tl.fromTo("#k-coins > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},19.53);
+    tl.to("#k-coins > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},20.92);
+    tl.set("#k-coins",{opacity:0,visibility:"hidden"},21.08);
+    tl.set("#k-dl",{opacity:1,visibility:"visible"},24.25);
+    tl.fromTo("#k-dl > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},24.25);
+    tl.to("#k-dl > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},25.27);
+    tl.set("#k-dl",{opacity:0,visibility:"hidden"},25.43);
+    tl.set("#k-steps",{opacity:1,visibility:"visible"},28.55);
+    tl.fromTo("#k-steps > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},28.55);
+    tl.fromTo("#k-step2",{backgroundColor:"rgba(255,255,255,0.18)"},{backgroundColor:"#22C55E",duration:0.2},29.03);
+    tl.fromTo("#k-step3",{opacity:0.45},{opacity:1,duration:0.2},29.78);
+    tl.to("#k-steps > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},30.64);
+    tl.set("#k-steps",{opacity:0,visibility:"hidden"},30.8);
+    tl.set("#k-cta",{opacity:1,visibility:"visible"},34.42);
+    tl.fromTo("#k-cta > .card",{scale:0.5,y:40,rotation:-4},{scale:1,y:0,rotation:0,duration:0.32,ease:"back.out(1.9)"},34.42);
+    tl.to("#k-cta > .card",{scale:0.7,y:-30,opacity:0,duration:0.16,ease:"power2.in"},36.34);
+    tl.set("#k-cta",{opacity:0,visibility:"hidden"},36.5);
+    tl.fromTo("#hk-rays",{opacity:0,rotation:0,scale:0.6},{opacity:1,scale:1,duration:0.35,ease:"power2.out"},0.15);
+    tl.fromTo("#hk-rays",{rotation:0},{rotation:110,duration:4.52,ease:"none",immediateRender:false},0.15);
+    tl.fromTo("#hk-ring",{opacity:0,scale:0.3},{opacity:1,scale:0.32,duration:0.01},3.28);
+    tl.to("#hk-ring",{opacity:0,scale:2.6,duration:0.7,ease:"power2.out"},3.29);
+    tl.fromTo("#k-rm100-shine",{x:-260},{x:900,duration:0.7,ease:"power2.inOut"},0.60);
+    tl.to("#k-rm100-shine",{x:-260,duration:0.01},3.23);
+    tl.to("#k-rm100-shine",{x:900,duration:0.55,ease:"power2.inOut"},3.28);
+    tl.fromTo("#k-rm100",{scale:1},{scale:1.13,duration:0.14,yoyo:true,repeat:1,ease:"power2.out"},3.28);
+    tl.fromTo("#hk-c0-0",{y:-956,x:0,rotation:-63,opacity:1},{y:1950,x:60,rotation:212,duration:1.77,ease:"power1.in"},0.62);
+    tl.to("#hk-c0-0",{opacity:0,duration:0.2},2.19);
+    tl.fromTo("#hk-c0-1",{y:-582,x:0,rotation:-15,opacity:1},{y:1950,x:-104,rotation:490,duration:1.97,ease:"power1.in"},0.34);
+    tl.to("#hk-c0-1",{opacity:0,duration:0.2},2.10);
+    tl.fromTo("#hk-c0-2",{y:-804,x:0,rotation:15,opacity:1},{y:1950,x:-180,rotation:362,duration:1.53,ease:"power1.in"},0.63);
+    tl.to("#hk-c0-2",{opacity:0,duration:0.2},1.97);
+    tl.fromTo("#hk-c0-3",{y:-750,x:0,rotation:57,opacity:1},{y:1950,x:-128,rotation:576,duration:1.77,ease:"power1.in"},0.68);
+    tl.to("#hk-c0-3",{opacity:0,duration:0.2},2.26);
+    tl.fromTo("#hk-c0-4",{y:-734,x:0,rotation:-79,opacity:1},{y:1950,x:-118,rotation:487,duration:1.71,ease:"power1.in"},0.56);
+    tl.to("#hk-c0-4",{opacity:0,duration:0.2},2.07);
+    tl.fromTo("#hk-c0-5",{y:-674,x:0,rotation:36,opacity:1},{y:1950,x:-102,rotation:552,duration:2.28,ease:"power1.in"},0.62);
+    tl.to("#hk-c0-5",{opacity:0,duration:0.2},2.69);
+    tl.fromTo("#hk-c0-6",{y:-699,x:0,rotation:-15,opacity:1},{y:1950,x:103,rotation:298,duration:1.44,ease:"power1.in"},0.59);
+    tl.to("#hk-c0-6",{opacity:0,duration:0.2},1.83);
+    tl.fromTo("#hk-c0-7",{y:-583,x:0,rotation:35,opacity:1},{y:1950,x:38,rotation:554,duration:2.24,ease:"power1.in"},0.57);
+    tl.to("#hk-c0-7",{opacity:0,duration:0.2},2.61);
+    tl.fromTo("#hk-c0-8",{y:-635,x:0,rotation:30,opacity:1},{y:1950,x:-176,rotation:606,duration:2.39,ease:"power1.in"},0.69);
+    tl.to("#hk-c0-8",{opacity:0,duration:0.2},2.88);
+    tl.fromTo("#hk-c0-9",{y:-657,x:0,rotation:-86,opacity:1},{y:1950,x:-15,rotation:235,duration:1.46,ease:"power1.in"},0.37);
+    tl.to("#hk-c0-9",{opacity:0,duration:0.2},1.63);
+    tl.fromTo("#hk-c0-10",{y:-922,x:0,rotation:75,opacity:1},{y:1950,x:-1,rotation:395,duration:1.68,ease:"power1.in"},0.54);
+    tl.to("#hk-c0-10",{opacity:0,duration:0.2},2.02);
+    tl.fromTo("#hk-c0-11",{y:-916,x:0,rotation:88,opacity:1},{y:1950,x:73,rotation:510,duration:1.48,ease:"power1.in"},0.44);
+    tl.to("#hk-c0-11",{opacity:0,duration:0.2},1.72);
+    tl.fromTo("#hk-c0-12",{y:-755,x:0,rotation:-88,opacity:1},{y:1950,x:132,rotation:240,duration:1.55,ease:"power1.in"},0.47);
+    tl.to("#hk-c0-12",{opacity:0,duration:0.2},1.81);
+    tl.fromTo("#hk-c0-13",{y:-580,x:0,rotation:81,opacity:1},{y:1950,x:62,rotation:676,duration:2.27,ease:"power1.in"},0.57);
+    tl.to("#hk-c0-13",{opacity:0,duration:0.2},2.64);
+    tl.fromTo("#hk-c0-14",{y:-892,x:0,rotation:-18,opacity:1},{y:1950,x:-159,rotation:526,duration:1.47,ease:"power1.in"},0.34);
+    tl.to("#hk-c0-14",{opacity:0,duration:0.2},1.60);
+    tl.fromTo("#hk-c0-15",{y:-950,x:0,rotation:-72,opacity:1},{y:1950,x:27,rotation:426,duration:2.01,ease:"power1.in"},0.87);
+    tl.to("#hk-c0-15",{opacity:0,duration:0.2},2.68);
+    tl.fromTo("#hk-c1-0",{y:-932,x:0,rotation:-22,opacity:1},{y:1950,x:54,rotation:676,duration:1.87,ease:"power1.in"},3.64);
+    tl.to("#hk-c1-0",{opacity:0,duration:0.2},5.32);
+    tl.fromTo("#hk-c1-1",{y:-689,x:0,rotation:-34,opacity:1},{y:1950,x:-142,rotation:566,duration:1.88,ease:"power1.in"},3.72);
+    tl.to("#hk-c1-1",{opacity:0,duration:0.2},5.40);
+    tl.fromTo("#hk-c1-2",{y:-617,x:0,rotation:-64,opacity:1},{y:1950,x:17,rotation:189,duration:2.38,ease:"power1.in"},3.60);
+    tl.to("#hk-c1-2",{opacity:0,duration:0.2},5.78);
+    tl.fromTo("#hk-c1-3",{y:-713,x:0,rotation:73,opacity:1},{y:1950,x:-58,rotation:420,duration:1.90,ease:"power1.in"},3.60);
+    tl.to("#hk-c1-3",{opacity:0,duration:0.2},5.31);
+    tl.fromTo("#hk-c1-4",{y:-643,x:0,rotation:52,opacity:1},{y:1950,x:103,rotation:386,duration:1.80,ease:"power1.in"},3.42);
+    tl.to("#hk-c1-4",{opacity:0,duration:0.2},5.02);
+    tl.fromTo("#hk-c1-5",{y:-835,x:0,rotation:88,opacity:1},{y:1950,x:116,rotation:555,duration:2.01,ease:"power1.in"},3.40);
+    tl.to("#hk-c1-5",{opacity:0,duration:0.2},5.20);
+    tl.fromTo("#hk-c1-6",{y:-566,x:0,rotation:-76,opacity:1},{y:1950,x:-159,rotation:390,duration:1.88,ease:"power1.in"},3.48);
+    tl.to("#hk-c1-6",{opacity:0,duration:0.2},5.17);
+    tl.fromTo("#hk-c1-7",{y:-665,x:0,rotation:54,opacity:1},{y:1950,x:-166,rotation:611,duration:2.18,ease:"power1.in"},3.83);
+    tl.to("#hk-c1-7",{opacity:0,duration:0.2},5.81);
+    tl.fromTo("#hk-c1-8",{y:-814,x:0,rotation:-58,opacity:1},{y:1950,x:116,rotation:342,duration:2.37,ease:"power1.in"},3.76);
+    tl.to("#hk-c1-8",{opacity:0,duration:0.2},5.93);
+    tl.fromTo("#hk-c1-9",{y:-919,x:0,rotation:-59,opacity:1},{y:1950,x:-149,rotation:253,duration:2.21,ease:"power1.in"},3.82);
+    tl.to("#hk-c1-9",{opacity:0,duration:0.2},5.83);
+    tl.fromTo("#hk-c1-10",{y:-937,x:0,rotation:-62,opacity:1},{y:1950,x:19,rotation:188,duration:2.13,ease:"power1.in"},3.76);
+    tl.to("#hk-c1-10",{opacity:0,duration:0.2},5.69);
+    tl.fromTo("#hk-c1-11",{y:-734,x:0,rotation:59,opacity:1},{y:1950,x:-116,rotation:420,duration:1.64,ease:"power1.in"},3.46);
+    tl.to("#hk-c1-11",{opacity:0,duration:0.2},4.90);
+    tl.fromTo("#hk-c1-12",{y:-735,x:0,rotation:-15,opacity:1},{y:1950,x:-148,rotation:662,duration:1.86,ease:"power1.in"},3.49);
+    tl.to("#hk-c1-12",{opacity:0,duration:0.2},5.15);
+    tl.fromTo("#hk-c1-13",{y:-978,x:0,rotation:6,opacity:1},{y:1950,x:9,rotation:255,duration:1.58,ease:"power1.in"},3.54);
+    tl.to("#hk-c1-13",{opacity:0,duration:0.2},4.93);
+    tl.fromTo("#hk-c1-14",{y:-777,x:0,rotation:21,opacity:1},{y:1950,x:-152,rotation:291,duration:1.93,ease:"power1.in"},3.69);
+    tl.to("#hk-c1-14",{opacity:0,duration:0.2},5.42);
+    tl.fromTo("#hk-c1-15",{y:-605,x:0,rotation:-56,opacity:1},{y:1950,x:-183,rotation:231,duration:1.43,ease:"power1.in"},3.55);
+    tl.to("#hk-c1-15",{opacity:0,duration:0.2},4.78);
+    tl.fromTo("#hk-s0",{scale:0,rotation:0,opacity:1},{scale:1.2,rotation:90,duration:0.25,ease:"back.out(3)"},3.28);
+    tl.to("#hk-s0",{scale:0,opacity:0,duration:0.3,ease:"power2.in"},3.78);
+    tl.fromTo("#hk-s1",{scale:0,rotation:0,opacity:1},{scale:1.2,rotation:90,duration:0.25,ease:"back.out(3)"},3.33);
+    tl.to("#hk-s1",{scale:0,opacity:0,duration:0.3,ease:"power2.in"},3.83);
+    tl.fromTo("#hk-s2",{scale:0,rotation:0,opacity:1},{scale:1.2,rotation:90,duration:0.25,ease:"back.out(3)"},3.38);
+    tl.to("#hk-s2",{scale:0,opacity:0,duration:0.3,ease:"power2.in"},3.88);
+    tl.fromTo("#hk-s3",{scale:0,rotation:0,opacity:1},{scale:1.2,rotation:90,duration:0.25,ease:"back.out(3)"},3.43);
+    tl.to("#hk-s3",{scale:0,opacity:0,duration:0.3,ease:"power2.in"},3.93);
+    tl.fromTo("#hk-s4",{scale:0,rotation:0,opacity:1},{scale:1.2,rotation:90,duration:0.25,ease:"back.out(3)"},3.48);
+    tl.to("#hk-s4",{scale:0,opacity:0,duration:0.3,ease:"power2.in"},3.98);
     const cn={v:0}, numEl=document.getElementById("k-coins-num");
-    tl.fromTo(cn,{v:0},{v:20000,duration:1.2,ease:"power2.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},18.9);
+    tl.fromTo(cn,{v:0},{v:20000,duration:1.2,ease:"power2.out",onUpdate:()=>{numEl.textContent=Math.round(cn.v).toLocaleString("en-US");}},19.73);
     window.__timelines["keywords"] = tl;
   </script>
 </template>
