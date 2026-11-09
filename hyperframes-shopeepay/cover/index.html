@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <style>
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { width:1080px; height:1920px; overflow:hidden; background:#DDD6CC; }
+      #root { position:relative; width:1080px; height:1920px; overflow:hidden; font-family:Poppins, sans-serif; }
+      /* photo pushed down so the headline sits above her head, all inside the 3:4 grid crop (y 240-1680) */
+      #photo { position:absolute; left:-54px; top:150px; width:1188px; height:2112px; object-fit:cover; }
+      #topfade { position:absolute; left:0; top:0; width:1080px; height:420px;
+                 background:linear-gradient(180deg, #DDD6CC 0%, #DDD6CC 38%, rgba(221,214,204,0) 100%); }
+      #rays { position:absolute; left:40px; top:60px; width:1000px; height:1000px; border-radius:50%;
+              background:repeating-conic-gradient(from 0deg, rgba(255,178,60,.30) 0deg 8deg, rgba(255,178,60,0) 8deg 22deg);
+              -webkit-mask-image:radial-gradient(circle, #000 12%, transparent 44%); mask-image:radial-gradient(circle, #000 12%, transparent 44%); }
+      #head { position:absolute; left:40px; width:1000px; top:250px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+      #logo { background:#fff; border-radius:999px; padding:14px 34px; box-shadow:0 10px 26px rgba(120,40,10,.22); display:flex; }
+      #logo img { height:62px; width:auto; display:block; }
+      #l1 { margin-top:22px; font-weight:900; font-size:66px; line-height:1.05; color:#fff; letter-spacing:-0.01em;
+            paint-order:stroke fill; -webkit-text-stroke:12px #1b1b1b; }
+      #rm { margin-top:-4px; font-weight:900; font-size:236px; line-height:0.95; color:#FFD23F; letter-spacing:-0.04em;
+            transform:rotate(-4deg); paint-order:stroke fill; -webkit-text-stroke:20px #EE4D2D;
+            text-shadow:0 14px 0 #B8321A, 0 26px 40px rgba(0,0,0,.25); }
+      #wb { margin-top:18px; background:#EE4D2D; color:#fff; font-weight:900; font-size:58px; letter-spacing:.04em;
+            padding:10px 36px 14px; border-radius:22px; box-shadow:0 0 0 6px #fff, 0 14px 30px rgba(120,40,10,.3); }
+      .star { position:absolute; width:86px; height:86px; color:#FFD23F; filter:drop-shadow(0 0 12px rgba(255,220,100,.9)); }
+      .star svg { width:100%; height:100%; }
+      .coin { position:absolute; width:78px; height:78px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #FFE680, #F5B301 60%, #C98400);
+              border:6px solid #FFF3C4; color:#8A5200; font-weight:900; font-size:42px; display:flex; align-items:center; justify-content:center;
+              box-shadow:0 8px 18px rgba(0,0,0,.2); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="cover" data-width="1080" data-height="1920" data-no-timeline>
+      <img id="photo" src="assets/face.jpg" alt="" />
+      <div id="topfade"></div>
+      <div id="rays" data-layout-ignore></div>
+      <div class="coin" data-layout-ignore style="left:70px;top:620px;transform:rotate(-18deg)">S</div>
+      <div class="coin" data-layout-ignore style="left:930px;top:560px;transform:rotate(14deg);width:64px;height:64px;font-size:34px">S</div>
+      <div class="star" data-layout-ignore style="left:120px;top:330px"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.8 6.4 4.8 10.4 12 12-7.2 1.6-11.2 5.6-12 12-.8-6.4-4.8-10.4-12-12C7.2 10.4 11.2 6.4 12 0z"/></svg></div>
+      <div class="star" data-layout-ignore style="left:870px;top:300px;width:60px;height:60px"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c.8 6.4 4.8 10.4 12 12-7.2 1.6-11.2 5.6-12 12-.8-6.4-4.8-10.4-12-12C7.2 10.4 11.2 6.4 12 0z"/></svg></div>
+      <div id="head">
+        <div id="logo"><img src="assets/logo.png" alt="ShopeePay" /></div>
+        <div id="l1">User baru dapat sehingga</div>
+        <div id="rm">RM100</div>
+        <div id="wb">WELCOME BONUS</div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+    </script>
+  </body>
+</html>
