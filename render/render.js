@@ -8,7 +8,8 @@ const { spawn } = require('child_process');
 const { chromium } = require('playwright');
 
 const ROOT = path.resolve(__dirname, '..');
-const OUT = path.join(ROOT, 'out');
+const PAGE = process.env.PAGE || 'index.html';
+const OUT = path.join(ROOT, process.env.OUTDIR || 'out');
 const FPS = 30;
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.jpg': 'image/jpeg', '.woff2': 'font/woff2' };
 
@@ -26,7 +27,7 @@ function serve() {
 async function openPage(browser, port) {
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   page.on('pageerror', e => console.error('PAGE ERROR', e));
-  await page.goto(`http://127.0.0.1:${port}/src/index.html`);
+  await page.goto(`http://127.0.0.1:${port}/src/${PAGE}`);
   await page.evaluate(() => boot());
   return page;
 }

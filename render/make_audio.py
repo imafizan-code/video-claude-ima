@@ -153,7 +153,23 @@ for c in cues:
         motor = lowpass(motor, 0.15) * (0.6 + 0.4 * np.sin(2 * np.pi * 9 * tt) ** 2) * np.minimum(1, tt * 20) * np.minimum(1, (0.85 - tt) * 20)
         add(fx, t, motor, gain=0.35)
 
-mix = music * 0.9 + fx
+# ---------------- voiceover (optional 4th arg: vo/lines.json) ----------------
+vo = np.zeros((N, 2))
+if len(sys.argv) > 4:
+    import subprocess, os
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    for l in json.load(open(sys.argv[4])):
+        raw = subprocess.check_output(["ffmpeg", "-v", "error", "-i", os.path.join(root, l["file"]), "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"])
+        sig = np.frombuffer(raw, dtype=np.float32).astype(float)
+        sig = sig / (np.max(np.abs(sig)) + 1e-9)
+        add(vo, l["t"], sig, gain=1.25)
+    # duck music under speech
+    act = np.abs(vo[:, 0]) > 0.02
+    env = np.convolve(act.astype(float), np.ones(int(SR * 0.25)) / int(SR * 0.25), mode="same")
+    env = np.clip(env * 4, 0, 1)
+    music *= (1 - 0.6 * env)[:, None]
+
+mix = music * 0.9 + fx * 0.8 + vo
 peak = np.max(np.abs(mix))
 mix = np.tanh(mix / peak * 1.2) * 0.85
 data = (mix * 32767).astype('<i2')

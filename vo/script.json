@@ -1,0 +1,202 @@
+[
+ {
+  "t": 0.3,
+  "v": "Y",
+  "text": "Weh korang! Hari ni aku nak bawak korang pergi Merci Studio.",
+  "hl": [
+   "merci",
+   "studio"
+  ]
+ },
+ {
+  "t": 5.0,
+  "v": "Y",
+  "text": "Tengok jam, tepat pukul dua belas tengah hari. Aku dah sampai!",
+  "hl": [
+   "dua",
+   "belas",
+   "sampai"
+  ]
+ },
+ {
+  "t": 10.0,
+  "v": "Y",
+  "text": "Studio dia kat tingkat atas. Jom naik!",
+  "hl": [
+   "tingkat",
+   "atas",
+   "naik"
+  ]
+ },
+ {
+  "t": 14.4,
+  "v": "O",
+  "text": "Assalamualaikum! Selamat datang ke Merci Studio!",
+  "hl": [
+   "selamat",
+   "datang"
+  ]
+ },
+ {
+  "t": 18.0,
+  "v": "Y",
+  "text": "Hai! Saya dah booking Pakej A, lima belas minit.",
+  "hl": [
+   "pakej",
+   "a",
+   "lima",
+   "belas"
+  ]
+ },
+ {
+  "t": 22.6,
+  "v": "O",
+  "text": "Ni remote dia. Tekan je, gambar terus snap. Selamat bergambar!",
+  "hl": [
+   "remote",
+   "snap"
+  ]
+ },
+ {
+  "t": 28.2,
+  "v": "Y",
+  "text": "Best gila! Kat sini self photo, takde jurugambar. Aku sendiri yang tekan.",
+  "hl": [
+   "self",
+   "photo",
+   "sendiri"
+  ]
+ },
+ {
+  "t": 35.5,
+  "v": "Y",
+  "text": "Ada mirror photobooth, ada high angle. Posing sepuas hati!",
+  "hl": [
+   "mirror",
+   "photobooth",
+   "high",
+   "angle"
+  ]
+ },
+ {
+  "t": 40.6,
+  "v": "Y",
+  "text": "Pukul dua belas suku, sesi siap! Aku keluar dulu, tunggu gambar kejap.",
+  "hl": [
+   "siap",
+   "tunggu"
+  ]
+ },
+ {
+  "t": 47.6,
+  "v": "Y",
+  "text": "Owner terus download semua gambar. Lima minit je, semua dah masuk komputer.",
+  "hl": [
+   "download",
+   "lima",
+   "minit"
+  ]
+ },
+ {
+  "t": 53.4,
+  "v": "O",
+  "text": "Siap! Jom pilih gambar.",
+  "hl": [
+   "pilih"
+  ]
+ },
+ {
+  "t": 57.6,
+  "v": "Y",
+  "text": "Lepas tu, aku pilih gambar favourite guna iPad.",
+  "hl": [
+   "favourite",
+   "ipad"
+  ]
+ },
+ {
+  "t": 61.2,
+  "v": "Y",
+  "text": "Scroll, zoom, tengok betul-betul. Yang ni cantik, yang ni pun cantik!",
+  "hl": [
+   "scroll",
+   "zoom",
+   "cantik"
+  ]
+ },
+ {
+  "t": 67.3,
+  "v": "Y",
+  "text": "Sepuluh minit, settle!",
+  "hl": [
+   "settle"
+  ]
+ },
+ {
+  "t": 69.5,
+  "v": "Y",
+  "text": "Aku bagi kat owner, dia terus print.",
+  "hl": [
+   "print"
+  ]
+ },
+ {
+  "t": 73.4,
+  "v": "Y",
+  "text": "Tengok tu, gambar keluar satu-satu. Panas-panas lagi!",
+  "hl": [
+   "panas-panas"
+  ]
+ },
+ {
+  "t": 78.2,
+  "v": "O",
+  "text": "Semua dah check. Cantik, perfect!",
+  "hl": [
+   "check",
+   "perfect"
+  ]
+ },
+ {
+  "t": 82.4,
+  "v": "Y",
+  "text": "Yeay! Dapat gambar bercetak dalam tangan!",
+  "hl": [
+   "bercetak"
+  ]
+ },
+ {
+  "t": 86.4,
+  "v": "Y",
+  "text": "Lepas tu dapat link Google Drive, semua softcopy ada. Senang gila!",
+  "hl": [
+   "google",
+   "drive",
+   "softcopy"
+  ]
+ },
+ {
+  "t": 93.0,
+  "v": "Y",
+  "text": "Terima kasih Merci Studio! Nanti aku datang lagi!",
+  "hl": [
+   "terima",
+   "kasih"
+  ]
+ },
+ {
+  "t": 97.3,
+  "v": "O",
+  "text": "Sama-sama! Datang lagi tau!",
+  "hl": [
+   "datang",
+   "lagi"
+  ]
+ },
+ {
+  "t": 100.0,
+  "v": "O",
+  "text": "Terima kasih kerana memilih kami. Kenangan anda, dirakam dengan indah.",
+  "hl": []
+ }
+]

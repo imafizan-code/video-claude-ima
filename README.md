@@ -29,3 +29,16 @@ python3 render/make_audio.py out/sfx.json out/audio.wav 106
 ffmpeg -i out/video_noaudio.mp4 -i out/audio.wav -c:v copy -c:a aac -b:a 192k -shortest out/merci_studio_promo.mp4
 ```
 Preview stills: `node render/render.js stills 12 30 75`. Live preview: serve the repo and open `src/index.html?play`.
+
+## TikTok version (9:16, Bahasa Melayu + voiceover)
+
+Final video: `out/merci_studio_tiktok.mp4` (1080x1920, 30 fps, ~107 s). All on-screen text is in BM,
+with a casual Malay voiceover (neural TTS: customer = ms-MY-YasminNeural, owner = ms-MY-OsmanNeural).
+The opening shop building is a cartoon redraw; the studio is shown as self-photo (customer uses a remote, no photographer).
+
+```
+SSL_CERT_FILE=/root/.ccr/ca-bundle.crt python3 vo/make_vo.py          # edit vo/script.json first; writes vo/lines + src/vo_timing.js
+PAGE=tiktok.html OUTDIR=out/tiktok node render/render.js video 4
+python3 render/make_audio.py out/tiktok/sfx.json out/tiktok/audio.wav 107.5 vo/lines.json
+ffmpeg -i out/tiktok/video_noaudio.mp4 -i out/tiktok/audio.wav -c:v copy -c:a aac -b:a 192k -shortest out/merci_studio_tiktok.mp4
+```
