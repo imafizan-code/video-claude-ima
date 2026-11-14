@@ -1,6 +1,6 @@
 'use strict';
 /* Merci Studio – TikTok (9:16) version. Shared drawing code lives in _shared.js. */
-const W = 1080, H = 1920, FPS = 30, DURATION = 107.5;
+const W = 1080, H = 1920, FPS = 30, DURATION = 59;
 const PI = Math.PI, TAU = Math.PI * 2;
 const cv = document.getElementById('c');
 const mainCtx = cv.getContext('2d');

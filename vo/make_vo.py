@@ -1,6 +1,6 @@
 """Generate Malay voiceover lines with edge-tts and record word timings -> vo/lines/*.mp3 + src/vo_timing.js"""
 import asyncio, json, os, subprocess, edge_tts
-VOICES = {"Y": ("ms-MY-YasminNeural", "+16%", "+4Hz"), "O": ("ms-MY-OsmanNeural", "+12%", "+0Hz")}
+VOICES = {"Y": ("ms-MY-YasminNeural", "+12%", "+8Hz"), "S": ("ms-MY-OsmanNeural", "+10%", "+2Hz")}
 here = os.path.dirname(os.path.abspath(__file__))
 os.makedirs(os.path.join(here, "lines"), exist_ok=True)
 script = json.load(open(os.path.join(here, "script.json")))

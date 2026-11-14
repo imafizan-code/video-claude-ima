@@ -159,7 +159,7 @@ if len(sys.argv) > 4:
     import subprocess, os
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     for l in json.load(open(sys.argv[4])):
-        raw = subprocess.check_output(["ffmpeg", "-v", "error", "-i", os.path.join(root, l["file"]), "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"])
+        raw = subprocess.check_output(["ffmpeg", "-v", "error", "-i", os.path.join(root, l["file"]), "-af", "highpass=f=90,equalizer=f=220:t=q:w=1:g=2,equalizer=f=3200:t=q:w=1.2:g=1.5,aecho=0.85:0.5:35|60:0.10|0.06", "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"])
         sig = np.frombuffer(raw, dtype=np.float32).astype(float)
         sig = sig / (np.max(np.abs(sig)) + 1e-9)
         add(vo, l["t"], sig, gain=1.25)

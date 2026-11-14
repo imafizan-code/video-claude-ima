@@ -78,7 +78,7 @@ function char(o) {
     const gr = g.createRadialGradient(-20, -150, 4, 0, -122, 66);
     gr.addColorStop(0, 'rgba(255,255,255,0.20)'); gr.addColorStop(1, 'rgba(0,0,0,0.18)');
     g.fillStyle = gr; g.fill();
-    if (o.logo) { text('M', 4, -118, F(900, 24), '#ffffff'); }
+    if (o.logo) { const lg = typeof o.logo === 'string' ? o.logo : 'M'; text(lg, 4, -118, F(900, lg.length > 1 ? 19 : 24), '#ffffff'); }
   } else fs(blobGrad(0, -125, 58), C.ink, 6);
   if (o.bag) {
     g.strokeStyle = C.ink; g.lineWidth = 11; line(-26, -168, 30, -86);
