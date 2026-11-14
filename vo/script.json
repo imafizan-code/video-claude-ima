@@ -1,92 +1,90 @@
 [
  {
-  "t": 0.2,
+  "t": 0.1,
   "v": "Y",
-  "text": "Weh korang, jom teman aku pergi Merci Studio!",
+  "text": "Okay guys, hari ni aku bawak korang pergi Merci Studio.",
   "hl": [
    "merci",
    "studio"
   ]
  },
  {
-  "t": 3.8,
+  "t": 3.9,
   "v": "Y",
-  "text": "Ngam-ngam pukul dua belas, aku dah sampai.",
+  "text": "Sampai pukul dua belas tepat. On time.",
   "hl": [
    "dua",
    "belas",
-   "sampai"
+   "tepat"
   ]
  },
  {
-  "t": 6.9,
+  "t": 7.6,
   "v": "Y",
-  "text": "Studio dia kat atas, jom naik!",
+  "text": "Studio dia kat atas.",
   "hl": [
-   "atas",
-   "naik"
+   "atas"
   ]
  },
  {
-  "t": 9.9,
+  "t": 9.8,
   "v": "S",
-  "text": "Assalamualaikum, selamat datang!",
+  "text": "Hai, welcome!",
   "hl": [
-   "selamat",
-   "datang"
+   "welcome"
   ]
  },
  {
-  "t": 12.2,
+  "t": 11.6,
   "v": "Y",
-  "text": "Hai, saya ambik Pakej A ye.",
+  "text": "Hai! Pakej A ye.",
   "hl": [
    "pakej",
    "a"
   ]
  },
  {
-  "t": 15.0,
+  "t": 14.9,
   "v": "S",
-  "text": "Ni remote dia. Tekan je, terus snap. Enjoy!",
+  "text": "Ni remote dia, tekan je terus snap.",
   "hl": [
    "remote",
    "snap"
   ]
  },
  {
-  "t": 19.8,
+  "t": 18.0,
   "v": "Y",
-  "text": "Best weh, self photo! Aku tekan sendiri.",
+  "text": "Konsep dia self photo. Takde photographer, so tak awkward langsung.",
   "hl": [
    "self",
    "photo",
-   "sendiri"
+   "awkward"
   ]
  },
  {
-  "t": 24.6,
+  "t": 23.6,
   "v": "Y",
-  "text": "Lima belas minit, posing puas-puas!",
+  "text": "Lima belas minit tu, memang puas posing.",
   "hl": [
    "lima",
    "belas",
-   "puas-puas"
+   "puas"
   ]
  },
  {
-  "t": 27.6,
+  "t": 27.4,
   "v": "Y",
-  "text": "Dah siap! Sekarang tunggu gambar kejap.",
+  "text": "Okay, dah habis. Tunggu kejap kat luar.",
   "hl": [
-   "siap",
+   "habis",
    "tunggu"
   ]
  },
  {
-  "t": 31.4,
+  "t": 31.7,
   "v": "Y",
-  "text": "Staff terus download semua gambar, lima minit je.",
+  "text": "Staff download semua gambar, dalam lima minit je.",
   "hl": [
    "download",
    "lima",
@@ -96,16 +94,17 @@
  {
   "t": 36.6,
   "v": "Y",
-  "text": "Lepas tu aku pilih gambar guna iPad. Yang ni cantik, yang ni pun cantik!",
+  "text": "Lepas tu pilih gambar guna iPad. Yang ni okay, eh yang ni pun lawa.",
   "hl": [
    "ipad",
-   "cantik"
+   "okay",
+   "lawa"
   ]
  },
  {
   "t": 43.6,
   "v": "Y",
-  "text": "Pakej A dapat dua keping, terus print.",
+  "text": "Pakej A dapat dua keping, terus print on the spot.",
   "hl": [
    "dua",
    "keping",
@@ -113,7 +112,7 @@
   ]
  },
  {
-  "t": 47.0,
+  "t": 47.1,
   "v": "S",
   "text": "Siap, cantik!",
   "hl": [
@@ -121,9 +120,9 @@
   ]
  },
  {
-  "t": 49.8,
+  "t": 49.7,
   "v": "Y",
-  "text": "Yeay! Gambar dapat, softcopy pun dapat dalam Google Drive.",
+  "text": "Gambar print dapat, softcopy pun ada dalam Google Drive. Senang.",
   "hl": [
    "softcopy",
    "google",
@@ -131,9 +130,9 @@
   ]
  },
  {
-  "t": 55.3,
+  "t": 55.4,
   "v": "S",
-  "text": "Terima kasih sebab pilih Merci Studio!",
+  "text": "Thank you sebab pilih Merci Studio!",
   "hl": []
  }
 ]
