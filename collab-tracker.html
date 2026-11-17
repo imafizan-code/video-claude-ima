@@ -100,13 +100,18 @@ header.top .grow{flex:1;min-width:0}
 .pay .when b{color:var(--ink);font-weight:600}
 .terms{font-size:12px;color:var(--faint);width:100%}
 .card .edit{margin-left:auto;font-size:13px;padding:6px 10px;border-radius:9px}
+.notes{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink)}
+.notes .nl{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:3px}
+.notes .nb{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
+.notes.open .nb{display:block}
+.notes .more{border:0;background:none;padding:4px 0 0;color:var(--accent);font-weight:600;font-size:13px}
 
 .empty{text-align:center;padding:40px 16px;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:16px}
 .empty h4{font-family:var(--f-display);font-size:18px;margin:0 0 6px;color:var(--ink)}
 
 /* sheet */
 .scrim{position:fixed;inset:0;background:rgba(10,12,25,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center}
-.sheet{background:var(--surface);width:100%;max-width:560px;max-height:92%;overflow-y:auto;border-radius:20px 20px 0 0;padding:18px max(16px,env(safe-area-inset-left,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-right,0px))}
+.sheet{background:var(--surface);width:100%;max-width:560px;max-height:92%;max-height:92dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:20px 20px 0 0;padding:18px max(16px,env(safe-area-inset-left,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-right,0px))}
 @media (min-width:640px){.scrim{align-items:center}.sheet{border-radius:20px}}
 .sheet h2{font-family:var(--f-display);font-size:22px;margin:0 0 14px}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -114,7 +119,8 @@ header.top .grow{flex:1;min-width:0}
 .f.full{grid-column:1/-1}
 .f label,.f .lbl{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 .f input,.f select,.f textarea{border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:9px 10px;width:100%;min-width:0}
-.f textarea{min-height:64px;resize:vertical}
+.f textarea{min-height:120px;resize:vertical}
+body.locked{overflow:hidden}
 .checks{display:flex;flex-wrap:wrap;gap:8px}
 .ck{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:10px;padding:7px 10px;background:var(--surface-2);font-size:14px}
 .ck input{accent-color:var(--accent);width:16px;height:16px}
@@ -303,6 +309,7 @@ function cardHTML(j){
     <div class="row"><h3>${esc(j.brand||"Tanpa nama")}</h3><div class="amt"><small>RM</small>${rm(j.amount)}</div></div>
     <div class="meta">${j.company?`<span>${esc(j.company)}</span>`:""}${plats}</div>
     <div class="steps">${stepsHTML(j)}</div>
+    ${j.notes?`<div class="notes"><span class="nl">Nota</span><div class="nb">${esc(j.notes)}</div>${j.notes.split("\n").length>4||j.notes.length>220?`<button type="button" class="more" data-more>Baca semua</button>`:""}</div>`:""}
     <div class="pay"><span class="pill ${ps.cls}">${ps.label}</span>${when}
       <button type="button" class="btn ghost edit" data-act="edit" data-id="${esc(j.id)}">Edit</button>
       ${(facts||termTxt)?`<span class="terms">${[facts,termTxt].filter(Boolean).join(" · ")}</span>`:""}
@@ -342,6 +349,8 @@ function render(){
 $("tabs").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(!b)return;tab=b.dataset.tab;try{localStorage.setItem("kc-tab",tab)}catch(e){}render()});
 $("q").addEventListener("input",e=>{query=e.target.value;render()});
 $("list").addEventListener("click",async e=>{
+  const m=e.target.closest("[data-more]");
+  if(m){const n=m.closest(".notes");n.classList.toggle("open");m.textContent=n.classList.contains("open")?"Tutup":"Baca semua";return}
   const b=e.target.closest("[data-act]");if(!b)return;
   const j=jobs.find(x=>x.id===b.dataset.id);if(!j)return;
   if(b.dataset.act==="edit")return openForm(j);
@@ -367,9 +376,9 @@ function openForm(j){
   F("deadline").value=v.deadline||""; F("posting").value=v.postingDate||""; F("invoice").value=v.invoiceDate||""; F("paidDate").value=v.paidDate||"";
   F("tmin").value=v.termMin??""; F("tmax").value=v.termMax??""; F("tunit").value=v.termUnit||"days";
   F("notes").value=v.notes||"";
-  $("scrim").hidden=false; setTimeout(()=>F("brand").focus(),50);
+  $("scrim").hidden=false; document.body.classList.add("locked"); $("form").scrollTop=0;
 }
-function closeForm(){$("scrim").hidden=true;editing=null}
+function closeForm(){$("scrim").hidden=true;document.body.classList.remove("locked");editing=null}
 $("addBtn").onclick=()=>openForm(null);
 $("cancelBtn").onclick=closeForm;
 $("scrim").addEventListener("click",e=>{if(e.target===$("scrim"))closeForm()});
