@@ -1,0 +1,422 @@
+<title>Kerja Collab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: phone-first ledger — sticky header, summary tiles, filter tabs, stacked job cards with a 6-step pipeline, bottom-sheet editor */
+:root{
+  --bg:#EEF0F5; --surface:#FFFFFF; --surface-2:#F6F7FB; --line:#DDE0EA;
+  --ink:#171A33; --muted:#666B85; --faint:#9A9EB3;
+  --accent:#2F4BFF; --accent-ink:#FFFFFF; --accent-soft:#E3E8FF;
+  --ok:#11845B; --ok-soft:#DDF3E9;
+  --warn:#B86A00; --warn-soft:#FFEFD6;
+  --bad:#D4342C; --bad-soft:#FDE3E1;
+  --wait:#5B6178; --wait-soft:#E8EAF1;
+  --f-display:"Bricolage Grotesque", "Inter", system-ui, sans-serif;
+  --f-body:"Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --shadow:0 1px 2px rgba(23,26,51,.06), 0 4px 16px rgba(23,26,51,.05);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1020; --surface:#171A2E; --surface-2:#1E2238; --line:#2A2F4A;
+  --ink:#EDEEF7; --muted:#A3A8C3; --faint:#6E7493;
+  --accent:#7D90FF; --accent-ink:#0E1020; --accent-soft:#252C55;
+  --ok:#4FD39A; --ok-soft:#173528; --warn:#FFB547; --warn-soft:#3A2B12;
+  --bad:#FF7A70; --bad-soft:#3D1C1E; --wait:#A3A8C3; --wait-soft:#252940;
+  --shadow:none; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1020; --surface:#171A2E; --surface-2:#1E2238; --line:#2A2F4A;
+  --ink:#EDEEF7; --muted:#A3A8C3; --faint:#6E7493;
+  --accent:#7D90FF; --accent-ink:#0E1020; --accent-soft:#252C55;
+  --ok:#4FD39A; --ok-soft:#173528; --warn:#FFB547; --warn-soft:#3A2B12;
+  --bad:#FF7A70; --bad-soft:#3D1C1E; --wait:#A3A8C3; --wait-soft:#252940;
+  --shadow:none; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 96px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:16px 12px;display:flex;align-items:center;gap:12px}
+header.top h1{font-family:var(--f-display);font-weight:800;font-size:28px;letter-spacing:-.02em;margin:0;line-height:1}
+header.top .sub{color:var(--muted);font-size:13px;margin-top:4px}
+header.top .grow{flex:1;min-width:0}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:600;background:var(--surface);color:var(--ink);box-shadow:var(--shadow);border:1px solid var(--line)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.btn.ghost{background:transparent;box-shadow:none}
+.btn.danger{color:var(--bad)}
+
+.status-note{font-size:13px;color:var(--muted);background:var(--surface-2);border:1px dashed var(--line);border-radius:10px;padding:8px 12px;margin-bottom:12px}
+
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow);min-width:0;text-align:left}
+.tile .lab{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.tile .num{font-family:var(--f-display);font-weight:700;font-size:22px;margin-top:4px;letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile .num small{font-size:13px;font-weight:600;color:var(--muted);margin-right:2px}
+.tile .hint{font-size:12px;color:var(--faint);margin-top:2px}
+.tile.hot .num{color:var(--bad)}
+.tile.money .num{color:var(--accent)}
+@media (max-width:620px){.tiles{grid-template-columns:repeat(2,1fr)}}
+
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 12px;font-size:14px;font-weight:600;color:var(--muted);display:flex;gap:6px;align-items:center}
+.tab .c{font-family:var(--f-mono);font-size:12px;background:var(--surface-2);border-radius:999px;padding:1px 7px;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab[aria-selected="true"] .c{background:rgba(127,127,127,.25);color:inherit}
+.search{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;margin-bottom:14px}
+
+.list{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card.paid{opacity:.78}
+.row{display:flex;gap:10px;align-items:flex-start}
+.card h3{font-family:var(--f-display);font-weight:700;font-size:19px;letter-spacing:-.01em;margin:0;line-height:1.2;text-wrap:balance;min-width:0;flex:1}
+.amt{font-family:var(--f-mono);font-weight:500;font-size:17px;white-space:nowrap}
+.amt small{color:var(--muted);font-size:12px;margin-right:2px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:13px;color:var(--muted);align-items:center}
+.chip{font-size:12px;font-weight:600;border-radius:6px;padding:2px 7px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink)}
+
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.step{border:0;background:var(--surface-2);border-radius:8px;padding:6px 2px 5px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--faint);min-width:0}
+.step .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:11px;line-height:1}
+.step.done{color:var(--ok);background:var(--ok-soft)}
+.step.done .dot{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.step.next{color:var(--accent);background:var(--accent-soft)}
+.step.next .dot{border-color:var(--accent)}
+.step span.t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+
+.pay{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:13px;border-top:1px dashed var(--line);padding-top:10px}
+.pill{font-size:12px;font-weight:700;border-radius:999px;padding:3px 9px;white-space:nowrap}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.wait{background:var(--wait-soft);color:var(--wait)}
+.pill.acc{background:var(--accent-soft);color:var(--accent)}
+.pay .when{color:var(--muted)}
+.pay .when b{color:var(--ink);font-weight:600}
+.terms{font-size:12px;color:var(--faint);width:100%}
+.card .edit{margin-left:auto;font-size:13px;padding:6px 10px;border-radius:9px}
+
+.empty{text-align:center;padding:40px 16px;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:16px}
+.empty h4{font-family:var(--f-display);font-size:18px;margin:0 0 6px;color:var(--ink)}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(10,12,25,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:560px;max-height:92%;overflow-y:auto;border-radius:20px 20px 0 0;padding:18px max(16px,env(safe-area-inset-left,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-right,0px))}
+@media (min-width:640px){.scrim{align-items:center}.sheet{border-radius:20px}}
+.sheet h2{font-family:var(--f-display);font-size:22px;margin:0 0 14px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f{display:flex;flex-direction:column;gap:5px;min-width:0}
+.f.full{grid-column:1/-1}
+.f label,.f .lbl{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.f input,.f select,.f textarea{border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:9px 10px;width:100%;min-width:0}
+.f textarea{min-height:64px;resize:vertical}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.ck{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:10px;padding:7px 10px;background:var(--surface-2);font-size:14px}
+.ck input{accent-color:var(--accent);width:16px;height:16px}
+.termrow{display:flex;gap:6px;align-items:center}
+.termrow input{width:70px}
+.termrow select{flex:1}
+.actions{display:flex;gap:8px;margin-top:16px;align-items:center}
+.actions .sp{flex:1}
+.confirm{font-size:13px;color:var(--bad);display:flex;gap:8px;align-items:center}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;font-weight:600;z-index:30}
+@media (prefers-reduced-motion:no-preference){.card{transition:opacity .2s}.sheet{animation:up .22s ease-out}@keyframes up{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="grow">
+      <h1>Kerja Collab</h1>
+      <div class="sub" id="today"></div>
+    </div>
+    <button class="btn primary" id="addBtn" type="button">+ Job baru</button>
+  </header>
+
+  <div class="status-note" id="note" hidden></div>
+
+  <section class="tiles" aria-label="Ringkasan">
+    <div class="tile money"><div class="lab">Belum dibayar</div><div class="num" id="tPending"><small>RM</small>0</div><div class="hint" id="tPendingN">0 job</div></div>
+    <div class="tile hot"><div class="lab">Lewat due</div><div class="num" id="tLate">0</div><div class="hint">kena follow up</div></div>
+    <div class="tile"><div class="lab">Dalam production</div><div class="num" id="tProd">0</div><div class="hint" id="tProdH">draft / storyboard / submit</div></div>
+    <div class="tile"><div class="lab">Dah masuk</div><div class="num" id="tPaid"><small>RM</small>0</div><div class="hint" id="tPaidN">0 job</div></div>
+  </section>
+
+  <nav class="tabs" role="tablist" id="tabs"></nav>
+  <input class="search" id="q" type="search" placeholder="Cari brand, company, platform…" aria-label="Cari">
+
+  <div class="list" id="list">
+    <div class="empty"><h4>Tengah load job…</h4>Kalau kosong, tekan <b>+ Job baru</b> untuk tambah collab pertama.</div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim" hidden>
+  <form class="sheet" id="form" autocomplete="off">
+    <h2 id="formTitle">Job baru</h2>
+    <div class="fgrid">
+      <div class="f full"><label for="f-brand">Brand / Campaign</label><input id="f-brand" required placeholder="cth. Walls Jolly Jelly"></div>
+      <div class="f"><label for="f-amount">Bayaran (RM)</label><input id="f-amount" type="number" step="0.01" min="0" inputmode="decimal" placeholder="0.00"></div>
+      <div class="f"><label for="f-platforms">Platform</label><input id="f-platforms" placeholder="Tiktok, IG, Threads"></div>
+      <div class="f full"><label for="f-company">Company / Agency</label><input id="f-company" placeholder="cth. Next Level Media Sdn. Bhd."></div>
+      <div class="f full"><span class="lbl">Progress production</span>
+        <div class="checks">
+          <label class="ck"><input type="checkbox" id="f-draft"> Draft</label>
+          <label class="ck"><input type="checkbox" id="f-storyboard"> Storyboard</label>
+          <label class="ck"><input type="checkbox" id="f-submission"> Submission</label>
+        </div>
+      </div>
+      <div class="f"><label for="f-deadline">Deadline submit</label><input id="f-deadline" type="date"></div>
+      <div class="f"><label for="f-posting">Posting date</label><input id="f-posting" type="date"></div>
+      <div class="f"><label for="f-invoice">Invoice sent</label><input id="f-invoice" type="date"></div>
+      <div class="f"><label for="f-paidDate">Tarikh dibayar</label><input id="f-paidDate" type="date"></div>
+      <div class="f full"><span class="lbl">Payment terms (dari tarikh posting / deliverable terakhir)</span>
+        <div class="termrow">
+          <input id="f-tmin" type="number" min="0" placeholder="45" aria-label="Minimum hari">
+          <span>–</span>
+          <input id="f-tmax" type="number" min="0" placeholder="60" aria-label="Maksimum hari">
+          <select id="f-tunit" aria-label="Jenis hari"><option value="days">hari</option><option value="workdays">hari bekerja</option></select>
+        </div>
+      </div>
+      <div class="f full"><label for="f-notes">Nota</label><textarea id="f-notes" placeholder="PIC, link brief, apa-apa"></textarea></div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn ghost danger" id="delBtn">Padam</button>
+      <span class="confirm" id="delConfirm" hidden>Confirm padam? <button type="button" class="btn danger" id="delYes">Ya, padam</button></span>
+      <span class="sp"></span>
+      <button type="button" class="btn ghost" id="cancelBtn">Batal</button>
+      <button type="submit" class="btn primary" id="saveBtn">Simpan</button>
+    </div>
+  </form>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const MON=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"];
+const DAY=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
+const TABS=[["all","Semua"],["pay","Pending bayaran"],["prod","Production"],["done","Dah bayar"]];
+let jobs=[], tab="pay", query="", editing=null, db=null, mode="loading";
+
+try{const t=localStorage.getItem("kc-tab"); if(t) tab=t;}catch(e){}
+
+function today(){const d=new Date();d.setHours(0,0,0,0);return d}
+function parse(s){if(!s)return null;const [y,m,d]=s.split("-").map(Number);if(!y)return null;return new Date(y,m-1,d)}
+function fmt(d,yr){if(!d)return "—";return d.getDate()+" "+MON[d.getMonth()]+(yr||d.getFullYear()!==today().getFullYear()?" "+d.getFullYear():"")}
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r}
+function addWork(d,n){const r=new Date(d);let k=0;while(k<n){r.setDate(r.getDate()+1);const w=r.getDay();if(w!==0&&w!==6)k++}return r}
+function diff(a,b){return Math.round((b-a)/864e5)}
+function rm(n){return (Number(n)||0).toLocaleString("en-MY",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+function posted(j){const p=parse(j.postingDate);return !!p&&p<=today()}
+function inProd(j){return !j.paid && !(j.draft&&j.storyboard&&j.submission)}
+function due(j){
+  const base=parse(j.postingDate); if(!base) return null;
+  const f=j.termUnit==="workdays"?addWork:addDays;
+  const mn=Number(j.termMin)||0, mx=Number(j.termMax)||mn;
+  if(!mn&&!mx) return null;
+  return {from:f(base,mn),to:f(base,mx)};
+}
+function payState(j){
+  if(j.paid) return {cls:"ok",label:"Dah bayar",rank:9};
+  if(!posted(j)) return {cls:"wait",label:j.postingDate?"Belum post":"Tiada tarikh post",rank:6};
+  if(!j.invoiceDate) return {cls:"bad",label:"Belum hantar invoice",rank:0};
+  const d=due(j); if(!d) return {cls:"acc",label:"Tunggu bayaran",rank:4};
+  const t=today();
+  if(t>d.to) return {cls:"bad",label:"Lewat "+diff(d.to,t)+" hari",rank:1};
+  if(t>=d.from) return {cls:"warn",label:"Dalam tempoh bayar",rank:2};
+  return {cls:"acc",label:"Lagi "+diff(t,d.from)+" hari",rank:3};
+}
+function nextStep(j){
+  const s=[j.draft,j.storyboard,j.submission,posted(j),!!j.invoiceDate,!!j.paid];
+  return s.indexOf(false);
+}
+
+/* ---------- storage ---------- */
+const LS="kc-jobs-local";
+function lsLoad(){try{return JSON.parse(localStorage.getItem(LS)||"[]")}catch(e){return []}}
+function lsSave(){try{localStorage.setItem(LS,JSON.stringify(jobs))}catch(e){}}
+
+async function save(j){
+  const {id,...body}=j;
+  if(mode==="db"){
+    try{ await db.collection("jobs").doc(id).set(body); }
+    catch(e){ toast("Tak dapat simpan: "+(e&&e.code==="invalid_argument"?"akaun ni view sahaja":"cuba lagi sekejap")); throw e; }
+  }else{
+    const i=jobs.findIndex(x=>x.id===id); if(i>=0)jobs[i]=j; else jobs.push(j); lsSave(); render();
+  }
+}
+async function remove(id){
+  if(mode==="db"){ try{await db.collection("jobs").doc(id).delete()}catch(e){toast("Tak dapat padam, cuba lagi");throw e} }
+  else{ jobs=jobs.filter(x=>x.id!==id); lsSave(); render(); }
+}
+function newId(){return "j"+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+
+/* ---------- render ---------- */
+function filtered(){
+  const q=query.trim().toLowerCase();
+  let r=jobs.filter(j=>{
+    if(tab==="pay"&&(j.paid||!posted(j)))return false;
+    if(tab==="prod"&&!inProd(j))return false;
+    if(tab==="done"&&!j.paid)return false;
+    if(q){const h=[j.brand,j.company,(j.platforms||[]).join(" "),j.notes].join(" ").toLowerCase();if(!h.includes(q))return false}
+    return true;
+  });
+  const key=j=>{
+    if(tab==="done") return -(parse(j.paidDate)||parse(j.postingDate)||0);
+    if(tab==="prod") return +(parse(j.deadline)||parse(j.postingDate)||8.64e15);
+    const d=due(j); return payState(j).rank*1e13 + (d?+d.to/1e3:0);
+  };
+  return r.sort((a,b)=>key(a)-key(b));
+}
+
+function stepsHTML(j){
+  const names=["Draft","Storyboard","Submit","Posting","Invoice","Bayar"];
+  const done=[j.draft,j.storyboard,j.submission,posted(j),!!j.invoiceDate,!!j.paid];
+  const nx=done.indexOf(false);
+  return names.map((n,i)=>{
+    const toggle=["draft","storyboard","submission",null,null,"paid"][i];
+    const cls="step"+(done[i]?" done":"")+(i===nx?" next":"");
+    const title=toggle?(done[i]?"Tanda belum: ":"Tanda siap: ")+n:"Edit tarikh "+n.toLowerCase();
+    return `<button type="button" class="${cls}" data-act="${toggle?"toggle":"edit"}" data-f="${toggle||""}" data-id="${esc(j.id)}" title="${title}" aria-pressed="${done[i]}"><span class="dot">${done[i]?"✓":""}</span><span class="t">${n}</span></button>`;
+  }).join("");
+}
+
+function cardHTML(j){
+  const ps=payState(j), d=due(j);
+  const plats=(j.platforms||[]).map(p=>`<span class="chip">${esc(p)}</span>`).join("");
+  let when="";
+  if(j.paid) when=`<span class="when">Masuk <b>${fmt(parse(j.paidDate))}</b></span>`;
+  else if(d) when=`<span class="when">Jangka bayar <b class="mono">${fmt(d.from)} – ${fmt(d.to)}</b></span>`;
+  else if(j.deadline&&inProd(j)) when=`<span class="when">Deadline submit <b>${fmt(parse(j.deadline))}</b></span>`;
+  const termTxt=(j.termMin||j.termMax)?`Terms ${esc(j.termMin||"")}${j.termMax&&j.termMax!=j.termMin?"–"+esc(j.termMax):""} ${j.termUnit==="workdays"?"hari bekerja":"hari"} dari deliverable terakhir`:"";
+  const facts=[
+    j.postingDate?`Post ${fmt(parse(j.postingDate))}`:"",
+    j.invoiceDate?`Invoice ${fmt(parse(j.invoiceDate))}`:"",
+  ].filter(Boolean).join(" · ");
+  return `<article class="card${j.paid?" paid":""}">
+    <div class="row"><h3>${esc(j.brand||"Tanpa nama")}</h3><div class="amt"><small>RM</small>${rm(j.amount)}</div></div>
+    <div class="meta">${j.company?`<span>${esc(j.company)}</span>`:""}${plats}</div>
+    <div class="steps">${stepsHTML(j)}</div>
+    <div class="pay"><span class="pill ${ps.cls}">${ps.label}</span>${when}
+      <button type="button" class="btn ghost edit" data-act="edit" data-id="${esc(j.id)}">Edit</button>
+      ${(facts||termTxt)?`<span class="terms">${[facts,termTxt].filter(Boolean).join(" · ")}</span>`:""}
+    </div>
+  </article>`;
+}
+
+function render(){
+  const t=today();
+  $("today").textContent=DAY[t.getDay()]+", "+t.getDate()+" "+MON[t.getMonth()]+" "+t.getFullYear();
+  const unpaid=jobs.filter(j=>!j.paid), paid=jobs.filter(j=>j.paid);
+  $("tPending").innerHTML="<small>RM</small>"+rm(unpaid.reduce((s,j)=>s+(+j.amount||0),0));
+  $("tPendingN").textContent=unpaid.length+" job";
+  const late=jobs.filter(j=>{const s=payState(j);return s.cls==="bad"}).length;
+  $("tLate").textContent=late;
+  const prod=jobs.filter(inProd);
+  $("tProd").textContent=prod.length;
+  const pd=prod.filter(j=>!j.draft).length, ps=prod.filter(j=>j.draft&&!j.storyboard).length, pu=prod.filter(j=>j.draft&&j.storyboard&&!j.submission).length;
+  $("tProdH").textContent=prod.length?`${pd} draft · ${ps} storyboard · ${pu} submit`:"semua dah siap";
+  $("tPaid").innerHTML="<small>RM</small>"+rm(paid.reduce((s,j)=>s+(+j.amount||0),0));
+  $("tPaidN").textContent=paid.length+" job";
+
+  const counts={all:jobs.length,pay:jobs.filter(j=>!j.paid&&posted(j)).length,prod:prod.length,done:paid.length};
+  $("tabs").innerHTML=TABS.map(([k,l])=>`<button type="button" role="tab" class="tab" aria-selected="${k===tab}" data-tab="${k}">${l}<span class="c">${counts[k]}</span></button>`).join("");
+
+  const list=filtered();
+  if(mode==="loading"){return}
+  if(!jobs.length){$("list").innerHTML=`<div class="empty"><h4>Belum ada job</h4>Tekan <b>+ Job baru</b> untuk tambah collab pertama.</div>`;return}
+  if(!list.length){
+    const msg={pay:"Takde bayaran tertunggak. Semua dah masuk!",prod:"Takde kerja production tertangguh.",done:"Belum ada job yang dah dibayar.",all:"Takde yang match carian."}[tab];
+    $("list").innerHTML=`<div class="empty"><h4>${query?"Takde yang match":"Clear!"}</h4>${query?"Cuba cari perkataan lain.":msg}</div>`;return;
+  }
+  $("list").innerHTML=list.map(cardHTML).join("");
+}
+
+/* ---------- events ---------- */
+$("tabs").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(!b)return;tab=b.dataset.tab;try{localStorage.setItem("kc-tab",tab)}catch(e){}render()});
+$("q").addEventListener("input",e=>{query=e.target.value;render()});
+$("list").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-act]");if(!b)return;
+  const j=jobs.find(x=>x.id===b.dataset.id);if(!j)return;
+  if(b.dataset.act==="edit")return openForm(j);
+  const f=b.dataset.f, nj={...j,[f]:!j[f]};
+  if(f==="paid"&&nj.paid&&!nj.paidDate){const t=today();nj.paidDate=iso(t)}
+  if(f==="paid"&&!nj.paid)nj.paidDate="";
+  b.disabled=true;
+  try{await save(nj); toast(labelFor(f)+(nj[f]?" ✓ siap":" ditanda belum"))}catch(e){}
+  b.disabled=false;
+});
+function labelFor(f){return {draft:"Draft",storyboard:"Storyboard",submission:"Submission",paid:"Bayaran"}[f]||f}
+function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+
+const F=k=>$("f-"+k);
+function openForm(j){
+  editing=j||null;
+  $("formTitle").textContent=j?"Edit job":"Job baru";
+  $("delBtn").hidden=!j; $("delConfirm").hidden=true;
+  const v=j||{termMin:45,termMax:60,termUnit:"days"};
+  F("brand").value=v.brand||""; F("amount").value=v.amount??"";
+  F("platforms").value=(v.platforms||[]).join(", "); F("company").value=v.company||"";
+  F("draft").checked=!!v.draft; F("storyboard").checked=!!v.storyboard; F("submission").checked=!!v.submission;
+  F("deadline").value=v.deadline||""; F("posting").value=v.postingDate||""; F("invoice").value=v.invoiceDate||""; F("paidDate").value=v.paidDate||"";
+  F("tmin").value=v.termMin??""; F("tmax").value=v.termMax??""; F("tunit").value=v.termUnit||"days";
+  F("notes").value=v.notes||"";
+  $("scrim").hidden=false; setTimeout(()=>F("brand").focus(),50);
+}
+function closeForm(){$("scrim").hidden=true;editing=null}
+$("addBtn").onclick=()=>openForm(null);
+$("cancelBtn").onclick=closeForm;
+$("scrim").addEventListener("click",e=>{if(e.target===$("scrim"))closeForm()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("scrim").hidden)closeForm()});
+$("delBtn").onclick=()=>{$("delConfirm").hidden=false;$("delBtn").hidden=true};
+$("delYes").onclick=async()=>{if(!editing)return;try{await remove(editing.id);toast("Job dipadam");closeForm()}catch(e){}};
+$("form").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const num=v=>v===""?null:Number(v);
+  const j={
+    id:editing?editing.id:newId(),
+    brand:F("brand").value.trim(), amount:num(F("amount").value)||0,
+    platforms:F("platforms").value.split(/[,&/]+/).map(s=>s.trim()).filter(Boolean),
+    company:F("company").value.trim(),
+    draft:F("draft").checked, storyboard:F("storyboard").checked, submission:F("submission").checked,
+    deadline:F("deadline").value, postingDate:F("posting").value, invoiceDate:F("invoice").value,
+    paidDate:F("paidDate").value, paid:!!F("paidDate").value,
+    termMin:num(F("tmin").value), termMax:num(F("tmax").value), termUnit:F("tunit").value,
+    notes:F("notes").value.trim(),
+    createdAt:editing?.createdAt||new Date().toISOString()
+  };
+  $("saveBtn").disabled=true;
+  try{await save(j);toast(editing?"Dikemaskini":"Job ditambah");closeForm()}catch(e){}
+  $("saveBtn").disabled=false;
+});
+
+let tt;function toast(m){const t=$("toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2200)}
+function note(m){const n=$("note");n.textContent=m||"";n.hidden=!m}
+
+/* ---------- boot ---------- */
+render();
+async function boot(){
+  let d=null;
+  try{ d = window.claude && window.claude.use ? await window.claude.use("db") : null }catch(e){ d=null }
+  if(!d){
+    mode="local"; jobs=lsLoad();
+    note("Data disimpan dalam browser ni sahaja (sync tak tersedia di sini).");
+    render(); return;
+  }
+  db=d; mode="loading";
+  const timer=setTimeout(()=>note("Tak dapat sambung ke data lagi… cuba refresh sekejap lagi."),10000);
+  db.collection("jobs").onSnapshot(snap=>{
+    jobs=snap.docs.map(s=>({id:s.id,...s.data()}));
+    if(!snap.metadata.fromCache){clearTimeout(timer);note("")}
+    mode="db"; render();
+  },err=>{clearTimeout(timer);note("Sambungan data terputus. Refresh page untuk cuba semula.");mode="db";render()});
+}
+boot();
+})();
+</script>
