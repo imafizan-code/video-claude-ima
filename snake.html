@@ -172,7 +172,7 @@ function drawParts(){
   for(const p of parts){
     p.x+=p.vx;p.y+=p.vy;p.vy+=.15;p.l-=.03;
     ctx.globalAlpha=Math.max(p.l,0);ctx.fillStyle=p.c;
-    ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.l,0,7);ctx.fill();
+    ctx.beginPath();ctx.arc(p.x,p.y,Math.max(0,p.r*p.l),0,7);ctx.fill();
   }
   ctx.globalAlpha=1;
 }
