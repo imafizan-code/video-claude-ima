@@ -48,11 +48,19 @@
     <button class="d" data-d="0,1">▼</button><button class="r" data-d="1,0">▶</button>
   </div>
 <script>
+// papan ralat: tunjuk punca sebenar kalau ada masalah
+(function(){const b=document.createElement('div');
+  b.style.cssText='position:fixed;left:0;right:0;bottom:0;background:#300;color:#fff;font:12px monospace;padding:6px 10px;z-index:99;display:none;white-space:pre-wrap';
+  document.addEventListener('DOMContentLoaded',()=>document.body.appendChild(b));
+  const show=m=>{b.textContent=String(m).slice(0,300);b.style.display='block'};
+  addEventListener('error',e=>{e.preventDefault();show('ERR: '+e.message+' @'+(e.lineno||'?')+':'+(e.colno||'?'))});
+  addEventListener('unhandledrejection',e=>{e.preventDefault();show('REJ: '+(e.reason&&e.reason.message||e.reason))});
+})();
 // ---- bunyi comel (WebAudio, tiada fail luar) ----
 let AC,muted=false;try{muted=localStorage.getItem('snekMute')==='1'}catch(e){}
 function tone(f,d,o={}){
   if(muted)return;
-  try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
+  try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended'){const r=AC.resume();if(r&&r.catch)r.catch(()=>{})}
     const t=AC.currentTime+(o.at||0),os=AC.createOscillator(),g=AC.createGain();
     os.type=o.type||'sine';os.frequency.setValueAtTime(f,t);
     if(o.to)os.frequency.exponentialRampToValueAtTime(o.to,t+d);
@@ -168,7 +176,8 @@ function drawParts(){
   }
   ctx.globalAlpha=1;
 }
-function frame(now){
+function frame(now){try{frame0(now)}catch(e){console.error(e);window.dispatchEvent(new ErrorEvent('error',{message:e.message,lineno:0}))}requestAnimationFrame(frame)}
+function frame0(now){
   const dt=Math.min(now-(last||now),100); last=now;
   if(running&&!paused){acc+=dt;while(acc>=stepMs&&alive){acc-=stepMs;step()}}
   const t=running?Math.min(acc/stepMs,1):1;
@@ -178,7 +187,6 @@ function frame(now){
   if(snake){drawFood(now);drawSnake(alive?t:1,now);}
   drawParts();
   ctx.restore();
-  requestAnimationFrame(frame);
 }
 reset();running=false;requestAnimationFrame(frame);
 
