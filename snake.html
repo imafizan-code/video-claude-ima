@@ -23,12 +23,18 @@
   button{font:inherit;font-weight:700;color:#fff;background:var(--accent);border:0;border-radius:999px;padding:10px 28px;cursor:pointer;box-shadow:0 5px 0 #d4558f}
   button:active{transform:translateY(3px);box-shadow:0 2px 0 #d4558f}
   small{opacity:.6}
+  .pad{display:grid;grid-template-columns:repeat(3,68px);grid-template-rows:repeat(2,68px);gap:8px}
+  .pad button{width:68px;height:68px;padding:0;font-size:28px;background:#fff;color:var(--accent);box-shadow:0 5px 0 #f3c6dc;border-radius:22px}
+  .pad button:active,.pad button.on{transform:translateY(3px);box-shadow:0 2px 0 #f3c6dc;background:#ffeaf4}
+  .pad .u{grid-column:2;grid-row:1}.pad .l{grid-column:1;grid-row:2}.pad .d{grid-column:2;grid-row:2}.pad .r{grid-column:3;grid-row:2}
+  #mute{position:absolute;top:18px;right:18px;width:40px;height:40px;padding:0;font-size:18px;background:#fff;box-shadow:0 3px 0 #f3c6dc;z-index:2}
 </style>
 </head>
 <body>
   <h1>🐍 Snek Comel</h1>
   <div class="bar"><div class="pill">🍎 <span id="score">0</span></div><div class="pill">👑 <span id="best">0</span></div></div>
   <div class="wrap">
+    <button id="mute" title="Bunyi">🔊</button>
     <canvas id="c" width="800" height="800"></canvas>
     <div class="overlay" id="ov">
       <h2 id="ovT">Jom main!</h2>
@@ -37,7 +43,34 @@
       <small>Anak panah / WASD / swipe · Space = jeda</small>
     </div>
   </div>
+<div class="pad">
+    <button class="u" data-d="0,-1">▲</button><button class="l" data-d="-1,0">◀</button>
+    <button class="d" data-d="0,1">▼</button><button class="r" data-d="1,0">▶</button>
+  </div>
 <script>
+// ---- bunyi comel (WebAudio, tiada fail luar) ----
+let AC,muted=false;try{muted=localStorage.getItem('snekMute')==='1'}catch(e){}
+function tone(f,d,o={}){
+  if(muted)return;
+  try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
+    const t=AC.currentTime+(o.at||0),os=AC.createOscillator(),g=AC.createGain();
+    os.type=o.type||'sine';os.frequency.setValueAtTime(f,t);
+    if(o.to)os.frequency.exponentialRampToValueAtTime(o.to,t+d);
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(o.v||.18,t+.01);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+    os.connect(g).connect(AC.destination);os.start(t);os.stop(t+d+.02);
+  }catch(e){}
+}
+const sfx={
+  start(){[523,659,784,1047].forEach((f,i)=>tone(f,.14,{at:i*.07,type:'triangle'}))},
+  eat(){tone(660,.09,{to:990,type:'sine',v:.22});tone(990,.14,{at:.08,to:1320,type:'sine',v:.2})},
+  turn(){tone(440+Math.random()*60,.04,{type:'triangle',v:.05})},
+  pause(){tone(500,.1,{to:350,type:'sine'})},
+  die(){tone(420,.45,{to:110,type:'sawtooth',v:.1});tone(300,.5,{at:.12,to:70,type:'triangle',v:.12})}
+};
+const muteBtn=document.getElementById('mute');
+function showMute(){muteBtn.textContent=muted?'🔇':'🔊'}showMute();
+muteBtn.onclick=()=>{muted=!muted;showMute();try{localStorage.setItem('snekMute',muted?'1':'0')}catch(e){};if(!muted)sfx.eat();muteBtn.blur()};
 const N=20, S=800/N, cv=document.getElementById('c'), ctx=cv.getContext('2d');
 const $=id=>document.getElementById(id);
 let best=0; try{best=+localStorage.getItem('snekBest')||0}catch(e){}
@@ -53,11 +86,11 @@ function reset(){
 function placeFood(){
   do{food={x:Math.random()*N|0,y:Math.random()*N|0}}while(snake.some(s=>s.x===food.x&&s.y===food.y));
 }
-function start(){reset();running=true;$('ov').classList.add('hide');last=performance.now()}
+function start(){sfx.start();reset();running=true;$('ov').classList.add('hide');last=performance.now()}
 function turn(x,y){
   const ref=queue.length?queue[queue.length-1]:dir;
   if(ref.x===-x&&ref.y===-y||ref.x===x&&ref.y===y)return;
-  if(queue.length<3)queue.push({x,y});
+  if(queue.length<3){queue.push({x,y});sfx.turn()}
 }
 function burst(x,y,col){
   for(let i=0;i<14;i++){const a=Math.random()*6.28,v=2+Math.random()*4;
@@ -70,12 +103,12 @@ function step(){
   if(h.x<0||h.y<0||h.x>=N||h.y>=N||snake.slice(0,-1).some(s=>s.x===h.x&&s.y===h.y)){return die()}
   snake.unshift(h);
   if(h.x===food.x&&h.y===food.y){
-    score++; $('score').textContent=score; burst(food.x,food.y,['#ff5c8a','#ffd166','#ff9ec7'][score%3]);
+    sfx.eat();score++; $('score').textContent=score; burst(food.x,food.y,['#ff5c8a','#ffd166','#ff9ec7'][score%3]);
     stepMs=Math.max(70,stepMs-2); placeFood();
   } else snake.pop();
 }
 function die(){
-  alive=false; running=false; shake=14;
+  alive=false; running=false; shake=14; sfx.die();
   if(score>best){best=score;$('best').textContent=best;try{localStorage.setItem('snekBest',best)}catch(e){}}
   setTimeout(()=>{$('ovT').textContent=score>=best&&score>0?'Rekod baru! 🎉':'Alamak 😵';
     $('ovP').textContent='Skor: '+score; $('go').textContent='Main lagi'; $('ov').classList.remove('hide')},500);
@@ -154,9 +187,12 @@ addEventListener('keydown',e=>{
   const k=e.key.toLowerCase();
   const m={arrowup:[0,-1],w:[0,-1],arrowdown:[0,1],s:[0,1],arrowleft:[-1,0],a:[-1,0],arrowright:[1,0],d:[1,0]}[k];
   if(m){e.preventDefault();if(!running&&!alive||!running&&$('ov').classList.contains('hide')===false){start()}turn(...m)}
-  else if(k===' '){e.preventDefault();if(!running)start();else paused=!paused}
+  else if(k===' '){e.preventDefault();if(!running)start();else{paused=!paused;sfx.pause()}}
   else if(k==='enter'&&!running)start();
 });
+document.querySelectorAll('.pad button').forEach(b=>b.addEventListener('pointerdown',e=>{
+  e.preventDefault();if(!running)start();turn(...b.dataset.d.split(',').map(Number));
+}));
 let tx,ty;
 addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
 addEventListener('touchend',e=>{
