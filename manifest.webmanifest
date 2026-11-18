@@ -1,0 +1,10 @@
+{
+  "name": "Jom Naik! — Teman Tren Lembah Klang",
+  "short_name": "Jom Naik!",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#FFF6EE",
+  "theme_color": "#FF8FA3",
+  "lang": "ms",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

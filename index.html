@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Jom Naik! — Teman Tren Lembah Klang</title>
+  <meta name="description" content="Rancang perjalanan LRT, MRT, Monorel, BRT & KTM Komuter di Lembah Klang. Peta laluan & jadual KTM masa nyata.">
+  <meta name="theme-color" content="#FF8FA3">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="mascot" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="52" height="52">
+        <rect x="8" y="6" width="48" height="44" rx="16" fill="#FF8FA3"/>
+        <rect x="14" y="12" width="36" height="16" rx="7" fill="#DDF3FF"/>
+        <circle cx="23" cy="36" r="3.4" fill="#3A2E39"/><circle cx="41" cy="36" r="3.4" fill="#3A2E39"/>
+        <circle cx="24.2" cy="34.8" r="1.1" fill="#fff"/><circle cx="42.2" cy="34.8" r="1.1" fill="#fff"/>
+        <ellipse cx="17" cy="42" rx="3.5" ry="2" fill="#FFC2CF"/><ellipse cx="47" cy="42" rx="3.5" ry="2" fill="#FFC2CF"/>
+        <path d="M28 41 q4 4 8 0" stroke="#3A2E39" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <rect x="16" y="50" width="8" height="6" rx="3" fill="#3A2E39"/><rect x="40" y="50" width="8" height="6" rx="3" fill="#3A2E39"/>
+        <rect x="4" y="57" width="56" height="3" rx="1.5" fill="#C9B8C4"/>
+      </svg>
+    </div>
+    <div class="hello">
+      <h1>Jom Naik!</h1>
+      <p id="greet">Teman tren comel anda 🚆</p>
+    </div>
+    <div class="clock" id="clock">--:--</div>
+  </header>
+
+  <main>
+    <!-- ================= RANCANG ================= -->
+    <section class="view active" id="view-plan" aria-label="Rancang perjalanan">
+      <div class="card plan-card">
+        <h2>Nak pergi mana hari ni? 🧭</h2>
+        <div class="od">
+          <div class="od-dots" aria-hidden="true"><span class="dot a"></span><span class="line"></span><span class="dot b"></span></div>
+          <div class="od-fields">
+            <div class="picker" data-picker="from">
+              <input id="from-input" type="text" placeholder="Dari stesen…" autocomplete="off" aria-label="Stesen mula">
+              <div class="suggest" role="listbox"></div>
+            </div>
+            <div class="picker" data-picker="to">
+              <input id="to-input" type="text" placeholder="Ke stesen…" autocomplete="off" aria-label="Stesen destinasi">
+              <div class="suggest" role="listbox"></div>
+            </div>
+          </div>
+          <button class="swap" id="swap" title="Tukar arah" aria-label="Tukar arah">⇅</button>
+        </div>
+        <div class="row-btns">
+          <button class="chip-btn" id="near-btn">📍 Stesen terdekat</button>
+          <button class="go" id="go-btn">Cari laluan ✨</button>
+        </div>
+      </div>
+      <div id="plan-result"></div>
+      <div class="card tips" id="plan-tips">
+        <h3>Tips comel 💡</h3>
+        <ul>
+          <li>Tekan <b>📍 Stesen terdekat</b> untuk isi stesen paling dekat dengan anda.</li>
+          <li>Masa tunggu LRT/MRT dianggar ikut kekerapan tren sekarang.</li>
+          <li>Kalau ada KTM dalam perjalanan, kami cari <b>tren KTM sebenar</b> seterusnya ikut jadual 🚂</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= PETA ================= -->
+    <section class="view" id="view-map" aria-label="Peta">
+      <div class="map-wrap">
+        <div id="map"></div>
+        <div class="map-chips" id="map-chips"></div>
+        <div class="map-legend" id="map-legend"><span class="live-dot"></span> <span id="map-live-text">Tren KTM live</span></div>
+      </div>
+    </section>
+
+    <!-- ================= KTM LIVE ================= -->
+    <section class="view" id="view-ktm" aria-label="KTM live">
+      <div class="card">
+        <h2>Jadual KTM <span class="live-pill" id="live-pill"><span class="live-dot"></span> LIVE</span></h2>
+        <div class="picker" data-picker="ktm">
+          <input id="ktm-input" type="text" placeholder="Cari stesen KTM…" autocomplete="off" aria-label="Stesen KTM">
+          <div class="suggest" role="listbox"></div>
+        </div>
+        <div class="quick" id="ktm-quick"></div>
+      </div>
+      <div class="card">
+        <div class="dep-head">
+          <h3 id="dep-title">Berlepas seterusnya</h3>
+          <span class="muted small" id="feed-status">Memuat…</span>
+        </div>
+        <div id="dep-list" class="dep-list"></div>
+      </div>
+      <div class="card">
+        <div class="dep-head">
+          <h3>Tren KTM sedang bergerak 🚂💨</h3>
+          <button class="chip-btn small" id="refresh-live">↻ Muat semula</button>
+        </div>
+        <div id="live-list" class="live-list"></div>
+      </div>
+      <p class="note">Kedudukan tren daripada GTFS Realtime KTMB (data.gov.my), dikemas kini setiap ~30 saat. Anggaran lewat dikira daripada kedudukan tren berbanding jadual — sekadar panduan ya 🙏</p>
+    </section>
+
+    <!-- ================= LALUAN ================= -->
+    <section class="view" id="view-lines" aria-label="Laluan">
+      <div class="card">
+        <h2>Semua laluan 🌈</h2>
+        <div class="line-grid" id="line-grid"></div>
+      </div>
+      <div id="line-detail"></div>
+    </section>
+  </main>
+
+  <nav class="tabs" aria-label="Navigasi">
+    <button class="tab active" data-view="plan"><span>🧭</span>Rancang</button>
+    <button class="tab" data-view="map"><span>🗺️</span>Peta</button>
+    <button class="tab" data-view="ktm"><span>⏱️</span>KTM Live</button>
+    <button class="tab" data-view="lines"><span>🚇</span>Laluan</button>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="data/transit.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
