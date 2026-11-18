@@ -176,10 +176,12 @@ body.locked{overflow:hidden}
         </div>
       </div>
       <div class="f"><label for="f-deadline">Deadline submit</label><input id="f-deadline" type="date"></div>
+      <div class="f"><label for="f-submitDate">Tarikh submit</label><input id="f-submitDate" type="date"></div>
       <div class="f"><label for="f-posting">Posting date</label><input id="f-posting" type="date"></div>
       <div class="f"><label for="f-invoice">Invoice sent</label><input id="f-invoice" type="date"></div>
       <div class="f"><label for="f-paidDate">Tarikh dibayar</label><input id="f-paidDate" type="date"></div>
-      <div class="f full"><span class="lbl">Payment terms (dari tarikh posting / deliverable terakhir)</span>
+      <div class="f"><label for="f-basis">Kira bayaran dari</label><select id="f-basis"><option value="posting">Posting date</option><option value="submission">Tarikh submit (tak perlu post)</option></select></div>
+      <div class="f full"><span class="lbl">Payment terms</span>
         <div class="termrow">
           <input id="f-tmin" type="number" min="0" placeholder="45" aria-label="Minimum hari">
           <span>–</span>
@@ -220,9 +222,11 @@ function rm(n){return (Number(n)||0).toLocaleString("en-MY",{minimumFractionDigi
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 
 function posted(j){const p=parse(j.postingDate);return !!p&&p<=today()}
+function bySub(j){return j.termBasis==="submission"}
+function delivered(j){return bySub(j)?!!j.submission:posted(j)}
 function inProd(j){return !j.paid && !(j.draft&&j.storyboard&&j.submission)}
 function due(j){
-  const base=parse(j.postingDate); if(!base) return null;
+  const base=parse(bySub(j)?j.submitDate:j.postingDate); if(!base) return null;
   const f=j.termUnit==="workdays"?addWork:addDays;
   const mn=Number(j.termMin)||0, mx=Number(j.termMax)||mn;
   if(!mn&&!mx) return null;
@@ -230,7 +234,7 @@ function due(j){
 }
 function payState(j){
   if(j.paid) return {cls:"ok",label:"Dah bayar",rank:9};
-  if(!posted(j)) return {cls:"wait",label:j.postingDate?"Belum post":"Tiada tarikh post",rank:6};
+  if(!delivered(j)) return {cls:"wait",label:bySub(j)?"Belum submit":(j.postingDate?"Belum post":"Tiada tarikh post"),rank:6};
   if(!j.invoiceDate) return {cls:"bad",label:"Belum hantar invoice",rank:0};
   const d=due(j); if(!d) return {cls:"acc",label:"Tunggu bayaran",rank:4};
   const t=today();
@@ -267,7 +271,7 @@ function newId(){return "j"+Date.now().toString(36)+Math.random().toString(36).s
 function filtered(){
   const q=query.trim().toLowerCase();
   let r=jobs.filter(j=>{
-    if(tab==="pay"&&(j.paid||!posted(j)))return false;
+    if(tab==="pay"&&(j.paid||!delivered(j)))return false;
     if(tab==="prod"&&!inProd(j))return false;
     if(tab==="done"&&!j.paid)return false;
     if(q){const h=[j.brand,j.company,(j.platforms||[]).join(" "),j.notes].join(" ").toLowerCase();if(!h.includes(q))return false}
@@ -282,8 +286,8 @@ function filtered(){
 }
 
 function stepsHTML(j){
-  const names=["Draft","Storyboard","Submit","Posting","Invoice","Bayar"];
-  const done=[j.draft,j.storyboard,j.submission,posted(j),!!j.invoiceDate,!!j.paid];
+  const names=["Draft","Storyboard","Submit",bySub(j)?"No post":"Posting","Invoice","Bayar"];
+  const done=[j.draft,j.storyboard,j.submission,bySub(j)?true:posted(j),!!j.invoiceDate,!!j.paid];
   const nx=done.indexOf(false);
   return names.map((n,i)=>{
     const toggle=["draft","storyboard","submission",null,null,"paid"][i];
@@ -300,8 +304,9 @@ function cardHTML(j){
   if(j.paid) when=`<span class="when">Masuk <b>${fmt(parse(j.paidDate))}</b></span>`;
   else if(d) when=`<span class="when">Jangka bayar <b class="mono">${fmt(d.from)} – ${fmt(d.to)}</b></span>`;
   else if(j.deadline&&inProd(j)) when=`<span class="when">Deadline submit <b>${fmt(parse(j.deadline))}</b></span>`;
-  const termTxt=(j.termMin||j.termMax)?`Terms ${esc(j.termMin||"")}${j.termMax&&j.termMax!=j.termMin?"–"+esc(j.termMax):""} ${j.termUnit==="workdays"?"hari bekerja":"hari"} dari deliverable terakhir`:"";
+  const termTxt=(j.termMin||j.termMax)?`Terms ${esc(j.termMin||"")}${j.termMax&&j.termMax!=j.termMin?"–"+esc(j.termMax):""} ${j.termUnit==="workdays"?"hari bekerja":"hari"} dari ${bySub(j)?"tarikh submit":"tarikh posting"}`:"";
   const facts=[
+    j.submitDate?`Submit ${fmt(parse(j.submitDate))}`:"",
     j.postingDate?`Post ${fmt(parse(j.postingDate))}`:"",
     j.invoiceDate?`Invoice ${fmt(parse(j.invoiceDate))}`:"",
   ].filter(Boolean).join(" · ");
@@ -332,7 +337,7 @@ function render(){
   $("tPaid").innerHTML="<small>RM</small>"+rm(paid.reduce((s,j)=>s+(+j.amount||0),0));
   $("tPaidN").textContent=paid.length+" job";
 
-  const counts={all:jobs.length,pay:jobs.filter(j=>!j.paid&&posted(j)).length,prod:prod.length,done:paid.length};
+  const counts={all:jobs.length,pay:jobs.filter(j=>!j.paid&&delivered(j)).length,prod:prod.length,done:paid.length};
   $("tabs").innerHTML=TABS.map(([k,l])=>`<button type="button" role="tab" class="tab" aria-selected="${k===tab}" data-tab="${k}">${l}<span class="c">${counts[k]}</span></button>`).join("");
 
   const list=filtered();
@@ -357,6 +362,7 @@ $("list").addEventListener("click",async e=>{
   const f=b.dataset.f, nj={...j,[f]:!j[f]};
   if(f==="paid"&&nj.paid&&!nj.paidDate){const t=today();nj.paidDate=iso(t)}
   if(f==="paid"&&!nj.paid)nj.paidDate="";
+  if(f==="submission"&&nj.submission&&!nj.submitDate)nj.submitDate=iso(today());
   b.disabled=true;
   try{await save(nj); toast(labelFor(f)+(nj[f]?" ✓ siap":" ditanda belum"))}catch(e){}
   b.disabled=false;
@@ -373,6 +379,7 @@ function openForm(j){
   F("brand").value=v.brand||""; F("amount").value=v.amount??"";
   F("platforms").value=(v.platforms||[]).join(", "); F("company").value=v.company||"";
   F("draft").checked=!!v.draft; F("storyboard").checked=!!v.storyboard; F("submission").checked=!!v.submission;
+  F("submitDate").value=v.submitDate||""; F("basis").value=v.termBasis||"posting";
   F("deadline").value=v.deadline||""; F("posting").value=v.postingDate||""; F("invoice").value=v.invoiceDate||""; F("paidDate").value=v.paidDate||"";
   F("tmin").value=v.termMin??""; F("tmax").value=v.termMax??""; F("tunit").value=v.termUnit||"days";
   F("notes").value=v.notes||"";
@@ -394,6 +401,7 @@ $("form").addEventListener("submit",async e=>{
     platforms:F("platforms").value.split(/[,&/]+/).map(s=>s.trim()).filter(Boolean),
     company:F("company").value.trim(),
     draft:F("draft").checked, storyboard:F("storyboard").checked, submission:F("submission").checked,
+    submitDate:F("submitDate").value, termBasis:F("basis").value,
     deadline:F("deadline").value, postingDate:F("posting").value, invoiceDate:F("invoice").value,
     paidDate:F("paidDate").value, paid:!!F("paidDate").value,
     termMin:num(F("tmin").value), termMax:num(F("tmax").value), termUnit:F("tunit").value,
