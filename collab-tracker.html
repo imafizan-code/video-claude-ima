@@ -54,6 +54,9 @@ header.top .grow{flex:1;min-width:0}
 
 .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
 .tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow);min-width:0;text-align:left}
+.tile{font:inherit;color:var(--ink);width:100%;cursor:pointer;display:block;transition:border-color .15s}
+.tile:hover{border-color:var(--muted)}
+.tile.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
 .tile .lab{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
 .tile .num{font-family:var(--f-display);font-weight:700;font-size:22px;margin-top:4px;letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tile .num small{font-size:13px;font-weight:600;color:var(--muted);margin-right:2px}
@@ -146,10 +149,10 @@ body.locked{overflow:hidden}
   <div class="status-note" id="note" hidden></div>
 
   <section class="tiles" aria-label="Ringkasan">
-    <div class="tile money"><div class="lab">Belum dibayar</div><div class="num" id="tPending"><small>RM</small>0</div><div class="hint" id="tPendingN">0 job</div></div>
-    <div class="tile hot"><div class="lab">Lewat due</div><div class="num" id="tLate">0</div><div class="hint">kena follow up</div></div>
-    <div class="tile"><div class="lab">Dalam production</div><div class="num" id="tProd">0</div><div class="hint" id="tProdH">draft / storyboard / submit</div></div>
-    <div class="tile"><div class="lab">Dah masuk</div><div class="num" id="tPaid"><small>RM</small>0</div><div class="hint" id="tPaidN">0 job</div></div>
+    <button type="button" class="tile money" data-go="pay"><div class="lab">Belum dibayar</div><div class="num" id="tPending"><small>RM</small>0</div><div class="hint" id="tPendingN">0 job</div></button>
+    <button type="button" class="tile hot" data-go="late"><div class="lab">Lewat due</div><div class="num" id="tLate">0</div><div class="hint">kena follow up</div></button>
+    <button type="button" class="tile" data-go="prod"><div class="lab">Dalam production</div><div class="num" id="tProd">0</div><div class="hint" id="tProdH">draft / storyboard / submit</div></button>
+    <button type="button" class="tile" data-go="done"><div class="lab">Dah masuk</div><div class="num" id="tPaid"><small>RM</small>0</div><div class="hint" id="tPaidN">0 job</div></button>
   </section>
 
   <nav class="tabs" role="tablist" id="tabs"></nav>
@@ -207,7 +210,7 @@ body.locked{overflow:hidden}
 const $=id=>document.getElementById(id);
 const MON=["Jan","Feb","Mac","Apr","Mei","Jun","Jul","Ogo","Sep","Okt","Nov","Dis"];
 const DAY=["Ahad","Isnin","Selasa","Rabu","Khamis","Jumaat","Sabtu"];
-const TABS=[["all","Semua"],["pay","Pending bayaran"],["prod","Production"],["done","Dah bayar"]];
+const TABS=[["all","Semua"],["pay","Pending bayaran"],["late","Lewat due"],["prod","Production"],["done","Dah bayar"]];
 let jobs=[], tab="pay", query="", editing=null, db=null, mode="loading";
 
 try{const t=localStorage.getItem("kc-tab"); if(t) tab=t;}catch(e){}
@@ -273,6 +276,7 @@ function filtered(){
   let r=jobs.filter(j=>{
     if(tab==="pay"&&(j.paid||!delivered(j)))return false;
     if(tab==="prod"&&!inProd(j))return false;
+    if(tab==="late"&&payState(j).cls!=="bad")return false;
     if(tab==="done"&&!j.paid)return false;
     if(q){const h=[j.brand,j.company,(j.platforms||[]).join(" "),j.notes].join(" ").toLowerCase();if(!h.includes(q))return false}
     return true;
@@ -302,7 +306,7 @@ function cardHTML(j){
   const plats=(j.platforms||[]).map(p=>`<span class="chip">${esc(p)}</span>`).join("");
   let when="";
   if(j.paid) when=`<span class="when">Masuk <b>${fmt(parse(j.paidDate))}</b></span>`;
-  else if(d) when=`<span class="when">Jangka bayar <b class="mono">${fmt(d.from)} – ${fmt(d.to)}</b></span>`;
+  else if(d) when=`<span class="when">Jangka bayar <b class="mono">${+d.from===+d.to?fmt(d.to):fmt(d.from)+" – "+fmt(d.to)}</b></span>`;
   else if(j.deadline&&inProd(j)) when=`<span class="when">Deadline submit <b>${fmt(parse(j.deadline))}</b></span>`;
   const termTxt=(j.termMin||j.termMax)?`Terms ${esc(j.termMin||"")}${j.termMax&&j.termMax!=j.termMin?"–"+esc(j.termMax):""} ${j.termUnit==="workdays"?"hari bekerja":"hari"} dari ${bySub(j)?"tarikh submit":"tarikh posting"}`:"";
   const facts=[
@@ -337,21 +341,26 @@ function render(){
   $("tPaid").innerHTML="<small>RM</small>"+rm(paid.reduce((s,j)=>s+(+j.amount||0),0));
   $("tPaidN").textContent=paid.length+" job";
 
-  const counts={all:jobs.length,pay:jobs.filter(j=>!j.paid&&delivered(j)).length,prod:prod.length,done:paid.length};
+  const counts={late:jobs.filter(j=>payState(j).cls==="bad").length,all:jobs.length,pay:jobs.filter(j=>!j.paid&&delivered(j)).length,prod:prod.length,done:paid.length};
+  document.querySelectorAll(".tile[data-go]").forEach(t=>t.classList.toggle("sel",t.dataset.go===tab));
   $("tabs").innerHTML=TABS.map(([k,l])=>`<button type="button" role="tab" class="tab" aria-selected="${k===tab}" data-tab="${k}">${l}<span class="c">${counts[k]}</span></button>`).join("");
 
   const list=filtered();
   if(mode==="loading"){return}
   if(!jobs.length){$("list").innerHTML=`<div class="empty"><h4>Belum ada job</h4>Tekan <b>+ Job baru</b> untuk tambah collab pertama.</div>`;return}
   if(!list.length){
-    const msg={pay:"Takde bayaran tertunggak. Semua dah masuk!",prod:"Takde kerja production tertangguh.",done:"Belum ada job yang dah dibayar.",all:"Takde yang match carian."}[tab];
+    const msg={late:"Takde yang lewat. Semua on track!",pay:"Takde bayaran tertunggak. Semua dah masuk!",prod:"Takde kerja production tertangguh.",done:"Belum ada job yang dah dibayar.",all:"Takde yang match carian."}[tab];
     $("list").innerHTML=`<div class="empty"><h4>${query?"Takde yang match":"Clear!"}</h4>${query?"Cuba cari perkataan lain.":msg}</div>`;return;
   }
   $("list").innerHTML=list.map(cardHTML).join("");
 }
 
 /* ---------- events ---------- */
-$("tabs").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(!b)return;tab=b.dataset.tab;try{localStorage.setItem("kc-tab",tab)}catch(e){}render()});
+function setTab(t,scroll){tab=t;try{localStorage.setItem("kc-tab",tab)}catch(e){}render();
+  const sel=document.querySelector('.tab[aria-selected="true"]');if(sel)sel.scrollIntoView({block:"nearest",inline:"center"});
+  if(scroll){const y=$("tabs").getBoundingClientRect().top+window.scrollY-80;window.scrollTo({top:y,behavior:"smooth"})}}
+$("tabs").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(b)setTab(b.dataset.tab)});
+document.querySelector(".tiles").addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)setTab(b.dataset.go,true)});
 $("q").addEventListener("input",e=>{query=e.target.value;render()});
 $("list").addEventListener("click",async e=>{
   const m=e.target.closest("[data-more]");
