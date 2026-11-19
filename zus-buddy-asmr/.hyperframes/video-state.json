@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "d68a9747-9349-4a96-88ff-9ab7947cba48",
-  "currentRevision": "95e464d9-1a75-4c6d-8e16-00442f3b31e1",
+  "currentRevision": "ea89d496-3c1b-4efd-a6b6-e3efb33dad47",
   "pendingChanges": false,
   "files": {
     "AGENTS.md": {
@@ -169,8 +169,8 @@
       "content": "/root/.cache/hyperframes/history/d68a9747-9349-4a96-88ff-9ab7947cba48/blobs/96/96fb71827ccb8ee5cd38de10940c1accf0d862690b7ed389da3f8392c4a50a51"
     },
     "ZUS_Buddy_ASMR_PREVIEW.mp4": {
-      "hash": "217399f35388c0bafd8c9213b0601a1a9f004671f2037f31582c5d051f84da78",
-      "content": "/root/.cache/hyperframes/history/d68a9747-9349-4a96-88ff-9ab7947cba48/blobs/21/217399f35388c0bafd8c9213b0601a1a9f004671f2037f31582c5d051f84da78"
+      "hash": "a3c416cad6228f6934371ef0ac71f882eea7f722f24ea2e57aa1a7afc4c24cdf",
+      "content": "/root/.cache/hyperframes/history/d68a9747-9349-4a96-88ff-9ab7947cba48/blobs/a3/a3c416cad6228f6934371ef0ac71f882eea7f722f24ea2e57aa1a7afc4c24cdf"
     },
     "assets/fonts/NotoColorEmoji.ttf": {
       "hash": "93cdc4ee9aa40e2afceecc63da0ca05ec7aab4bec991ece51a6b52389f48a477",
@@ -232,6 +232,10 @@
       "hash": "5b0699f6174611cd1660023b37e018b5e7b52ce7ae1b43c21c05b2b051f2a93e",
       "content": "/root/.cache/hyperframes/history/d68a9747-9349-4a96-88ff-9ab7947cba48/blobs/5b/5b0699f6174611cd1660023b37e018b5e7b52ce7ae1b43c21c05b2b051f2a93e"
     },
+    "snaps/contact-sheet.jpg": {
+      "hash": "8375c1b0a2fffe72c97195252a1915926b732122cc6f46810e06abf5e342baff",
+      "content": "/root/.cache/hyperframes/history/d68a9747-9349-4a96-88ff-9ab7947cba48/blobs/83/8375c1b0a2fffe72c97195252a1915926b732122cc6f46810e06abf5e342baff"
+    },
     "snaps/frame-00-at-29.4s.png": {
       "hash": "51dab260d3cbf153b79399437436826fb051434a6942d4625cfcde4d039b74b0",
       "content": "/root/.cache/hyperframes/history/d68a9747-9349-4a96-88ff-9ab7947cba48/blobs/51/51dab260d3cbf153b79399437436826fb051434a6942d4625cfcde4d039b74b0"
@@ -259,10 +263,6 @@
     "snaps/frame-06-at-34.3s.png": {
       "hash": "125ecd61875ab0a941ec48bf3bf77d8865246a9e65eaca8ee3c92d7dd0e63cf3",
       "content": "/root/.cache/hyperframes/history/d68a9747-9349-4a96-88ff-9ab7947cba48/blobs/12/125ecd61875ab0a941ec48bf3bf77d8865246a9e65eaca8ee3c92d7dd0e63cf3"
-    },
-    "snaps/contact-sheet.jpg": {
-      "hash": "8375c1b0a2fffe72c97195252a1915926b732122cc6f46810e06abf5e342baff",
-      "content": "/root/.cache/hyperframes/history/d68a9747-9349-4a96-88ff-9ab7947cba48/blobs/83/8375c1b0a2fffe72c97195252a1915926b732122cc6f46810e06abf5e342baff"
     }
   },
   "revisions": {
@@ -1677,6 +1677,21 @@
           "after": "/root/.cache/hyperframes/history/d68a9747-9349-4a96-88ff-9ab7947cba48/blobs/12/125ecd61875ab0a941ec48bf3bf77d8865246a9e65eaca8ee3c92d7dd0e63cf3"
         }
       }
+    },
+    "ea89d496-3c1b-4efd-a6b6-e3efb33dad47": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795129352182,
+      "endedAt": 1795129352183,
+      "files": {
+        "ZUS_Buddy_ASMR_PREVIEW.mp4": {
+          "before": "/root/.cache/hyperframes/history/d68a9747-9349-4a96-88ff-9ab7947cba48/blobs/21/217399f35388c0bafd8c9213b0601a1a9f004671f2037f31582c5d051f84da78",
+          "after": "/root/.cache/hyperframes/history/d68a9747-9349-4a96-88ff-9ab7947cba48/blobs/a3/a3c416cad6228f6934371ef0ac71f882eea7f722f24ea2e57aa1a7afc4c24cdf"
+        }
+      }
     }
   },
   "checks": {
@@ -2479,15 +2494,15 @@
   },
   "renders": {
     "latest": {
-      "id": "e956ddc2-7f4d-48e9-a69e-c055f0f477a0",
-      "completedAt": 1795129164041,
-      "output": "/tmp/claude-0/-home-user-video-claude-ima/b70f0f33-0561-5673-a663-f40b1dc5d46c/scratchpad/draft10.mp4",
+      "id": "a7d16fbb-a41f-4f96-ab1a-e4540216bab7",
+      "completedAt": 1795129486505,
+      "output": "/home/user/video-claude-ima/zus-buddy-asmr/ZUS_Buddy_ASMR_FINAL_1080x1920.mp4",
       "status": "completed",
-      "revision": "95e464d9-1a75-4c6d-8e16-00442f3b31e1"
+      "revision": "ea89d496-3c1b-4efd-a6b6-e3efb33dad47"
     },
     "retainedRevisions": [
-      "95e464d9-1a75-4c6d-8e16-00442f3b31e1",
-      "f734edbd-13d5-473e-92db-f84a92d4602e"
+      "ea89d496-3c1b-4efd-a6b6-e3efb33dad47",
+      "95e464d9-1a75-4c6d-8e16-00442f3b31e1"
     ]
   },
   "pendingArtifactCleanup": []
