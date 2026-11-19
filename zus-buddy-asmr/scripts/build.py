@@ -16,8 +16,7 @@ W, H = 1080, 1920
 EDL = [
     ("IMG_1567", 3.0, 0.0, False),   # hook: Choco Chipster (steadiest take) + title
     ("IMG_1586", 2.2, 0.3, False),   # full set of cards
-    ("IMG_1590", 3.5, 0.0, False),   # refresh app story (empty bed on top)
-    ("IMG_1538", 2.8, 0.0, True),    # ASMR: tapping blind boxes with nails
+    ("IMG_1538", 2.8, 0.0, True),    # ASMR: tapping blind boxes with nails  -> "FINALLY dapat pun"
     ("IMG_1558", 1.9, 0.0, True),    # ASMR: shaking the box
     ("IMG_1536", 3.4, 2.0, True),    # ASMR: slide blind box out of case
     ("IMG_1529", 1.3, 0.6, False),   # cards inside box
@@ -60,11 +59,8 @@ headline("o-hook", 0.05, END["IMG_1567"] - 0.05,
 headline("o-cards", S["IMG_1586"] + 0.05, END["IMG_1586"] - 0.05,
          ['berbaloi refresh', 'sampai <span class="y">jari kebas</span> <span class="emo">😂</span>'], 300, 76)
 
-# Story over IMG_1590 (empty bed y 290-650, hand starts ~450 at its highest)
-b0 = S["IMG_1590"]
-headline("o-refresh", b0 + 0.05, b0 + 1.1, ['lama gila', '<span class="y">refresh</span> app...'], 285, 76)
-headline("o-part", b0 + 1.15, b0 + 2.45, ['ni part yg', '<span class="y">mane</span> eh <span class="emo">😂</span>'], 285, 76)
-headline("o-finally", b0 + 2.5, END["IMG_1590"] - 0.05, ['<span class="y">FINALLY</span>', 'dapat pun!! <span class="emo">😭</span>'], 285, 76)
+# FINALLY over the nail-tapping clip: sits on the blank inside of the open lid (no product art there)
+headline("o-finally", S["IMG_1538"] + 0.1, END["IMG_1538"] - 0.05, ['<span class="y">FINALLY</span>', 'dapat pun!! <span class="emo">😭</span>'], 300, 80)
 
 # "meja" over the plastic-wrapped desk clip (free floor y ~400-540 below the box corner)
 headline("o-meja", S["IMG_1551"] + 0.1, END["IMG_1551"] - 0.05, ['<span class="y">meja</span>'], 410, 96)
@@ -78,12 +74,12 @@ SPARK = '<svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25
 DOODLES = [
     ("d1", 0.25, END["IMG_1567"] - 0.05, 150, 260, 44),
     ("d2", 0.45, END["IMG_1567"] - 0.05, 900, 250, 36),
-    ("d3", b0 + 2.55, END["IMG_1590"] - 0.05, 290, 290, 44),
-    ("d4", b0 + 2.65, END["IMG_1590"] - 0.05, 770, 300, 36),
+    ("d3", S["IMG_1538"] + 0.2, END["IMG_1538"] - 0.05, 290, 300, 44),
+    ("d4", S["IMG_1538"] + 0.3, END["IMG_1538"] - 0.05, 770, 310, 36),
 ]
 
 # ---- Music: split into segments so it ducks under the ASMR clips
-MUSIC_LO, MUSIC_HI = 0.04, 0.11
+MUSIC_LO, MUSIC_HI = 0.025, 0.11
 music_segs = []
 for c in CLIPS:
     vol = MUSIC_LO if c["asmr"] else MUSIC_HI
@@ -141,7 +137,7 @@ for k, (st, dur, vol) in enumerate(music_segs):
     fi = 0.4 if k == 0 else 0.12
     fo = 1.5 if k == last else 0.12
     parts.append(
-        f'      <audio id="music{k}" src="assets/music/calm_bed.wav" data-start="{round(st,3)}" data-duration="{round(dur,3)}" '
+        f'      <audio id="music{k}" src="assets/music/groove_bed.wav" data-start="{round(st,3)}" data-duration="{round(dur,3)}" '
         f'data-media-start="{round(st,3)}" data-volume="{vol}" data-fade-in="{fi}" data-fade-out="{fo}" data-track-index="3"></audio>'
     )
 
