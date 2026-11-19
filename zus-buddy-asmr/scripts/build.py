@@ -14,18 +14,18 @@ W, H = 1080, 1920
 
 # ---- Edit decision list: (clip, duration, media_start, asmr_sound)
 EDL = [
-    ("IMG_1567", 3.0, 0.0, False),   # hook: Choco Chipster (steadiest take) + title
+    ("IMG_1567", 3.0, 0.0, False),   # hook: Choco Chipster + title (+ diamond SFX)
     ("IMG_1586", 2.2, 0.3, False),   # full set of cards
     ("IMG_1538", 2.8, 0.0, True),    # ASMR: tapping blind boxes with nails  -> "FINALLY dapat pun"
-    ("IMG_1558", 1.9, 0.0, True),    # ASMR: shaking the box
-    ("IMG_1536", 3.4, 2.0, True),    # ASMR: slide blind box out of case
+    ("IMG_1536", 3.4, 2.0, True),    # ASMR: slide blind box out of case (moved before the shake)
+    ("IMG_1558", 1.2, 0.0, True),    # ASMR: shaking the box (awkward still tail trimmed)
     ("IMG_1529", 1.3, 0.6, False),   # cards inside box
-    ("IMG_1532", 1.6, 0.1, True),    # ASMR: foil crinkle (trimmed: cut from 0:12 in v2)
+    ("IMG_1532", 1.6, 0.1, True),    # ASMR: foil crinkle  -> "ASMR sikit"
     ("IMG_1551", 1.8, 0.3, True),    # ASMR: mini desk out of plastic  -> "meja"
     ("IMG_1553", 2.4, 0.4, True),    # ASMR: sticker peel  -> "struggle satu tangan"
-    ("IMG_1556", 1.5, 0.1, True),    # ASMR: tiny laptop (unmuted per request)
+    ("IMG_1556", 1.5, 0.1, True),    # ASMR: tiny laptop  -> "Laptop comel"
     ("IMG_1568", 2.2, 1.6, False),   # Blue Buddy
-    ("IMG_1576", 2.2, 1.0, False),   # Pinky Boo
+    ("IMG_1576", 2.2, 0.6, False),   # Pinky Boo
     ("IMG_1578", 2.0, 0.7, False),   # Bean Boss
     ("IMG_1580", 2.0, 0.3, False),   # Porta Pal
     ("IMG_1583", 3.0, 1.4, False),   # Frappe Fren (last)
@@ -46,18 +46,21 @@ YEL = "#FFD84D"
 OVER = []  # (id, start, end, html, css-position)
 
 
-def headline(i, st, en, lines, top, size=88):
+def headline(i, st, en, lines, top, size=88, left=120, width=840, align="center"):
     inner = "".join(f'<div class="hl-line">{ln}</div>' for ln in lines)
-    OVER.append((i, st, en, f'<div class="hl" style="font-size:{size}px">{inner}</div>', f"top:{top}px"))
+    jc = {"center": "center", "left": "flex-start", "right": "flex-end"}[align]
+    OVER.append((i, st, en, f'<div class="hl" style="font-size:{size}px;text-align:{align}">{inner}</div>',
+                 f"top:{top}px;left:{left}px;width:{width}px;justify-content:{jc}"))
 
 
 # Hook title over Choco Chipster (empty bed y 285-500, laptop starts ~570)
-headline("o-hook", 0.05, END["IMG_1567"] - 0.05,
+headline("o-hook", 0.05, 1.8,
          ['<span class="y">ZUS BUDDY</span>', 'Work In Progress'], 250, 88)
+headline("o-name-choco", 1.85, END["IMG_1567"] - 0.05, ['Choco', '<span class="y">Chipster</span>'], 250, 88)
 
 # Cards: proud line on empty floor above the sticker sheet
 headline("o-cards", S["IMG_1586"] + 0.05, END["IMG_1586"] - 0.05,
-         ['berbaloi refresh', 'sampai <span class="y">jari kebas</span> <span class="emo">😂</span>'], 300, 76)
+         ['berbaloi refresh app ZUS', 'sampai <span class="y">jari kebas</span> <span class="emo">😂</span>'], 300, 66)
 
 # FINALLY over the nail-tapping clip: sits on the blank inside of the open lid (no product art there)
 headline("o-finally", S["IMG_1538"] + 0.1, END["IMG_1538"] - 0.05, ['<span class="y">FINALLY</span>', 'dapat pun!! <span class="emo">😭</span>'], 300, 80)
@@ -68,6 +71,22 @@ headline("o-meja", S["IMG_1551"] + 0.1, END["IMG_1551"] - 0.05, ['<span class="y
 # sticker clip: sheet top rises to ~y 350, so keep this line in 228-345
 headline("o-struggle", S["IMG_1553"] + 0.1, END["IMG_1553"] - 0.05,
          ['Agak struggle ye unboxing', 'dgn satu tgn <span class="emo">😆</span>'], 228, 56)
+
+# foil: blue strip object sits top-right (x 760-860), so keep text left of it
+headline("o-asmr", S["IMG_1532"] + 0.1, END["IMG_1532"] - 0.05, ['ASMR', '<span class="y">sikit</span>'], 300, 92, left=120, width=600)
+
+# tiny laptop: empty bed y 290-540
+headline("o-laptop", S["IMG_1556"] + 0.1, END["IMG_1556"] - 0.05, ['Laptop <span class="y">comel</span> <span class="emo">😆</span>'], 300, 84)
+
+# Buddy names (as in the Drive poster), each in that clip's empty band
+headline("o-name-blue", S["IMG_1568"] + 0.15, END["IMG_1568"] - 0.05, ['Blue <span class="y">Buddy</span>'], 250, 80)
+headline("o-name-pinky", S["IMG_1576"] + 0.15, END["IMG_1576"] - 0.05, ['Pinky <span class="y">Boo</span>'], 226, 64, left=270, width=360)
+headline("o-name-bean", S["IMG_1578"] + 0.15, END["IMG_1578"] - 0.05, ['Bean <span class="y">Boss</span>'], 250, 80, left=120, width=600)
+headline("o-name-porta", S["IMG_1580"] + 0.15, END["IMG_1580"] - 0.05, ['Porta <span class="y">Pal</span>'], 226, 64, left=600, width=360, align="right")
+headline("o-name-frappe", S["IMG_1583"] + 0.15, END["IMG_1583"] - 0.05, ['Frappe <span class="y">Fren</span>'], 224, 62, left=120, width=480, align="left")
+
+# ---- SFX: only the happy title moment at the start
+SFX = [("diamond", 0.05, 0.55)]
 
 # ---- Doodles (twinkling sparkles), only beside text on empty areas
 SPARK = '<svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg>'
@@ -140,6 +159,9 @@ for k, (st, dur, vol) in enumerate(music_segs):
         f'      <audio id="music{k}" src="assets/music/groove_bed.wav" data-start="{round(st,3)}" data-duration="{round(dur,3)}" '
         f'data-media-start="{round(st,3)}" data-volume="{vol}" data-fade-in="{fi}" data-fade-out="{fo}" data-track-index="3"></audio>'
     )
+
+for k, (f, st, vol) in enumerate(SFX):
+    parts.append(f'      <audio id="sfx{k}" src="assets/sfx/{f}.wav" data-start="{st}" data-duration="1.4" data-volume="{vol}" data-track-index="4"></audio>')
 
 # ---- GSAP
 js = ["const tl = gsap.timeline({ paused: true });"]

@@ -139,3 +139,26 @@ fo = int(2.5 * SR)
 mix[-fo:] *= np.linspace(1, 0, fo)
 save("assets/music/cheerful_bed.wav", mix, 0.8)
 print("done")
+
+# --- diamond: glittery ascending shimmer for the happy title moment (v5)
+dur = 1.4
+out = np.zeros(int(dur * SR))
+notes = [2093, 2637, 3136, 3951, 4186, 5274]
+for i, fr in enumerate(notes):
+    st = int(i * 0.045 * SR)
+    tt = t_(1.1)
+    tone = (np.sin(2 * np.pi * fr * tt) + 0.4 * np.sin(2 * np.pi * fr * 2.41 * tt) * np.exp(-tt * 9)) \
+        * env(len(tt), 0.002, 0.35) * (0.9 - i * 0.08)
+    out[st:st + len(tt)] += tone[: len(out) - st]
+# glitter: tiny random high pings
+for k in range(26):
+    st = int(rng.uniform(0.05, 0.9) * SR)
+    fr = rng.uniform(5000, 9000)
+    tt = t_(0.08)
+    out[st:st + len(tt)] += np.sin(2 * np.pi * fr * tt) * env(len(tt), 0.001, 0.02) * 0.25
+# airy swell
+n = rng.standard_normal(len(out))
+b, a = butter(2, 6000 / (SR / 2), btype="high")
+tt = t_(dur)
+out += lfilter(b, a, n) * np.sin(np.pi * np.minimum(tt / 0.9, 1)) ** 2 * 0.08
+save("assets/sfx/diamond.wav", out, 0.75)
