@@ -14,20 +14,22 @@ W, H = 1080, 1920
 
 # ---- Edit decision list: (clip, duration, media_start, asmr_sound)
 EDL = [
-    ("IMG_1586", 2.2, 0.3, False),   # hook: full set of cards (steady)
-    ("IMG_1590", 3.5, 0.0, False),   # backstory: refresh app / error (empty bed on top)
+    ("IMG_1567", 3.0, 0.0, False),   # hook: Choco Chipster (steadiest take) + title
+    ("IMG_1586", 2.2, 0.3, False),   # full set of cards
+    ("IMG_1590", 3.5, 0.0, False),   # refresh app story (empty bed on top)
+    ("IMG_1538", 2.8, 0.0, True),    # ASMR: tapping blind boxes with nails
+    ("IMG_1558", 1.9, 0.0, True),    # ASMR: shaking the box
     ("IMG_1536", 3.4, 2.0, True),    # ASMR: slide blind box out of case
     ("IMG_1529", 1.3, 0.6, False),   # cards inside box
-    ("IMG_1532", 2.8, 0.1, True),    # ASMR: foil crinkle
-    ("IMG_1551", 1.8, 0.3, True),    # ASMR: mini desk out of plastic
-    ("IMG_1553", 2.4, 0.4, True),    # ASMR: sticker peel
-    ("IMG_1556", 1.5, 0.1, False),   # tiny laptop
+    ("IMG_1532", 1.6, 0.1, True),    # ASMR: foil crinkle (trimmed: cut from 0:12 in v2)
+    ("IMG_1551", 1.8, 0.3, True),    # ASMR: mini desk out of plastic  -> "meja"
+    ("IMG_1553", 2.4, 0.4, True),    # ASMR: sticker peel  -> "struggle satu tangan"
+    ("IMG_1556", 1.5, 0.1, True),    # ASMR: tiny laptop (unmuted per request)
     ("IMG_1568", 2.2, 1.6, False),   # Blue Buddy
     ("IMG_1576", 2.2, 1.0, False),   # Pinky Boo
     ("IMG_1578", 2.0, 0.7, False),   # Bean Boss
     ("IMG_1580", 2.0, 0.3, False),   # Porta Pal
-    ("IMG_1583", 2.4, 1.6, False),   # Frappe Fren
-    ("IMG_1567", 3.38, 0.0, False),  # Choco Chipster (steadiest) + closing line on empty bed
+    ("IMG_1583", 3.0, 1.4, False),   # Frappe Fren (last)
 ]
 
 t = 0.0
@@ -50,34 +52,38 @@ def headline(i, st, en, lines, top, size=88):
     OVER.append((i, st, en, f'<div class="hl" style="font-size:{size}px">{inner}</div>', f"top:{top}px"))
 
 
-# Hook (0-2.2s) over the card fan: text on the empty floor above the sticker sheet (y 290-470)
-headline("o-hook", 0.05, END["IMG_1586"] - 0.05,
-         ['Full set <span class="y">ZUS Buddy</span>', 'dah jadi milik aku <span class="emo">🥹</span>'], 300, 80)
+# Hook title over Choco Chipster (empty bed y 285-500, laptop starts ~570)
+headline("o-hook", 0.05, END["IMG_1567"] - 0.05,
+         ['<span class="y">ZUS BUDDY</span>', 'Work In Progress'], 250, 88)
 
-# Backstory over IMG_1590 (empty bed y 290-650, hand starts ~700)
+# Cards: proud line on empty floor above the sticker sheet
+headline("o-cards", S["IMG_1586"] + 0.05, END["IMG_1586"] - 0.05,
+         ['berbaloi refresh', 'sampai <span class="y">jari kebas</span> <span class="emo">😂</span>'], 300, 76)
+
+# Story over IMG_1590 (empty bed y 290-650, hand starts ~450 at its highest)
 b0 = S["IMG_1590"]
 headline("o-refresh", b0 + 0.05, b0 + 1.1, ['lama gila', '<span class="y">refresh</span> app...'], 285, 76)
-TOAST = """
-<div class="toast t-err"><div class="ic ic-err">!</div><div><div class="tt">Oops! Ralat berlaku</div><div class="ts">Cuba lagi nanti</div></div></div>
-"""
-OVER.append(("o-toast", b0 + 1.15, b0 + 2.45, f'<div class="toastbox">{TOAST}</div>', "top:290px"))
+headline("o-part", b0 + 1.15, b0 + 2.45, ['ni part yg', '<span class="y">mane</span> eh <span class="emo">😂</span>'], 285, 76)
 headline("o-finally", b0 + 2.5, END["IMG_1590"] - 0.05, ['<span class="y">FINALLY</span>', 'dapat pun!! <span class="emo">😭</span>'], 285, 76)
 
-# Closing line over Frappe Fren (pillows / background y 290-500)
-headline("o-end", S["IMG_1567"] + 0.3, TOTAL, ['berbaloi refresh', 'sampai <span class="y">jari kebas</span> <span class="emo">😂</span>'], 285, 78)
+# "meja" over the plastic-wrapped desk clip (free floor y ~400-540 below the box corner)
+headline("o-meja", S["IMG_1551"] + 0.1, END["IMG_1551"] - 0.05, ['<span class="y">meja</span>'], 410, 96)
+
+# sticker clip: sheet top rises to ~y 350, so keep this line in 228-345
+headline("o-struggle", S["IMG_1553"] + 0.1, END["IMG_1553"] - 0.05,
+         ['Agak struggle ye unboxing', 'dgn satu tgn <span class="emo">😆</span>'], 228, 56)
 
 # ---- Doodles (twinkling sparkles), only beside text on empty areas
 SPARK = '<svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg>'
 DOODLES = [
-    ("d1", 0.2, END["IMG_1586"] - 0.05, 130, 300, 44),
-    ("d2", 0.4, END["IMG_1586"] - 0.05, 905, 420, 36),
-    ("d3", b0 + 2.5, END["IMG_1590"] - 0.05, 300, 290, 46),
-    ("d4", b0 + 2.6, END["IMG_1590"] - 0.05, 760, 300, 36),
-    ("d5", S["IMG_1567"] + 0.4, TOTAL, 900, 300, 44),
+    ("d1", 0.25, END["IMG_1567"] - 0.05, 150, 260, 44),
+    ("d2", 0.45, END["IMG_1567"] - 0.05, 900, 250, 36),
+    ("d3", b0 + 2.55, END["IMG_1590"] - 0.05, 290, 290, 44),
+    ("d4", b0 + 2.65, END["IMG_1590"] - 0.05, 770, 300, 36),
 ]
 
 # ---- Music: split into segments so it ducks under the ASMR clips
-MUSIC_LO, MUSIC_HI = 0.035, 0.09
+MUSIC_LO, MUSIC_HI = 0.04, 0.11
 music_segs = []
 for c in CLIPS:
     vol = MUSIC_LO if c["asmr"] else MUSIC_HI
@@ -135,7 +141,7 @@ for k, (st, dur, vol) in enumerate(music_segs):
     fi = 0.4 if k == 0 else 0.12
     fo = 1.5 if k == last else 0.12
     parts.append(
-        f'      <audio id="music{k}" src="assets/music/cheerful_bed.wav" data-start="{round(st,3)}" data-duration="{round(dur,3)}" '
+        f'      <audio id="music{k}" src="assets/music/calm_bed.wav" data-start="{round(st,3)}" data-duration="{round(dur,3)}" '
         f'data-media-start="{round(st,3)}" data-volume="{vol}" data-fade-in="{fi}" data-fade-out="{fo}" data-track-index="3"></audio>'
     )
 
