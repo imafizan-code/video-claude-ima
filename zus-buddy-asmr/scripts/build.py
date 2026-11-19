@@ -14,7 +14,8 @@ W, H = 1080, 1920
 
 # ---- Edit decision list: (clip, duration, media_start, asmr_sound)
 EDL = [
-    ("IMG_1495", 8.9, 0.0, False),   # hook: unopened box on the bed, full take: orbit -> zoom to the name on the label -> ends on the blur
+    ("IMG_1495", 3.0, 0.0, False),   # hook: unopened box on the bed, orbit (0:03-0:05 cut)
+    ("IMG_1495#2", 2.75, 5.2, False), # straight into the push-in on the name label, ends as the blur starts (long blur cut)
     ("PICKUP#2", 2.3, 6.6, False),   # thumbs up on the box -> "Tak sabar nak UNBOXING!"
     ("IMG_1567", 3.0, 0.0, False),   # Choco Chipster + title (+ diamond SFX)
     ("IMG_1538", 1.8, 0.0, True),     # ASMR: tapping blind boxes with nails  -> "FINALLY dapat pun"
