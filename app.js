@@ -311,6 +311,97 @@
     return { next: null, after: [], stale: false };
   }
 
+  // ---- carian jadual KTM penuh (Komuter + ETS + Intercity, boleh tukar tren)
+  const PSEUDO_LINES = {
+    ETS: { id: "ETS", name: "KTM ETS", kind: "KTM", color: "#FFC72C", text: "#3b2a00" },
+    IC: { id: "IC", name: "KTM Intercity", kind: "KTM", color: "#6E6E6E", text: "#fff" },
+  };
+  Object.values(PSEUDO_LINES).forEach((l) => (lineById[l.id] ||= l));
+  const lineOfTrip = (t) => (t.r === "KA15_KD19" ? "KA" : t.r === "KC05_KB18" ? "KC" : t.r === "ETS" ? "ETS" : "IC");
+  function ktmNode(lid, sid) {
+    const id = `K:${lid}:${sid}`;
+    if (!nodes[id]) {
+      const st = T.ktm.stops[sid];
+      nodes[id] = { id, line: lid, name: st[0], code: "", lat: st[1], lon: st[2], ktm: sid };
+    }
+    return id;
+  }
+  const connCache = {};
+  function connsAround(now) {
+    if (connCache[now.date]) return connCache[now.date];
+    const out = [];
+    let stale = false;
+    for (const off of [-1, 0, 1]) {
+      const date = shiftDate(now.date, off), dow = ((now.dow + off) % 7 + 7) % 7;
+      const act = activeServices(date, dow);
+      if (off === 0) stale = act.stale;
+      for (const t of T.ktm.trips) {
+        if (!act.set.has(t.s)) continue;
+        for (let i = 0; i + 1 < t.st.length; i++) {
+          const dep = t.st[i][2] + off * 86400, arr = t.st[i + 1][1] + off * 86400;
+          if (arr < 0) continue;
+          out.push({ trip: t, i, dep, arr, from: t.st[i][0], to: t.st[i + 1][0] });
+        }
+      }
+    }
+    out.sort((a, b) => a.dep - b.dep || a.arr - b.arr);
+    return (connCache[now.date] = { conns: out, stale });
+  }
+  const KTM_CHANGE = 4 * 60;
+  // Connection Scan berpusingan: tiba paling awal, dengan paling sedikit tukar tren
+  function ktmJourney(from, to, now, t, opts = {}) {
+    const { conns, stale } = connsAround(now);
+    let lo = 0, hi = conns.length;
+    while (lo < hi) { const m = (lo + hi) >> 1; if (conns[m].dep < t) lo = m + 1; else hi = m; }
+    const horizon = t + 12 * 3600;
+    let prevArr = { [from]: t - KTM_CHANGE };
+    const rounds = [];
+    const best = {};
+    for (let k = 1; k <= 4; k++) {
+      const arr = {}, ptr = {}, enter = {};
+      for (let q = lo; q < conns.length; q++) {
+        const c = conns[q];
+        if (c.dep > horizon) break;
+        const key = c.trip.id + "@" + Math.round((c.dep - c.trip.st[c.i][2]) / 86400);
+        if (!enter[key]) {
+          const a = prevArr[c.from];
+          if (a == null || a + KTM_CHANGE > c.dep) continue;
+          enter[key] = c;
+        }
+        if (arr[c.to] == null || c.arr < arr[c.to]) { arr[c.to] = c.arr; ptr[c.to] = { enter: enter[key], exit: c }; }
+      }
+      rounds.push({ arr, ptr, prev: prevArr });
+      for (const x in arr) if (best[x] == null || arr[x] < best[x]) best[x] = arr[x];
+      // round seterusnya boleh bermula dari mana-mana stesen yang dah dicapai
+      const merged = { ...prevArr };
+      for (const x in arr) if (merged[x] == null || arr[x] < merged[x]) merged[x] = arr[x];
+      prevArr = merged;
+    }
+    if (opts.full) return { arr: best };
+    if (best[to] == null) return null;
+    // pilih round terkecil yang tiba ≤ 5 min daripada yang terbaik
+    let k = rounds.findIndex((r) => r.arr[to] != null && r.arr[to] <= best[to] + 300);
+    const legs = [];
+    let x = to;
+    while (x !== from && k >= 0) {
+      const r = rounds[k];
+      const p = r.ptr[x];
+      if (!p) { k--; continue; } // dicapai dalam round lebih awal
+      legs.unshift({ trip: p.enter.trip, i: p.enter.i, j: p.exit.i + 1, dep: p.enter.dep, arr: p.exit.arr });
+      x = p.enter.from;
+      k--;
+      // cari round terkecil yang mencapai x sebelum naik tren
+      while (k >= 0 && x !== from) {
+        let kk = -1;
+        for (let z = 0; z <= k; z++) if (rounds[z].arr[x] != null && rounds[z].arr[x] + KTM_CHANGE <= legs[0].dep) { kk = z; break; }
+        k = kk;
+        break;
+      }
+    }
+    if (x !== from) return null;
+    return { legs, stale };
+  }
+
   // ---- jalankan perancangan
   let lastResult = null;
   function runPlan() {
@@ -353,11 +444,62 @@
     let t = now.sec;
     const steps = [];
     const notes = [];
-    legs.forEach((leg, k) => {
+    const isKtmRide = (l) => l && l.kind === "ride" && lineById[l.line].kind === "KTM";
+    for (let k = 0; k < legs.length; k++) {
+      const leg = legs[k];
+      if (isKtmRide(leg)) {
+        // gabung segmen KTM berturut-turut (cth. KA → tukar di KL Sentral → KC)
+        let j = k;
+        while (legs[j + 1] && legs[j + 1].kind !== "ride" && isKtmRide(legs[j + 2])) j += 2;
+        const last = legs[j];
+        const fromS = nodes[leg.stops[0]].ktm, toS = nodes[last.stops[last.stops.length - 1]].ktm;
+        const tSeg = t;
+        const jr = ktmJourney(fromS, toS, now, t);
+        if (jr && jr.legs.length) {
+          jr.legs.forEach((jl, q) => {
+            const lid = lineOfTrip(jl.trip);
+            const stops = jl.trip.st.slice(jl.i, jl.j + 1).map((x) => ktmNode(lid, x[0]));
+            if (q > 0) {
+              const prev = steps[steps.length - 1];
+              steps.push({ kind: "xfer", from: prev.stops[prev.stops.length - 1], to: stops[0], secs: Math.min(KTM_CHANGE, jl.dep - t), start: t });
+              t += Math.min(KTM_CHANGE, jl.dep - t);
+            }
+            const later = q === 0 && jr.legs.length === 1 ? nextKtm(fromS, toS, now, jl.dep + 60).next : null;
+            steps.push({
+              kind: "ride", line: lid, stops, secs: jl.arr - jl.dep, towards: jl.trip.headsign,
+              wait: jl.dep - t, board: jl.dep, arrive: jl.arr,
+              ktm: { next: { trip: jl.trip, dep: jl.dep, arr: jl.arr }, after: later ? [later] : [], stale: jr.stale },
+            });
+            t = jl.arr;
+          });
+          // jika destinasi akhir & tren jarang: cadang turun di stesen berdekatan + e-hailing
+          if (j === legs.length - 1) {
+            const dst = T.ktm.stops[toS];
+            const { arr } = ktmJourney(fromS, toS, now, tSeg, { full: true });
+            let best = null;
+            for (const sid in arr) {
+              if (sid === toS || !T.ktm.stops[sid]) continue;
+              const st = T.ktm.stops[sid];
+              const km = distM([st[1], st[2]], [dst[1], dst[2]]) / 1000;
+              if (km > 25) continue;
+              const drive = Math.round((km * 1.35) / 35 * 3600) + 10 * 60; // ~35 km/j + 10 min tunggu kereta
+              const eta = arr[sid] + drive;
+              if (!best || eta < best.eta) best = { sid, km, eta, at: arr[sid] };
+            }
+            if (best && best.eta < t - 30 * 60) {
+              notes.push(best.sid === fromS
+                ? `💡 Tren ke ${dst[0]} jarang waktu ni. Lebih cepat naik Grab/teksi terus dari ${T.ktm.stops[fromS][0]} (~${best.km.toFixed(0)} km) — sampai ~${hhmm(best.eta)}.`
+                : `💡 Tren ke ${dst[0]} jarang waktu ni. Alternatif: turun di ${T.ktm.stops[best.sid][0]} (tiba ~${hhmm(best.at)}), kemudian Grab/teksi ~${best.km.toFixed(0)} km — sampai ~${hhmm(best.eta)}.`);
+            }
+          }
+          k = j;
+          continue;
+        }
+      }
       if (leg.kind !== "ride") {
         steps.push({ ...leg, start: t });
         t += leg.secs;
-        return;
+        continue;
       }
       const l = lineById[leg.line];
       const a = leg.stops[0], b = leg.stops[leg.stops.length - 1];
@@ -386,7 +528,10 @@
         step.wait = wait; step.board = t + wait; step.arrive = step.board + leg.secs; t = step.arrive;
       }
       steps.push(step);
-    });
+    }
+    if (steps.some((x) => x.ktm && x.wait > 90 * 60 && (x.line === "KC" || x.line === "ETS"))) {
+      notes.push("ℹ️ KTMB sedang menstruktur semula jadual Lembah Klang (Apr–Dis 2026): tiada Komuter Mid Valley/BTS ↔ Pulau Sebang dari ~10 pagi hingga 4 petang. Sebahagiannya diganti tren ETS.");
+    }
     return { steps, start: now.sec, end: t, notes };
   }
 
@@ -400,7 +545,8 @@
     const total = end - start;
     const bar = steps.map((s) => {
       const c = s.kind === "ride" ? lineById[s.line].color : "#D9CCD4";
-      return `<span style="background:${c};flex:${Math.max(1, (s.secs || 60) + (s.wait || 0))}"></span>`;
+      const w = s.wait > 120 ? `<span title="tunggu" style="background:repeating-linear-gradient(90deg,#E6DAE1 0 4px,transparent 4px 7px);flex:${s.wait}"></span>` : "";
+      return `${w}<span style="background:${c};flex:${Math.max(60, s.secs || 60)}"></span>`;
     }).join("");
 
     let html = "";
@@ -459,7 +605,7 @@
     </div>`;
     $("#plan-result").innerHTML = html;
     $$(".opt-tab").forEach((b) => b.addEventListener("click", () => { lastResult.sel = +b.dataset.opt; renderPlan(); }));
-    $("#show-on-map").addEventListener("click", () => { showView("map"); drawRoute(o.legs); });
+    $("#show-on-map").addEventListener("click", () => { showView("map"); drawRoute(o.timeline.steps); });
     $("#share-route").addEventListener("click", () => shareRoute(o));
   }
 
