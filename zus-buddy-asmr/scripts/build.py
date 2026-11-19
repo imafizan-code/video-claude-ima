@@ -15,6 +15,8 @@ W, H = 1080, 1920
 # ---- Edit decision list: (clip, duration, media_start, asmr_sound)
 EDL = [
     ("IMG_1567", 3.0, 0.0, False),   # hook: Choco Chipster + title (+ diamond SFX)
+    ("PICKUP", 3.8, 0.1, False),     # NEW "Video baru": ZUS drink -> pan to full-set box & label (no speech)
+    ("PICKUP#2", 2.0, 6.8, False),   # NEW: thumbs up on the box (awkward re-frame 3.9-6.8 cut)
     ("IMG_1586", 2.2, 0.3, False),   # full set of cards
     ("IMG_1538", 1.8, 0.0, True),     # ASMR: tapping blind boxes with nails  -> "FINALLY dapat pun"
     ("IMG_1558", 1.2, 0.0, True),    # ASMR: shaking the box (awkward still tail trimmed)
@@ -56,9 +58,12 @@ headline("o-hook", 0.05, 1.8,
          ['<span class="y">ZUS BUDDY</span>', 'Work In Progress'], 250, 88)
 headline("o-name-choco", 1.85, END["IMG_1567"] - 0.05, ['Choco', '<span class="y">Chipster</span>'], 250, 88)
 
-# Cards: proud line on empty floor above the sticker sheet
-headline("o-cards", S["IMG_1586"] + 0.05, END["IMG_1586"] - 0.05,
-         ['berbaloi refresh app ZUS', 'sampai <span class="y">jari kebas</span> <span class="emo">😂</span>'], 300, 66)
+# Pickup at the ZUS outlet: proud line on the empty shelf background above the cup / box (y 228-370)
+headline("o-cards", S["PICKUP"] + 0.05, S["PICKUP"] + 1.8,
+         ['berbaloi refresh app ZUS', 'sampai <span class="y">jari kebas</span> <span class="emo">😂</span>'], 232, 66)
+# Thumbs up: "mission complete" with a green check badge (pop + success ding)
+headline("o-done", S["PICKUP#2"] + 0.35, END["PICKUP#2"] - 0.05,
+         ['Misi <span class="y">selesai!</span> <span class="chk">✓</span>'], 260, 84)
 
 # FINALLY over the nail-tapping clip: sits on the blank inside of the open lid (no product art there)
 headline("o-finally", S["IMG_1538"] + 0.1, END["IMG_1538"] - 0.05, ['<span class="y">FINALLY</span>', 'dapat pun!! <span class="emo">😭</span>'], 300, 80)
@@ -84,7 +89,8 @@ headline("o-name-porta", S["IMG_1580"] + 0.15, END["IMG_1580"] - 0.05, ['Porta <
 headline("o-name-frappe", S["IMG_1583_stab"] + 0.15, END["IMG_1583_stab"] - 0.05, ['Frappe <span class="y">Fren</span>'], 224, 62, left=120, width=480, align="left")
 
 # ---- SFX: only the happy title moment at the start
-SFX = [("diamond", 0.05, 0.55)]
+SFX = [("diamond", 0.05, 0.55), ("ding", S["PICKUP#2"] + 0.4, 0.45)]
+SFX_LEN = {"diamond": 1.4, "ding": 0.9}
 
 # ---- Doodles (twinkling sparkles), only beside text on empty areas
 SPARK = '<svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg>'
@@ -130,6 +136,9 @@ html, body {{ width:{W}px; height:{H}px; overflow:hidden; background:var(--groun
 .tt {{ font-weight:900; font-size:44px; line-height:1.05; }}
 .ts {{ font-weight:700; font-size:32px; color:#5b6075; margin-top:4px; }}
 .t-err, .t-ok {{ opacity:0; }}
+.chk {{ display:inline-flex; align-items:center; justify-content:center; width:0.95em; height:0.95em; border-radius:50%;
+       background:#2DB463; color:#fff; -webkit-text-stroke:0; text-shadow:none; font-family:'Nunito',sans-serif;
+       font-size:.8em; vertical-align:0.08em; box-shadow:0 5px 0 var(--navy); }}
 .doodle {{ position:absolute; z-index:11; }}
 .doodle svg {{ width:100%; height:100%; display:block; }}
 """
@@ -138,7 +147,7 @@ parts = []
 for i, c in enumerate(CLIPS):
     audio_attr = 'data-has-audio="true" data-volume="1"' if c["asmr"] else 'muted data-has-audio="false"'
     parts.append(
-        f'      <video id="v{i}" class="clip vid" src="assets/clips/{c["name"]}.mp4" data-start="{c["start"]}" '
+        f'      <video id="v{i}" class="clip vid" src="assets/clips/{c["name"].split('#')[0]}.mp4" data-start="{c["start"]}" '
         f'data-duration="{round(c["dur"], 3)}" data-media-start="{c["ms"]}" data-track-index="0" playsinline {audio_attr}></video>'
     )
 for oid, st, en, html, pos in OVER:
@@ -159,7 +168,7 @@ for k, (st, dur, vol) in enumerate(music_segs):
     )
 
 for k, (f, st, vol) in enumerate(SFX):
-    parts.append(f'      <audio id="sfx{k}" src="assets/sfx/{f}.wav" data-start="{st}" data-duration="1.4" data-volume="{vol}" data-track-index="4"></audio>')
+    parts.append(f'      <audio id="sfx{k}" src="assets/sfx/{f}.wav" data-start="{round(st,3)}" data-duration="{SFX_LEN[f]}" data-volume="{vol}" data-track-index="4"></audio>')
 
 # ---- GSAP
 js = ["const tl = gsap.timeline({ paused: true });"]
@@ -176,6 +185,7 @@ for oid, st, en, html, pos in OVER:
         js.append(f'tl.fromTo("#{oid} .hl-line", {{scale:0.4, y:30, opacity:0}}, {{scale:1, y:0, opacity:1, duration:0.3, ease:"back.out(2.4)", stagger:0.12}}, {st});')
         if en < TOTAL - 0.01:
             js.append(f'tl.to("#{oid} .hl", {{opacity:0, duration:0.1, ease:"power1.in"}}, {round(en - 0.1, 3)});')
+js.append(f'tl.fromTo("#o-done .chk", {{scale:0, rotation:-90}}, {{scale:1, rotation:0, duration:0.35, ease:"back.out(3)"}}, {round(S["PICKUP#2"] + 0.45, 3)});')
 # Pinky name drifts left with the camera pan (monitor leaves left, head swirl moves left)
 pk = next(o for o in OVER if o[0] == "o-name-pinky")
 js.append(f'tl.fromTo("#o-name-pinky", {{x:0}}, {{x:-290, duration:{round(pk[2]-pk[1],3)}, ease:"none"}}, {round(pk[1],3)});')
