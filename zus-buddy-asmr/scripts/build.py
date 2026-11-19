@@ -14,7 +14,7 @@ W, H = 1080, 1920
 
 # ---- Edit decision list: (clip, duration, media_start, asmr_sound)
 EDL = [
-    ("IMG_1495", 2.4, 0.4, False),   # hook: unopened box on the bed, smooth orbit (box top stays below the caption)
+    ("IMG_1495", 8.9, 0.0, False),   # hook: unopened box on the bed, full take: orbit -> zoom to the name on the label -> ends on the blur
     ("PICKUP#2", 2.3, 6.6, False),   # thumbs up on the box -> "Tak sabar nak UNBOXING!"
     ("IMG_1567", 3.0, 0.0, False),   # Choco Chipster + title (+ diamond SFX)
     ("IMG_1538", 1.8, 0.0, True),     # ASMR: tapping blind boxes with nails  -> "FINALLY dapat pun"
@@ -60,7 +60,7 @@ headline("o-hook", h0 + 0.05, h0 + 1.8,
 headline("o-name-choco", h0 + 1.85, END["IMG_1567"] - 0.05, ['Choco', '<span class="y">Chipster</span>'], 250, 88)
 
 # Pickup at the ZUS outlet: proud line on the empty shelf background above the cup / box (y 228-370)
-headline("o-cards", S["IMG_1495"] + 0.05, END["IMG_1495"] - 0.05,
+headline("o-cards", S["IMG_1495"] + 0.05, S["IMG_1495"] + 2.75,
          ['Tak sia2 tunggu dlm', 'app ZUS <span class="y">2jam</span> <span class="emo">😆</span>'], 222, 66)
 # Thumbs up: "mission complete" with a green check badge (pop + success ding)
 UNB = "".join(f'<span class="lt">{ch}</span>' for ch in "UNBOXING!")
