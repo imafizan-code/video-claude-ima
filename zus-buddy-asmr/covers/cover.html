@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Grandstander:wght@900&family=Nunito:wght@800;900&display=block" rel="stylesheet">
+<style>
+@font-face{font-family:"Noto Color Emoji";src:url("../assets/fonts/NotoColorEmoji.ttf")}
+:root{--navy:#1B2B8F;--yel:#FFD84D}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;height:1920px;overflow:hidden;position:relative;font-family:'Grandstander',sans-serif}
+img.bg{position:absolute;left:0;top:0;width:1080px;height:1920px;object-fit:cover}
+img.blur{filter:blur(28px) brightness(.9);transform:scale(1.15)}
+.shade{position:absolute;left:0;right:0;top:0;height:900px;background:linear-gradient(rgba(10,15,60,.45),rgba(10,15,60,0))}
+.blk{position:absolute;left:90px;right:90px;text-align:center;color:#fff;font-weight:900;line-height:1.0;
+ -webkit-text-stroke:7px var(--navy);paint-order:stroke fill;text-shadow:0 9px 0 var(--navy),0 16px 30px rgba(10,15,60,.5)}
+.y{color:var(--yel)}
+.emo{font-family:"Noto Color Emoji";-webkit-text-stroke:0;text-shadow:none;font-size:.8em}
+.pill{display:inline-block;background:#fff;color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;border-radius:999px;
+ padding:14px 36px;box-shadow:0 8px 0 var(--navy),0 14px 26px rgba(0,0,0,.3);-webkit-text-stroke:0;text-shadow:none}
+.pill .emo{font-size:.9em}
+.badge{display:inline-flex;align-items:center;gap:16px;background:#fff;border-radius:999px;padding:12px 14px 12px 34px;
+ box-shadow:0 8px 0 var(--navy),0 14px 28px rgba(0,0,0,.3);font-family:'Nunito',sans-serif;-webkit-text-stroke:0;text-shadow:none}
+.badge b{font-weight:900;font-size:54px;color:var(--navy);letter-spacing:.04em}
+.badge span{background:var(--yel);color:var(--navy);border-radius:999px;padding:4px 26px;font-family:'Grandstander';font-weight:900;font-size:60px}
+.spark{position:absolute;width:60px;height:60px}
+</style></head><body>
+<img class="bg blur" id="bgb"><img class="bg" id="bg"><div class="shade"></div><div id="content"></div>
+<script>
+const SP='<svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg>';
+const v=new URLSearchParams(location.search).get('v');
+const C={
+ box:{bg:'src/box.jpg',dy:260,html:`<div class="blk" style="top:255px;font-size:96px">Tunggu <span class="y">2 JAM</span><br>dalam app ZUS <span class="emo">😭</span></div>
+   <div class="blk" style="top:500px"><span class="pill" style="font-size:52px">berbaloi tak? <span class="emo">👀</span></span></div>`,
+   sp:[[110,250],[920,420]]},
+ choco:{bg:'src/choco.jpg',dy:200,html:`<div class="blk" style="top:255px;font-size:108px"><span class="y">ZUS BUDDY</span><br>Work In Progress</div>
+   <div class="blk" style="top:505px"><span class="pill" style="font-size:50px"><span class="emo">🎧</span> ASMR unboxing</span></div>`,
+   sp:[[100,270],[930,250]]},
+ semua:{bg:'src/semua.jpg',dy:250,html:`<div class="blk" style="top:255px;font-size:88px">Semua dah masuk<br><span class="y">office!</span> <span class="emo">💼</span></div>
+   <div class="blk" style="top:480px"><span class="badge"><b>FULL SET</b><span>6/6</span></span></div>`,
+   sp:[[110,270],[930,300]]},
+};
+const c=C[v]; document.getElementById('bg').src=c.bg; document.getElementById('bgb').src=c.bg; document.getElementById('bg').style.top=(c.dy||0)+'px';
+ if(c.dy){document.getElementById('bg').style.maskImage=`linear-gradient(transparent 0, #000 ${c.dy*0.0+140}px)`;document.getElementById('bg').style.webkitMaskImage=`linear-gradient(transparent 0, #000 140px)`;} document.getElementById('content').innerHTML=c.html+
+ c.sp.map(([x,y])=>`<div class="spark" style="left:${x}px;top:${y}px">${SP}</div>`).join('');
+</script></body></html>
