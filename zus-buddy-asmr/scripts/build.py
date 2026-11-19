@@ -16,19 +16,17 @@ W, H = 1080, 1920
 EDL = [
     ("IMG_1567", 3.0, 0.0, False),   # hook: Choco Chipster + title (+ diamond SFX)
     ("IMG_1586", 2.2, 0.3, False),   # full set of cards
-    ("IMG_1538", 2.8, 0.0, True),    # ASMR: tapping blind boxes with nails  -> "FINALLY dapat pun"
-    ("IMG_1536", 3.4, 2.0, True),    # ASMR: slide blind box out of case (moved before the shake)
+    ("IMG_1538", 1.8, 0.0, True),     # ASMR: tapping blind boxes with nails  -> "FINALLY dapat pun"
     ("IMG_1558", 1.2, 0.0, True),    # ASMR: shaking the box (awkward still tail trimmed)
-    ("IMG_1529", 1.3, 0.6, False),   # cards inside box
     ("IMG_1532", 1.6, 0.1, True),    # ASMR: foil crinkle  -> "ASMR sikit"
     ("IMG_1551", 1.8, 0.3, True),    # ASMR: mini desk out of plastic  -> "meja"
     ("IMG_1553", 2.4, 0.4, True),    # ASMR: sticker peel  -> "struggle satu tangan"
     ("IMG_1556", 1.5, 0.1, True),    # ASMR: tiny laptop  -> "Laptop comel"
     ("IMG_1568", 2.2, 1.6, False),   # Blue Buddy
-    ("IMG_1576", 2.2, 0.6, False),   # Pinky Boo
+    ("IMG_1576_stab", 2.2, 1.2, False),   # Pinky Boo (stabilised take, full figure)
     ("IMG_1578", 2.0, 0.7, False),   # Bean Boss
     ("IMG_1580", 2.0, 0.3, False),   # Porta Pal
-    ("IMG_1583", 3.0, 1.4, False),   # Frappe Fren (last)
+    ("IMG_1583_stab", 2.5, 3.2, False),   # Frappe Fren (stabilised, steadiest part, last)
 ]
 
 t = 0.0
@@ -76,14 +74,14 @@ headline("o-struggle", S["IMG_1553"] + 0.1, END["IMG_1553"] - 0.05,
 headline("o-asmr", S["IMG_1532"] + 0.1, END["IMG_1532"] - 0.05, ['ASMR', '<span class="y">sikit</span>'], 300, 92, left=120, width=600)
 
 # tiny laptop: empty bed y 290-540
-headline("o-laptop", S["IMG_1556"] + 0.1, END["IMG_1556"] - 0.05, ['Laptop <span class="y">comel</span> <span class="emo">😆</span>'], 300, 84)
+headline("o-laptop", S["IMG_1556"] + 0.1, END["IMG_1556"] - 0.05, ['<span class="y">Mini</span> laptop <span class="emo">🤏🏻</span>'], 300, 84)
 
 # Buddy names (as in the Drive poster), each in that clip's empty band
 headline("o-name-blue", S["IMG_1568"] + 0.15, END["IMG_1568"] - 0.05, ['Blue <span class="y">Buddy</span>'], 250, 80)
-headline("o-name-pinky", S["IMG_1576"] + 0.15, END["IMG_1576"] - 0.05, ['Pinky <span class="y">Boo</span>'], 226, 64, left=270, width=360)
+headline("o-name-pinky", S["IMG_1576_stab"] + 0.15, END["IMG_1576_stab"] - 0.05, ['Pinky <span class="y">Boo</span>'], 228, 58, left=440, width=290)
 headline("o-name-bean", S["IMG_1578"] + 0.15, END["IMG_1578"] - 0.05, ['Bean <span class="y">Boss</span>'], 250, 80, left=120, width=600)
 headline("o-name-porta", S["IMG_1580"] + 0.15, END["IMG_1580"] - 0.05, ['Porta <span class="y">Pal</span>'], 226, 64, left=600, width=360, align="right")
-headline("o-name-frappe", S["IMG_1583"] + 0.15, END["IMG_1583"] - 0.05, ['Frappe <span class="y">Fren</span>'], 224, 62, left=120, width=480, align="left")
+headline("o-name-frappe", S["IMG_1583_stab"] + 0.15, END["IMG_1583_stab"] - 0.05, ['Frappe <span class="y">Fren</span>'], 224, 62, left=120, width=480, align="left")
 
 # ---- SFX: only the happy title moment at the start
 SFX = [("diamond", 0.05, 0.55)]
@@ -178,6 +176,9 @@ for oid, st, en, html, pos in OVER:
         js.append(f'tl.fromTo("#{oid} .hl-line", {{scale:0.4, y:30, opacity:0}}, {{scale:1, y:0, opacity:1, duration:0.3, ease:"back.out(2.4)", stagger:0.12}}, {st});')
         if en < TOTAL - 0.01:
             js.append(f'tl.to("#{oid} .hl", {{opacity:0, duration:0.1, ease:"power1.in"}}, {round(en - 0.1, 3)});')
+# Pinky name drifts left with the camera pan (monitor leaves left, head swirl moves left)
+pk = next(o for o in OVER if o[0] == "o-name-pinky")
+js.append(f'tl.fromTo("#o-name-pinky", {{x:0}}, {{x:-290, duration:{round(pk[2]-pk[1],3)}, ease:"none"}}, {round(pk[1],3)});')
 for did, st, en, x, y, sz in DOODLES:
     reps = max(1, int((en - st - 0.3) / 0.5))
     js.append(f'tl.fromTo("#{did}", {{scale:0, rotation:-30}}, {{scale:1, rotation:0, duration:0.3, ease:"back.out(3)"}}, {round(st,3)});')
