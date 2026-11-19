@@ -14,10 +14,9 @@ W, H = 1080, 1920
 
 # ---- Edit decision list: (clip, duration, media_start, asmr_sound)
 EDL = [
-    ("IMG_1567", 3.0, 0.0, False),   # hook: Choco Chipster + title (+ diamond SFX)
-    ("PICKUP", 3.8, 0.1, False),     # NEW "Video baru": ZUS drink -> pan to full-set box & label (no speech)
-    ("PICKUP#2", 2.0, 6.8, False),   # NEW: thumbs up on the box (awkward re-frame 3.9-6.8 cut)
-    ("IMG_1586", 2.2, 0.3, False),   # full set of cards
+    ("PICKUP_slow", 2.4, 0.0, False),  # hook: unopened box at ZUS outlet, first 1.95s at 0.8x (stops before box fills frame)
+    ("PICKUP#2", 2.3, 6.6, False),   # thumbs up on the box -> "Tak sabar nak UNBOXING!"
+    ("IMG_1567", 3.0, 0.0, False),   # Choco Chipster + title (+ diamond SFX)
     ("IMG_1538", 1.8, 0.0, True),     # ASMR: tapping blind boxes with nails  -> "FINALLY dapat pun"
     ("IMG_1558", 1.2, 0.0, True),    # ASMR: shaking the box (awkward still tail trimmed)
     ("IMG_1532", 1.6, 0.1, True),    # ASMR: foil crinkle  -> "ASMR sikit"
@@ -54,16 +53,18 @@ def headline(i, st, en, lines, top, size=88, left=120, width=840, align="center"
 
 
 # Hook title over Choco Chipster (empty bed y 285-500, laptop starts ~570)
-headline("o-hook", 0.05, 1.8,
+h0 = S["IMG_1567"]
+headline("o-hook", h0 + 0.05, h0 + 1.8,
          ['<span class="y">ZUS BUDDY</span>', 'Work In Progress'], 250, 88)
-headline("o-name-choco", 1.85, END["IMG_1567"] - 0.05, ['Choco', '<span class="y">Chipster</span>'], 250, 88)
+headline("o-name-choco", h0 + 1.85, END["IMG_1567"] - 0.05, ['Choco', '<span class="y">Chipster</span>'], 250, 88)
 
 # Pickup at the ZUS outlet: proud line on the empty shelf background above the cup / box (y 228-370)
-headline("o-cards", S["PICKUP"] + 0.05, S["PICKUP"] + 1.8,
-         ['berbaloi refresh app ZUS', 'sampai <span class="y">jari kebas</span> <span class="emo">😂</span>'], 232, 66)
+headline("o-cards", S["PICKUP_slow"] + 0.05, END["PICKUP_slow"] - 0.05,
+         ['Tak sia2 tunggu dlm', 'app ZUS <span class="y">2jam</span> <span class="emo">😆</span>'], 232, 70)
 # Thumbs up: "mission complete" with a green check badge (pop + success ding)
-headline("o-done", S["PICKUP#2"] + 0.35, END["PICKUP#2"] - 0.05,
-         ['Misi <span class="y">selesai!</span> <span class="chk">✓</span>'], 260, 84)
+UNB = "".join(f'<span class="lt">{ch}</span>' for ch in "UNBOXING!")
+OVER.append(("o-done", S["PICKUP#2"] + 0.1, END["PICKUP#2"] - 0.05,
+             f'<div class="hl unb"><div class="hl-line l1">Tak sabar nak</div><div class="hl-line l2">{UNB}</div></div>', "top:232px"))
 
 # FINALLY over the nail-tapping clip: sits on the blank inside of the open lid (no product art there)
 headline("o-finally", S["IMG_1538"] + 0.1, END["IMG_1538"] - 0.05, ['<span class="y">FINALLY</span>', 'dapat pun!! <span class="emo">😭</span>'], 300, 80)
@@ -89,14 +90,16 @@ headline("o-name-porta", S["IMG_1580"] + 0.15, END["IMG_1580"] - 0.05, ['Porta <
 headline("o-name-frappe", S["IMG_1583_stab"] + 0.15, END["IMG_1583_stab"] - 0.05, ['Frappe <span class="y">Fren</span>'], 224, 62, left=120, width=480, align="left")
 
 # ---- SFX: only the happy title moment at the start
-SFX = [("diamond", 0.05, 0.55), ("ding", S["PICKUP#2"] + 0.4, 0.45)]
+SFX = [("diamond", h0 + 0.05, 0.55), ("ding", S["PICKUP#2"] + 0.55, 0.45)]
 SFX_LEN = {"diamond": 1.4, "ding": 0.9}
 
 # ---- Doodles (twinkling sparkles), only beside text on empty areas
 SPARK = '<svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg>'
 DOODLES = [
-    ("d1", 0.25, END["IMG_1567"] - 0.05, 150, 260, 44),
-    ("d2", 0.45, END["IMG_1567"] - 0.05, 900, 250, 36),
+    ("d1", h0 + 0.25, END["IMG_1567"] - 0.05, 150, 260, 44),
+    ("d2", h0 + 0.45, END["IMG_1567"] - 0.05, 900, 250, 36),
+    ("d5", S["PICKUP#2"] + 0.6, END["PICKUP#2"] - 0.05, 140, 330, 50),
+    ("d6", S["PICKUP#2"] + 0.7, END["PICKUP#2"] - 0.05, 900, 300, 40),
     ("d3", S["IMG_1538"] + 0.2, END["IMG_1538"] - 0.05, 290, 300, 44),
     ("d4", S["IMG_1538"] + 0.3, END["IMG_1538"] - 0.05, 770, 310, 36),
 ]
@@ -136,6 +139,9 @@ html, body {{ width:{W}px; height:{H}px; overflow:hidden; background:var(--groun
 .tt {{ font-weight:900; font-size:44px; line-height:1.05; }}
 .ts {{ font-weight:700; font-size:32px; color:#5b6075; margin-top:4px; }}
 .t-err, .t-ok {{ opacity:0; }}
+.unb .l1 {{ font-size:68px; }}
+.unb .l2 {{ font-size:140px; color:var(--yel); letter-spacing:0.01em; margin-top:4px; }}
+.unb .lt {{ display:inline-block; }}
 .chk {{ display:inline-flex; align-items:center; justify-content:center; width:0.95em; height:0.95em; border-radius:50%;
        background:#2DB463; color:#fff; -webkit-text-stroke:0; text-shadow:none; font-family:'Nunito',sans-serif;
        font-size:.8em; vertical-align:0.08em; box-shadow:0 5px 0 var(--navy); }}
@@ -182,10 +188,16 @@ for oid, st, en, html, pos in OVER:
         js.append(f'tl.to("#o-toast .t-err", {{x:14, duration:0.05, yoyo:true, repeat:5, ease:"none"}}, {st + 0.85});')
         js.append(f'tl.to("#o-toast .t-err", {{scale:0.6, opacity:0, duration:0.1, ease:"power1.in"}}, {st + 1.2});')
     else:  # headline lines pop in, quick fade out
-        js.append(f'tl.fromTo("#{oid} .hl-line", {{scale:0.4, y:30, opacity:0}}, {{scale:1, y:0, opacity:1, duration:0.3, ease:"back.out(2.4)", stagger:0.12}}, {st});')
+        if oid != "o-done":  # o-done has its own letter animation below
+          js.append(f'tl.fromTo("#{oid} .hl-line", {{scale:0.4, y:30, opacity:0}}, {{scale:1, y:0, opacity:1, duration:0.3, ease:"back.out(2.4)", stagger:0.12}}, {st});')
         if en < TOTAL - 0.01:
             js.append(f'tl.to("#{oid} .hl", {{opacity:0, duration:0.1, ease:"power1.in"}}, {round(en - 0.1, 3)});')
-js.append(f'tl.fromTo("#o-done .chk", {{scale:0, rotation:-90}}, {{scale:1, rotation:0, duration:0.35, ease:"back.out(3)"}}, {round(S["PICKUP#2"] + 0.45, 3)});')
+d0, d1_ = S["PICKUP#2"] + 0.1, END["PICKUP#2"] - 0.05
+js.append(f'tl.fromTo("#o-done .l1", {{scale:0.4, y:30, opacity:0}}, {{scale:1, y:0, opacity:1, duration:0.3, ease:"back.out(2.4)"}}, {round(d0,3)});')
+# UNBOXING letters drop in one by one, then the whole word punches big on the ding, then a bouncy letter wave
+js.append(f'tl.fromTo("#o-done .lt", {{scale:0, y:-80, rotation:-25, opacity:0}}, {{scale:1, y:0, rotation:0, opacity:1, duration:0.32, ease:"back.out(3)", stagger:0.035}}, {round(d0 + 0.2,3)});')
+js.append(f'tl.fromTo("#o-done .l2", {{scale:1}}, {{scale:1.18, duration:0.12, ease:"power2.out", yoyo:true, repeat:1}}, {round(S["PICKUP#2"] + 0.55,3)});')
+js.append(f'tl.to("#o-done .lt", {{y:-22, duration:0.16, ease:"sine.inOut", yoyo:true, repeat:{max(1, int((d1_ - d0 - 0.9) / 0.32) * 2 - 1)}, stagger:{{each:0.045}}}}, {round(d0 + 0.85,3)});')
 # Pinky name drifts left with the camera pan (monitor leaves left, head swirl moves left)
 pk = next(o for o in OVER if o[0] == "o-name-pinky")
 js.append(f'tl.fromTo("#o-name-pinky", {{x:0}}, {{x:-290, duration:{round(pk[2]-pk[1],3)}, ease:"none"}}, {round(pk[1],3)});')
