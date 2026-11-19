@@ -49,18 +49,18 @@
           <div class="od-dots" aria-hidden="true"><span class="dot a"></span><span class="line"></span><span class="dot b"></span></div>
           <div class="od-fields">
             <div class="picker" data-picker="from">
-              <input id="from-input" type="text" placeholder="Dari stesen…" autocomplete="off" aria-label="Stesen mula">
+              <input id="from-input" type="text" placeholder="Dari: rumah, taman, kedai, stesen…" autocomplete="off" aria-label="Tempat mula">
               <div class="suggest" role="listbox"></div>
             </div>
             <div class="picker" data-picker="to">
-              <input id="to-input" type="text" placeholder="Ke stesen…" autocomplete="off" aria-label="Stesen destinasi">
+              <input id="to-input" type="text" placeholder="Ke: nama kedai, tempat, alamat…" autocomplete="off" aria-label="Destinasi">
               <div class="suggest" role="listbox"></div>
             </div>
           </div>
           <button class="swap" id="swap" title="Tukar arah" aria-label="Tukar arah">⇅</button>
         </div>
         <div class="row-btns">
-          <button class="chip-btn" id="near-btn">📍 Stesen terdekat</button>
+          <button class="chip-btn" id="near-btn">📍 Lokasi saya</button>
           <button class="go" id="go-btn">Cari laluan ✨</button>
         </div>
       </div>
@@ -68,9 +68,10 @@
       <div class="card tips" id="plan-tips">
         <h3>Tips comel 💡</h3>
         <ul>
-          <li>Tekan <b>📍 Stesen terdekat</b> untuk isi stesen paling dekat dengan anda.</li>
-          <li>Masa tunggu LRT/MRT dianggar ikut kekerapan tren sekarang.</li>
-          <li>Kalau ada KTM dalam perjalanan, kami cari <b>tren KTM sebenar</b> seterusnya ikut jadual 🚂</li>
+          <li>Taip <b>apa-apa tempat</b>: nama taman, kedai, mall, jalan atau stesen. Contoh: <i>Mydin USJ</i>, <i>Taman Melawati</i>, <i>Sunway Pyramid</i>.</li>
+          <li>Tekan <b>📍 Lokasi saya</b> untuk mula dari tempat anda berada sekarang.</li>
+          <li>Kami gabungkan <b>jalan kaki + bas RapidKL / perantara MRT / GoKL + LRT/MRT/KTM</b> dan bagi panduan langkah demi langkah 🚌🚇</li>
+          <li>Tren KTM ikut jadual sebenar; bas & LRT/MRT dianggar ikut kekerapan.</li>
         </ul>
       </div>
     </section>
@@ -132,6 +133,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="data/transit.js"></script>
+  <script src="data/bus.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

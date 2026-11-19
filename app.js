@@ -126,32 +126,6 @@
     return { set(label) { input.value = label; } };
   }
 
-  // ================================================================ PERANCANG
-  const placeItems = T.places
-    .map((p) => ({ id: p.id, label: p.name, key: norm(p.name + " " + p.nodes.map((n) => nodes[n].name + " " + nodes[n].code).join(" ")), extra: badgesFor(p) }))
-    .sort((a, b) => a.label.localeCompare(b.label));
-  const plan = { from: store.get("from", null), to: store.get("to", null) };
-  const fromPicker = makePicker($('[data-picker="from"]'), placeItems, (it) => { plan.from = it.id; store.set("from", it.id); maybePlan(); });
-  const toPicker = makePicker($('[data-picker="to"]'), placeItems, (it) => { plan.to = it.id; store.set("to", it.id); maybePlan(); });
-  if (plan.from && placeById[plan.from]) fromPicker.set(placeById[plan.from].name); else plan.from = null;
-  if (plan.to && placeById[plan.to]) toPicker.set(placeById[plan.to].name); else plan.to = null;
-  function maybePlan() { if (plan.from && plan.to) runPlan(); }
-
-  function setFrom(pid) { plan.from = pid; store.set("from", pid); fromPicker.set(placeById[pid].name); }
-  function setTo(pid) { plan.to = pid; store.set("to", pid); toPicker.set(placeById[pid].name); }
-
-  $("#swap").addEventListener("click", () => {
-    const f = plan.from, t = plan.to;
-    plan.from = t; plan.to = f;
-    fromPicker.set(t ? placeById[t].name : ""); toPicker.set(f ? placeById[f].name : "");
-    store.set("from", plan.from); store.set("to", plan.to);
-    maybePlan();
-  });
-  $("#go-btn").addEventListener("click", () => {
-    if (!plan.from || !plan.to) return toast("Pilih stesen mula & destinasi dulu ya 🙏");
-    runPlan();
-  });
-
   const distM = (a, b) => Math.hypot((a[0] - b[0]) * 111320, (a[1] - b[1]) * 111320 * Math.cos(3.1 * Math.PI / 180));
   function nearestPlace(lat, lon) {
     let best = null, bd = Infinity;
@@ -167,13 +141,6 @@
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
     );
   }
-  $("#near-btn").addEventListener("click", () => locate((lat, lon) => {
-    const { place, dist } = nearestPlace(lat, lon);
-    setFrom(place.id);
-    toast(`Stesen terdekat: ${place.name} (${dist < 1000 ? Math.round(dist) + " m" : (dist / 1000).toFixed(1) + " km"}) 🎉`);
-    maybePlan();
-  }));
-
   // ---- kekerapan
   function headway(lid, sec, dow) {
     const l = lineById[lid];
@@ -212,50 +179,6 @@
       adj[b].push({ to: a, kind: "walk", secs: m * 60, note });
     }));
   });
-
-  function dijkstra(fromPid, toPid, xferPenalty, now, ktmPenalty = 0) {
-    const dist = {}, prev = {}, done = new Set();
-    const targets = new Set(placeById[toPid].nodes);
-    const waitOf = (lid) => headway(lid, now.sec, now.dow).hw / 2 + (lineById[lid].kind === "KTM" ? ktmPenalty : 0);
-    Object.keys(nodes).forEach((n) => (dist[n] = Infinity));
-    placeById[fromPid].nodes.forEach((n) => { dist[n] = waitOf(nodes[n].line); prev[n] = null; });
-    for (;;) {
-      let u = null, best = Infinity;
-      for (const n in dist) if (!done.has(n) && dist[n] < best) { best = dist[n]; u = n; }
-      if (u === null) return null;
-      if (targets.has(u)) {
-        const path = [];
-        for (let x = u; x != null; x = prev[x] && prev[x].from) path.unshift({ node: x, via: prev[x] ? prev[x].edge : null });
-        return path;
-      }
-      done.add(u);
-      for (const e of adj[u]) {
-        let c = e.secs;
-        if (e.kind !== "ride") c += waitOf(nodes[e.to].line) + xferPenalty;
-        if (dist[u] + c < dist[e.to]) { dist[e.to] = dist[u] + c; prev[e.to] = { from: u, edge: e }; }
-      }
-    }
-  }
-
-  // Tukar laluan nod → langkah
-  function toLegs(path) {
-    const legs = [];
-    for (let i = 1; i < path.length; i++) {
-      const { node, via } = path[i];
-      const from = path[i - 1].node;
-      if (via.kind === "ride") {
-        const last = legs[legs.length - 1];
-        if (last && last.kind === "ride" && last.line === via.line) { last.stops.push(node); last.secs += via.secs; }
-        else legs.push({ kind: "ride", line: via.line, stops: [from, node], secs: via.secs });
-      } else {
-        legs.push({ kind: via.kind, from, to: node, secs: via.secs, note: via.note });
-      }
-    }
-    // buang pertukaran di hujung (jika ada)
-    while (legs.length && legs[legs.length - 1].kind !== "ride") legs.pop();
-    while (legs.length && legs[0].kind !== "ride") legs.shift();
-    return legs;
-  }
 
   // ---- jadual KTM
   const ktmTripsByStop = {};
@@ -402,222 +325,585 @@
     return { legs, stale };
   }
 
-  // ---- jalankan perancangan
-  let lastResult = null;
-  function runPlan() {
-    const out = $("#plan-result");
-    if (plan.from === plan.to) {
-      out.innerHTML = `<div class="card empty-state"><span class="emo">😄</span>Eh, dah sampai pun! Stesen mula & destinasi sama.</div>`;
-      return;
+  // ================================================================ PERANCANG PINTU-KE-PINTU
+  // Lokasi: { name, sub, lat, lon, kind: "gps"|"place"|"station"|"stop", pid? }
+  const B = window.BUS || { stops: [], pats: [] };
+  const WALK_MS = 1.2;          // kelajuan jalan kaki (m/s)
+  const WALK_DETOUR = 1.3;      // jalan sebenar lebih panjang daripada garis lurus
+  const walkSecsM = (m) => Math.round((m * WALK_DETOUR) / WALK_MS);
+  const BUS_KIND = {
+    rapid: { label: "Bas RapidKL", emoji: "🚌" },
+    feeder: { label: "Bas Perantara MRT", emoji: "🚐" },
+    gokl: { label: "Bas GoKL", emoji: "🚌" },
+  };
+
+  // ---- indeks hentian (rel + bas) dengan grid ruang
+  const SK = []; // senarai hentian: {key, lat, lon, name, code, type:"rail"|"bus", node?, bi?}
+  const skIndex = {};
+  Object.values(nodes).forEach((n) => {
+    if (n.id.startsWith("K:")) return;
+    skIndex[n.id] = SK.length;
+    SK.push({ key: n.id, lat: n.lat, lon: n.lon, name: n.name, code: n.code, type: "rail", node: n.id });
+  });
+  B.stops.forEach(([name, lat, lon, code], i) => {
+    skIndex["B" + i] = SK.length;
+    SK.push({ key: "B" + i, lat, lon, name, code, type: "bus", bi: i });
+  });
+  const GRID = 0.005; // ~550 m
+  const grid = {};
+  const gkey = (lat, lon) => `${Math.floor(lat / GRID)},${Math.floor(lon / GRID)}`;
+  SK.forEach((s, i) => (grid[gkey(s.lat, s.lon)] ||= []).push(i));
+  function stopsNear(lat, lon, radius) {
+    const out = [];
+    const r = Math.ceil(radius / 550);
+    const gi = Math.floor(lat / GRID), gj = Math.floor(lon / GRID);
+    for (let a = gi - r; a <= gi + r; a++) for (let b = gj - r; b <= gj + r; b++) {
+      for (const i of grid[`${a},${b}`] || []) {
+        const d = distM([lat, lon], [SK[i].lat, SK[i].lon]);
+        if (d <= radius) out.push([i, d]);
+      }
     }
-    const now = myNow();
-    let opts = [];
-    const seen = new Set();
-    for (const [pen, kp] of [[60, 0], [15 * 60, 0], [60, 3 * 3600], [15 * 60, 3 * 3600]]) {
-      const path = dijkstra(plan.from, plan.to, pen, now, kp);
-      if (!path) continue;
-      const legs = toLegs(path);
-      if (!legs.length) continue;
-      const sig = legs.map((l) => (l.kind === "ride" ? l.line + l.stops[0] + l.stops[l.stops.length - 1] : l.kind)).join("|");
-      if (seen.has(sig)) continue;
-      seen.add(sig);
-      const rides = legs.filter((l) => l.kind === "ride");
-      opts.push({ legs, timeline: buildTimeline(legs, now), xfers: rides.length - 1, ktm: rides.some((l) => lineById[l.line].kind === "KTM") });
-    }
-    // susun ikut masa tiba sebenar (termasuk tunggu KTM ikut jadual)
-    opts.sort((a, b) => a.timeline.end - b.timeline.end || a.xfers - b.xfers);
-    opts.forEach((o, i) => {
-      const fewest = Math.min(...opts.map((x) => x.xfers));
-      o.label = i === 0 ? "⚡ Paling cepat" : o.xfers === fewest && o.xfers < opts[0].xfers ? "🙌 Kurang tukar" : !o.ktm && opts[0].ktm ? "🚇 Tanpa KTM" : "✨ Pilihan lain";
-    });
-    opts = opts.slice(0, 3);
-    if (!opts.length) {
-      out.innerHTML = `<div class="card empty-state"><span class="emo">🥺</span>Alamak, tak jumpa laluan antara stesen ni.</div>`;
-      return;
-    }
-    lastResult = { opts, sel: 0 };
-    renderPlan();
-    $("#plan-tips").style.display = "none";
+    return out.sort((x, y) => x[1] - y[1]);
   }
 
-  function buildTimeline(legs, now) {
-    let t = now.sec;
-    const steps = [];
-    const notes = [];
-    const isKtmRide = (l) => l && l.kind === "ride" && lineById[l.line].kind === "KTM";
-    for (let k = 0; k < legs.length; k++) {
-      const leg = legs[k];
-      if (isKtmRide(leg)) {
-        // gabung segmen KTM berturut-turut (cth. KA → tukar di KL Sentral → KC)
-        let j = k;
-        while (legs[j + 1] && legs[j + 1].kind !== "ride" && isKtmRide(legs[j + 2])) j += 2;
-        const last = legs[j];
-        const fromS = nodes[leg.stops[0]].ktm, toS = nodes[last.stops[last.stops.length - 1]].ktm;
-        const tSeg = t;
-        const jr = ktmJourney(fromS, toS, now, t);
-        if (jr && jr.legs.length) {
-          jr.legs.forEach((jl, q) => {
-            const lid = lineOfTrip(jl.trip);
-            const stops = jl.trip.st.slice(jl.i, jl.j + 1).map((x) => ktmNode(lid, x[0]));
-            if (q > 0) {
-              const prev = steps[steps.length - 1];
-              steps.push({ kind: "xfer", from: prev.stops[prev.stops.length - 1], to: stops[0], secs: Math.min(KTM_CHANGE, jl.dep - t), start: t });
-              t += Math.min(KTM_CHANGE, jl.dep - t);
-            }
-            const later = q === 0 && jr.legs.length === 1 ? nextKtm(fromS, toS, now, jl.dep + 60).next : null;
-            steps.push({
-              kind: "ride", line: lid, stops, secs: jl.arr - jl.dep, towards: jl.trip.headsign,
-              wait: jl.dep - t, board: jl.dep, arrive: jl.arr,
-              ktm: { next: { trip: jl.trip, dep: jl.dep, arr: jl.arr }, after: later ? [later] : [], stale: jr.stale },
-            });
-            t = jl.arr;
-          });
-          // jika destinasi akhir & tren jarang: cadang turun di stesen berdekatan + e-hailing
-          if (j === legs.length - 1) {
-            const dst = T.ktm.stops[toS];
-            const { arr } = ktmJourney(fromS, toS, now, tSeg, { full: true });
-            let best = null;
-            for (const sid in arr) {
-              if (sid === toS || !T.ktm.stops[sid]) continue;
-              const st = T.ktm.stops[sid];
-              const km = distM([st[1], st[2]], [dst[1], dst[2]]) / 1000;
-              if (km > 25) continue;
-              const drive = Math.round((km * 1.35) / 35 * 3600) + 10 * 60; // ~35 km/j + 10 min tunggu kereta
-              const eta = arr[sid] + drive;
-              if (!best || eta < best.eta) best = { sid, km, eta, at: arr[sid] };
-            }
-            if (best && best.eta < t - 30 * 60) {
-              notes.push(best.sid === fromS
-                ? `💡 Tren ke ${dst[0]} jarang waktu ni. Lebih cepat naik Grab/teksi terus dari ${T.ktm.stops[fromS][0]} (~${best.km.toFixed(0)} km) — sampai ~${hhmm(best.eta)}.`
-                : `💡 Tren ke ${dst[0]} jarang waktu ni. Alternatif: turun di ${T.ktm.stops[best.sid][0]} (tiba ~${hhmm(best.at)}), kemudian Grab/teksi ~${best.km.toFixed(0)} km — sampai ~${hhmm(best.eta)}.`);
+  // ---- corak perjalanan (pattern): rel RapidKL (2 arah) + bas
+  const PAT = []; // {mode:"rail"|"bus", line?, bus?, stops:[skIdx], cum:[sec]}
+  const patsAt = SK.map(() => []); // skIdx -> [[patIdx, pos]]
+  function addPat(p) {
+    const id = PAT.length;
+    PAT.push(p);
+    p.stops.forEach((s, pos) => patsAt[s].push([id, pos]));
+  }
+  T.lines.forEach((l) => {
+    if (l.kind === "KTM") return; // KTM guna jadual sebenar
+    const cum = [0];
+    l.secs.forEach((s) => cum.push(cum[cum.length - 1] + s));
+    const fw = l.stations.map((n) => skIndex[n]);
+    addPat({ mode: "rail", line: l.id, stops: fw, cum, towards: nodes[l.stations[l.stations.length - 1]].name });
+    const total = cum[cum.length - 1];
+    addPat({ mode: "rail", line: l.id, stops: [...fw].reverse(), cum: [...cum].reverse().map((c) => total - c), towards: nodes[l.stations[0]].name });
+  });
+  B.pats.forEach((bp, i) => {
+    bp.hwArr = bp.hw.map((s) => s.split(",").map(Number));
+    addPat({ mode: "bus", bus: i, stops: bp.s.map((x) => skIndex["B" + x]), cum: bp.t.map((x) => x * 10), towards: bp.h, loopHalf: bp.k === "gokl" ? Math.ceil(bp.s.length / 2) : null });
+  });
+
+  // ---- pautan jalan kaki antara hentian (≤ 350 m) + pertukaran rasmi stesen
+  const WALK_LINK_M = 350;
+  const walkAdj = SK.map(() => []);
+  SK.forEach((s, i) => {
+    for (const [j, d] of stopsNear(s.lat, s.lon, WALK_LINK_M)) if (j !== i) walkAdj[i].push([j, walkSecsM(d) + 30]);
+  });
+  Object.entries(adj).forEach(([n, es]) => es.forEach((e) => {
+    if (e.kind === "ride" || skIndex[n] == null || skIndex[e.to] == null) return;
+    walkAdj[skIndex[n]].push([skIndex[e.to], e.secs, e.note]);
+  }));
+  // KTM: stop_id -> skIdx (nod KA/KC)
+  const ktmSk = {};
+  Object.values(nodes).forEach((n) => { if (n.ktm && !n.id.startsWith("K:") && ktmSk[n.ktm] == null) ktmSk[n.ktm] = skIndex[n.id]; });
+
+  // kekerapan bas (saat) pada masa t; null = tiada servis dalam 3 jam
+  function busWait(bp, at) {
+    const arr = bp.hwArr[at.dow <= 4 ? 0 : at.dow === 5 ? 1 : 2];
+    const h = Math.floor(at.sec / 3600) % 24;
+    if (arr[h]) return { wait: (arr[h] * 60) / 2, hw: arr[h] * 60 };
+    for (let k = 1; k <= 3; k++) {
+      const hh = (h + k) % 24;
+      if (arr[hh]) return { wait: (Math.floor(at.sec / 3600) + k) * 3600 - at.sec + 5 * 60, hw: arr[hh] * 60, closed: true };
+    }
+    return null;
+  }
+  function railWait(lid, at) {
+    const h = headway(lid, at.sec, at.dow);
+    if (h.open) return { wait: h.hw / 2, hw: h.hw };
+    const w = (h.opensAt - at.sec + 86400) % 86400 + 60;
+    return w <= 6 * 3600 ? { wait: w, hw: h.hw, closed: true } : null;
+  }
+
+  // ---- binary heap kecil
+  class Heap {
+    constructor() { this.a = []; }
+    push(x) { const a = this.a; a.push(x); let i = a.length - 1; while (i) { const p = (i - 1) >> 1; if (a[p][0] <= a[i][0]) break; [a[p], a[i]] = [a[i], a[p]]; i = p; } }
+    pop() {
+      const a = this.a, top = a[0], last = a.pop();
+      if (a.length) { a[0] = last; let i = 0; for (;;) { const l = 2 * i + 1, r = l + 1; let m = i; if (l < a.length && a[l][0] < a[m][0]) m = l; if (r < a.length && a[r][0] < a[m][0]) m = r; if (m === i) break; [a[m], a[i]] = [a[i], a[m]]; i = m; } }
+      return top;
+    }
+    get size() { return this.a.length; }
+  }
+
+  // ---- carian utama: Dijkstra bergantung masa, kos umum
+  function route(from, to, now, prm) {
+    const N = SK.length;
+    const cost = new Float64Array(N).fill(Infinity), time = new Float64Array(N), prev = new Array(N), boards = new Uint8Array(N);
+    const heap = new Heap();
+    const t0 = now.sec;
+    for (const [i, d] of stopsNear(from.lat, from.lon, prm.maxWalk)) {
+      const w = walkSecsM(d);
+      const c = w * prm.walkF;
+      if (c < cost[i]) { cost[i] = c; time[i] = t0 + w; prev[i] = { kind: "walk", from: -1, secs: w, m: d }; heap.push([c, i]); }
+    }
+    const destStops = new Map(stopsNear(to.lat, to.lon, prm.maxWalk).map(([i, d]) => [i, d]));
+    let best = { cost: Infinity };
+    const done = new Uint8Array(N);
+    while (heap.size) {
+      const [c, u] = heap.pop();
+      if (done[u] || c > cost[u]) continue;
+      done[u] = 1;
+      if (c >= best.cost) break;
+      if (destStops.has(u)) {
+        const d = destStops.get(u), w = walkSecsM(d), tc = c + w * prm.walkF;
+        if (tc < best.cost) best = { cost: tc, stop: u, arr: time[u] + w, walk: w, m: d };
+      }
+      const tu = time[u];
+      const relax = (v, nc, nt, p, nb) => {
+        if (nc < cost[v]) { cost[v] = nc; time[v] = nt; prev[v] = p; boards[v] = nb; heap.push([nc, v]); }
+      };
+      // jalan kaki (tak benarkan dua jalan kaki berturut)
+      if (!prev[u] || prev[u].kind !== "walk") {
+        for (const [v, s, note] of walkAdj[u]) relax(v, c + s * prm.walkF, tu + s, { kind: "walk", from: u, secs: s, note }, boards[u]);
+      }
+      if (boards[u] >= prm.maxBoards) continue;
+      const at = atTime(now, tu);
+      // naik bas / rel RapidKL
+      for (const [pi, pos] of patsAt[u]) {
+        const p = PAT[pi];
+        if (p.mode === "bus" && prm.noBus) continue;
+        const bp = p.mode === "bus" ? B.pats[p.bus] : null;
+        const w = bp ? busWait(bp, at) : railWait(p.line, at);
+        if (!w) continue;
+        const board = tu + w.wait;
+        const maxPos = p.loopHalf ? Math.min(p.stops.length - 1, pos + p.loopHalf) : p.stops.length - 1;
+        for (let k = pos + 1; k <= maxPos; k++) {
+          const ride = p.cum[k] - p.cum[pos];
+          const v = p.stops[k];
+          relax(v, c + w.wait * prm.waitF + ride + prm.boardPen + (bp ? prm.busPen : 0), board + ride,
+            { kind: "ride", from: u, pat: pi, i: pos, j: k, board, wait: w.wait, hw: w.hw, closed: w.closed }, boards[u] + 1);
+        }
+      }
+      // KTM ikut jadual sebenar
+      const sk = SK[u];
+      if (sk.type === "rail" && nodes[sk.node].ktm) {
+        const sid = nodes[sk.node].ktm;
+        const seen = new Set();
+        for (const k of [0, 1]) {
+          const at2 = k ? { ...atTime(now, tu + 86400), sec: 0 } : at;
+          const base = tu - at.sec + (k ? 86400 : 0);
+          const { list } = ktmCandidates(sid, at2);
+          for (const cnd of list) {
+            const dep = base + cnd.dep;
+            if (dep < tu + 60 || dep > tu + 4 * 3600) continue;
+            const trip = cnd.trip, i0 = trip.idx[sid];
+            if (seen.has(trip.id)) continue;
+            seen.add(trip.id);
+            for (let q = i0 + 1; q < trip.st.length; q++) {
+              const v = ktmSk[trip.st[q][0]];
+              if (v == null) continue;
+              const arr = base + trip.st[q][1] + (cnd.dep - trip.st[i0][2]);
+              relax(v, c + (dep - tu) * prm.waitF + (arr - dep) + prm.boardPen, arr,
+                { kind: "ktm", from: u, trip, i: i0, j: q, board: dep, wait: dep - tu }, boards[u] + 1);
             }
           }
-          k = j;
-          continue;
+          if (seen.size) break;
         }
       }
-      if (leg.kind !== "ride") {
-        steps.push({ ...leg, start: t });
-        t += leg.secs;
-        continue;
-      }
-      const l = lineById[leg.line];
-      const a = leg.stops[0], b = leg.stops[leg.stops.length - 1];
-      const dirTerm = nodePos[b] > nodePos[a] ? l.stations[l.stations.length - 1] : l.stations[0];
-      const step = { ...leg, towards: nodes[dirTerm].name };
-      if (l.kind === "KTM") {
-        step.ktm = nextKtm(nodes[a].ktm, nodes[b].ktm, now, t);
-        const nxt = step.ktm.next;
-        if (nxt) {
-          step.wait = nxt.dep - t; step.board = nxt.dep; step.arrive = nxt.arr;
-          step.towards = nxt.trip.headsign;
-          t = nxt.arr;
-        } else {
-          step.wait = 15 * 60; step.board = t + step.wait; step.arrive = step.board + leg.secs; t = step.arrive;
-          notes.push("Tak jumpa tren KTM terus untuk segmen ni dalam jadual 😢 — anggaran masa sahaja.");
-        }
+    }
+    // jalan kaki terus
+    const direct = distM([from.lat, from.lon], [to.lat, to.lon]);
+    const dw = walkSecsM(direct);
+    if (direct <= 3000 && (best.stop == null || dw * prm.walkF <= best.cost)) {
+      return { legs: [{ kind: "walk", secs: dw, m: direct, from: null, to: null, start: t0 }], start: t0, end: t0 + dw, directWalk: true };
+    }
+    if (best.stop == null) return null;
+    // bina semula
+    const legs = [];
+    let x = best.stop;
+    while (x !== -1 && x != null) {
+      const p = prev[x];
+      if (p.kind === "walk") legs.unshift({ kind: "walk", secs: p.secs, m: p.m, from: p.from === -1 ? null : p.from, to: x, note: p.note });
+      else if (p.kind === "ride") {
+        const P = PAT[p.pat];
+        legs.unshift({ kind: P.mode, pat: p.pat, stops: P.stops.slice(p.i, p.j + 1), board: p.board, wait: p.wait, hw: p.hw, closed: p.closed, arrive: time[x], from: p.from, to: x });
       } else {
-        const at = atTime(now, t);
-        const h = headway(l.id, at.sec, at.dow);
-        step.hw = h;
-        let wait = h.hw / 2;
-        if (!h.open) {
-          wait = (h.opensAt - at.sec + 86400) % 86400 + 60;
-          notes.push(`${l.name} tak beroperasi sekarang — buka semula ~${hhmm(h.opensAt)} 🌙`);
-        }
-        step.wait = wait; step.board = t + wait; step.arrive = step.board + leg.secs; t = step.arrive;
+        legs.unshift({ kind: "ktm", trip: p.trip, i: p.i, j: p.j, board: p.board, wait: p.wait, arrive: time[x], from: p.from, to: x });
       }
-      steps.push(step);
+      x = p.from;
     }
-    if (steps.some((x) => x.ktm && x.wait > 90 * 60 && (x.line === "KC" || x.line === "ETS"))) {
-      notes.push("ℹ️ KTMB sedang menstruktur semula jadual Lembah Klang (Apr–Dis 2026): tiada Komuter Mid Valley/BTS ↔ Pulau Sebang dari ~10 pagi hingga 4 petang. Sebahagiannya diganti tren ETS.");
+    legs.push({ kind: "walk", secs: best.walk, m: best.m, from: best.stop, to: null });
+    // gabung jalan kaki berturut & isi jarak
+    const out = [];
+    for (const l of legs) {
+      if (l.kind === "walk" && l.m == null && l.from != null && l.to != null) l.m = distM([SK[l.from].lat, SK[l.from].lon], [SK[l.to].lat, SK[l.to].lon]);
+      const last = out[out.length - 1];
+      if (l.kind === "walk" && last && last.kind === "walk") { last.secs += l.secs; last.m += l.m; last.to = l.to; last.note = last.note || l.note; }
+      else out.push({ ...l });
     }
-    return { steps, start: now.sec, end: t, notes };
+    // masa mula setiap langkah
+    let t = t0;
+    out.forEach((l) => {
+      if (l.kind === "walk") { l.start = t; t += l.secs; }
+      else { l.start = t; l.wait = l.board - t; t = l.arrive; }
+    });
+    // alternatif: naik pengangkutan awam separuh jalan, kemudian Grab
+    let hybrid = null;
+    const driveSecs = (km) => Math.round((km * 1.35) / 30 * 3600) + 8 * 60;
+    for (let i = 0; i < N; i++) {
+      if (!done[i] || boards[i] === 0) continue;
+      const km = distM([SK[i].lat, SK[i].lon], [to.lat, to.lon]) / 1000;
+      if (km > 30 || km < 1.5) continue;
+      const eta = time[i] + driveSecs(km);
+      if (!hybrid || eta < hybrid.eta) hybrid = { stop: i, at: time[i], km, eta };
+    }
+    const directKm = distM([from.lat, from.lon], [to.lat, to.lon]) / 1000;
+    const res = { legs: out.filter((l) => !(l.kind === "walk" && l.m < 25)), start: t0, end: t, driveEta: t0 + driveSecs(directKm), directKm };
+    if (hybrid && hybrid.eta < t - 30 * 60) res.hybrid = hybrid;
+    return res;
+  }
+
+  // ---- lokasi & carian tempat (Photon / OpenStreetMap)
+  const KV_BBOX = "101.2,2.65,102.0,3.55";
+  const stopItems = SK.map((s, i) => ({ s, i, key: norm(s.name + " " + (s.code || "")) }));
+  function localSuggest(q) {
+    const nq = norm(q);
+    if (!nq) return [];
+    const places = T.places.filter((p) => norm(p.name + " " + p.nodes.map((n) => nodes[n].name).join(" ")).includes(nq))
+      .sort((a, b) => norm(b.name).startsWith(nq) - norm(a.name).startsWith(nq)).slice(0, 5)
+      .map((p) => ({ name: p.name, sub: "Stesen " + placeLines(p).map((l) => lineById[l].kind === "KTM" ? "KTM" : lineById[l].kind).filter((v, i, a) => a.indexOf(v) === i).join(" / "), lat: p.lat, lon: p.lon, kind: "station", pid: p.id, extra: badgesFor(p) }));
+    const busStops = stopItems.filter((x) => x.s.type === "bus" && x.key.includes(nq)).slice(0, 4)
+      .map(({ s }) => ({ name: s.name, sub: "🚏 Hentian bas" + (s.code ? " " + s.code : ""), lat: s.lat, lon: s.lon, kind: "stop" }));
+    return [...places, ...busStops];
+  }
+  const isStation = (x) => x.kind === "station";
+  const geoCache = {};
+  async function geoSearch(q, near) {
+    const k = q.trim().toLowerCase();
+    if (geoCache[k]) return geoCache[k];
+    const u = new URL("https://photon.komoot.io/api/");
+    u.searchParams.set("q", q);
+    u.searchParams.set("limit", "8");
+    u.searchParams.set("bbox", KV_BBOX);
+    u.searchParams.set("lat", near ? near.lat : 3.139);
+    u.searchParams.set("lon", near ? near.lon : 101.687);
+    let j;
+    try {
+      const r = await fetch(u);
+      if (!r.ok) throw new Error(r.status);
+      j = await r.json();
+    } catch (e) {
+      return (geoCache[k] = await nominatimSearch(q));
+    }
+    const out = j.features.map((f) => {
+      const p = f.properties;
+      const name = p.name || [p.housenumber, p.street].filter(Boolean).join(" ") || p.city || "Tempat";
+      const sub = [p.street && p.name ? p.street : null, p.locality || p.district, p.city].filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).join(", ");
+      return { name, sub: sub || p.state || "", lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0], kind: "place", osm: p.osm_value };
+    }).filter((x, i, a) => a.findIndex((y) => y.name === x.name && Math.abs(y.lat - x.lat) < 0.0005) === i);
+    return (geoCache[k] = out);
+  }
+  async function nominatimSearch(q) {
+    const u = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=8&countrycodes=my&viewbox=${KV_BBOX}&bounded=1&q=${encodeURIComponent(q)}`;
+    const r = await fetch(u);
+    if (!r.ok) throw new Error(r.status);
+    return (await r.json()).map((x) => {
+      const parts = x.display_name.split(", ");
+      return { name: x.name || parts[0], sub: parts.slice(1, 3).join(", "), lat: +x.lat, lon: +x.lon, kind: "place" };
+    });
+  }
+  async function reverseName(lat, lon) {
+    try {
+      const r = await fetch(`https://photon.komoot.io/reverse?lat=${lat}&lon=${lon}&limit=1`);
+      const p = (await r.json()).features[0].properties;
+      return [p.name, p.street, p.locality || p.district || p.city].filter(Boolean).slice(0, 2).join(", ");
+    } catch { return null; }
+  }
+
+  function makeLocPicker(root, which) {
+    const input = $("input", root), box = $(".suggest", root);
+    let items = [], hl = 0, seq = 0, timer;
+    const render = (loading) => {
+      const q = input.value.trim();
+      const head = !q ? [{ name: "📍 Lokasi saya sekarang", sub: "Guna GPS telefon", kind: "gps-req" }] : [];
+      const recent = !q ? store.get("recent", []).slice(0, 5).map((r) => ({ ...r, sub: "🕘 " + (r.sub || "") })) : [];
+      const all = [...head, ...recent, ...items];
+      items._all = all;
+      box.innerHTML = all.map((it, i) => `<button type="button" class="sug${i === hl ? " hl" : ""}" data-i="${i}"><span class="nm2"><span class="nm">${esc(it.name)}</span>${it.sub ? `<small>${esc(it.sub)}</small>` : ""}</span>${it.extra || ""}</button>`).join("")
+        + (loading ? `<div class="sug"><span class="empty">🔎 Mencari tempat…</span></div>` : "")
+        + (!all.length && !loading && q ? `<div class="sug"><span class="empty">Tak jumpa 🥲 Cuba nama lain / nama taman / jalan</span></div>` : "");
+      box.classList.add("open");
+    };
+    const update = () => {
+      const q = input.value.trim();
+      items = localSuggest(q);
+      hl = 0;
+      render(q.length >= 3);
+      clearTimeout(timer);
+      if (q.length < 3) return;
+      const my = ++seq;
+      timer = setTimeout(async () => {
+        try {
+          const other = which === "from" ? plan.to : plan.from;
+          const res = await geoSearch(q, other);
+          if (my !== seq) return;
+          const loc = localSuggest(q);
+          items = [...loc.filter(isStation).slice(0, 3), ...res, ...loc.filter((x) => !isStation(x)).slice(0, 2)];
+        } catch { if (my === seq) toast("Carian tempat gagal — periksa internet 📶"); }
+        if (my === seq) render(false);
+      }, 350);
+    };
+    const pick = (i) => {
+      const it = (items._all || [])[i];
+      if (!it) return;
+      box.classList.remove("open");
+      input.blur();
+      if (it.kind === "gps-req") return useGps(which);
+      setLoc(which, { name: it.name, sub: (it.sub || "").replace(/^🕘 /, ""), lat: it.lat, lon: it.lon, kind: it.kind, pid: it.pid });
+    };
+    input.addEventListener("focus", () => { input.select(); update(); });
+    input.addEventListener("input", update);
+    input.addEventListener("keydown", (e) => {
+      const n = (items._all || []).length;
+      if (e.key === "ArrowDown") { hl = Math.min(hl + 1, n - 1); render(false); e.preventDefault(); }
+      else if (e.key === "ArrowUp") { hl = Math.max(hl - 1, 0); render(false); e.preventDefault(); }
+      else if (e.key === "Enter") { pick(hl); e.preventDefault(); }
+      else if (e.key === "Escape") box.classList.remove("open");
+    });
+    box.addEventListener("mousedown", (e) => e.preventDefault());
+    box.addEventListener("click", (e) => { const b = e.target.closest(".sug[data-i]"); if (b) pick(+b.dataset.i); });
+    input.addEventListener("blur", () => setTimeout(() => box.classList.remove("open"), 150));
+    return { set(v) { input.value = v; } };
+  }
+
+  const plan = { from: store.get("fromLoc", null), to: store.get("toLoc", null) };
+  const pickers = { from: makeLocPicker($('[data-picker="from"]'), "from"), to: makeLocPicker($('[data-picker="to"]'), "to") };
+  if (plan.from) pickers.from.set(plan.from.name);
+  if (plan.to) pickers.to.set(plan.to.name);
+  function setLoc(which, loc, silent) {
+    plan[which] = loc;
+    store.set(which + "Loc", loc);
+    pickers[which].set(loc ? loc.name : "");
+    if (loc && loc.kind !== "gps") {
+      const rec = store.get("recent", []).filter((r) => r.name !== loc.name);
+      rec.unshift({ name: loc.name, sub: loc.sub, lat: loc.lat, lon: loc.lon, kind: loc.kind, pid: loc.pid });
+      store.set("recent", rec.slice(0, 8));
+    }
+    if (!silent) maybePlan();
+  }
+  const placeLoc = (pid) => { const p = placeById[pid]; return { name: p.name, sub: "Stesen", lat: p.lat, lon: p.lon, kind: "station", pid }; };
+  function setFrom(pid) { setLoc("from", placeLoc(pid), true); }
+  function setTo(pid) { setLoc("to", placeLoc(pid), true); }
+  function maybePlan() { if (plan.from && plan.to) runPlan(); }
+  function useGps(which) {
+    locate(async (lat, lon) => {
+      setLoc(which, { name: "📍 Lokasi saya", sub: "", lat, lon, kind: "gps" }, true);
+      maybePlan();
+      const nm = await reverseName(lat, lon);
+      if (nm && plan[which] && plan[which].kind === "gps") { plan[which].name = "📍 " + nm; pickers[which].set(plan[which].name); store.set(which + "Loc", plan[which]); }
+    });
+  }
+
+  $("#swap").addEventListener("click", () => {
+    const f = plan.from;
+    setLoc("from", plan.to, true);
+    setLoc("to", f, true);
+    maybePlan();
+  });
+  $("#go-btn").addEventListener("click", () => {
+    if (!plan.from || !plan.to) return toast("Isi tempat mula & destinasi dulu ya 🙏");
+    runPlan();
+  });
+  $("#near-btn").addEventListener("click", () => useGps("from"));
+
+  // ---- jalankan & papar
+  let lastResult = null;
+  const OPTS = [
+    { id: "fast", boardPen: 180, walkF: 1.6, waitF: 1.2, busPen: 60, maxWalk: 1200, maxBoards: 5 },
+    { id: "xfer", boardPen: 900, walkF: 1.6, waitF: 1.2, busPen: 60, maxWalk: 1200, maxBoards: 5 },
+    { id: "walk", boardPen: 240, walkF: 3.5, waitF: 1.2, busPen: 60, maxWalk: 700, maxBoards: 5 },
+    { id: "rail", boardPen: 240, walkF: 1.4, waitF: 1.2, busPen: 0, maxWalk: 2000, maxBoards: 5, noBus: true },
+  ];
+  function legSig(r) { return r.legs.map((l) => l.kind === "walk" ? "w" : l.kind === "ktm" ? "k" + l.trip.id : "p" + l.pat + ":" + l.stops[0]).join("|"); }
+  function runPlan() {
+    const out = $("#plan-result");
+    if (!plan.from || !plan.to) return;
+    const d = distM([plan.from.lat, plan.from.lon], [plan.to.lat, plan.to.lon]);
+    if (d < 80) { out.innerHTML = `<div class="card empty-state"><span class="emo">😄</span>Eh, dah sampai pun! Tempat mula & destinasi sama.</div>`; return; }
+    out.innerHTML = `<div class="card empty-state"><span class="emo">🧭</span>Sedang cari laluan terbaik…</div>`;
+    setTimeout(() => {
+      const now = myNow();
+      const t0 = performance.now();
+      let res = [];
+      const seen = new Set();
+      for (const prm of OPTS) {
+        const r = route(plan.from, plan.to, now, prm);
+        if (!r) continue;
+        const sig = legSig(r);
+        if (seen.has(sig)) continue;
+        seen.add(sig);
+        const rides = r.legs.filter((l) => l.kind !== "walk");
+        r.boards = rides.length;
+        r.walkM = r.legs.filter((l) => l.kind === "walk").reduce((a, l) => a + l.m, 0);
+        r.prm = prm.id;
+        res.push(r);
+      }
+      console.log("route ms", Math.round(performance.now() - t0));
+      if (!res.length) {
+        out.innerHTML = `<div class="card empty-state"><span class="emo">🥺</span>Alamak, tak jumpa laluan pengangkutan awam yang sesuai.<br><span class="small">Mungkin kawasan ni jauh dari bas/tren — cuba Grab/teksi.</span><div class="res-actions" style="justify-content:center;margin-top:10px">${gmapsBtn("driving")}</div></div>`;
+        return;
+      }
+      res.sort((a, b) => a.end - b.end || a.boards - b.boards);
+      const fastest = res[0];
+      res = res.filter((r) => r === fastest || r.end - fastest.end < 45 * 60 || r.directWalk);
+      const minB = Math.min(...res.map((r) => r.boards)), minW = Math.min(...res.map((r) => r.walkM));
+      res.forEach((r, i) => {
+        r.label = r.directWalk ? "🚶 Jalan kaki je" : i === 0 ? "⚡ Paling cepat" : r.boards === minB && r.boards < fastest.boards ? "🙌 Kurang tukar" : r.walkM === minW && r.walkM < fastest.walkM - 150 ? "🦶 Kurang jalan" : r.prm === "rail" ? "🚇 Tren je" : "✨ Pilihan lain";
+      });
+      lastResult = { opts: res.slice(0, 4), sel: 0, now };
+      renderPlan();
+      $("#plan-tips").style.display = "none";
+    }, 30);
+  }
+
+  const fmtM = (m) => (m < 1000 ? `${Math.round(m / 10) * 10} m` : `${(m / 1000).toFixed(1)} km`);
+  const gmapsUrl = (a, b, mode) => `https://www.google.com/maps/dir/?api=1&origin=${a.lat},${a.lon}&destination=${b.lat},${b.lon}&travelmode=${mode}`;
+  function gmapsBtn(mode) {
+    return `<a class="chip-btn small" target="_blank" rel="noopener" href="${gmapsUrl(plan.from, plan.to, mode)}">${mode === "driving" ? "🚗 Arah memandu / Grab" : "🗺️ Google Maps"}</a>`;
+  }
+  const skPt = (i) => (i == null || i < 0 ? null : { lat: SK[i].lat, lon: SK[i].lon });
+  function legInfo(l) {
+    if (l.kind === "rail") {
+      const P = PAT[l.pat], L = lineById[P.line];
+      return { color: L.color, text: L.text, badge: L.id, title: `Naik ${L.name}`, towards: P.towards, emoji: L.kind === "MRT" ? "🚇" : L.kind === "MRL" ? "🚝" : "🚈", n: l.stops.length - 1, unit: "stesen", names: l.stops.map((s) => SK[s].name), codes: l.stops.map((s) => SK[s].code) };
+    }
+    if (l.kind === "bus") {
+      const P = PAT[l.pat], bp = B.pats[P.bus], K = BUS_KIND[bp.k];
+      return { color: bp.c, text: "#fff", badge: bp.r, title: `Naik ${K.label} <b>${esc(bp.r)}</b>`, sub: bp.n, towards: bp.h, emoji: K.emoji, n: l.stops.length - 1, unit: "hentian", names: l.stops.map((s) => SK[s].name), codes: l.stops.map((s) => SK[s].code), bp };
+    }
+    const lid = lineOfTrip(l.trip), L = lineById[lid];
+    const names = l.trip.st.slice(l.i, l.j + 1).map((x) => T.ktm.stops[x[0]][0]);
+    return { color: L.color, text: L.text, badge: lid, title: `Naik ${L.name}`, towards: l.trip.headsign, emoji: lid === "ETS" ? "🚄" : "🚆", n: l.j - l.i, unit: "stesen", names, codes: names.map(() => ""), trip: l.trip };
   }
 
   function renderPlan() {
     const { opts, sel } = lastResult;
     const o = opts[sel];
-    const { steps, start, end, notes } = o.timeline;
-    const rides = steps.filter((s) => s.kind === "ride");
-    const nStops = rides.reduce((a, s) => a + s.stops.length - 1, 0);
-    const transfers = rides.length - 1;
-    const total = end - start;
-    const bar = steps.map((s) => {
-      const c = s.kind === "ride" ? lineById[s.line].color : "#D9CCD4";
-      const w = s.wait > 120 ? `<span title="tunggu" style="background:repeating-linear-gradient(90deg,#E6DAE1 0 4px,transparent 4px 7px);flex:${s.wait}"></span>` : "";
-      return `${w}<span style="background:${c};flex:${Math.max(60, s.secs || 60)}"></span>`;
+    const total = o.end - o.start;
+    const rides = o.legs.filter((l) => l.kind !== "walk");
+    const walkM = o.legs.filter((l) => l.kind === "walk").reduce((a, l) => a + l.m, 0);
+    const bar = o.legs.map((l) => {
+      if (l.kind === "walk") return `<span style="background:#CFC3CB;flex:${Math.max(60, l.secs)}"></span>`;
+      const I = legInfo(l);
+      const w = l.wait > 120 ? `<span style="background:repeating-linear-gradient(90deg,#E6DAE1 0 4px,transparent 4px 7px);flex:${l.wait}"></span>` : "";
+      return `${w}<span style="background:${I.color};flex:${Math.max(60, l.arrive - l.board)}"></span>`;
     }).join("");
+    const modes = rides.map((l) => { const I = legInfo(l); return `<span class="lb" style="background:${I.color};color:${I.text}">${I.emoji} ${esc(I.badge)}</span>`; }).join(`<span class="muted small">›</span>`);
 
     let html = "";
-    if (opts.length > 1) html += `<div class="opt-tabs">${opts.map((x, i) => `<button class="opt-tab${i === sel ? " active" : ""}" data-opt="${i}">${x.label} · ${durTxt(x.timeline.end - x.timeline.start)}</button>`).join("")}</div>`;
+    if (opts.length > 1) html += `<div class="opt-tabs">${opts.map((x, i) => `<button class="opt-tab${i === sel ? " active" : ""}" data-opt="${i}">${x.label} · ${durTxt(x.end - x.start)}</button>`).join("")}</div>`;
     html += `<div class="card">
       <div class="summary">
         <div class="big">${durTxt(total).replace(/(\d+) min$/, "$1<small> min</small>")}</div>
-        <div class="meta">Bertolak <b>${hhmm(start)}</b> → tiba <b>~${hhmm(end)}</b><br>${nStops} stesen · ${transfers <= 0 ? "terus, tak payah tukar 🎉" : transfers + " kali tukar"}</div>
+        <div class="meta">Bertolak <b>${hhmm(o.start)}</b> → tiba <b>~${hhmm(o.end)}</b><br>${o.directWalk ? "Dekat je, jalan kaki pun boleh 🚶" : `${rides.length <= 1 ? "Terus, tak payah tukar 🎉" : rides.length - 1 + " kali tukar"} · jalan ${fmtM(walkM)}`}</div>
       </div>
+      ${modes ? `<div class="modes">${modes}</div>` : ""}
       <div class="linebar">${bar}</div>
-      ${notes.map((n) => `<div class="ktm-next warn">${esc(n)}</div>`).join("")}
+      ${planNotes(o)}
       <div class="steps">`;
-
-    steps.forEach((s, i) => {
-      if (s.kind === "ride") {
-        const l = lineById[s.line];
-        const a = nodes[s.stops[0]], b = nodes[s.stops[s.stops.length - 1]];
-        const mid = s.stops.slice(1, -1).map((n) => `<li>${esc(nodes[n].name)}</li>`).join("");
-        let extra = "";
-        if (s.ktm) {
-          const n = s.ktm.next;
-          if (n) {
-            const w = n.dep - (s.board - s.wait);
-            extra = `<div class="ktm-next">🚂 Tren <b>${esc(n.trip.num)}</b> bertolak <b>${hhmm(n.dep)}</b>${n.dep >= 86400 ? " (esok)" : ""} · tunggu ${w < 60 ? "sekejap je" : durTxt(w)} · tiba ${hhmm(n.arr)}`;
-            if (w > 45 * 60) extra += `<br><span class="small">⏳ Tren KTM jarang waktu ni — boleh pertimbang pilihan lain di atas</span>`;
-            if (s.ktm.after.length) extra += `<br><span class="small muted">Seterusnya: ${s.ktm.after.map((c) => hhmm(c.dep)).join(", ")}</span>`;
-            if (s.ktm.stale) extra += `<br><span class="small muted">⚠️ Jadual GTFS mungkin dah lapuk</span>`;
-            extra += `</div>`;
-          }
-        } else if (s.hw && s.hw.open) {
-          extra = `<div class="small muted" style="margin-top:4px">Tren setiap ~${Math.round(s.hw.hw / 60)} min sekarang</div>`;
-        }
-        html += `<div class="step" style="--c:${l.color}">
-          <div class="time">${hhmm(s.board)}</div><div class="rail"><span class="knob"></span></div>
-          <div class="body"><div class="st">${esc(a.name)} ${a.code ? `<span class="small muted">${esc(a.code)}</span>` : ""}</div>
-            <div class="what"><span class="lb" style="background:${l.color};color:${l.text}">${l.id}</span>
-              Naik <span class="ln">${esc(l.name)}</span> arah <b>${esc(s.towards)}</b><br>
-              <span class="muted">${s.stops.length - 1} stesen · ${durTxt(s.secs)}</span>
-              ${mid ? `<details><summary>Lalu ${s.stops.length - 2} stesen</summary><ol>${mid}</ol></details>` : ""}
-              ${extra}
-            </div></div></div>`;
-        const nx = steps[i + 1];
-        html += `<div class="step${nx ? " walk" : " end"}" style="--c:${l.color}">
-          <div class="time">${hhmm(s.arrive)}</div><div class="rail"><span class="knob"></span></div>
-          <div class="body"><div class="st">${nx ? "Turun di " : "🎉 Sampai "}${esc(b.name)} ${b.code ? `<span class="small muted">${esc(b.code)}</span>` : ""}</div>
-          ${nx ? `<div class="what">🚶 ${nx.kind === "walk" ? esc(nx.note || "Jalan kaki") : "Tukar tren"} ke <b>${esc(nodes[nx.to].name)}</b> ${lineBadge(nodes[nx.to].line)} · ~${durTxt(nx.secs)}</div>` : ""}
-          </div></div>`;
+    const step = (time, color, cls, title, body) => `<div class="step ${cls}" style="--c:${color}"><div class="time">${time}</div><div class="rail"><span class="knob"></span></div><div class="body"><div class="st">${title}</div>${body || ""}</div></div>`;
+    html += step(hhmm(o.start), "#FF8FA3", o.legs[0].kind === "walk" ? "walk" : "", `🟢 ${esc(plan.from.name)}`, plan.from.sub ? `<div class="small muted">${esc(plan.from.sub)}</div>` : "");
+    o.legs.forEach((l, i) => {
+      const next = o.legs[i + 1];
+      if (l.kind === "walk") {
+        const a = l.from == null ? plan.from : skPt(l.from), b = l.to == null ? plan.to : skPt(l.to);
+        const target = l.to == null ? esc(plan.to.name) : (SK[l.to].type === "bus" ? `hentian bas <b>${esc(SK[l.to].name)}</b>${SK[l.to].code ? ` <span class="small muted">${esc(SK[l.to].code)}</span>` : ""}` : `stesen <b>${esc(SK[l.to].name)}</b>`);
+        html += `<div class="step walk" style="--c:#C9B8C4"><div class="time"></div><div class="rail"></div><div class="body"><div class="what">🚶 Jalan kaki <b>${fmtM(l.m)}</b> (~${durTxt(l.secs)}) ke ${target}${l.note ? `<br><span class="small muted">${esc(l.note)}</span>` : ""}
+          <div style="margin-top:6px"><a class="mini-link" target="_blank" rel="noopener" href="${gmapsUrl(a, b, "walking")}">🧭 Arah jalan kaki</a></div></div></div></div>`;
+        return;
       }
+      const I = legInfo(l);
+      const first = I.names[0], last = I.names[I.names.length - 1];
+      let extra = "";
+      if (l.kind === "ktm") {
+        extra = `<div class="ktm-next">🚂 Tren <b>${esc(l.trip.num)}</b> bertolak <b>${hhmm(l.board)}</b>${l.board >= 86400 ? " (esok)" : ""} · tiba ${hhmm(l.arrive)}${l.wait > 45 * 60 ? `<br><span class="small">⏳ Tren KTM jarang waktu ni — tunggu ${durTxt(l.wait)}</span>` : ""}</div>`;
+      } else {
+        const hwm = Math.round(l.hw / 60);
+        extra = `<div class="small muted" style="margin-top:4px">${l.closed ? `🌙 Servis belum mula — anggaran bas/tren pertama ~${hhmm(l.board)}` : `${l.kind === "bus" ? "Bas" : "Tren"} setiap ~${hwm} min${I.bp && I.bp.est ? " (anggaran)" : ""} · tunggu ~${durTxt(l.wait)}`}</div>`;
+        if (l.kind === "bus") extra += liveBusLine(I.bp);
+      }
+      const mid = I.names.slice(1, -1).map((n) => `<li>${esc(n)}</li>`).join("");
+      html += step(hhmm(l.board), I.color, "", `${esc(first)} ${I.codes[0] ? `<span class="small muted">${esc(I.codes[0])}</span>` : ""}`,
+        `<div class="what"><span class="lb" style="background:${I.color};color:${I.text}">${I.emoji} ${esc(I.badge)}</span> ${I.title} arah <b>${esc(I.towards)}</b>
+          ${I.sub ? `<br><span class="small muted">${esc(I.sub)}</span>` : ""}
+          <br><span class="muted">${I.n} ${I.unit} · ${durTxt(l.arrive - l.board)}</span>
+          ${mid ? `<details><summary>Lalu ${I.names.length - 2} ${I.unit}</summary><ol>${mid}</ol></details>` : ""}
+          ${extra}</div>`);
+      html += step(hhmm(l.arrive), I.color, next ? "walk" : "", `Turun di ${esc(last)} ${I.codes[I.codes.length - 1] ? `<span class="small muted">${esc(I.codes[I.codes.length - 1])}</span>` : ""}`,
+        l.kind === "bus" ? `<div class="small muted">💡 Tekan loceng bila nampak hentian sebelum ${esc(last)}</div>` : "");
     });
+    html += step(hhmm(o.end), "#6CC1F5", "end", `🏁 Sampai ${esc(plan.to.name)}`, plan.to.sub ? `<div class="small muted">${esc(plan.to.sub)}</div>` : "");
     html += `</div>
       <div class="res-actions">
         <button class="chip-btn" id="show-on-map">🗺️ Lihat di peta</button>
         <button class="chip-btn" id="share-route">📤 Kongsi</button>
+        ${gmapsBtn("driving")}
       </div>
-      <p class="small muted" style="margin:10px 0 0">Masa LRT/MRT ialah anggaran ikut kekerapan GTFS. Masa KTM ikut jadual rasmi.</p>
+      <div class="fare-tip">💳 Bayar dengan kad <b>Touch 'n Go</b> atau kad debit/kredit (tap) untuk bas RapidKL & tren.</div>
+      <p class="small muted" style="margin:10px 0 0">Masa bas & LRT/MRT ialah anggaran ikut kekerapan GTFS. KTM ikut jadual rasmi. GoKL dari OpenStreetMap (anggaran).</p>
     </div>`;
     $("#plan-result").innerHTML = html;
     $$(".opt-tab").forEach((b) => b.addEventListener("click", () => { lastResult.sel = +b.dataset.opt; renderPlan(); }));
-    $("#show-on-map").addEventListener("click", () => { showView("map"); drawRoute(o.timeline.steps); });
+    $("#show-on-map").addEventListener("click", () => { showView("map"); drawRoute(o); });
     $("#share-route").addEventListener("click", () => shareRoute(o));
   }
 
+  function planNotes(o) {
+    const n = [];
+    if (o.hybrid) n.push(`💡 Lebih cepat: naik sampai <b>${esc(SK[o.hybrid.stop].name)}</b> (tiba ~${hhmm(o.hybrid.at)}), kemudian Grab/teksi ~${o.hybrid.km.toFixed(0)} km — sampai ~${hhmm(o.hybrid.eta)}.`);
+    if (o.legs.some((l) => l.kind === "ktm" && l.wait > 90 * 60 && ["KC", "ETS"].includes(lineOfTrip(l.trip)))) {
+      n.push("ℹ️ KTMB sedang menstruktur semula jadual Lembah Klang (Apr–Dis 2026): tiada Komuter Mid Valley/BTS ↔ Pulau Sebang ~10 pagi–4 petang. Sebahagiannya diganti tren ETS.");
+    }
+    if (!o.directWalk && o.driveEta && o.end - o.start > 2.5 * (o.driveEta - o.start) && o.end - o.driveEta > 40 * 60) {
+      n.push(`🚗 Kalau naik Grab/teksi terus (~${o.directKm.toFixed(0)} km), anggaran sampai ~${hhmm(o.driveEta)}.`);
+    }
+    return n.map((x) => `<div class="ktm-next warn">${x}</div>`).join("");
+  }
+
   function shareRoute(o) {
-    const lines = [`🚆 ${placeById[plan.from].name} → ${placeById[plan.to].name} (~${durTxt(o.timeline.end - o.timeline.start)})`];
-    o.timeline.steps.forEach((s) => {
-      if (s.kind === "ride") lines.push(`• ${lineById[s.line].name} arah ${s.towards}: ${nodes[s.stops[0]].name} → ${nodes[s.stops[s.stops.length - 1]].name} (${s.stops.length - 1} stesen)`);
+    const lines = [`🧭 ${plan.from.name} → ${plan.to.name} (~${durTxt(o.end - o.start)})`];
+    o.legs.forEach((l) => {
+      if (l.kind === "walk") lines.push(`🚶 Jalan ${fmtM(l.m)}${l.to != null ? " ke " + SK[l.to].name : " ke destinasi"}`);
+      else { const I = legInfo(l); lines.push(`${I.emoji} ${I.badge} arah ${I.towards}: ${I.names[0]} → ${I.names[I.names.length - 1]} (${I.n} ${I.unit})`); }
     });
-    lines.push("— dirancang dengan Jom Naik! 💖");
+    lines.push("— dirancang dengan Jom Naik! 💖 " + location.href.split("#")[0]);
     const text = lines.join("\n");
     if (navigator.share) navigator.share({ text }).catch(() => {});
     else navigator.clipboard?.writeText(text).then(() => toast("Laluan disalin 📋"), () => toast("Tak dapat salin 😅"));
+  }
+
+  // ---- bas live (GTFS Realtime Prasarana)
+  const BUS_RT = [
+    ["rapid", "https://api.data.gov.my/gtfs-realtime/vehicle-position/prasarana/?category=rapid-bus-kl"],
+    ["feeder", "https://api.data.gov.my/gtfs-realtime/vehicle-position/prasarana/?category=rapid-bus-mrtfeeder"],
+  ];
+  let busLive = { at: 0, list: [], byRoute: {} };
+  async function fetchBusLive() {
+    const list = [];
+    await Promise.all(BUS_RT.map(async ([k, url]) => {
+      try {
+        const r = await fetch(url, { cache: "no-store" });
+        if (!r.ok) return;
+        decodeFeed(await r.arrayBuffer()).forEach((v) => list.push({ ...v, k }));
+      } catch { /* abaikan */ }
+    }));
+    const byRoute = {};
+    list.forEach((v) => { const key = v.k + ":" + (v.routeId || ""); (byRoute[key] ||= []).push(v); });
+    busLive = { at: Date.now(), list, byRoute };
+    if (mapReady) drawBuses();
+  }
+  function liveBusLine(bp) {
+    if (!bp || !busLive.at) return "";
+    const key = bp.k === "rapid" ? "rapid:" + bp.rid : bp.k === "feeder" ? "feeder:" + bp.r : null;
+    const n = key ? (busLive.byRoute[key] || []).length : 0;
+    return n ? `<div class="small" style="margin-top:4px"><span class="tag live">● LIVE</span>${n} bas laluan ni sedang bergerak sekarang</div>` : "";
   }
 
   // ================================================================ PETA
@@ -659,6 +945,10 @@
     });
     trainLayer = L.layerGroup().addTo(map);
     routeLayer = L.layerGroup().addTo(map);
+    busRenderer = L.canvas({ padding: 0.3 });
+    busStopLayer = L.layerGroup().addTo(map);
+    busLiveLayer = L.layerGroup().addTo(map);
+    map.on("moveend", () => { drawBusStops(); drawBuses(); });
     const lbl = () => {
       const z = map.getZoom();
       stLayer.eachLayer((m) => { const t = m.getTooltip(); if (!t) return; z >= 14 || (z >= 13 && placeLines(placeById[m.placeId]).length > 1) ? m.openTooltip() : m.closeTooltip(); });
@@ -667,13 +957,19 @@
     lbl();
 
     $("#map-chips").innerHTML = T.lines.map((l) => `<button class="mchip${hidden.has(l.id) ? " off" : ""}" data-l="${l.id}"><i style="background:${l.color}"></i>${esc(l.name.replace("KTM ", "KTM ").replace("Monorel KL", "Monorel"))}</button>`).join("")
-      + `<button class="mchip" id="locate-me">📍 Saya</button>`;
+      + `<button class="mchip${showBusLive ? "" : " off"}" id="bus-live-chip">🚌 Bas live</button><button class="mchip" id="locate-me">📍 Saya</button>`;
     $$(".mchip[data-l]").forEach((b) => b.addEventListener("click", () => {
       const id = b.dataset.l;
       if (hidden.has(id)) { hidden.delete(id); lineLayers[id].addTo(map); } else { hidden.add(id); map.removeLayer(lineLayers[id]); }
       b.classList.toggle("off", hidden.has(id));
       store.set("hiddenLines", [...hidden]);
     }));
+    $("#bus-live-chip").addEventListener("click", (e) => {
+      showBusLive = !showBusLive; store.set("busLive", showBusLive);
+      e.currentTarget.classList.toggle("off", !showBusLive);
+      drawBuses();
+      if (showBusLive) fetchBusLive();
+    });
     let meMarker;
     $("#locate-me").addEventListener("click", () => locate((lat, lon) => {
       if (meMarker) map.removeLayer(meMarker);
@@ -700,23 +996,83 @@
     }));
   }
 
-  function drawRoute(legs) {
-    if (!mapReady) return;
+  function legPts(l) {
+    if (l.kind === "ktm") return l.trip.st.slice(l.i, l.j + 1).map((x) => [T.ktm.stops[x[0]][1], T.ktm.stops[x[0]][2]]);
+    return l.stops.map((i) => [SK[i].lat, SK[i].lon]);
+  }
+  const pinIcon = (emo, bg) => L.divIcon({ className: "", html: `<div class="pin" style="background:${bg}">${emo}</div>`, iconSize: [34, 34], iconAnchor: [17, 34] });
+  function drawRoute(o) {
+    if (!mapReady || !o) return;
     routeLayer.clearLayers();
-    const all = [];
-    legs.forEach((leg) => {
-      if (leg.kind === "ride") {
-        const pts = leg.stops.map((n) => [nodes[n].lat, nodes[n].lon]);
-        all.push(...pts);
-        L.polyline(pts, { pane: "route", color: "#3A2E39", weight: 13, opacity: .25 }).addTo(routeLayer);
-        L.polyline(pts, { pane: "route", color: lineById[leg.line].color, weight: 8 }).addTo(routeLayer);
-        leg.stops.forEach((n, i) => L.circleMarker([nodes[n].lat, nodes[n].lon], { pane: "route", radius: i === 0 || i === leg.stops.length - 1 ? 7 : 3.5, color: "#3A2E39", weight: 2, fillColor: "#fff", fillOpacity: 1 }).addTo(routeLayer));
-      } else {
-        L.polyline([[nodes[leg.from].lat, nodes[leg.from].lon], [nodes[leg.to].lat, nodes[leg.to].lon]], { pane: "route", color: "#3A2E39", weight: 4, dashArray: "4 8" }).addTo(routeLayer);
+    const all = [[plan.from.lat, plan.from.lon], [plan.to.lat, plan.to.lon]];
+    o.legs.forEach((l) => {
+      if (l.kind === "walk") {
+        const a = l.from == null ? [plan.from.lat, plan.from.lon] : [SK[l.from].lat, SK[l.from].lon];
+        const b = l.to == null ? [plan.to.lat, plan.to.lon] : [SK[l.to].lat, SK[l.to].lon];
+        L.polyline([a, b], { pane: "route", color: "#3A2E39", weight: 4, dashArray: "2 8", lineCap: "round" }).addTo(routeLayer);
+        return;
       }
+      const I = legInfo(l), pts = legPts(l);
+      all.push(...pts);
+      L.polyline(pts, { pane: "route", color: "#3A2E39", weight: 12, opacity: .22 }).addTo(routeLayer);
+      L.polyline(pts, { pane: "route", color: I.color, weight: 7 }).addTo(routeLayer);
+      pts.forEach((pt, i) => {
+        const end = i === 0 || i === pts.length - 1;
+        const m = L.circleMarker(pt, { pane: "route", radius: end ? 6.5 : 3, color: "#3A2E39", weight: 2, fillColor: "#fff", fillOpacity: 1 }).addTo(routeLayer);
+        if (end) m.bindTooltip(`${I.emoji} ${esc(I.names[i])}`, { className: "st-label", direction: "right", offset: [6, 0], permanent: i === 0 });
+      });
     });
-    if (all.length) map.fitBounds(all, { padding: [40, 60] });
+    L.marker([plan.from.lat, plan.from.lon], { icon: pinIcon("🟢", "#fff"), pane: "trains" }).addTo(routeLayer).bindTooltip(esc(plan.from.name));
+    L.marker([plan.to.lat, plan.to.lon], { icon: pinIcon("🏁", "#fff"), pane: "trains" }).addTo(routeLayer).bindTooltip(esc(plan.to.name));
+    map.fitBounds(all, { padding: [50, 60] });
     toast("Laluan anda ditunjukkan di peta 💖");
+  }
+
+  // ---- bas di peta: hentian (zum dekat) & bas live
+  let busStopLayer, busLiveLayer, busRenderer, showBusLive = store.get("busLive", true);
+  const stopRoutes = (bi) => {
+    const sk = skIndex["B" + bi];
+    return [...new Set(patsAt[sk].map(([pi]) => PAT[pi]).filter((p) => p.mode === "bus").map((p) => B.pats[p.bus].r))];
+  };
+  function drawBusStops() {
+    if (!mapReady) return;
+    busStopLayer.clearLayers();
+    if (map.getZoom() < 16) return;
+    const bd = map.getBounds();
+    SK.forEach((s) => {
+      if (s.type !== "bus" || !bd.contains([s.lat, s.lon])) return;
+      const m = L.circleMarker([s.lat, s.lon], { pane: "stations", radius: 5, weight: 2, color: "#2B7BE4", fillColor: "#fff", fillOpacity: 1, renderer: busRenderer }).addTo(busStopLayer);
+      m.on("click", () => {
+        const routes = stopRoutes(s.bi);
+        const html = `<div class="pop"><h4>🚏 ${esc(s.name)}</h4>${s.code ? `<div class="small muted">${esc(s.code)}</div>` : ""}
+          <div style="margin-top:6px">${routes.map((r) => `<span class="lb" style="background:#2B7BE4;color:#fff;margin:2px">${esc(r)}</span>`).join("")}</div>
+          <div class="btns"><button data-a="from">🟢 Dari sini</button><button data-a="to">🏁 Ke sini</button></div></div>`;
+        const pop = L.popup().setLatLng([s.lat, s.lon]).setContent(html).openOn(map);
+        $$("button", pop.getElement()).forEach((b) => b.addEventListener("click", () => {
+          const loc = { name: s.name, sub: "🚏 Hentian bas" + (s.code ? " " + s.code : ""), lat: s.lat, lon: s.lon, kind: "stop" };
+          setLoc(b.dataset.a, loc, true);
+          toast((b.dataset.a === "from" ? "Dari: " : "Ke: ") + s.name);
+          map.closePopup();
+          if (plan.from && plan.to) { showView("plan"); runPlan(); }
+        }));
+      });
+    });
+  }
+  function drawBuses() {
+    if (!mapReady || !busLiveLayer) return;
+    busLiveLayer.clearLayers();
+    if (!showBusLive) return;
+    const bd = map.getBounds().pad(0.3);
+    const routeName = {};
+    B.pats.forEach((bp) => { routeName[bp.k + ":" + (bp.k === "rapid" ? bp.rid : bp.r)] = bp; });
+    busLive.list.forEach((v) => {
+      if (!bd.contains([v.lat, v.lon])) return;
+      const bp = routeName[v.k + ":" + v.routeId];
+      const label = bp ? bp.r : v.routeId || "Bas";
+      const icon = L.divIcon({ className: "", html: `<div class="bus-ico" style="background:${bp ? bp.c : "#2B7BE4"}">${esc(label)}</div>`, iconSize: [40, 20], iconAnchor: [20, 10] });
+      L.marker([v.lat, v.lon], { icon, pane: "trains" }).addTo(busLiveLayer)
+        .bindPopup(`<div class="pop"><h4>🚌 ${esc(label)}</h4>${bp ? `<div>${esc(bp.n)}</div>` : ""}<div class="small muted">${esc(v.label || v.vid || "")}</div></div>`);
+    });
   }
 
   // ================================================================ GTFS REALTIME (protobuf mini)
@@ -999,6 +1355,8 @@
 
   // ================================================================ mula
   fetchLive();
+  fetchBusLive();
+  setInterval(() => { if (!document.hidden) fetchBusLive(); }, 30000);
   let liveTimer = setInterval(fetchLive, 30000);
   document.addEventListener("visibilitychange", () => {
     clearInterval(liveTimer);

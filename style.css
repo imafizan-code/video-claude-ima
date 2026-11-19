@@ -280,3 +280,17 @@ main { max-width: 720px; margin: 0 auto; padding: 14px 16px calc(var(--tabh) + 2
   .tabs { left: 50%; right: auto; transform: translateX(-50%); width: 520px; bottom: 14px; border-radius: 26px; height: var(--tabh); padding: 8px 10px; }
   main { padding-bottom: calc(var(--tabh) + 40px); }
 }
+
+/* ---------- perancang pintu-ke-pintu ---------- */
+.sug .nm2 { display: flex; flex-direction: column; min-width: 0; }
+.sug .nm2 small { color: var(--muted); font-size: .76rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.modes { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin-top: 10px; }
+.modes .lb { height: 24px; font-size: .78rem; padding: 0 8px; }
+.what .lb { height: 22px; }
+.mini-link { display: inline-block; font-size: .8rem; font-weight: 500; color: #2B6CB0; background: #EAF4FF; padding: 4px 10px; border-radius: 999px; text-decoration: none; }
+a.chip-btn { text-decoration: none; display: inline-flex; align-items: center; }
+.fare-tip { margin-top: 12px; padding: 10px 12px; border-radius: 14px; background: #F2FBF6; font-size: .85rem; color: #2E6B4A; }
+.step.walk .what { background: #F7F3F6; }
+.pin { width: 34px; height: 34px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 8px rgba(0,0,0,.3); border: 2px solid #3A2E39; }
+.pin { font-size: 15px; }
+.bus-ico { min-width: 40px; height: 20px; padding: 0 5px; border-radius: 8px; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,.3); white-space: nowrap; }
