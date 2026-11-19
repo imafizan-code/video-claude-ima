@@ -96,7 +96,7 @@ DOODLES = [
 ]
 
 # ---- Music: split into segments so it ducks under the ASMR clips
-MUSIC_LO, MUSIC_HI = 0.025, 0.11
+MUSIC_LO, MUSIC_HI = 0.015, 0.08
 music_segs = []
 for c in CLIPS:
     vol = MUSIC_LO if c["asmr"] else MUSIC_HI
@@ -154,7 +154,7 @@ for k, (st, dur, vol) in enumerate(music_segs):
     fi = 0.4 if k == 0 else 0.12
     fo = 1.5 if k == last else 0.12
     parts.append(
-        f'      <audio id="music{k}" src="assets/music/groove_bed.wav" data-start="{round(st,3)}" data-duration="{round(dur,3)}" '
+        f'      <audio id="music{k}" src="assets/music/upbeat_bed.wav" data-start="{round(st,3)}" data-duration="{round(dur,3)}" '
         f'data-media-start="{round(st,3)}" data-volume="{vol}" data-fade-in="{fi}" data-fade-out="{fo}" data-track-index="3"></audio>'
     )
 
