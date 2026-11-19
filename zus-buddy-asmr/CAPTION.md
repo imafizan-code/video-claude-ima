@@ -1,27 +1,22 @@
-# Caption: ZUS Buddy ASMR unboxing
+# Caption: ZUS Buddy ASMR unboxing (simple)
 
-## TikTok (pendek, hook dulu)
+## Pilihan caption (guna untuk TikTok & IG)
 
-Tunggu 2 jam dalam app ZUS... BERBALOI 😭💙
-Full set ZUS Buddy Work In Progress dah selamat sampai rumah 🥹
-Siapa paling relate? Aku rasa aku Porta Pal 😵‍💫
+1. Finally got my hands on these babies 🥹💙
+2. Got my hands on the full set! 🥹
+3. Worth the 2-hour wait 😆💙
+4. All 6 babies, finally mine 🥹
+5. Full set secured ✅💙
 
-#ZUSBuddy #ZUSCoffee #WorkInProgress #ASMR #ASMRunboxing #unboxing #blindbox #ZUSBuddyWIP #fyp #fypmalaysia #tiktokmalaysia
+## Hashtag
 
-## Instagram Reels (lebih panjang)
+TikTok:
+#ZUSBuddy #ZUSCoffee #WorkInProgress #ASMR #unboxing #fyp #fypmalaysia
 
-Tak sia-sia tunggu dalam app ZUS 2 jam 😆
-Akhirnya full set ZUS Buddy Work In Progress dah jadi milik aku! 💙
-
-🎧 Pakai earphone untuk part ASMR
-
-Choco Chipster, Blue Buddy, Pinky Boo, Bean Boss, Porta Pal, Frappe Fren. Semua dah masuk office 💼 Siap ada meja, mini laptop dengan stiker sekali 🤏🏻
-
-Korang dapat tak? Buddy mana favourite korang? Komen bawah 👇
-
-#ZUSBuddy #ZUSCoffee #WorkInProgress #ASMR #ASMRunboxing #unboxing #blindbox #collectibles #reelsmalaysia #malaysia
+Instagram:
+#ZUSBuddy #ZUSCoffee #WorkInProgress #ASMR #unboxing #blindbox #reelsmalaysia
 
 ## Tips upload
 
-- Muzik dan SFX dalam video ni original (dijana sendiri, tiada copyright). Tak perlu tambah lagu lain. Kalau nak guna trending sound, perlahankan volume lagu tu supaya bunyi ASMR masih jelas.
-- Cover/thumbnail cadangan: frame "Tak sabar nak UNBOXING!" (sekitar saat 3.5) atau "FULL SET 6/6" (saat 33).
+- Muzik dan SFX dalam video ni original (dijana sendiri, tiada copyright). Tak perlu tambah lagu lain.
+- Cover: `covers/cover_box.jpg` (TikTok) atau `covers/cover_choco.jpg` (IG).
