@@ -162,3 +162,19 @@ b, a = butter(2, 6000 / (SR / 2), btype="high")
 tt = t_(dur)
 out += lfilter(b, a, n) * np.sin(np.pi * np.minimum(tt / 0.9, 1)) ** 2 * 0.08
 save("assets/sfx/diamond.wav", out, 0.75)
+
+# --- countup: 6 rising blips (1/6 -> 6/6) then a sparkle chime, for the FULL SET finale (v10)
+STEP = 0.11
+out = np.zeros(int((6 * STEP + 1.1) * SR))
+for i, fr in enumerate([784, 880, 988, 1175, 1319, 1568]):
+    st = int(i * STEP * SR)
+    tt = t_(0.09)
+    blip = np.sin(2 * np.pi * fr * tt) * env(len(tt), 0.002, 0.03) * 0.7
+    out[st:st + len(tt)] += blip
+st = int(6 * STEP * SR)
+for k, fr in enumerate([2093, 2637, 3136, 4186]):
+    s2 = st + int(k * 0.04 * SR)
+    tt = t_(0.9)
+    tone = (np.sin(2 * np.pi * fr * tt) + 0.35 * np.sin(2 * np.pi * fr * 2.41 * tt) * np.exp(-tt * 9)) * env(len(tt), 0.002, 0.3)
+    out[s2:s2 + len(tt)] += tone[: len(out) - s2] * (0.8 - k * 0.12)
+save("assets/sfx/countup.wav", out, 0.7)

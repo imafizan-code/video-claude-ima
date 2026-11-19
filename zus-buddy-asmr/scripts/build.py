@@ -27,7 +27,8 @@ EDL = [
     ("IMG_1576_stab", 2.2, 1.2, False),   # Pinky Boo (stabilised take, full figure)
     ("IMG_1578", 2.0, 0.7, False),   # Bean Boss
     ("IMG_1580", 2.0, 0.3, False),   # Porta Pal
-    ("IMG_1583_stab", 2.5, 3.2, False),   # Frappe Fren (stabilised, steadiest part, last)
+    ("IMG_1583_stab", 2.5, 3.2, False),   # Frappe Fren (stabilised, steadiest part)
+    ("SEMUA", 5.5, 0.0, False),      # NEW finale "Semua": all 6 buddies at their desks (pan) + 1.2s freeze tail
 ]
 
 t = 0.0
@@ -89,15 +90,24 @@ headline("o-name-bean", S["IMG_1578"] + 0.15, END["IMG_1578"] - 0.05, ['Bean <sp
 headline("o-name-porta", S["IMG_1580"] + 0.15, END["IMG_1580"] - 0.05, ['Porta <span class="y">Pal</span>'], 226, 64, left=600, width=360, align="right")
 headline("o-name-frappe", S["IMG_1583_stab"] + 0.15, END["IMG_1583_stab"] - 0.05, ['Frappe <span class="y">Fren</span>'], 224, 62, left=120, width=480, align="left")
 
+# Finale: all six at the office. Line on the empty wall (y 228-300, flame starts ~300 on the right)
+f0 = S["SEMUA"]
+headline("o-semua", f0 + 0.2, TOTAL, ['Semua dah masuk <span class="y">office!</span> <span class="emo">💼</span>'], 228, 64)
+# FULL SET badge with a 1/6 -> 6/6 counter, once the pan has cleared the wall area (t >= 3.0s in the clip)
+CNT = "".join(f'<span class="n n{i}">{i}/6</span>' for i in range(1, 7))
+OVER.append(("o-full", f0 + 3.0, TOTAL, f'<div class="fullset"><span class="fs-l">FULL SET</span><span class="fs-n">{CNT}</span></div>', "top:330px"))
+
 # ---- SFX: only the happy title moment at the start
-SFX = [("diamond", h0 + 0.05, 0.55), ("ding", S["PICKUP#2"] + 0.55, 0.45)]
-SFX_LEN = {"diamond": 1.4, "ding": 0.9}
+SFX = [("diamond", h0 + 0.05, 0.55), ("ding", S["PICKUP#2"] + 0.55, 0.45), ("countup", f0 + 3.15, 0.5)]
+SFX_LEN = {"diamond": 1.4, "ding": 0.9, "countup": 1.76}
 
 # ---- Doodles (twinkling sparkles), only beside text on empty areas
 SPARK = '<svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg>'
 DOODLES = [
     ("d1", h0 + 0.25, END["IMG_1567"] - 0.05, 150, 260, 44),
     ("d2", h0 + 0.45, END["IMG_1567"] - 0.05, 900, 250, 36),
+    ("d7", f0 + 3.85, TOTAL, 250, 330, 46),
+    ("d8", f0 + 3.95, TOTAL, 800, 420, 38),
     ("d5", S["PICKUP#2"] + 0.6, END["PICKUP#2"] - 0.05, 140, 330, 50),
     ("d6", S["PICKUP#2"] + 0.7, END["PICKUP#2"] - 0.05, 900, 300, 40),
     ("d3", S["IMG_1538"] + 0.2, END["IMG_1538"] - 0.05, 290, 300, 44),
@@ -139,6 +149,12 @@ html, body {{ width:{W}px; height:{H}px; overflow:hidden; background:var(--groun
 .tt {{ font-weight:900; font-size:44px; line-height:1.05; }}
 .ts {{ font-weight:700; font-size:32px; color:#5b6075; margin-top:4px; }}
 .t-err, .t-ok {{ opacity:0; }}
+.fullset {{ display:flex; align-items:center; gap:18px; background:#fff; border-radius:999px; padding:14px 16px 14px 34px;
+            box-shadow:0 7px 0 var(--navy), 0 14px 28px rgba(0,0,0,.3); font-family:'Nunito',sans-serif; }}
+.fs-l {{ font-weight:900; font-size:52px; color:var(--navy); letter-spacing:.04em; }}
+.fs-n {{ position:relative; width:150px; height:84px; border-radius:999px; background:var(--yel); }}
+.fs-n .n {{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+           font-family:var(--font-display); font-weight:900; font-size:56px; color:var(--navy); opacity:0; }}
 .unb .l1 {{ font-size:68px; }}
 .unb .l2 {{ font-size:140px; color:var(--yel); letter-spacing:0.01em; margin-top:4px; }}
 .unb .lt {{ display:inline-block; }}
@@ -188,7 +204,7 @@ for oid, st, en, html, pos in OVER:
         js.append(f'tl.to("#o-toast .t-err", {{x:14, duration:0.05, yoyo:true, repeat:5, ease:"none"}}, {st + 0.85});')
         js.append(f'tl.to("#o-toast .t-err", {{scale:0.6, opacity:0, duration:0.1, ease:"power1.in"}}, {st + 1.2});')
     else:  # headline lines pop in, quick fade out
-        if oid != "o-done":  # o-done has its own letter animation below
+        if oid not in ("o-done", "o-full"):  # these have their own animation below
           js.append(f'tl.fromTo("#{oid} .hl-line", {{scale:0.4, y:30, opacity:0}}, {{scale:1, y:0, opacity:1, duration:0.3, ease:"back.out(2.4)", stagger:0.12}}, {st});')
         if en < TOTAL - 0.01:
             js.append(f'tl.to("#{oid} .hl", {{opacity:0, duration:0.1, ease:"power1.in"}}, {round(en - 0.1, 3)});')
@@ -198,6 +214,17 @@ js.append(f'tl.fromTo("#o-done .l1", {{scale:0.4, y:30, opacity:0}}, {{scale:1, 
 js.append(f'tl.fromTo("#o-done .lt", {{scale:0, y:-80, rotation:-25, opacity:0}}, {{scale:1, y:0, rotation:0, opacity:1, duration:0.32, ease:"back.out(3)", stagger:0.035}}, {round(d0 + 0.2,3)});')
 js.append(f'tl.fromTo("#o-done .l2", {{scale:1}}, {{scale:1.18, duration:0.12, ease:"power2.out", yoyo:true, repeat:1}}, {round(S["PICKUP#2"] + 0.55,3)});')
 js.append(f'tl.to("#o-done .lt", {{y:-22, duration:0.16, ease:"sine.inOut", yoyo:true, repeat:{max(1, int((d1_ - d0 - 0.9) / 0.32) * 2 - 1)}, stagger:{{each:0.045}}}}, {round(d0 + 0.85,3)});')
+# FULL SET badge: pop in, count 1/6 -> 6/6 in sync with the blips, final punch on the chime
+fb = f0 + 3.0
+js.append(f'tl.fromTo("#o-full .fullset", {{scale:0, rotation:-8}}, {{scale:1, rotation:0, duration:0.3, ease:"back.out(2.5)"}}, {round(fb,3)});')
+for i in range(1, 7):
+    ti = round(f0 + 3.15 + (i - 1) * 0.11, 3)
+    js.append(f'tl.set("#o-full .n{i}", {{opacity:1}}, {ti});')
+    if i > 1:
+        js.append(f'tl.set("#o-full .n{i-1}", {{opacity:0}}, {ti});')
+    js.append(f'tl.fromTo("#o-full .n{i}", {{scale:1.35}}, {{scale:1, duration:0.1, ease:"power2.out"}}, {ti});')
+js.append(f'tl.fromTo("#o-full .fullset", {{scale:1}}, {{scale:1.15, duration:0.14, ease:"power2.out", yoyo:true, repeat:1, immediateRender:false}}, {round(f0 + 3.15 + 0.66,3)});')
+js.append(f'tl.to("#o-full .fs-n", {{rotation:-6, duration:0.12, yoyo:true, repeat:5, ease:"sine.inOut"}}, {round(f0 + 4.1,3)});')
 # Pinky name drifts left with the camera pan (monitor leaves left, head swirl moves left)
 pk = next(o for o in OVER if o[0] == "o-name-pinky")
 js.append(f'tl.fromTo("#o-name-pinky", {{x:0}}, {{x:-290, duration:{round(pk[2]-pk[1],3)}, ease:"none"}}, {round(pk[1],3)});')

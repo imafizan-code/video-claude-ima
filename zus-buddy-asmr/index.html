@@ -31,6 +31,12 @@ html, body { width:1080px; height:1920px; overflow:hidden; background:var(--grou
 .tt { font-weight:900; font-size:44px; line-height:1.05; }
 .ts { font-weight:700; font-size:32px; color:#5b6075; margin-top:4px; }
 .t-err, .t-ok { opacity:0; }
+.fullset { display:flex; align-items:center; gap:18px; background:#fff; border-radius:999px; padding:14px 16px 14px 34px;
+            box-shadow:0 7px 0 var(--navy), 0 14px 28px rgba(0,0,0,.3); font-family:'Nunito',sans-serif; }
+.fs-l { font-weight:900; font-size:52px; color:var(--navy); letter-spacing:.04em; }
+.fs-n { position:relative; width:150px; height:84px; border-radius:999px; background:var(--yel); }
+.fs-n .n { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+           font-family:var(--font-display); font-weight:900; font-size:56px; color:var(--navy); opacity:0; }
 .unb .l1 { font-size:68px; }
 .unb .l2 { font-size:140px; color:var(--yel); letter-spacing:0.01em; margin-top:4px; }
 .unb .lt { display:inline-block; }
@@ -42,7 +48,7 @@ html, body { width:1080px; height:1920px; overflow:hidden; background:var(--grou
 </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="28.9" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="34.4" data-width="1080" data-height="1920">
       <video id="v0" class="clip vid" src="assets/clips/PICKUP_slow.mp4" data-start="0.0" data-duration="2.4" data-media-start="0.0" data-track-index="0" playsinline muted data-has-audio="false"></video>
       <video id="v1" class="clip vid" src="assets/clips/PICKUP.mp4" data-start="2.4" data-duration="2.3" data-media-start="6.6" data-track-index="0" playsinline muted data-has-audio="false"></video>
       <video id="v2" class="clip vid" src="assets/clips/IMG_1567.mp4" data-start="4.7" data-duration="3.0" data-media-start="0.0" data-track-index="0" playsinline muted data-has-audio="false"></video>
@@ -57,6 +63,7 @@ html, body { width:1080px; height:1920px; overflow:hidden; background:var(--grou
       <video id="v11" class="clip vid" src="assets/clips/IMG_1578.mp4" data-start="22.4" data-duration="2.0" data-media-start="0.7" data-track-index="0" playsinline muted data-has-audio="false"></video>
       <video id="v12" class="clip vid" src="assets/clips/IMG_1580.mp4" data-start="24.4" data-duration="2.0" data-media-start="0.3" data-track-index="0" playsinline muted data-has-audio="false"></video>
       <video id="v13" class="clip vid" src="assets/clips/IMG_1583_stab.mp4" data-start="26.4" data-duration="2.5" data-media-start="3.2" data-track-index="0" playsinline muted data-has-audio="false"></video>
+      <video id="v14" class="clip vid" src="assets/clips/SEMUA.mp4" data-start="28.9" data-duration="5.5" data-media-start="0.0" data-track-index="0" playsinline muted data-has-audio="false"></video>
       <div id="o-hook" class="clip ov" style="top:250px;left:120px;width:840px;justify-content:center" data-start="4.75" data-duration="1.75" data-track-index="1"><div class="hl" style="font-size:88px;text-align:center"><div class="hl-line"><span class="y">ZUS BUDDY</span></div><div class="hl-line">Work In Progress</div></div></div>
       <div id="o-name-choco" class="clip ov" style="top:250px;left:120px;width:840px;justify-content:center" data-start="6.55" data-duration="1.1" data-track-index="1"><div class="hl" style="font-size:88px;text-align:center"><div class="hl-line">Choco</div><div class="hl-line"><span class="y">Chipster</span></div></div></div>
       <div id="o-cards" class="clip ov" style="top:232px;left:120px;width:840px;justify-content:center" data-start="0.05" data-duration="2.3" data-track-index="1"><div class="hl" style="font-size:70px;text-align:center"><div class="hl-line">Tak sia2 tunggu dlm</div><div class="hl-line">app ZUS <span class="y">2jam</span> <span class="emo">😆</span></div></div></div>
@@ -71,17 +78,22 @@ html, body { width:1080px; height:1920px; overflow:hidden; background:var(--grou
       <div id="o-name-bean" class="clip ov" style="top:250px;left:120px;width:600px;justify-content:center" data-start="22.55" data-duration="1.8" data-track-index="1"><div class="hl" style="font-size:80px;text-align:center"><div class="hl-line">Bean <span class="y">Boss</span></div></div></div>
       <div id="o-name-porta" class="clip ov" style="top:226px;left:600px;width:360px;justify-content:flex-end" data-start="24.55" data-duration="1.8" data-track-index="1"><div class="hl" style="font-size:64px;text-align:right"><div class="hl-line">Porta <span class="y">Pal</span></div></div></div>
       <div id="o-name-frappe" class="clip ov" style="top:224px;left:120px;width:480px;justify-content:flex-start" data-start="26.55" data-duration="2.3" data-track-index="1"><div class="hl" style="font-size:62px;text-align:left"><div class="hl-line">Frappe <span class="y">Fren</span></div></div></div>
+      <div id="o-semua" class="clip ov" style="top:228px;left:120px;width:840px;justify-content:center" data-start="29.1" data-duration="5.3" data-track-index="1"><div class="hl" style="font-size:64px;text-align:center"><div class="hl-line">Semua dah masuk <span class="y">office!</span> <span class="emo">💼</span></div></div></div>
+      <div id="o-full" class="clip ov" style="top:330px" data-start="31.9" data-duration="2.5" data-track-index="1"><div class="fullset"><span class="fs-l">FULL SET</span><span class="fs-n"><span class="n n1">1/6</span><span class="n n2">2/6</span><span class="n n3">3/6</span><span class="n n4">4/6</span><span class="n n5">5/6</span><span class="n n6">6/6</span></span></div></div>
       <div id="d1" class="clip doodle" style="left:150px;top:260px;width:44px;height:44px" data-start="4.95" data-duration="2.7" data-track-index="2"><svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg></div>
       <div id="d2" class="clip doodle" style="left:900px;top:250px;width:36px;height:36px" data-start="5.15" data-duration="2.5" data-track-index="2"><svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg></div>
+      <div id="d7" class="clip doodle" style="left:250px;top:330px;width:46px;height:46px" data-start="32.75" data-duration="1.65" data-track-index="2"><svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg></div>
+      <div id="d8" class="clip doodle" style="left:800px;top:420px;width:38px;height:38px" data-start="32.85" data-duration="1.55" data-track-index="2"><svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg></div>
       <div id="d5" class="clip doodle" style="left:140px;top:330px;width:50px;height:50px" data-start="3.0" data-duration="1.65" data-track-index="2"><svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg></div>
       <div id="d6" class="clip doodle" style="left:900px;top:300px;width:40px;height:40px" data-start="3.1" data-duration="1.55" data-track-index="2"><svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg></div>
       <div id="d3" class="clip doodle" style="left:290px;top:300px;width:44px;height:44px" data-start="7.9" data-duration="1.55" data-track-index="2"><svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg></div>
       <div id="d4" class="clip doodle" style="left:770px;top:310px;width:36px;height:36px" data-start="8.0" data-duration="1.45" data-track-index="2"><svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2"/></svg></div>
       <audio id="music0" src="assets/music/upbeat_bed.wav" data-start="0.0" data-duration="7.7" data-media-start="0.0" data-volume="0.08" data-fade-in="0.4" data-fade-out="0.12" data-track-index="3"></audio>
       <audio id="music1" src="assets/music/upbeat_bed.wav" data-start="7.7" data-duration="10.3" data-media-start="7.7" data-volume="0.015" data-fade-in="0.12" data-fade-out="0.12" data-track-index="3"></audio>
-      <audio id="music2" src="assets/music/upbeat_bed.wav" data-start="18.0" data-duration="10.9" data-media-start="18.0" data-volume="0.08" data-fade-in="0.12" data-fade-out="1.5" data-track-index="3"></audio>
+      <audio id="music2" src="assets/music/upbeat_bed.wav" data-start="18.0" data-duration="16.4" data-media-start="18.0" data-volume="0.08" data-fade-in="0.12" data-fade-out="1.5" data-track-index="3"></audio>
       <audio id="sfx0" src="assets/sfx/diamond.wav" data-start="4.75" data-duration="1.4" data-volume="0.55" data-track-index="4"></audio>
       <audio id="sfx1" src="assets/sfx/ding.wav" data-start="2.95" data-duration="0.9" data-volume="0.45" data-track-index="4"></audio>
+      <audio id="sfx2" src="assets/sfx/countup.wav" data-start="32.05" data-duration="1.76" data-volume="0.5" data-track-index="4"></audio>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
@@ -99,6 +111,7 @@ html, body { width:1080px; height:1920px; overflow:hidden; background:var(--grou
       tl.fromTo("#v11", {scale:1.0}, {scale:1.04, duration:2.0, ease:"none"}, 22.4);
       tl.fromTo("#v12", {scale:1.0}, {scale:1.04, duration:2.0, ease:"none"}, 24.4);
       tl.fromTo("#v13", {scale:1.0}, {scale:1.04, duration:2.5, ease:"none"}, 26.4);
+      tl.fromTo("#v14", {scale:1.0}, {scale:1.04, duration:5.5, ease:"none"}, 28.9);
       tl.fromTo("#o-hook .hl-line", {scale:0.4, y:30, opacity:0}, {scale:1, y:0, opacity:1, duration:0.3, ease:"back.out(2.4)", stagger:0.12}, 4.75);
       tl.to("#o-hook .hl", {opacity:0, duration:0.1, ease:"power1.in"}, 6.4);
       tl.fromTo("#o-name-choco .hl-line", {scale:0.4, y:30, opacity:0}, {scale:1, y:0, opacity:1, duration:0.3, ease:"back.out(2.4)", stagger:0.12}, 6.55);
@@ -126,15 +139,40 @@ html, body { width:1080px; height:1920px; overflow:hidden; background:var(--grou
       tl.to("#o-name-porta .hl", {opacity:0, duration:0.1, ease:"power1.in"}, 26.25);
       tl.fromTo("#o-name-frappe .hl-line", {scale:0.4, y:30, opacity:0}, {scale:1, y:0, opacity:1, duration:0.3, ease:"back.out(2.4)", stagger:0.12}, 26.55);
       tl.to("#o-name-frappe .hl", {opacity:0, duration:0.1, ease:"power1.in"}, 28.75);
+      tl.fromTo("#o-semua .hl-line", {scale:0.4, y:30, opacity:0}, {scale:1, y:0, opacity:1, duration:0.3, ease:"back.out(2.4)", stagger:0.12}, 29.1);
       tl.fromTo("#o-done .l1", {scale:0.4, y:30, opacity:0}, {scale:1, y:0, opacity:1, duration:0.3, ease:"back.out(2.4)"}, 2.5);
       tl.fromTo("#o-done .lt", {scale:0, y:-80, rotation:-25, opacity:0}, {scale:1, y:0, rotation:0, opacity:1, duration:0.32, ease:"back.out(3)", stagger:0.035}, 2.7);
       tl.fromTo("#o-done .l2", {scale:1}, {scale:1.18, duration:0.12, ease:"power2.out", yoyo:true, repeat:1}, 2.95);
       tl.to("#o-done .lt", {y:-22, duration:0.16, ease:"sine.inOut", yoyo:true, repeat:5, stagger:{each:0.045}}, 3.35);
+      tl.fromTo("#o-full .fullset", {scale:0, rotation:-8}, {scale:1, rotation:0, duration:0.3, ease:"back.out(2.5)"}, 31.9);
+      tl.set("#o-full .n1", {opacity:1}, 32.05);
+      tl.fromTo("#o-full .n1", {scale:1.35}, {scale:1, duration:0.1, ease:"power2.out"}, 32.05);
+      tl.set("#o-full .n2", {opacity:1}, 32.16);
+      tl.set("#o-full .n1", {opacity:0}, 32.16);
+      tl.fromTo("#o-full .n2", {scale:1.35}, {scale:1, duration:0.1, ease:"power2.out"}, 32.16);
+      tl.set("#o-full .n3", {opacity:1}, 32.27);
+      tl.set("#o-full .n2", {opacity:0}, 32.27);
+      tl.fromTo("#o-full .n3", {scale:1.35}, {scale:1, duration:0.1, ease:"power2.out"}, 32.27);
+      tl.set("#o-full .n4", {opacity:1}, 32.38);
+      tl.set("#o-full .n3", {opacity:0}, 32.38);
+      tl.fromTo("#o-full .n4", {scale:1.35}, {scale:1, duration:0.1, ease:"power2.out"}, 32.38);
+      tl.set("#o-full .n5", {opacity:1}, 32.49);
+      tl.set("#o-full .n4", {opacity:0}, 32.49);
+      tl.fromTo("#o-full .n5", {scale:1.35}, {scale:1, duration:0.1, ease:"power2.out"}, 32.49);
+      tl.set("#o-full .n6", {opacity:1}, 32.6);
+      tl.set("#o-full .n5", {opacity:0}, 32.6);
+      tl.fromTo("#o-full .n6", {scale:1.35}, {scale:1, duration:0.1, ease:"power2.out"}, 32.6);
+      tl.fromTo("#o-full .fullset", {scale:1}, {scale:1.15, duration:0.14, ease:"power2.out", yoyo:true, repeat:1, immediateRender:false}, 32.71);
+      tl.to("#o-full .fs-n", {rotation:-6, duration:0.12, yoyo:true, repeat:5, ease:"sine.inOut"}, 33.0);
       tl.fromTo("#o-name-pinky", {x:0}, {x:-290, duration:2.0, ease:"none"}, 20.35);
       tl.fromTo("#d1", {scale:0, rotation:-30}, {scale:1, rotation:0, duration:0.3, ease:"back.out(3)"}, 4.95);
       tl.to("#d1", {scale:0.7, rotation:12, duration:0.25, yoyo:true, repeat:4, ease:"sine.inOut"}, 5.25);
       tl.fromTo("#d2", {scale:0, rotation:-30}, {scale:1, rotation:0, duration:0.3, ease:"back.out(3)"}, 5.15);
       tl.to("#d2", {scale:0.7, rotation:12, duration:0.25, yoyo:true, repeat:4, ease:"sine.inOut"}, 5.45);
+      tl.fromTo("#d7", {scale:0, rotation:-30}, {scale:1, rotation:0, duration:0.3, ease:"back.out(3)"}, 32.75);
+      tl.to("#d7", {scale:0.7, rotation:12, duration:0.25, yoyo:true, repeat:2, ease:"sine.inOut"}, 33.05);
+      tl.fromTo("#d8", {scale:0, rotation:-30}, {scale:1, rotation:0, duration:0.3, ease:"back.out(3)"}, 32.85);
+      tl.to("#d8", {scale:0.7, rotation:12, duration:0.25, yoyo:true, repeat:2, ease:"sine.inOut"}, 33.15);
       tl.fromTo("#d5", {scale:0, rotation:-30}, {scale:1, rotation:0, duration:0.3, ease:"back.out(3)"}, 3.0);
       tl.to("#d5", {scale:0.7, rotation:12, duration:0.25, yoyo:true, repeat:2, ease:"sine.inOut"}, 3.3);
       tl.fromTo("#d6", {scale:0, rotation:-30}, {scale:1, rotation:0, duration:0.3, ease:"back.out(3)"}, 3.1);
