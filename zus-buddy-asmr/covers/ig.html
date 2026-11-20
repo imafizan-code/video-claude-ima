@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@800;900&display=block" rel="stylesheet">
+<style>
+@font-face{font-family:"Noto Color Emoji";src:url("../assets/fonts/NotoColorEmoji.ttf")}
+:root{--navy:#1B2B8F;--yel:#FFD84D;--red:#E5322D}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;height:1920px;overflow:hidden;position:relative;background:#222}
+img.bg{position:absolute;left:0;width:1080px;height:1920px;object-fit:cover}
+img.blur{top:0;filter:blur(30px) brightness(.85);transform:scale(1.2)}
+img.main{-webkit-mask-image:linear-gradient(transparent 0,#000 160px)}
+.c{position:absolute;left:60px;right:60px;text-align:center}
+.pill{display:inline-block;background:#fff;color:var(--navy);font-family:'Nunito';font-weight:900;font-size:46px;border-radius:999px;
+ padding:12px 34px;box-shadow:0 7px 0 var(--navy),0 12px 24px rgba(0,0,0,.35)}
+.big{font-family:'Lilita One';color:var(--yel);line-height:.92;letter-spacing:.01em;-webkit-text-stroke:14px var(--navy);paint-order:stroke fill;
+ text-shadow:0 12px 0 var(--navy),0 22px 34px rgba(0,0,0,.45)}
+.banner{display:inline-block;background:var(--red);color:#fff;font-family:'Lilita One';font-size:74px;padding:10px 36px 14px;
+ transform:rotate(-2.5deg);box-shadow:0 9px 0 #8f1512,0 16px 30px rgba(0,0,0,.35);border:5px solid #fff;border-radius:14px}
+.sticker{position:absolute;width:250px;height:250px;border-radius:50%;background:var(--yel);border:7px solid var(--navy);
+ display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Lilita One';color:var(--navy);
+ transform:rotate(12deg);box-shadow:0 10px 0 var(--navy),0 18px 30px rgba(0,0,0,.35);line-height:.95;text-align:center}
+.emo{font-family:"Noto Color Emoji"}
+.spark{position:absolute;width:64px;height:64px}
+</style></head><body>
+<img class="bg blur" id="b1"><img class="bg main" id="b2">
+<div id="ct"></div>
+<script>
+const SP='<svg viewBox="0 0 40 40"><path d="M20 2 C22 15 25 18 38 20 C25 22 22 25 20 38 C18 25 15 22 2 20 C15 18 18 15 20 2Z" fill="#fff" stroke="#1B2B8F" stroke-width="2.5"/></svg>';
+const v=new URLSearchParams(location.search).get('v');
+const C={
+ choco:{img:'src/choco_close.jpg',dy:560,st:[790,1400],sp:[[880,330],[70,560],[930,640]]},
+ semua:{img:'src/semua.jpg',dy:560,st:[790,1330],sp:[[880,330],[70,560],[930,640]]},
+};
+const c=C[v];
+for(const id of ['b1','b2']) document.getElementById(id).src=c.img;
+document.getElementById('b2').style.top=c.dy+'px';
+document.getElementById('ct').innerHTML=`
+ <div class="c" style="top:265px"><span class="pill">Tunggu 2 jam dlm app ZUS <span class="emo">😭</span></span></div>
+ <div class="c big" style="top:360px;font-size:190px">AKHIRNYA<br>DAPAT!</div>
+ <div class="c" style="top:745px"><span class="banner">FULL SET ZUS BUDDY</span></div>
+ <div class="sticker" style="left:${c.st[0]}px;top:${c.st[1]}px"><div style="font-size:64px">6 BUDDY</div><div style="font-size:84px;color:#fff;-webkit-text-stroke:8px #1B2B8F;paint-order:stroke fill">1 SET!</div></div>
+ ${c.sp.map(([x,y])=>`<div class="spark" style="left:${x}px;top:${y}px">${SP}</div>`).join('')}`;
+</script></body></html>
